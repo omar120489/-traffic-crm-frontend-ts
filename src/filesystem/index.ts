@@ -287,7 +287,7 @@ function createUnifiedDiff(originalContent: string, newContent: string, filepath
 
 async function applyFileEdits(
   filePath: string,
-  edits: Array<{ oldText: string, newText: string }>,
+  edits: Array<{oldText: string, newText: string}>,
   dryRun = false
 ): Promise<string> {
   // Read file content and normalize line endings
@@ -578,10 +578,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       {
         name: "directory_tree",
         description:
-          "Get a recursive tree view of files and directories as a JSON structure. " +
-          "Each entry includes 'name', 'type' (file/directory), and 'children' for directories. " +
-          "Files have no children array, while directories always have a children array (which may be empty). " +
-          "The output is formatted with 2-space indentation for readability. Only works within allowed directories.",
+            "Get a recursive tree view of files and directories as a JSON structure. " +
+            "Each entry includes 'name', 'type' (file/directory), and 'children' for directories. " +
+            "Files have no children array, while directories always have a children array (which may be empty). " +
+            "The output is formatted with 2-space indentation for readability. Only works within allowed directories.",
         inputSchema: zodToJsonSchema(DirectoryTreeArgsSchema) as ToolInput,
       },
       {
@@ -868,42 +868,42 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error(`Invalid arguments for directory_tree: ${parsed.error}`);
         }
 
-        interface TreeEntry {
-          name: string;
-          type: 'file' | 'directory';
-          children?: TreeEntry[];
-        }
-
-        async function buildTree(currentPath: string): Promise<TreeEntry[]> {
-          const validPath = await validatePath(currentPath);
-          const entries = await fs.readdir(validPath, { withFileTypes: true });
-          const result: TreeEntry[] = [];
-
-          for (const entry of entries) {
-            const entryData: TreeEntry = {
-              name: entry.name,
-              type: entry.isDirectory() ? 'directory' : 'file'
-            };
-
-            if (entry.isDirectory()) {
-              const subPath = path.join(currentPath, entry.name);
-              entryData.children = await buildTree(subPath);
+            interface TreeEntry {
+                name: string;
+                type: 'file' | 'directory';
+                children?: TreeEntry[];
             }
 
-            result.push(entryData);
-          }
+            async function buildTree(currentPath: string): Promise<TreeEntry[]> {
+                const validPath = await validatePath(currentPath);
+                const entries = await fs.readdir(validPath, {withFileTypes: true});
+                const result: TreeEntry[] = [];
 
-          return result;
+                for (const entry of entries) {
+                    const entryData: TreeEntry = {
+                        name: entry.name,
+                        type: entry.isDirectory() ? 'directory' : 'file'
+                    };
+
+                    if (entry.isDirectory()) {
+                        const subPath = path.join(currentPath, entry.name);
+                        entryData.children = await buildTree(subPath);
+                    }
+
+                    result.push(entryData);
+                }
+
+                return result;
+            }
+
+            const treeData = await buildTree(parsed.data.path);
+            return {
+                content: [{
+                    type: "text",
+                    text: JSON.stringify(treeData, null, 2)
+                }],
+            };
         }
-
-        const treeData = await buildTree(parsed.data.path);
-        return {
-          content: [{
-            type: "text",
-            text: JSON.stringify(treeData, null, 2)
-          }],
-        };
-      }
 
       case "move_file": {
         const parsed = MoveFileArgsSchema.safeParse(args);
@@ -938,11 +938,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const validPath = await validatePath(parsed.data.path);
         const info = await getFileStats(validPath);
         return {
-          content: [{
-            type: "text", text: Object.entries(info)
-              .map(([key, value]) => `${key}: ${value}`)
-              .join("\n")
-          }],
+          content: [{ type: "text", text: Object.entries(info)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join("\n") }],
         };
       }
 
