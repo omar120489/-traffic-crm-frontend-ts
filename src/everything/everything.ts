@@ -254,7 +254,7 @@ export const createServer = () => {
   };
 
   const ALL_RESOURCES: Resource[] = Array.from({ length: 100 }, (_, i) => {
-    const uri = `test://static/resource/${i + 1}`;
+    const uri = `test://static/resource/${i}`;
     if (i % 2 === 0) {
       return {
         uri,
@@ -316,7 +316,7 @@ export const createServer = () => {
     const uri = request.params.uri;
 
     if (uri.startsWith("test://static/resource/")) {
-      const index = parseInt(uri.split("/").pop() ?? "", 10) - 1;
+      const index = parseInt(uri.split("/").pop() ?? "", 10);
       if (index >= 0 && index < ALL_RESOURCES.length) {
         const resource = ALL_RESOURCES[index];
         return {
