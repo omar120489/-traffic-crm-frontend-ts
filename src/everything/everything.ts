@@ -257,26 +257,28 @@ export const createServer = () => {
     return await server.request(request, z.any());
   };
 
-  // Generate UUIDs for resources (50 text, 50 blob)
-  const TEXT_RESOURCE_UUIDS = Array.from({ length: 50 }, () => randomUUID());
-  const BLOB_RESOURCE_UUIDS = Array.from({ length: 50 }, () => randomUUID());
-
-  const ALL_RESOURCES: Resource[] = [
-    // Text resources
-    ...TEXT_RESOURCE_UUIDS.map((uuid, i) => ({
-      uri: `test://static/resource/text/${uuid}`,
+  // Generate resources with alternating types (50 text, 50 blob, interleaved)
+  const ALL_RESOURCES: Resource[] = [];
+  
+  for (let i = 0; i < 50; i++) {
+    // Add text resource
+    const textUuid = randomUUID();
+    ALL_RESOURCES.push({
+      uri: `test://static/resource/text/${textUuid}`,
       name: `Text Resource ${i + 1}`,
       mimeType: "text/plain",
-      text: `Text Resource ${i + 1}: This is a plaintext resource with UUID ${uuid}`,
-    } as Resource)),
-    // Blob resources
-    ...BLOB_RESOURCE_UUIDS.map((uuid, i) => ({
-      uri: `test://static/resource/blob/${uuid}`,
+      text: `Text Resource ${i + 1}: This is a plaintext resource with UUID ${textUuid}`,
+    } as Resource);
+    
+    // Add blob resource
+    const blobUuid = randomUUID();
+    ALL_RESOURCES.push({
+      uri: `test://static/resource/blob/${blobUuid}`,
       name: `Blob Resource ${i + 1}`,
       mimeType: "application/octet-stream",
-      blob: Buffer.from(`Blob Resource ${i + 1}: This is a base64 blob with UUID ${uuid}`).toString("base64"),
-    } as Resource)),
-  ];
+      blob: Buffer.from(`Blob Resource ${i + 1}: This is a base64 blob with UUID ${blobUuid}`).toString("base64"),
+    } as Resource);
+  }
 
   const PAGE_SIZE = 10;
 
