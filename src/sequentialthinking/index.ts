@@ -206,12 +206,12 @@ You should:
       },
       thoughtNumber: {
         type: "integer",
-        description: "Current thought number",
+        description: "Current thought number (must be numeric: 1, 2, 3, not \"1\", \"2\", \"3\")",
         minimum: 1
       },
       totalThoughts: {
         type: "integer",
-        description: "Estimated total thoughts needed",
+        description: "Estimated total thoughts needed (must be numeric: 5, 10, not \"5\", \"10\")",
         minimum: 1
       },
       isRevision: {
