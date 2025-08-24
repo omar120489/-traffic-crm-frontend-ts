@@ -9,6 +9,7 @@ import {
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { randomBytes } from 'crypto';
 
 // Define memory file path using environment variable with fallback
 const defaultMemoryPath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'memory.json');
@@ -63,7 +64,22 @@ class KnowledgeGraphManager {
       ...graph.entities.map(e => JSON.stringify({ type: "entity", ...e })),
       ...graph.relations.map(r => JSON.stringify({ type: "relation", ...r })),
     ];
-    await fs.writeFile(MEMORY_FILE_PATH, lines.join("\n"));
+    
+    // Use atomic rename to prevent race conditions where concurrent writes
+    // could corrupt the file. Rename operations are atomic on all filesystems.
+    const tempPath = `${MEMORY_FILE_PATH}.${randomBytes(16).toString('hex')}.tmp`;
+    try {
+      await fs.writeFile(tempPath, lines.join("\n"), 'utf-8');
+      await fs.rename(tempPath, MEMORY_FILE_PATH);
+    } catch (error) {
+      // Clean up temp file on failure
+      try {
+        await fs.unlink(tempPath);
+      } catch (unlinkError) {
+        // Ignore unlink errors - temp file might not exist or already cleaned up
+      }
+      throw error;
+    }
   }
 
   async createEntities(entities: Entity[]): Promise<Entity[]> {
