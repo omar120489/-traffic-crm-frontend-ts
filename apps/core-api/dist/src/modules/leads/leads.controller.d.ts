@@ -1,9 +1,10 @@
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto';
+import { PaginationQueryDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
 export declare class LeadsController {
     private readonly svc;
     constructor(svc: LeadsService);
-    list(orgId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    list(orgId: string, query: PaginationQueryDto): Promise<PaginatedResponseDto<{
         contact: {
             orgId: string;
             name: string;
@@ -22,7 +23,7 @@ export declare class LeadsController {
         status: string;
         score: number;
         ownerId: string | null;
-    })[]>;
+    }>>;
     get(id: string, orgId: string): Promise<{
         contact: {
             orgId: string;

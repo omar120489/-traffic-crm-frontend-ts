@@ -1,16 +1,38 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto';
+import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class LeadsService {
   constructor(private prisma: PrismaService) {}
 
-  list(orgId: string) {
-    return this.prisma.lead.findMany({
-      where: { orgId },
-      include: { contact: true }
-    });
+  async list(orgId: string, query: PaginationQueryDto) {
+    const { page, size, search } = query;
+    const skip = (page - 1) * size;
+
+    const where = {
+      orgId,
+      ...(search && {
+        OR: [
+          { source: { contains: search, mode: 'insensitive' as const } },
+          { status: { contains: search, mode: 'insensitive' as const } },
+        ],
+      }),
+    };
+
+    const [items, total] = await Promise.all([
+      this.prisma.lead.findMany({
+        where,
+        skip,
+        take: size,
+        orderBy: { createdAt: 'desc' },
+        include: { contact: true },
+      }),
+      this.prisma.lead.count({ where }),
+    ]);
+
+    return { items, total };
   }
 
   async get(orgId: string, id: string) {

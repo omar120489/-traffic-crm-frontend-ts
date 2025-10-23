@@ -17,11 +17,29 @@ let DealsService = class DealsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    list(orgId) {
-        return this.prisma.deal.findMany({
-            where: { orgId },
-            include: { contact: true, company: true }
-        });
+    async list(orgId, query) {
+        const { page, size, search } = query;
+        const skip = (page - 1) * size;
+        const where = {
+            orgId,
+            ...(search && {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { stage: { contains: search, mode: 'insensitive' } },
+                ],
+            }),
+        };
+        const [items, total] = await Promise.all([
+            this.prisma.deal.findMany({
+                where,
+                skip,
+                take: size,
+                orderBy: { createdAt: 'desc' },
+                include: { contact: true, company: true },
+            }),
+            this.prisma.deal.count({ where }),
+        ]);
+        return { items, total };
     }
     async get(orgId, id) {
         const deal = await this.prisma.deal.findFirst({

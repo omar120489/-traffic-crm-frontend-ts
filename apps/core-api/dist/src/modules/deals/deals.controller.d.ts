@@ -1,9 +1,10 @@
 import { DealsService } from './deals.service';
 import { CreateDealDto, UpdateDealDto } from './dto';
+import { PaginationQueryDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
 export declare class DealsController {
     private readonly svc;
     constructor(svc: DealsService);
-    list(orgId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    list(orgId: string, query: PaginationQueryDto): Promise<PaginatedResponseDto<{
         company: {
             orgId: string;
             name: string;
@@ -32,7 +33,7 @@ export declare class DealsController {
         currency: string;
         stage: string;
         closeDate: Date | null;
-    })[]>;
+    }>>;
     get(id: string, orgId: string): Promise<{
         company: {
             orgId: string;

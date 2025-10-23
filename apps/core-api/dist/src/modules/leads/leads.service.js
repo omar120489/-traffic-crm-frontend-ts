@@ -17,11 +17,29 @@ let LeadsService = class LeadsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    list(orgId) {
-        return this.prisma.lead.findMany({
-            where: { orgId },
-            include: { contact: true }
-        });
+    async list(orgId, query) {
+        const { page, size, search } = query;
+        const skip = (page - 1) * size;
+        const where = {
+            orgId,
+            ...(search && {
+                OR: [
+                    { source: { contains: search, mode: 'insensitive' } },
+                    { status: { contains: search, mode: 'insensitive' } },
+                ],
+            }),
+        };
+        const [items, total] = await Promise.all([
+            this.prisma.lead.findMany({
+                where,
+                skip,
+                take: size,
+                orderBy: { createdAt: 'desc' },
+                include: { contact: true },
+            }),
+            this.prisma.lead.count({ where }),
+        ]);
+        return { items, total };
     }
     async get(orgId, id) {
         const lead = await this.prisma.lead.findFirst({

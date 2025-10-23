@@ -1,16 +1,38 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateDealDto, UpdateDealDto } from './dto';
+import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class DealsService {
   constructor(private prisma: PrismaService) {}
 
-  list(orgId: string) {
-    return this.prisma.deal.findMany({
-      where: { orgId },
-      include: { contact: true, company: true }
-    });
+  async list(orgId: string, query: PaginationQueryDto) {
+    const { page, size, search } = query;
+    const skip = (page - 1) * size;
+
+    const where = {
+      orgId,
+      ...(search && {
+        OR: [
+          { title: { contains: search, mode: 'insensitive' as const } },
+          { stage: { contains: search, mode: 'insensitive' as const } },
+        ],
+      }),
+    };
+
+    const [items, total] = await Promise.all([
+      this.prisma.deal.findMany({
+        where,
+        skip,
+        take: size,
+        orderBy: { createdAt: 'desc' },
+        include: { contact: true, company: true },
+      }),
+      this.prisma.deal.count({ where }),
+    ]);
+
+    return { items, total };
   }
 
   async get(orgId: string, id: string) {

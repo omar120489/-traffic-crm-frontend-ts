@@ -1,28 +1,32 @@
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateLeadDto, UpdateLeadDto } from './dto';
+import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 export declare class LeadsService {
     private prisma;
     constructor(prisma: PrismaService);
-    list(orgId: string): import("@prisma/client").Prisma.PrismaPromise<({
-        contact: {
+    list(orgId: string, query: PaginationQueryDto): Promise<{
+        items: ({
+            contact: {
+                orgId: string;
+                name: string;
+                email: string | null;
+                phone: string | null;
+                companyId: string | null;
+                id: string;
+                createdAt: Date;
+            } | null;
+        } & {
             orgId: string;
-            name: string;
-            email: string | null;
-            phone: string | null;
-            companyId: string | null;
             id: string;
             createdAt: Date;
-        } | null;
-    } & {
-        orgId: string;
-        id: string;
-        createdAt: Date;
-        contactId: string | null;
-        source: string | null;
-        status: string;
-        score: number;
-        ownerId: string | null;
-    })[]>;
+            contactId: string | null;
+            source: string | null;
+            status: string;
+            score: number;
+            ownerId: string | null;
+        })[];
+        total: number;
+    }>;
     get(orgId: string, id: string): Promise<{
         contact: {
             orgId: string;
