@@ -21,5 +21,5 @@ export {
   PreventDuplicate,
   PositioningSnackbar,
   SnackBarAction,
-  IconVariants
+  IconVariants,
 };

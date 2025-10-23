@@ -25,7 +25,7 @@ function createLocalStorageMock(): Storage {
     },
     setItem(key: string, value: string) {
       store.set(key, value);
-    }
+    },
   };
 }
 
@@ -39,12 +39,12 @@ beforeEach(() => {
   const storage = createLocalStorageMock();
   Object.defineProperty(globalThis, 'localStorage', {
     value: storage,
-    configurable: true
+    configurable: true,
   });
   if (globalThis.window !== undefined) {
     Object.defineProperty(globalThis.window, 'localStorage', {
       value: storage,
-      configurable: true
+      configurable: true,
     });
   }
   axiosServices.defaults.headers.common = {};

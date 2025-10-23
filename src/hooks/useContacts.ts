@@ -6,7 +6,7 @@ import type { Contact, ContactQuery, PaginatedResponse } from 'types/api';
 const DEFAULT_QUERY: ContactQuery = {
   page: 1,
   size: 10,
-  search: ''
+  search: '',
 };
 
 interface UseContactsOptions {
@@ -27,7 +27,7 @@ interface UseContactsResult {
 export function useContacts(options?: UseContactsOptions): UseContactsResult {
   const [query, setQueryState] = useState<ContactQuery>(() => ({
     ...DEFAULT_QUERY,
-    ...(options?.initialQuery ?? {})
+    ...(options?.initialQuery ?? {}),
   }));
   const [data, setData] = useState<PaginatedResponse<Contact> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export function useContacts(options?: UseContactsOptions): UseContactsResult {
   const effectiveQuery = useMemo(
     () => ({
       ...DEFAULT_QUERY,
-      ...query
+      ...query,
     }),
     [query]
   );
@@ -90,14 +90,14 @@ export function useContacts(options?: UseContactsOptions): UseContactsResult {
   const updateQuery = useCallback((patch: Partial<ContactQuery>) => {
     setQueryState((prev) => ({
       ...prev,
-      ...patch
+      ...patch,
     }));
   }, []);
 
   const setQuery = useCallback((updater: (prev: ContactQuery) => ContactQuery) => {
     setQueryState((prev) => ({
       ...prev,
-      ...updater(prev)
+      ...updater(prev),
     }));
   }, []);
 
@@ -113,7 +113,7 @@ export function useContacts(options?: UseContactsOptions): UseContactsResult {
     query: effectiveQuery,
     updateQuery,
     setQuery,
-    refetch
+    refetch,
   };
 }
 

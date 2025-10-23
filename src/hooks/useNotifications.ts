@@ -254,7 +254,7 @@ export function useNotifications(): UseNotificationsResult {
     markAllAsRead,
     setPage,
     setPageSize,
-    setFilter
+    setFilter,
   };
 }
 

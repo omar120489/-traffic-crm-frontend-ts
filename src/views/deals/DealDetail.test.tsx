@@ -8,23 +8,23 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Deal } from 'types/api';
 
 const dealApiMocks = vi.hoisted(() => ({
-  get: vi.fn<(id: string) => Promise<Deal>>()
+  get: vi.fn<(id: string) => Promise<Deal>>(),
 }));
 
 vi.mock('services/deals', () => ({
   dealsApi: {
-    getDeal: dealApiMocks.get
-  }
+    getDeal: dealApiMocks.get,
+  },
 }));
 
 vi.mock('ui-component/Comments/CommentsPanel', () => ({
   __esModule: true,
-  default: () => <div data-testid="comments-panel" />
+  default: () => <div data-testid="comments-panel" />,
 }));
 
 vi.mock('ui-component/Attachments/AttachmentUploader', () => ({
   __esModule: true,
-  default: () => <div data-testid="attachments-panel" />
+  default: () => <div data-testid="attachments-panel" />,
 }));
 
 import DealDetail from './DealDetail';
@@ -48,7 +48,7 @@ describe('DealDetail page', () => {
       probability: 0.5,
       description: 'Important opportunity',
       createdAt: '2024-01-01T00:00:00Z',
-      updatedAt: '2024-01-15T00:00:00Z'
+      updatedAt: '2024-01-15T00:00:00Z',
     };
 
     dealApiMocks.get.mockResolvedValue(mockDeal);

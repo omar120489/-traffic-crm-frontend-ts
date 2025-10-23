@@ -41,7 +41,7 @@ const animation = {
   SlideRight: TransitionSlideRight,
   SlideDown: TransitionSlideDown,
   Grow: GrowTransition,
-  Fade
+  Fade,
 };
 
 // ==============================|| SNACKBAR ||============================== //
@@ -111,7 +111,7 @@ export default function Snackbar() {
                       color:
                         severity === 'success' || severity === 'warning'
                           ? 'common.black'
-                          : 'common.white'
+                          : 'common.white',
                     }}
                   >
                     UNDO
@@ -123,7 +123,7 @@ export default function Snackbar() {
                       color:
                         severity === 'success' || severity === 'warning'
                           ? 'common.black'
-                          : 'common.white'
+                          : 'common.white',
                     }}
                     size="small"
                     aria-label="close"
@@ -137,8 +137,8 @@ export default function Snackbar() {
             sx={{
               '.MuiAlert-action': { mb: 0.5 },
               ...(alert.variant === 'outlined' && {
-                bgcolor: 'background.paper'
-              })
+                bgcolor: 'background.paper',
+              }),
             }}
           >
             {message}

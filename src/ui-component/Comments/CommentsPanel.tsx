@@ -25,7 +25,7 @@ import type { EntityIdentifier } from 'types/api';
 
 export interface CommentsPanelProps {
   readonly entityType: string;
-  readonly entityId: EntityIdentifier;
+  readonly entityId: string; // Normalized to string
   readonly title?: string;
 }
 

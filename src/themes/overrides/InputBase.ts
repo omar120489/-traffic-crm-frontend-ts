@@ -9,9 +9,9 @@ export default function InputBase(theme: Theme): Components['MuiInputBase'] {
         color: theme.palette.text.primary,
         '&::placeholder': {
           color: alpha(theme.palette.text.secondary, 0.6),
-          fontSize: '0.875rem'
-        }
-      }
-    }
+          fontSize: '0.875rem',
+        },
+      },
+    },
   };
 }

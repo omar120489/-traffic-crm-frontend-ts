@@ -77,7 +77,7 @@ export function useRoomMessages(roomId: ID | null) {
         text: draft.text,
         attachments: [],
         createdAt: new Date().toISOString(),
-        status: 'sending'
+        status: 'sending',
       };
       merge([temp]);
       try {

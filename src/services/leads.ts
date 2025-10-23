@@ -7,7 +7,7 @@ import type {
   LeadQuery,
   LeadUpdateDto,
   PaginatedResponse,
-  UUID
+  UUID,
 } from 'types/api';
 
 const BASE_PATH = '/api/leads';
@@ -38,7 +38,7 @@ export async function createLead(payload: LeadCreateDto): Promise<Lead> {
         leadId: response.id,
         uti: attribution.uti,
         utm_source: attribution.utm?.source,
-        ad_id: attribution.platform?.ad_id
+        ad_id: attribution.platform?.ad_id,
       });
     }
   }
@@ -59,5 +59,5 @@ export const leadsApi = {
   getLead,
   createLead,
   updateLead,
-  deleteLead
+  deleteLead,
 };

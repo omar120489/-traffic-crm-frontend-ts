@@ -46,11 +46,11 @@ export default function ExportMenu({ onExportXLSX, onExportPDF, disabled }: Expo
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'right'
+          horizontal: 'right',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right'
+          horizontal: 'right',
         }}
       >
         <MenuItem onClick={handleExportXLSX}>

@@ -34,7 +34,7 @@ export default function MailerSubscriber() {
             size="large"
             sx={{
               px: 2.75,
-              py: 1.5
+              py: 1.5,
             }}
           >
             Subscribe

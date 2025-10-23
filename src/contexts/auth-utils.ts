@@ -67,7 +67,7 @@ export function mapAuth0Profile(auth0User: any): UserProfile {
     firstName: auth0User.given_name || auth0User.name?.split(' ')[0],
     lastName: auth0User.family_name || auth0User.name?.split(' ')[1],
     name: auth0User.name,
-    role: auth0User['https://app.example.com/roles']?.[0] || 'user'
+    role: auth0User['https://app.example.com/roles']?.[0] || 'user',
   };
 }
 
@@ -81,7 +81,7 @@ export function mapFirebaseProfile(firebaseUser: any): UserProfile {
     firstName: firebaseUser.displayName?.split(' ')[0] || '',
     lastName: firebaseUser.displayName?.split(' ')[1] || '',
     name: firebaseUser.displayName || '',
-    role: firebaseUser.customClaims?.role || 'user'
+    role: firebaseUser.customClaims?.role || 'user',
   };
 }
 
@@ -98,7 +98,7 @@ export function mapCognitoProfile(cognitoUser: any, attributes: any = {}): UserP
       attributes.name ||
       cognitoUser.attributes?.name ||
       `${attributes.given_name || ''} ${attributes.family_name || ''}`.trim(),
-    role: attributes['custom:role'] || cognitoUser.attributes?.['custom:role'] || 'user'
+    role: attributes['custom:role'] || cognitoUser.attributes?.['custom:role'] || 'user',
   };
 }
 
@@ -120,7 +120,7 @@ export function mapSupabaseProfile(supabaseUser: any): UserProfile {
     name:
       supabaseUser.user_metadata?.full_name ||
       `${supabaseUser.user_metadata?.firstName || ''} ${supabaseUser.user_metadata?.lastName || ''}`.trim(),
-    role: supabaseUser.app_metadata?.role || 'user'
+    role: supabaseUser.app_metadata?.role || 'user',
   };
 }
 
@@ -138,7 +138,7 @@ export function mapGenericProfile(user: any, provider: string): UserProfile {
     firstName: user.firstName || user.given_name || user.first_name || '',
     lastName: user.lastName || user.family_name || user.last_name || '',
     name: user.name || user.displayName || user.full_name || '',
-    role: user.role || 'user'
+    role: user.role || 'user',
   };
 }
 

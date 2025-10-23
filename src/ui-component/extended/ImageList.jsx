@@ -19,7 +19,7 @@ function srcset(image, width, height, rows = 1, cols = 1) {
 
 export default function ImageList({ itemData }) {
   const {
-    state: { borderRadius }
+    state: { borderRadius },
   } = useConfig();
 
   return (
@@ -28,7 +28,7 @@ export default function ImageList({ itemData }) {
         // Promote the list into its own layer in Chrome. This costs memory, but helps keeping high FPS.
         transform: 'translateZ(0)',
         overflowY: 'visible',
-        mb: 0
+        mb: 0,
       }}
       gap={8}
     >
@@ -55,7 +55,7 @@ export default function ImageList({ itemData }) {
             <ImageListItemBar
               sx={{
                 background:
-                  'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+                  'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
               }}
               title={item.title}
               position="top"

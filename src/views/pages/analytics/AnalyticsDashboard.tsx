@@ -6,7 +6,7 @@ import {
   useMemo,
   useRef,
   useState,
-  type ComponentType
+  type ComponentType,
 } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ import type {
   CohortItem,
   FunnelStage,
   KpiSummary,
-  TimeSeriesPoint
+  TimeSeriesPoint,
 } from 'types/metrics';
 import { getCohorts, getFunnel, getKpis, getTrends, type TrendInterval } from 'services/reporting';
 import { toCohortRows, toFunnelChartData, toTrendSeries } from './transformers';
@@ -50,7 +50,7 @@ const DEFAULT_FILTERS: AnalyticsFilters = {
   dateTo: null,
   source: null,
   ownerId: null,
-  stage: null
+  stage: null,
 };
 
 const DEFAULT_INTERVAL: TrendInterval = 'day';
@@ -80,7 +80,7 @@ function parseFilters(params: URLSearchParams): AnalyticsFilters {
     dateTo: getValue('dateTo'),
     source: getValue('source'),
     ownerId: getValue('ownerId'),
-    stage: getValue('stage')
+    stage: getValue('stage'),
   };
 }
 
@@ -108,7 +108,7 @@ function readStoredFilters(): AnalyticsFilters | null {
       dateTo: sanitizeValue(parsed.dateTo),
       source: sanitizeValue(parsed.source),
       ownerId: sanitizeValue(parsed.ownerId),
-      stage: sanitizeValue(parsed.stage)
+      stage: sanitizeValue(parsed.stage),
     };
   } catch {
     return null;
@@ -128,7 +128,7 @@ function mergeFilters(
     dateTo: urlFilters.dateTo ?? storedFilters.dateTo ?? null,
     source: urlFilters.source ?? storedFilters.source ?? null,
     ownerId: urlFilters.ownerId ?? storedFilters.ownerId ?? null,
-    stage: urlFilters.stage ?? storedFilters.stage ?? null
+    stage: urlFilters.stage ?? storedFilters.stage ?? null,
   };
 }
 
@@ -149,7 +149,7 @@ function buildListSearchParams(
 ) {
   const merged: AnalyticsFilters = {
     ...filters,
-    ...overrides
+    ...overrides,
   };
 
   const search = new URLSearchParams();
@@ -210,7 +210,7 @@ const BarChartWithEvents = BarChartLazy as unknown as ComponentType<BarChartWith
 const KPI_CARD_TEST_IDS = {
   leadsCreated: 'kpi-leads-created',
   dealsCreated: 'kpi-deals-created',
-  dealsWon: 'kpi-deals-won'
+  dealsWon: 'kpi-deals-won',
 } as const;
 
 export default function AnalyticsDashboard() {
@@ -241,7 +241,7 @@ export default function AnalyticsDashboard() {
     kpis: null,
     funnel: [],
     trends: [],
-    cohorts: []
+    cohorts: [],
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -264,13 +264,13 @@ export default function AnalyticsDashboard() {
           getKpis(activeFilters),
           getFunnel(activeFilters),
           getTrends(activeFilters, interval),
-          getCohorts(activeFilters)
+          getCohorts(activeFilters),
         ]);
         setState({
           kpis,
           funnel,
           trends,
-          cohorts
+          cohorts,
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unable to load analytics data.');
@@ -304,7 +304,7 @@ export default function AnalyticsDashboard() {
       new Intl.DateTimeFormat(undefined, {
         year: 'numeric',
         month: 'short',
-        day: 'numeric'
+        day: 'numeric',
       }),
     []
   );
@@ -313,7 +313,7 @@ export default function AnalyticsDashboard() {
     () =>
       new Intl.NumberFormat(undefined, {
         notation: 'compact',
-        maximumFractionDigits: 1
+        maximumFractionDigits: 1,
       }),
     []
   );
@@ -349,8 +349,8 @@ export default function AnalyticsDashboard() {
       ({
         tooltip: {
           labelFormatter: (params: { value: unknown }) => formatTooltipLabel(params.value),
-          valueFormatter: (value: number | null) => formatTooltipValue(value)
-        }
+          valueFormatter: (value: number | null) => formatTooltipValue(value),
+        },
       }) as LineChartWithEventsProps['slotProps'],
     [formatTooltipLabel, formatTooltipValue]
   );
@@ -359,8 +359,8 @@ export default function AnalyticsDashboard() {
     () =>
       ({
         tooltip: {
-          valueFormatter: (value: number | null) => formatTooltipValue(value)
-        }
+          valueFormatter: (value: number | null) => formatTooltipValue(value),
+        },
       }) as BarChartWithEventsProps['slotProps'],
     [formatTooltipValue]
   );
@@ -372,7 +372,7 @@ export default function AnalyticsDashboard() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: 320
+          height: 320,
         }}
       >
         <CircularProgress size={24} />
@@ -384,7 +384,7 @@ export default function AnalyticsDashboard() {
     const normalized = value.trim();
     setFilters((prev) => ({
       ...prev,
-      [key]: normalized === '' ? null : normalized
+      [key]: normalized === '' ? null : normalized,
     }));
   }, []);
 
@@ -691,12 +691,12 @@ export default function AnalyticsDashboard() {
                         {
                           data: trendSeries.xAxis,
                           scaleType: 'time',
-                          valueFormatter: (value: unknown) => formatTooltipLabel(value)
-                        }
+                          valueFormatter: (value: unknown) => formatTooltipLabel(value),
+                        },
                       ]}
                       series={trendSeries.series.map((series) => ({
                         ...series,
-                        valueFormatter: (value: number | null) => formatTooltipValue(value)
+                        valueFormatter: (value: number | null) => formatTooltipValue(value),
                       }))}
                       onItemClick={(_event, item) => {
                         const { seriesId, dataIndex } = item ?? {};
@@ -730,15 +730,15 @@ export default function AnalyticsDashboard() {
                       xAxis={[
                         {
                           scaleType: 'band',
-                          data: funnelChart.categories
-                        }
+                          data: funnelChart.categories,
+                        },
                       ]}
                       series={[
                         {
                           data: funnelChart.counts,
                           label: 'Deals',
-                          valueFormatter: (value: number | null) => formatTooltipValue(value)
-                        }
+                          valueFormatter: (value: number | null) => formatTooltipValue(value),
+                        },
                       ]}
                       onItemClick={(_event, item) => {
                         const { seriesId, dataIndex } = item ?? {};

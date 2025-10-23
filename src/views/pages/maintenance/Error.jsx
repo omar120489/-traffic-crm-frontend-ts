@@ -64,7 +64,7 @@ export default function Error() {
           alignItems: 'center',
           p: 1.5,
           maxWidth: 350,
-          gap: gridSpacing
+          gap: gridSpacing,
         }}
       >
         <Typography variant="h1">Something is wrong</Typography>

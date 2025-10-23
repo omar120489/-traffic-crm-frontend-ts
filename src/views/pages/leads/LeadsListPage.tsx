@@ -35,7 +35,7 @@ import {
   exportToPDF,
   buildExportFilename,
   formatDateForExport,
-  type ExportColumn
+  type ExportColumn,
 } from 'utils/exporters';
 
 const STATUS_COLOR: Record<string, 'default' | 'success' | 'warning' | 'error' | 'info'> = {
@@ -44,7 +44,7 @@ const STATUS_COLOR: Record<string, 'default' | 'success' | 'warning' | 'error' |
   qualified: 'success',
   working: 'info',
   converted: 'success',
-  unqualified: 'error'
+  unqualified: 'error',
 };
 
 function getStatusColor(status?: string | null) {
@@ -64,7 +64,7 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   }).format(new Date(value));
 }
 
@@ -75,12 +75,12 @@ const LEAD_FILTER_CONFIG: FilterConfig[] = [
   {
     label: 'Created Date',
     type: 'date-range',
-    field: 'date'
+    field: 'date',
   },
   {
     label: 'Score',
     type: 'number-range',
-    field: 'score'
+    field: 'score',
   },
   {
     label: 'Statuses',
@@ -92,8 +92,8 @@ const LEAD_FILTER_CONFIG: FilterConfig[] = [
       { value: 'Qualified', label: 'Qualified' },
       { value: 'Working', label: 'Working' },
       { value: 'Converted', label: 'Converted' },
-      { value: 'Unqualified', label: 'Unqualified' }
-    ]
+      { value: 'Unqualified', label: 'Unqualified' },
+    ],
   },
   {
     label: 'Sources',
@@ -105,9 +105,9 @@ const LEAD_FILTER_CONFIG: FilterConfig[] = [
       { value: 'Email', label: 'Email' },
       { value: 'Phone', label: 'Phone' },
       { value: 'Event', label: 'Event' },
-      { value: 'Social', label: 'Social' }
-    ]
-  }
+      { value: 'Social', label: 'Social' },
+    ],
+  },
 ];
 
 export default function LeadsListPage() {
@@ -140,7 +140,7 @@ export default function LeadsListPage() {
       score_min: searchParams.get('score_min') ? Number(searchParams.get('score_min')) : undefined,
       score_max: searchParams.get('score_max') ? Number(searchParams.get('score_max')) : undefined,
       statuses: getArray('statuses'),
-      sources: getArray('sources')
+      sources: getArray('sources'),
     };
 
     setFilterValues(initialFilters);
@@ -157,12 +157,12 @@ export default function LeadsListPage() {
       sources: getString('sources'),
       dateFrom: getString('dateFrom'),
       dateTo: getString('dateTo'),
-      ownerId: getString('ownerId')
+      ownerId: getString('ownerId'),
     };
   }, [searchParams]);
 
   const { leads, data, loading, error, query, updateQuery, refetch } = useLeads({
-    initialQuery
+    initialQuery,
   });
   const [searchValue, setSearchValue] = useState(query.search ?? '');
 
@@ -192,7 +192,7 @@ export default function LeadsListPage() {
       updateQuery({ page: pageNumber });
       syncSearchParams({
         page: String(pageNumber),
-        size: String(query.size ?? INITIAL_PAGE_SIZE)
+        size: String(query.size ?? INITIAL_PAGE_SIZE),
       });
     },
     [query.size, syncSearchParams, updateQuery]
@@ -204,7 +204,7 @@ export default function LeadsListPage() {
       updateQuery({ page: 1, size: nextSize });
       syncSearchParams({
         page: '1',
-        size: String(nextSize)
+        size: String(nextSize),
       });
     },
     [syncSearchParams, updateQuery]
@@ -219,7 +219,7 @@ export default function LeadsListPage() {
       syncSearchParams({
         search: trimmed.length > 0 ? value : undefined,
         page: '1',
-        size: String(query.size ?? INITIAL_PAGE_SIZE)
+        size: String(query.size ?? INITIAL_PAGE_SIZE),
       });
     },
     [query.size, syncSearchParams, updateQuery]
@@ -248,7 +248,7 @@ export default function LeadsListPage() {
       sources:
         Array.isArray(filterValues.sources) && filterValues.sources.length > 0
           ? filterValues.sources.join(',')
-          : undefined
+          : undefined,
     };
 
     syncSearchParams(patch);
@@ -267,7 +267,7 @@ export default function LeadsListPage() {
       sources:
         Array.isArray(filterValues.sources) && filterValues.sources.length > 0
           ? filterValues.sources.join(',')
-          : undefined
+          : undefined,
     });
   }, [filterValues, query, syncSearchParams, updateQuery]);
 
@@ -290,7 +290,7 @@ export default function LeadsListPage() {
       score_min: undefined,
       score_max: undefined,
       statuses: undefined,
-      sources: undefined
+      sources: undefined,
     });
     setSearchValue('');
     syncSearchParams({
@@ -306,7 +306,7 @@ export default function LeadsListPage() {
       score_min: undefined,
       score_max: undefined,
       statuses: undefined,
-      sources: undefined
+      sources: undefined,
     });
   }, [query.size, syncSearchParams, updateQuery]);
 
@@ -323,7 +323,7 @@ export default function LeadsListPage() {
           setFilterValues(updated);
           syncSearchParams({ date_from: undefined });
           updateQuery({ ...query, date_from: undefined });
-        }
+        },
       });
     }
     if (query.date_to) {
@@ -335,7 +335,7 @@ export default function LeadsListPage() {
           setFilterValues(updated);
           syncSearchParams({ date_to: undefined });
           updateQuery({ ...query, date_to: undefined });
-        }
+        },
       });
     }
     if (query.score_min) {
@@ -347,7 +347,7 @@ export default function LeadsListPage() {
           setFilterValues(updated);
           syncSearchParams({ score_min: undefined });
           updateQuery({ ...query, score_min: undefined });
-        }
+        },
       });
     }
     if (query.score_max) {
@@ -359,7 +359,7 @@ export default function LeadsListPage() {
           setFilterValues(updated);
           syncSearchParams({ score_max: undefined });
           updateQuery({ ...query, score_max: undefined });
-        }
+        },
       });
     }
     if (query.statuses) {
@@ -371,7 +371,7 @@ export default function LeadsListPage() {
           setFilterValues(updated);
           syncSearchParams({ statuses: undefined });
           updateQuery({ ...query, statuses: undefined });
-        }
+        },
       });
     }
     if (query.sources) {
@@ -383,7 +383,7 @@ export default function LeadsListPage() {
           setFilterValues(updated);
           syncSearchParams({ sources: undefined });
           updateQuery({ ...query, sources: undefined });
-        }
+        },
       });
     }
 
@@ -410,9 +410,9 @@ export default function LeadsListPage() {
       {
         field: 'score',
         headerName: 'Score',
-        valueFormatter: (value) => (value === null || value === undefined ? '—' : `${value}%`)
+        valueFormatter: (value) => (value === null || value === undefined ? '—' : `${value}%`),
       },
-      { field: 'createdAt', headerName: 'Created', valueFormatter: formatDateForExport }
+      { field: 'createdAt', headerName: 'Created', valueFormatter: formatDateForExport },
     ],
     []
   );
@@ -467,7 +467,7 @@ export default function LeadsListPage() {
             flexDirection: { xs: 'column', md: 'row' },
             gap: 2,
             alignItems: { xs: 'stretch', md: 'center' },
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}
         >
           <TextField
@@ -481,8 +481,8 @@ export default function LeadsListPage() {
                   <InputAdornment position="start">
                     <SearchIcon fontSize="small" />
                   </InputAdornment>
-                )
-              }
+                ),
+              },
             }}
           />
           <Box
@@ -490,7 +490,7 @@ export default function LeadsListPage() {
               display: 'flex',
               flexDirection: 'row',
               gap: 1.5,
-              justifyContent: { xs: 'flex-start', md: 'flex-end' }
+              justifyContent: { xs: 'flex-start', md: 'flex-end' },
             }}
           >
             <ExportMenu

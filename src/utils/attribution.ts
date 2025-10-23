@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 const STORAGE_KEYS = {
   UTI: 'traffic_crm_uti',
   ATTRIBUTION: 'traffic_crm_attribution',
-  SENT_FLAG: 'traffic_crm_attribution_sent'
+  SENT_FLAG: 'traffic_crm_attribution_sent',
 } as const;
 
 export interface AttributionData {
@@ -66,13 +66,13 @@ function parseURLParameters(): Partial<AttributionData> {
     medium: params.get('utm_medium') || undefined,
     campaign: params.get('utm_campaign') || undefined,
     term: params.get('utm_term') || undefined,
-    content: params.get('utm_content') || undefined
+    content: params.get('utm_content') || undefined,
   };
 
   const platform = {
     ad_id: params.get('ad_id') || undefined,
     adset_id: params.get('adset_id') || undefined,
-    campaign_id: params.get('campaign_id') || undefined
+    campaign_id: params.get('campaign_id') || undefined,
   };
 
   // Only return objects with at least one defined value
@@ -81,7 +81,7 @@ function parseURLParameters(): Partial<AttributionData> {
 
   return {
     ...(hasUtm && { utm }),
-    ...(hasPlatform && { platform })
+    ...(hasPlatform && { platform }),
   };
 }
 
@@ -117,16 +117,16 @@ export function parseAttribution(): AttributionData {
       medium: urlParams.utm?.medium ?? existing?.utm?.medium,
       campaign: urlParams.utm?.campaign ?? existing?.utm?.campaign,
       term: urlParams.utm?.term ?? existing?.utm?.term,
-      content: urlParams.utm?.content ?? existing?.utm?.content
+      content: urlParams.utm?.content ?? existing?.utm?.content,
     },
     platform: {
       ad_id: urlParams.platform?.ad_id ?? existing?.platform?.ad_id,
       adset_id: urlParams.platform?.adset_id ?? existing?.platform?.adset_id,
-      campaign_id: urlParams.platform?.campaign_id ?? existing?.platform?.campaign_id
+      campaign_id: urlParams.platform?.campaign_id ?? existing?.platform?.campaign_id,
     },
     captured_at: hasNewParams
       ? new Date().toISOString()
-      : existing?.captured_at || new Date().toISOString()
+      : existing?.captured_at || new Date().toISOString(),
   };
 
   // Store updated attribution

@@ -6,7 +6,7 @@ import type {
   CommentCreateDto,
   CommentListResponse,
   CommentUpdateDto,
-  EntityIdentifier
+  EntityIdentifier,
 } from 'types/api';
 import { useWebSocketEvents } from './useWebSocketEvents';
 
@@ -67,7 +67,7 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
     try {
       const response = await commentsService.listComments({
         entityType,
-        entityId
+        entityId,
       });
       handleResponse(response);
       setError(null);
@@ -101,7 +101,7 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
           entityType,
           entityId,
           content: input.content,
-          mentions: input.mentions
+          mentions: input.mentions,
         };
         const created = await commentsService.createComment(payload);
         setComments((prev) => [created, ...prev]);
@@ -217,7 +217,7 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
     refresh,
     createComment: create,
     updateComment: update,
-    deleteComment: remove
+    deleteComment: remove,
   };
 }
 

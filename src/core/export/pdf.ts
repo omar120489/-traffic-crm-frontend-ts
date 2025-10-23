@@ -21,6 +21,6 @@ export function exportToPDF(options: ExportOptions): void {
     title,
     subtitle,
     columns: columns.length,
-    rows: data.length
+    rows: data.length,
   });
 }

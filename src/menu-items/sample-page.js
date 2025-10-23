@@ -6,14 +6,14 @@ import { IconBrandChrome } from '@tabler/icons-react';
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const icons = {
-  IconBrandChrome
+  IconBrandChrome,
 };
 const samplePage = {
   id: 'sample-page',
   title: 'sample-page',
   icon: icons.IconBrandChrome,
   type: 'group',
-  url: '/sample-page'
+  url: '/sample-page',
 };
 
 export default samplePage;

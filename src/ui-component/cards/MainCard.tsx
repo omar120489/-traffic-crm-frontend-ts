@@ -11,7 +11,7 @@ import type { CardProps, SxProps, Theme } from '@mui/material';
 import { ThemeMode } from 'config';
 
 const headerStyle: SxProps<Theme> = {
-  '& .MuiCardHeader-action': { mr: 0 }
+  '& .MuiCardHeader-action': { mr: 0 },
 };
 
 export interface MainCardProps extends Omit<CardProps, 'title' | 'content'> {
@@ -56,9 +56,9 @@ const MainCard = forwardRef<HTMLDivElement, MainCardProps>(function MainCard(
     border: border ? '1px solid' : 'none',
     borderColor: 'divider',
     ':hover': {
-      boxShadow: boxShadow ? (shadow ?? defaultShadow) : 'inherit'
+      boxShadow: boxShadow ? (shadow ?? defaultShadow) : 'inherit',
     },
-    ...(typeof sx === 'function' ? sx(theme) : (sx ?? {}))
+    ...(typeof sx === 'function' ? sx(theme) : (sx ?? {})),
   });
 
   return (

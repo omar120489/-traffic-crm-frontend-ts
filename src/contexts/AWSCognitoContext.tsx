@@ -6,7 +6,7 @@ import {
   CognitoUserPool,
   AuthenticationDetails,
   CognitoUserAttribute,
-  CognitoUserSession
+  CognitoUserSession,
 } from 'amazon-cognito-identity-js';
 
 // project imports
@@ -20,7 +20,7 @@ import { mapCognitoProfile, setSession, clearAuthStorage, handleAuthError } from
 
 const userPool = new CognitoUserPool({
   UserPoolId: import.meta.env.VITE_APP_AWS_USER_POOL_ID || '',
-  ClientId: import.meta.env.VITE_APP_AWS_CLIENT_ID || ''
+  ClientId: import.meta.env.VITE_APP_AWS_CLIENT_ID || '',
 });
 
 // ==============================|| AWS COGNITO CONTEXT & PROVIDER ||============================== //
@@ -92,12 +92,12 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
       try {
         const cognitoUser = new CognitoUser({
           Username: email,
-          Pool: userPool
+          Pool: userPool,
         });
 
         const authenticationDetails = new AuthenticationDetails({
           Username: email,
-          Password: password
+          Password: password,
         });
 
         return new Promise<void>((resolve, reject) => {
@@ -131,7 +131,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
             },
             newPasswordRequired: () => {
               reject(new Error('New password required'));
-            }
+            },
           });
         });
       } catch (error) {
@@ -148,7 +148,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
           new CognitoUserAttribute({ Name: 'email', Value: email }),
           new CognitoUserAttribute({ Name: 'given_name', Value: firstName }),
           new CognitoUserAttribute({ Name: 'family_name', Value: lastName }),
-          new CognitoUserAttribute({ Name: 'name', Value: `${firstName} ${lastName}` })
+          new CognitoUserAttribute({ Name: 'name', Value: `${firstName} ${lastName}` }),
         ];
 
         return new Promise<void>((resolve, reject) => {
@@ -191,7 +191,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
     try {
       const cognitoUser = new CognitoUser({
         Username: email,
-        Pool: userPool
+        Pool: userPool,
       });
 
       return new Promise<void>((resolve, reject) => {
@@ -201,7 +201,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
           },
           onFailure: (err) => {
             reject(err);
-          }
+          },
         });
       });
     } catch (error) {
@@ -237,7 +237,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
     logout,
     register,
     resetPassword,
-    updateProfile
+    updateProfile,
   };
 
   return <AWSCognitoContext.Provider value={contextValue}>{children}</AWSCognitoContext.Provider>;

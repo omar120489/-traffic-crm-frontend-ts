@@ -25,8 +25,8 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 
 const SnackbarBox = styled(SnackbarContent)(() => ({
   '@media (min-width:600px)': {
-    minWidth: '344px !important'
-  }
+    minWidth: '344px !important',
+  },
 }));
 
 function CustomNotistack({ id, message }) {
@@ -48,7 +48,7 @@ function CustomNotistack({ id, message }) {
           sx={{
             padding: '8px 8px 8px 16px',
             justifyContent: 'space-between',
-            bgcolor: 'warning.light'
+            bgcolor: 'warning.light',
           }}
         >
           <Typography variant="subtitle2" sx={{ color: 'common.black' }}>
@@ -61,7 +61,7 @@ function CustomNotistack({ id, message }) {
                 p: 1,
                 transition: 'all .2s',
                 transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                color: 'common.black'
+                color: 'common.black',
               }}
               onClick={handleExpandClick}
             >
@@ -81,7 +81,7 @@ function CustomNotistack({ id, message }) {
               padding: 2,
               borderTopLeftRadius: 0,
               borderTopRightRadius: 0,
-              bgcolor: 'warning.lighter'
+              bgcolor: 'warning.lighter',
             }}
           >
             <Typography gutterBottom>PDF ready</Typography>
@@ -112,9 +112,9 @@ export default function CustomComponent() {
           enqueueSnackbar("You're report is ready", {
             anchorOrigin: {
               vertical: 'bottom',
-              horizontal: 'right'
+              horizontal: 'right',
             },
-            content: (key, message) => <CustomNotistack id={key} message={message} />
+            content: (key, message) => <CustomNotistack id={key} message={message} />,
           });
         }}
       >

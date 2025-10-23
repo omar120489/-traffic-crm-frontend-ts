@@ -79,7 +79,7 @@ export default function SupabaseRegister({ ...others }) {
           password: '',
           firstName: '',
           lastName: '',
-          submit: null
+          submit: null,
         }}
         validationSchema={Yup.object().shape({
           firstName: Yup.string()
@@ -95,7 +95,7 @@ export default function SupabaseRegister({ ...others }) {
             .max(50, 'Last name must not exceed 50 characters')
             .matches(/^[A-Za-z\s]+$/, 'Last name can only contain letters and spaces'),
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          password: Yup.string().max(255).required('Password is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -109,15 +109,15 @@ export default function SupabaseRegister({ ...others }) {
                   message: 'Your registration has been successfully completed.',
                   variant: 'alert',
                   alert: {
-                    color: 'success'
+                    color: 'success',
                   },
-                  close: false
+                  close: false,
                 })
               );
 
               setTimeout(() => {
                 navigate(authParam ? `/check-mail?auth=${authParam}` : '/check-mail', {
-                  replace: true
+                  replace: true,
                 });
               }, 1500);
             }

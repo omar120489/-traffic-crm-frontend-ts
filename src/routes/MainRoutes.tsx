@@ -29,57 +29,57 @@ const MainRoutes: RouteObject = {
   children: [
     {
       path: '/sample-page',
-      element: <SamplePage />
+      element: <SamplePage />,
     },
     {
       path: '/deals',
-      element: <DealsListPage />
+      element: <DealsListPage />,
     },
     {
       path: '/deals/:id',
-      element: <DealDetailPage />
+      element: <DealDetailPage />,
     },
     {
       path: '/deals/:id/edit',
-      element: <DealEditPage />
+      element: <DealEditPage />,
     },
     {
       path: '/leads',
-      element: <LeadsListPage />
+      element: <LeadsListPage />,
     },
     {
       path: '/leads/:id',
-      element: <LeadDetailPage />
+      element: <LeadDetailPage />,
     },
     {
       path: '/leads/:id/edit',
-      element: <LeadEditPage />
+      element: <LeadEditPage />,
     },
     {
       path: '/contacts',
-      element: <ContactsListPage />
+      element: <ContactsListPage />,
     },
     {
       path: '/companies',
-      element: <CompaniesListPage />
+      element: <CompaniesListPage />,
     },
     {
       path: '/analytics',
-      element: <AnalyticsDashboard />
+      element: <AnalyticsDashboard />,
     },
     {
       path: '/analytics/pnl',
-      element: <PnLAnalyticsPage />
+      element: <PnLAnalyticsPage />,
     },
     {
       path: '/notifications',
-      element: <NotificationsPage />
+      element: <NotificationsPage />,
     },
     {
       path: '/chat',
-      element: <ChatPage />
-    }
-  ]
+      element: <ChatPage />,
+    },
+  ],
 };
 
 export default MainRoutes;

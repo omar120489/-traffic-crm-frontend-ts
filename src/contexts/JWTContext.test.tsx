@@ -6,7 +6,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { configureStore } from '@reduxjs/toolkit';
 import { createRoot } from 'react-dom/client';
 import { useContext } from 'react';
-import React from 'react';
 
 import accountReducer from 'store/slices/account';
 import snackbarReducer from 'store/slices/snackbar';
@@ -21,17 +20,17 @@ function createTestStore(preloaded?: Partial<ReturnType<typeof accountReducer>>)
   return configureStore({
     reducer: {
       account: accountReducer,
-      snackbar: snackbarReducer
+      snackbar: snackbarReducer,
     },
     preloadedState: {
       account: {
         isLoggedIn: false,
         isInitialized: true,
         user: null,
-        ...(preloaded ?? {})
+        ...(preloaded ?? {}),
       },
-      snackbar: snackbarReducer(undefined, { type: '@@INIT' })
-    }
+      snackbar: snackbarReducer(undefined, { type: '@@INIT' }),
+    },
   });
 }
 
@@ -56,7 +55,7 @@ function createLocalStorageMock(): Storage {
     },
     setItem(key: string, value: string) {
       store.set(key, value);
-    }
+    },
   };
 }
 
@@ -64,12 +63,12 @@ beforeEach(() => {
   const storage = createLocalStorageMock();
   Object.defineProperty(globalThis, 'localStorage', {
     value: storage,
-    configurable: true
+    configurable: true,
   });
   if (typeof window !== 'undefined') {
     Object.defineProperty(window, 'localStorage', {
       value: storage,
-      configurable: true
+      configurable: true,
     });
   }
   axiosServices.defaults.headers.common = {};
@@ -87,12 +86,12 @@ describe('JWTProvider', () => {
       id: 'user-1',
       email: 'demo@example.com',
       name: 'Demo User',
-      role: 'user'
+      role: 'user',
     };
 
     const loginSpy = vi.spyOn(authApi, 'login').mockResolvedValue({
       serviceToken: 'service-token-123',
-      user: mockUser
+      user: mockUser,
     });
 
     let contextValue: AuthContextType | null = null;

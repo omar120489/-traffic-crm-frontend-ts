@@ -20,6 +20,6 @@ export function exportToXLSX(options: ExportOptions): void {
     filename,
     title,
     columns: columns.length,
-    rows: data.length
+    rows: data.length,
   });
 }

@@ -28,7 +28,7 @@ import type { Attachment, EntityIdentifier } from 'types/api';
 
 export interface AttachmentUploaderProps {
   readonly entityType: string;
-  readonly entityId: EntityIdentifier;
+  readonly entityId: string; // Normalized to string
   readonly title?: string;
   readonly accept?: string;
 }

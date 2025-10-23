@@ -29,7 +29,7 @@ function SidebarComponent() {
   const drawerOpen = menuMaster?.isDashboardDrawerOpened ?? false;
 
   const {
-    state: { menuOrientation, miniDrawer }
+    state: { menuOrientation, miniDrawer },
   } = useConfig();
 
   const logo = useMemo(
@@ -90,9 +90,9 @@ function SidebarComponent() {
                 width: drawerWidth,
                 bgcolor: 'background.default',
                 color: 'text.primary',
-                borderRight: 'none'
-              }
-            }
+                borderRight: 'none',
+              },
+            },
           }}
           ModalProps={{ keepMounted: true }}
         >

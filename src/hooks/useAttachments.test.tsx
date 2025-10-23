@@ -18,7 +18,7 @@ const attachmentsMocks = vi.hoisted(() => ({
         onUploadProgress?: (progress: number) => void;
       }) => Promise<Attachment>
     >(),
-  remove: vi.fn()
+  remove: vi.fn(),
 }));
 
 vi.mock('services/attachments', () => ({
@@ -26,8 +26,8 @@ vi.mock('services/attachments', () => ({
     listAttachments: attachmentsMocks.list,
     uploadAttachment: attachmentsMocks.upload,
     deleteAttachment: attachmentsMocks.remove,
-    buildAttachmentDownloadUrl: vi.fn()
-  }
+    buildAttachmentDownloadUrl: vi.fn(),
+  },
 }));
 
 describe('useAttachments', () => {
@@ -46,7 +46,7 @@ describe('useAttachments', () => {
       entityType: 'deal',
       entityId: '123',
       path: 'deals/123/contract.pdf',
-      createdAt: '2024-01-01T00:00:00Z'
+      createdAt: '2024-01-01T00:00:00Z',
     };
 
     const uploadedAttachment: Attachment = {
@@ -57,7 +57,7 @@ describe('useAttachments', () => {
       entityType: 'deal',
       entityId: '123',
       path: 'deals/123/pricing.xlsx',
-      createdAt: '2024-01-02T00:00:00Z'
+      createdAt: '2024-01-02T00:00:00Z',
     };
 
     attachmentsMocks.list.mockResolvedValue([existingAttachment]);
@@ -71,7 +71,7 @@ describe('useAttachments', () => {
     function TestComponent() {
       hookValue = useAttachments({
         entityType: 'deal',
-        entityId: '123'
+        entityId: '123',
       });
       return null;
     }

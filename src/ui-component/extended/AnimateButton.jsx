@@ -10,7 +10,7 @@ export default function AnimateButton({
   type = 'scale',
   direction = 'right',
   offset = 10,
-  scale = { hover: 1, tap: 0.9 }
+  scale = { hover: 1, tap: 0.9 },
 }) {
   let offset1;
   let offset2;
@@ -40,7 +40,7 @@ export default function AnimateButton({
             repeat: Infinity,
             repeatType: 'loop',
             duration: 2,
-            repeatDelay: 0
+            repeatDelay: 0,
           }}
         >
           {children}
@@ -73,7 +73,7 @@ export default function AnimateButton({
       if (typeof scale === 'number') {
         scale = {
           hover: scale,
-          tap: scale
+          tap: scale,
         };
       }
       return (
@@ -89,5 +89,5 @@ AnimateButton.propTypes = {
   type: PropTypes.oneOf(['slide', 'scale', 'rotate']),
   direction: PropTypes.oneOf(['up', 'down', 'left', 'right']),
   offset: PropTypes.number,
-  scale: PropTypes.object
+  scale: PropTypes.object,
 };

@@ -8,7 +8,7 @@ export default function Chip(theme) {
     MuiChip: {
       defaultProps: {
         color: 'primary',
-        variant: 'light'
+        variant: 'light',
       },
       styleOverrides: {
         root: {
@@ -27,27 +27,27 @@ export default function Chip(theme) {
                   backgroundColor: paletteColor.light,
 
                   ...(ownerState.color === 'error' && {
-                    backgroundColor: withAlpha(paletteColor.light, 0.25)
+                    backgroundColor: withAlpha(paletteColor.light, 0.25),
                   }),
                   ...(ownerState.color === 'success' && {
-                    backgroundColor: withAlpha(paletteColor.light, 0.5)
+                    backgroundColor: withAlpha(paletteColor.light, 0.5),
                   }),
                   ...((ownerState.color === 'warning' || ownerState.color === 'success') && {
-                    color: paletteColor.dark
+                    color: paletteColor.dark,
                   }),
 
                   // Dark mode styles
                   ...theme.applyStyles('dark', {
                     backgroundColor: withAlpha(paletteColor.dark, 0.15),
                     ...(ownerState.color === 'error' && {
-                      backgroundColor: withAlpha(paletteColor.dark, 0.15)
+                      backgroundColor: withAlpha(paletteColor.dark, 0.15),
                     }),
                     ...(ownerState.color === 'success' && {
-                      backgroundColor: withAlpha(paletteColor.dark, 0.15)
+                      backgroundColor: withAlpha(paletteColor.dark, 0.15),
                     }),
                     ...((ownerState.color === 'warning' || ownerState.color === 'success') && {
-                      color: paletteColor.main
-                    })
+                      color: paletteColor.main,
+                    }),
                   }),
 
                   '&.MuiChip-clickable': {
@@ -57,33 +57,33 @@ export default function Chip(theme) {
 
                       ...theme.applyStyles('dark', {
                         color: paletteColor.dark,
-                        backgroundColor: paletteColor.light
-                      })
-                    }
-                  }
+                        backgroundColor: paletteColor.light,
+                      }),
+                    },
+                  },
                 };
-              }
+              },
             },
             {
               props: { variant: 'outlined', color: 'warning' },
               style: {
                 borderColor: theme.vars.palette.warning.dark,
-                color: theme.vars.palette.warning.dark
-              }
+                color: theme.vars.palette.warning.dark,
+              },
             },
             {
               props: { variant: 'outlined', color: 'success' },
               style: {
                 borderColor: theme.vars.palette.success.dark,
-                color: theme.vars.palette.success.dark
-              }
-            }
+                color: theme.vars.palette.success.dark,
+              },
+            },
           ],
           '&.MuiChip-deletable .MuiChip-deleteIcon': {
-            color: 'inherit'
-          }
-        }
-      }
-    }
+            color: 'inherit',
+          },
+        },
+      },
+    },
   };
 }

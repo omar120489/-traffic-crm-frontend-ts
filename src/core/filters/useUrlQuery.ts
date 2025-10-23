@@ -61,6 +61,6 @@ export function useUrlQuery<T extends Record<string, unknown>>(defaults: T) {
   return {
     query,
     setQuery,
-    updateQuery
+    updateQuery,
   };
 }

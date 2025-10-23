@@ -5,9 +5,9 @@ export default function PaginationItem() {
     MuiPaginationItem: {
       styleOverrides: {
         root: {
-          margin: '3px'
-        }
-      }
-    }
+          margin: '3px',
+        },
+      },
+    },
   };
 }

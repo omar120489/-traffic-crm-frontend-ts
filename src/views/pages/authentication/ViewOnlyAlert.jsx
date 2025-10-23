@@ -40,8 +40,8 @@ export default function ViewOnlyAlert() {
               margin: { xs: 2.5, md: 3 },
               '& > *': {
                 flexGrow: 1,
-                flexBasis: '50%'
-              }
+                flexBasis: '50%',
+              },
             }}
           >
             <Alert variant="outlined" severity="info" sx={{ alignItems: 'flex-start' }}>

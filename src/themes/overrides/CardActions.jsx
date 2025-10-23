@@ -5,9 +5,9 @@ export default function CardActions() {
     MuiCardActions: {
       styleOverrides: {
         root: {
-          padding: '24px'
-        }
-      }
-    }
+          padding: '24px',
+        },
+      },
+    },
   };
 }

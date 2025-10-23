@@ -23,7 +23,7 @@ import {
   Menu,
   MenuItem as MenuItemComponent,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@mui/material';
 import {
   IconRefresh,
@@ -33,7 +33,7 @@ import {
   IconDownload,
   IconFileTypeCsv,
   IconFileTypeXls,
-  IconFileTypePdf
+  IconFileTypePdf,
 } from '@tabler/icons-react';
 
 import AppPage from 'layouts/AppPage';
@@ -44,7 +44,7 @@ function formatCurrency(value: number): string {
   return new Intl.NumberFormat(undefined, {
     style: 'currency',
     currency: 'USD',
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value);
 }
 
@@ -132,7 +132,7 @@ export default function PnLAnalytics() {
       'Direct Cost',
       'Net Profit',
       'ROAS',
-      'CPA'
+      'CPA',
     ];
 
     const csvRows = data.rows.map((row) => [
@@ -145,7 +145,7 @@ export default function PnLAnalytics() {
       row.direct_cost,
       row.net_profit,
       row.roas.toFixed(2),
-      row.cpa.toFixed(2)
+      row.cpa.toFixed(2),
     ]);
 
     const csvContent = [headers.join(','), ...csvRows.map((row) => row.join(','))].join('\n');
@@ -203,7 +203,7 @@ export default function PnLAnalytics() {
     `;
 
     const blob = new Blob(['\ufeff', excelHTML], {
-      type: 'application/vnd.ms-excel;charset=utf-8'
+      type: 'application/vnd.ms-excel;charset=utf-8',
     });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);

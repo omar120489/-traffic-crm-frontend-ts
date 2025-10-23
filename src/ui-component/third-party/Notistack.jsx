@@ -10,7 +10,7 @@ import {
   IconCircleCheck,
   IconSquareRoundedX,
   IconInfoCircle,
-  IconAlertCircle
+  IconAlertCircle,
 } from '@tabler/icons-react';
 
 // ===========================|| SNACKBAR - NOTISTACK ||=========================== //
@@ -29,7 +29,7 @@ export default function Notistack({ children }) {
               success: <IconCircleCheck style={iconSX} />,
               error: <IconSquareRoundedX style={iconSX} />,
               warning: <IconInfoCircle style={iconSX} />,
-              info: <IconAlertCircle style={iconSX} />
+              info: <IconAlertCircle style={iconSX} />,
             }
           : undefined
       }

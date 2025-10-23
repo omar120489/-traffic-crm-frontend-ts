@@ -11,16 +11,16 @@ export default function Slider(theme: Theme): Components['MuiSlider'] {
     styleOverrides: {
       root: {
         '&.Mui-disabled': {
-          color: disabledColor
-        }
+          color: disabledColor,
+        },
       },
       mark: {
         backgroundColor: theme.palette.background.paper,
-        width: '4px'
+        width: '4px',
       },
       valueLabel: {
-        color: valueLabelColor
-      }
-    }
+        color: valueLabelColor,
+      },
+    },
   };
 }

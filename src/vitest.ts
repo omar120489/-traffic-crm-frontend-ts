@@ -21,5 +21,5 @@ export const expect = (value: unknown) => ({
         `Expected length ${(value as { length: number }).length} to equal ${expected}`
       );
     }
-  }
+  },
 });

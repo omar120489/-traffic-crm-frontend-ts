@@ -40,7 +40,7 @@ export default function FirebaseLogin({ ...others }) {
   const scriptedRef = useScriptRef();
 
   const {
-    state: { borderRadius }
+    state: { borderRadius },
   } = useConfig();
 
   const [checked, setChecked] = useState(true);
@@ -66,7 +66,7 @@ export default function FirebaseLogin({ ...others }) {
         <Box
           sx={{
             alignItems: 'center',
-            display: 'flex'
+            display: 'flex',
           }}
         >
           <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
@@ -83,8 +83,8 @@ export default function FirebaseLogin({ ...others }) {
               fontWeight: 500,
               borderRadius: `${borderRadius}px`,
               ...theme.applyStyles('dark', {
-                borderColor: `${withAlpha(theme.vars.palette.dark.light, 0.2)} !important`
-              })
+                borderColor: `${withAlpha(theme.vars.palette.dark.light, 0.2)} !important`,
+              }),
             }}
             disableRipple
             disabled
@@ -102,7 +102,7 @@ export default function FirebaseLogin({ ...others }) {
         initialValues={{
           email: 'info@codedthemes.com',
           password: '123456',
-          submit: null
+          submit: null,
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
@@ -113,7 +113,7 @@ export default function FirebaseLogin({ ...others }) {
               'Password can not start or end with spaces',
               (value) => value === value.trim()
             )
-            .max(10, 'Password must be less than 10 characters')
+            .max(10, 'Password must be less than 10 characters'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {

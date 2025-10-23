@@ -68,7 +68,7 @@ export function JWTProvider({ children }: JWTProviderProps) {
         email,
         password,
         firstName,
-        lastName
+        lastName,
       });
 
       let users = response.data;
@@ -83,8 +83,8 @@ export function JWTProvider({ children }: JWTProviderProps) {
           {
             email,
             password,
-            name: `${firstName} ${lastName}`
-          }
+            name: `${firstName} ${lastName}`,
+          },
         ];
       }
 
@@ -117,7 +117,7 @@ export function JWTProvider({ children }: JWTProviderProps) {
       logout,
       register,
       resetPassword,
-      updateProfile
+      updateProfile,
     }),
     [isLoggedIn, isInitialized, user, login, logout, register, resetPassword, updateProfile]
   );

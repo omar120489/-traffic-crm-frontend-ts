@@ -20,7 +20,7 @@ import {
   type SelectChangeEvent,
   Switch,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material';
 import {
   IconBell,
@@ -30,7 +30,7 @@ import {
   IconExternalLink,
   IconRefresh,
   IconSettings,
-  IconX
+  IconX,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,7 +38,7 @@ import AppPage from 'layouts/AppPage';
 import { useNotifications, type NotificationFilter } from 'hooks/useNotifications';
 import {
   useNotificationPreferences,
-  type NotificationType
+  type NotificationType,
 } from 'hooks/useNotificationPreferences';
 import type { Notification } from 'types/api';
 import { isNewNotification } from 'utils/notifications';
@@ -95,7 +95,7 @@ function getEntityRoute(entityType?: string, entityId?: string | number): string
     deal: '/deals',
     lead: '/leads',
     contact: '/contacts',
-    company: '/companies'
+    company: '/companies',
   };
 
   const basePath = routeMap[entityType.toLowerCase()];
@@ -114,7 +114,7 @@ interface NotificationItemProps {
 function InnerNotificationItem({
   notification,
   onMarkAsRead,
-  onMarkAsUnread
+  onMarkAsUnread,
 }: NotificationItemProps) {
   const navigate = useNavigate();
   const isNew = isNewNotification(notification.createdAt);
@@ -157,7 +157,7 @@ function InnerNotificationItem({
                     height: 8,
                     borderRadius: '50%',
                     bgcolor: 'primary.main',
-                    flexShrink: 0
+                    flexShrink: 0,
                   }}
                 />
               )}
@@ -167,7 +167,7 @@ function InnerNotificationItem({
                   noWrap
                   sx={{
                     fontWeight: notification.isRead ? 400 : 600,
-                    color: notification.isRead ? 'text.secondary' : 'text.primary'
+                    color: notification.isRead ? 'text.secondary' : 'text.primary',
                   }}
                 >
                   {notification.title}
@@ -192,7 +192,7 @@ function InnerNotificationItem({
                         fontSize: '0.7rem',
                         bgcolor: '#ffebee',
                         color: '#d32f2f',
-                        fontWeight: 500
+                        fontWeight: 500,
                       }}
                     />
                   )}
@@ -205,7 +205,7 @@ function InnerNotificationItem({
                         fontSize: '0.7rem',
                         bgcolor: '#fff3e0',
                         color: '#e65100',
-                        fontWeight: 500
+                        fontWeight: 500,
                       }}
                     />
                   )}
@@ -231,7 +231,7 @@ function InnerNotificationItem({
             top: '50%',
             transform: 'translateY(-50%)',
             display: 'flex',
-            gap: 0.5
+            gap: 0.5,
           }}
         >
           <Tooltip title={notification.isRead ? 'Mark as unread' : 'Mark as read'}>
@@ -279,7 +279,7 @@ function NotificationPreferences() {
     { type: 'attachment', label: 'Attachments' },
     { type: 'notification', label: 'System Notifications' },
     { type: 'email', label: 'Emails' },
-    { type: 'mention', label: 'Mentions' }
+    { type: 'mention', label: 'Mentions' },
   ];
 
   const allMuted = mutedTypes.length === notificationTypes.length;
@@ -348,7 +348,7 @@ export default function Notifications() {
     markAllAsRead,
     setPage,
     setFilter,
-    refresh
+    refresh,
   } = useNotifications();
 
   const hasNotifications = paginatedNotifications.length > 0;
@@ -397,7 +397,7 @@ export default function Notifications() {
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: 2,
-              flexWrap: 'wrap'
+              flexWrap: 'wrap',
             }}
           >
             <FormControl size="small" sx={{ minWidth: 220 }}>
@@ -414,7 +414,7 @@ export default function Notifications() {
                           height: 20,
                           bgcolor: '#ff9800',
                           color: 'white',
-                          fontWeight: 600
+                          fontWeight: 600,
                         }}
                       />
                     )}

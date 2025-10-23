@@ -46,7 +46,7 @@ export default function FirebaseRegister({ ...others }) {
   const [checked, setChecked] = useState(true);
 
   const {
-    state: { borderRadius }
+    state: { borderRadius },
   } = useConfig();
 
   const [strength, setStrength] = useState(0);
@@ -89,8 +89,8 @@ export default function FirebaseRegister({ ...others }) {
               fontWeight: 500,
               borderRadius: `${borderRadius}px`,
               ...theme.applyStyles('dark', {
-                borderColor: `${withAlpha(theme.vars.palette.dark.light, 0.2)} !important`
-              })
+                borderColor: `${withAlpha(theme.vars.palette.dark.light, 0.2)} !important`,
+              }),
             }}
             disableRipple
             disabled
@@ -107,11 +107,11 @@ export default function FirebaseRegister({ ...others }) {
         initialValues={{
           email: '',
           password: '',
-          submit: null
+          submit: null,
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          password: Yup.string().max(255).required('Password is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {

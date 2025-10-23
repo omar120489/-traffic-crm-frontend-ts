@@ -33,7 +33,7 @@ export default function LoginProvider({ currentLoginWith }) {
     Firebase: APP_AUTH === AuthProvider.FIREBASE ? '/login' : '/login?auth=firebase',
     Auth0: APP_AUTH === AuthProvider.AUTH0 ? '/login' : '/login?auth=auth0',
     Aws: APP_AUTH === AuthProvider.AWS ? '/login' : '/login?auth=aws',
-    Supabase: APP_AUTH === AuthProvider.SUPABASE ? '/login' : '/login?auth=supabase'
+    Supabase: APP_AUTH === AuthProvider.SUPABASE ? '/login' : '/login?auth=supabase',
   };
 
   const buttonData = [
@@ -41,7 +41,7 @@ export default function LoginProvider({ currentLoginWith }) {
     { name: 'firebase', icon: Firebase, url: loginHandlers.Firebase },
     { name: 'auth0', icon: Auth0, url: loginHandlers.Auth0 },
     { name: 'aws', icon: Aws, url: loginHandlers.Aws },
-    { name: 'supabase', icon: Supabase, url: loginHandlers.Supabase }
+    { name: 'supabase', icon: Supabase, url: loginHandlers.Supabase },
   ];
 
   const currentLoginExists = buttonData.some((button) => button.name === currentLoginWith);
@@ -52,7 +52,7 @@ export default function LoginProvider({ currentLoginWith }) {
       sx={{
         gap: 1,
         justifyContent: 'center',
-        '& .MuiButton-startIcon': { mr: { xs: 0, md: 1 }, ml: { xs: 0, sm: -0.5, md: 1 } }
+        '& .MuiButton-startIcon': { mr: { xs: 0, md: 1 }, ml: { xs: 0, sm: -0.5, md: 1 } },
       }}
     >
       {buttonData
@@ -73,8 +73,8 @@ export default function LoginProvider({ currentLoginWith }) {
                 color: theme.vars.palette.grey[900],
                 '&:hover': {
                   borderColor: theme.vars.palette.primary[400],
-                  backgroundColor: theme.vars.palette.primary[100]
-                }
+                  backgroundColor: theme.vars.palette.primary[100],
+                },
               }}
               variant="outlined"
               color="secondary"

@@ -12,7 +12,7 @@ import {
   Stack,
   TextField,
   Typography,
-  type SelectChangeEvent
+  type SelectChangeEvent,
 } from '@mui/material';
 
 // Loss Reason Taxonomy
@@ -22,7 +22,7 @@ const LOSS_REASONS = [
   { value: 'L-Qualification/Not a fit', label: 'Qualification/Not a fit' },
   { value: 'L-Competitor', label: 'Competitor' },
   { value: 'L-No response', label: 'No response' },
-  { value: 'L-Other', label: 'Other' }
+  { value: 'L-Other', label: 'Other' },
 ] as const;
 
 export interface LostReasonData {
@@ -54,7 +54,7 @@ export default function LostReasonModal({ open, onClose, onConfirm }: LostReason
     if (!valid) return;
     onConfirm({
       lossReason,
-      lossNotes: lossNotes.trim() || undefined
+      lossNotes: lossNotes.trim() || undefined,
     });
   };
 

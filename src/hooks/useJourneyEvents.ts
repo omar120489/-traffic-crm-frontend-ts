@@ -26,7 +26,7 @@ interface UseJourneyEventsResult {
  */
 export function useJourneyEvents({
   entityType,
-  entityId
+  entityId,
 }: UseJourneyEventsOptions): UseJourneyEventsResult {
   const [events, setEvents] = useState<JourneyEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,7 +82,7 @@ export function useJourneyEvents({
           payload: journeyEvent.payload,
           occurredAt: journeyEvent.occurred_at,
           createdAt: journeyEvent.created_at,
-          updatedAt: journeyEvent.updated_at || journeyEvent.created_at
+          updatedAt: journeyEvent.updated_at || journeyEvent.created_at,
         };
 
         // Prepend new event (events are sorted desc by occurred_at)
@@ -103,7 +103,7 @@ export function useJourneyEvents({
         const fullDto: JourneyEventCreateDto = {
           entityType,
           entityId,
-          ...dto
+          ...dto,
         };
 
         const newEvent = await journeyApi.createJourneyEvent(fullDto);
@@ -127,6 +127,6 @@ export function useJourneyEvents({
     loading,
     error,
     refresh,
-    addEvent
+    addEvent,
   };
 }

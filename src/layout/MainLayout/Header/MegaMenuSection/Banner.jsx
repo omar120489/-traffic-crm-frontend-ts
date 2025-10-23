@@ -19,8 +19,8 @@ export default function MegaMenuBanner() {
           width: '100%',
           height: '100%',
           verticalAlign: 'middle',
-          borderRadius: `${borderRadius}px`
-        }
+          borderRadius: `${borderRadius}px`,
+        },
       }}
     >
       <svg

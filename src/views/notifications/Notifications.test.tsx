@@ -10,7 +10,7 @@ import type { Notification } from '../../types/api';
 
 // Mock the useNotifications hook
 vi.mock('../../hooks/useNotifications', () => ({
-  useNotifications: vi.fn()
+  useNotifications: vi.fn(),
 }));
 
 // Mock useNotificationPreferences
@@ -20,8 +20,8 @@ vi.mock('../../hooks/useNotificationPreferences', () => ({
     isMuted: () => false,
     toggleMute: vi.fn(),
     muteAll: vi.fn(),
-    unmuteAll: vi.fn()
-  })
+    unmuteAll: vi.fn(),
+  }),
 }));
 
 import { useNotifications } from '../../hooks/useNotifications';
@@ -49,7 +49,7 @@ describe('Notifications Page', () => {
       type: 'info',
       isRead: false,
       createdAt: new Date(Date.now() - 5 * 60 * 1000).toISOString(), // 5 minutes ago
-      updatedAt: new Date(Date.now() - 5 * 60 * 1000).toISOString()
+      updatedAt: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
     },
     {
       id: '2',
@@ -58,8 +58,8 @@ describe('Notifications Page', () => {
       type: 'success',
       isRead: true,
       createdAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(), // 1 hour ago
-      updatedAt: new Date(Date.now() - 60 * 60 * 1000).toISOString()
-    }
+      updatedAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+    },
   ];
 
   const mockMarkAsRead = vi.fn();
@@ -88,7 +88,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -115,7 +115,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -142,7 +142,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -171,7 +171,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -200,7 +200,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -230,7 +230,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -258,7 +258,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -286,7 +286,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -314,7 +314,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -347,7 +347,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -379,7 +379,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -410,7 +410,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);
@@ -437,7 +437,7 @@ describe('Notifications Page', () => {
       markAllAsRead: mockMarkAllAsRead,
       setPage: vi.fn(),
       setPageSize: vi.fn(),
-      setFilter: vi.fn()
+      setFilter: vi.fn(),
     });
 
     renderWithProviders(<Notifications />);

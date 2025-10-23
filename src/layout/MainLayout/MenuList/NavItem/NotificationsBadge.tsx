@@ -22,7 +22,7 @@ export default function NotificationsBadge({
   icon: Icon,
   size,
   stroke,
-  style
+  style,
 }: NotificationsBadgeProps) {
   const unreadCount = useUnreadCount();
 
@@ -38,8 +38,8 @@ export default function NotificationsBadge({
           minWidth: 20,
           height: 20,
           fontSize: '0.7rem',
-          padding: '0 4px'
-        }
+          padding: '0 4px',
+        },
       }}
     >
       <Icon size={size} stroke={stroke} style={style} />

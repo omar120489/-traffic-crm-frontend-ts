@@ -52,8 +52,8 @@ export default function FirebaseSocial() {
     borderColor: 'grey.100',
     ...theme.applyStyles('dark', {
       bgcolor: 'dark.main',
-      borderColor: withAlpha(theme.vars.palette.dark.light, 0.2)
-    })
+      borderColor: withAlpha(theme.vars.palette.dark.light, 0.2),
+    }),
   };
 
   return (
@@ -62,7 +62,7 @@ export default function FirebaseSocial() {
       sx={{
         justifyContent: { xs: 'space-around', sm: 'space-between' },
         '& .MuiButton-startIcon': { mr: 0 },
-        gap: { xs: 1, sm: 2 }
+        gap: { xs: 1, sm: 2 },
       }}
     >
       <Button

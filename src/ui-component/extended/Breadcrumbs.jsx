@@ -56,7 +56,7 @@ export default function Breadcrumbs({
   const theme = useTheme();
   const location = useLocation();
   const {
-    state: { themeDirection }
+    state: { themeDirection },
   } = useConfig();
 
   const [main, setMain] = useState();
@@ -67,14 +67,14 @@ export default function Breadcrumbs({
     marginTop: -2,
     width: '1rem',
     height: '1rem',
-    color: theme.vars.palette.secondary.main
+    color: theme.vars.palette.secondary.main,
   };
 
   const linkSX = {
     display: 'flex',
     textDecoration: 'none',
     alignContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   };
 
   let customLocation = location.pathname;
@@ -143,7 +143,7 @@ export default function Breadcrumbs({
           mb: -0.625,
           textOverflow: 'ellipsis',
           maxWidth: { xs: 102, sm: 'unset' },
-          display: 'inline-block'
+          display: 'inline-block',
         }}
         color={window.location.pathname === main.url ? 'text.primary' : 'text.secondary'}
       >
@@ -151,7 +151,7 @@ export default function Breadcrumbs({
           <CollapseIcon
             style={{
               ...iconSX,
-              ...(themeDirection === ThemeDirection.RTL && { marginLeft: 6, marginRight: 0 })
+              ...(themeDirection === ThemeDirection.RTL && { marginLeft: 6, marginRight: 0 }),
             }}
           />
         )}
@@ -176,7 +176,7 @@ export default function Breadcrumbs({
             direction={rightAlign ? 'row' : 'column'}
             sx={{
               justifyContent: rightAlign ? 'space-between' : 'flex-start',
-              alignItems: rightAlign ? 'center' : 'flex-start'
+              alignItems: rightAlign ? 'center' : 'flex-start',
             }}
             spacing={1}
           >
@@ -226,14 +226,14 @@ export default function Breadcrumbs({
           lineHeight: 1.5,
           mb: -0.625,
           textOverflow: 'ellipsis',
-          maxWidth: { xs: 102, sm: 'unset' }
+          maxWidth: { xs: 102, sm: 'unset' },
         }}
       >
         {icons && (
           <ItemIcon
             style={{
               ...iconSX,
-              ...(themeDirection === ThemeDirection.RTL && { marginLeft: 6, marginRight: 0 })
+              ...(themeDirection === ThemeDirection.RTL && { marginLeft: 6, marginRight: 0 }),
             }}
           />
         )}
@@ -258,7 +258,7 @@ export default function Breadcrumbs({
             <HomeTwoToneIcon
               style={{
                 ...iconSX,
-                ...(themeDirection === ThemeDirection.RTL && { marginLeft: 6, marginRight: 0 })
+                ...(themeDirection === ThemeDirection.RTL && { marginLeft: 6, marginRight: 0 }),
               }}
             />
           )}
@@ -308,7 +308,7 @@ export default function Breadcrumbs({
                   mb: 3,
                   bgcolor: 'background.default',
                   ...theme.applyStyles('dark', { bgcolor: 'dark.main' }),
-                  ...sx
+                  ...sx,
                 }
           }
           {...others}
@@ -319,7 +319,7 @@ export default function Breadcrumbs({
               direction={rightAlign ? 'row' : 'column'}
               sx={{
                 justifyContent: rightAlign ? 'space-between' : 'flex-start',
-                alignItems: rightAlign ? 'center' : 'flex-start'
+                alignItems: rightAlign ? 'center' : 'flex-start',
               }}
               spacing={1}
             >
@@ -354,5 +354,5 @@ Breadcrumbs.propTypes = {
   title: PropTypes.bool,
   titleBottom: PropTypes.bool,
   sx: PropTypes.any,
-  others: PropTypes.any
+  others: PropTypes.any,
 };

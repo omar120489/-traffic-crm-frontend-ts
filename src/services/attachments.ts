@@ -24,7 +24,7 @@ function mapAttachment(dto: AttachmentDto): Attachment {
     entityType: dto.entity_type,
     entityId: dto.entity_id,
     path: dto.path,
-    createdAt: dto.created_at
+    createdAt: dto.created_at,
   };
 }
 
@@ -65,13 +65,13 @@ export async function uploadAttachment(options: UploadAttachmentOptions): Promis
 
   const { data } = await axios.post<AttachmentDto>(BASE_URL, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
     },
     onUploadProgress: (event) => {
       if (!options.onUploadProgress || !event.total) return;
       const progress = Math.round((event.loaded / event.total) * 100);
       options.onUploadProgress(progress);
-    }
+    },
   });
 
   return mapAttachment(data);
@@ -85,7 +85,7 @@ export const attachmentsService = {
   listAttachments,
   uploadAttachment,
   deleteAttachment,
-  buildAttachmentDownloadUrl
+  buildAttachmentDownloadUrl,
 } as const;
 
 export default attachmentsService;

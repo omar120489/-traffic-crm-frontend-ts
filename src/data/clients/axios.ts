@@ -2,7 +2,7 @@ import axios, {
   type AxiosInstance,
   type InternalAxiosRequestConfig,
   type AxiosRequestConfig,
-  type AxiosResponse
+  type AxiosResponse,
 } from 'axios';
 import type { LoginResponse, UserProfileResponse } from 'types/api';
 
@@ -14,8 +14,8 @@ const axiosServices: AxiosInstance = axios.create({
   baseURL,
   timeout: 15000,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
 
 // ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
@@ -110,7 +110,7 @@ export const authApi = {
   login: (email: string, password: string) =>
     apiPost<{ email: string; password: string }, LoginResponse>('/api/account/login', {
       email,
-      password
+      password,
     }),
 
   getProfile: () => apiGet<UserProfileResponse>('/api/account/me'),
@@ -118,7 +118,7 @@ export const authApi = {
   register: (data: { email: string; password: string; firstName: string; lastName: string }) =>
     apiPost('/api/account/register', data),
 
-  resetPassword: (email: string) => apiPost('/api/account/reset-password', { email })
+  resetPassword: (email: string) => apiPost('/api/account/reset-password', { email }),
 };
 
 // Export the configured instance for backward compatibility

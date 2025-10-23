@@ -1,21 +1,35 @@
-import { useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 /**
- * Creates a debounced version of a function
- * Useful for smoothing rapid WebSocket bursts or user input
- *
- * @param fn Function to debounce
- * @param delay Delay in milliseconds (default: 250ms)
- * @returns Debounced function
- *
- * @example
- * const debouncedReload = useDebounced(reload, 250);
- * // In WS handler: debouncedReload();
+ * useDebounced
+ * Returns a debounced value that updates after `delay` ms of inactivity.
  */
-export const useDebounced = (fn: () => void, delay = 250) => {
-  const t = useRef<ReturnType<typeof setTimeout>>();
-  return () => {
-    if (t.current) clearTimeout(t.current);
-    t.current = setTimeout(fn, delay);
-  };
-};
+export function useDebounced<T>(value: T, delay = 300): T {
+  const [debounced, setDebounced] = useState<T>(value);
+  const latest = useRef(value);
+  latest.current = value;
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(latest.current), delay);
+    return () => clearTimeout(t);
+  }, [value, delay]);
+
+  return debounced;
+}
+
+/**
+ * useDebouncedCallback
+ * Stable callback that runs after `delay` ms since the last call.
+ */
+export function useDebouncedCallback<Args extends any[]>(cb: (...args: Args) => void, delay = 300) {
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const callback = useRef(cb);
+  callback.current = cb;
+
+  return useMemo(() => {
+    return (...args: Args) => {
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => callback.current(...args), delay);
+    };
+  }, [delay]);
+}

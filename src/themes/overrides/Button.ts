@@ -5,8 +5,8 @@ export default function Button(theme: Theme): Components['MuiButton'] {
     styleOverrides: {
       root: {
         borderRadius: theme.shape.borderRadius,
-        textTransform: 'none'
-      }
-    }
+        textTransform: 'none',
+      },
+    },
   };
 }

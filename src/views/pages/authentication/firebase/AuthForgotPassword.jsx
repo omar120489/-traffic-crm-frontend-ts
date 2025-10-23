@@ -33,10 +33,10 @@ export default function AuthForgotPassword({ ...others }) {
     <Formik
       initialValues={{
         email: '',
-        submit: null
+        submit: null,
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required')
+        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
@@ -50,9 +50,9 @@ export default function AuthForgotPassword({ ...others }) {
                   message: 'Check mail for reset password link',
                   variant: 'alert',
                   alert: {
-                    color: 'success'
+                    color: 'success',
                   },
-                  close: false
+                  close: false,
                 })
               );
               setTimeout(() => {

@@ -43,7 +43,7 @@ export default function AppPage({
   padding = 3,
   gap = SECTION_GAP,
   ariaLabel,
-  onRetry
+  onRetry,
 }: AppPageProps) {
   const hasError = !!error;
   const isEmpty = !!empty && !loading && !hasError;
@@ -63,13 +63,13 @@ export default function AppPage({
         justifyContent: 'center',
         // hard lock to Berry preview frame
         px: GUTTER_X,
-        overflowX: 'hidden' // stop horizontal scroll/bleed
+        overflowX: 'hidden', // stop horizontal scroll/bleed
       }}
     >
       <Box
         sx={{
           width: '100%',
-          maxWidth: BERRY_MAX_WIDTH
+          maxWidth: BERRY_MAX_WIDTH,
         }}
       >
         <MainCard title={undefined} content={false}>
@@ -86,7 +86,7 @@ export default function AppPage({
               // make nested flex boxes truncate instead of overflow
               '& *': { minWidth: 0 },
               // media should never overflow the frame
-              '& img, & video, & canvas': { maxWidth: '100%', height: 'auto' }
+              '& img, & video, & canvas': { maxWidth: '100%', height: 'auto' },
             }}
           >
             {/* Header */}
@@ -95,7 +95,7 @@ export default function AppPage({
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
-                gap: 2
+                gap: 2,
               }}
             >
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, minWidth: 0 }}>

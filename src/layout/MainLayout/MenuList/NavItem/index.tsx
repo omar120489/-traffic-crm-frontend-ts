@@ -34,7 +34,7 @@ export default function NavItem({
   item,
   level = 1,
   isParents = false,
-  setSelectedID
+  setSelectedID,
 }: NavItemProps) {
   const theme = useTheme();
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
@@ -42,7 +42,7 @@ export default function NavItem({
 
   const { pathname } = useLocation();
   const {
-    state: { menuOrientation, borderRadius, themeDirection }
+    state: { menuOrientation, borderRadius, themeDirection },
   } = useConfig();
 
   const { menuMaster } = useGetMenuMaster();
@@ -116,7 +116,7 @@ export default function NavItem({
           backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
           py: 1,
           pl: 2,
-          mr: isParents ? 1 : 0
+          mr: isParents ? 1 : 0,
         }}
         selected={isSelected}
         onClick={handleClick}
@@ -140,7 +140,7 @@ export default function NavItem({
                   fontWeight: 500,
                   color: 'text.secondary',
                   textTransform: 'capitalize',
-                  lineHeight: 1.66
+                  lineHeight: 1.66,
                 }}
               >
                 {item.caption}
@@ -180,9 +180,9 @@ export default function NavItem({
           '&:hover': { bgcolor: 'transparent' },
           '&.Mui-selected': {
             '&:hover': { bgcolor: 'transparent' },
-            bgcolor: 'transparent'
-          }
-        })
+            bgcolor: 'transparent',
+          },
+        }),
       }}
       selected={isSelected}
       onClick={handleClick}
@@ -207,8 +207,8 @@ export default function NavItem({
                 '&:hover': { bgcolor: 'secondary.light' },
                 ...(isSelected && {
                   bgcolor: 'secondary.light',
-                  '&:hover': { bgcolor: 'secondary.light' }
-                })
+                  '&:hover': { bgcolor: 'secondary.light' },
+                }),
               }),
 
             ...theme.applyStyles('dark', {
@@ -218,10 +218,10 @@ export default function NavItem({
                   '&:hover': { bgcolor: withAlpha(theme.palette.secondary.main, 0.25) },
                   ...(isSelected && {
                     bgcolor: withAlpha(theme.palette.secondary.main, 0.25),
-                    '&:hover': { bgcolor: withAlpha(theme.palette.secondary.main, 0.3) }
-                  })
-                })
-            })
+                    '&:hover': { bgcolor: withAlpha(theme.palette.secondary.main, 0.3) },
+                  }),
+                }),
+            }),
           }}
         >
           {itemIcon}
@@ -246,8 +246,8 @@ export default function NavItem({
                   color: 'inherit',
                   ...(themeDirection === ThemeDirection.RTL && {
                     textAlign: 'end',
-                    direction: 'rtl'
-                  })
+                    direction: 'rtl',
+                  }),
                 }}
               >
                 <FormattedMessage id={item.title ?? 'menu-item'} />
@@ -264,7 +264,7 @@ export default function NavItem({
                     fontWeight: 500,
                     color: 'text.secondary',
                     textTransform: 'capitalize',
-                    lineHeight: 1.66
+                    lineHeight: 1.66,
                   }}
                 >
                   <FormattedMessage id={item.caption} />

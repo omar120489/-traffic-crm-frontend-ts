@@ -34,7 +34,7 @@ function HeaderAvatar({ children, ref, ...others }) {
         background: theme.vars.palette.secondary.light,
         '&:hover': {
           color: theme.vars.palette.secondary.light,
-          background: theme.vars.palette.secondary.dark
+          background: theme.vars.palette.secondary.dark,
         },
 
         ...theme.applyStyles('dark', {
@@ -42,9 +42,9 @@ function HeaderAvatar({ children, ref, ...others }) {
           background: theme.vars.palette.dark.main,
           '&:hover': {
             color: theme.vars.palette.secondary.light,
-            background: theme.vars.palette.secondary.main
-          }
-        })
+            background: theme.vars.palette.secondary.main,
+          },
+        }),
       }}
       {...others}
     >
@@ -84,7 +84,7 @@ function MobileSearch({ value, setValue, popupState }) {
                 color: 'orange.dark',
                 '&:hover': { bgcolor: 'orange.dark', color: 'orange.light' },
 
-                ...theme.applyStyles('dark', { bgcolor: theme.vars.palette.dark.main })
+                ...theme.applyStyles('dark', { bgcolor: theme.vars.palette.dark.main }),
               }}
               {...bindToggle(popupState)}
             >
@@ -123,7 +123,7 @@ export default function SearchSection() {
                   zIndex: 1100,
                   width: '99%',
                   top: '-55px !important',
-                  px: { xs: 1.25, sm: 1.5 }
+                  px: { xs: 1.25, sm: 1.5 },
                 }}
               >
                 {({ TransitionProps }) => (
@@ -189,5 +189,5 @@ HeaderAvatar.propTypes = { children: PropTypes.node, ref: PropTypes.any, others:
 MobileSearch.propTypes = {
   value: PropTypes.string,
   setValue: PropTypes.func,
-  popupState: PropTypes.any
+  popupState: PropTypes.any,
 };

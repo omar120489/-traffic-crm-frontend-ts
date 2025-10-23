@@ -9,7 +9,7 @@ export default function Typography(theme: Theme): Components['MuiTypography'] {
 
   return {
     styleOverrides: {
-      root: {}
+      root: {},
     },
     variants: [
       { props: { variant: 'h1' }, style: { color: headingColor } },
@@ -21,7 +21,7 @@ export default function Typography(theme: Theme): Components['MuiTypography'] {
       { props: { variant: 'subtitle1' }, style: { color: bodyColor } },
       { props: { variant: 'subtitle2' }, style: { color: secondaryColor } },
       { props: { variant: 'caption' }, style: { color: secondaryColor } },
-      { props: { variant: 'body2' }, style: { color: bodyColor } }
-    ]
+      { props: { variant: 'body2' }, style: { color: bodyColor } },
+    ],
   };
 }

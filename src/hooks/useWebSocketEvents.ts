@@ -44,7 +44,7 @@ function getSocket(): Socket {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
-      reconnectionAttempts: Infinity
+      reconnectionAttempts: Infinity,
     });
 
     // Log connection events in development
@@ -190,7 +190,7 @@ export function useWebSocketEvents(): UseWebSocketEventsResult {
     connected,
     subscribe,
     emit,
-    disconnect
+    disconnect,
   };
 }
 

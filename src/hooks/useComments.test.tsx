@@ -21,7 +21,7 @@ const commentsMocks = vi.hoisted(() => ({
       }) => Promise<Comment>
     >(),
   update: vi.fn(),
-  remove: vi.fn()
+  remove: vi.fn(),
 }));
 
 vi.mock('services/comments', () => ({
@@ -29,8 +29,8 @@ vi.mock('services/comments', () => ({
     listComments: commentsMocks.list,
     createComment: commentsMocks.create,
     updateComment: commentsMocks.update,
-    deleteComment: commentsMocks.remove
-  }
+    deleteComment: commentsMocks.remove,
+  },
 }));
 
 describe('useComments', () => {
@@ -53,7 +53,7 @@ describe('useComments', () => {
       content: 'Initial comment',
       mentions: [],
       createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-01-01T00:00:00.000Z'
+      updatedAt: '2024-01-01T00:00:00.000Z',
     };
 
     const newComment: Comment = {
@@ -63,12 +63,12 @@ describe('useComments', () => {
       content: 'Follow up',
       mentions: [],
       createdAt: '2024-01-02T00:00:00.000Z',
-      updatedAt: '2024-01-02T00:00:00.000Z'
+      updatedAt: '2024-01-02T00:00:00.000Z',
     };
 
     commentsMocks.list.mockResolvedValue({
       items: [initialComment],
-      total: 1
+      total: 1,
     });
     commentsMocks.create.mockImplementation(async () => newComment);
 
@@ -77,7 +77,7 @@ describe('useComments', () => {
     function TestComponent() {
       hookValue = useComments({
         entityType: 'deal',
-        entityId: '123'
+        entityId: '123',
       });
       return null;
     }
@@ -106,7 +106,7 @@ describe('useComments', () => {
       entityType: 'deal',
       entityId: '123',
       content: 'Follow up',
-      mentions: undefined
+      mentions: undefined,
     });
     expect(hookValue?.comments).toHaveLength(2);
     expect(hookValue?.comments?.[0]).toEqual(newComment);

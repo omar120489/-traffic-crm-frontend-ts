@@ -6,7 +6,7 @@ import { useWebSocketEvents } from './useWebSocketEvents';
 
 // Mock socket.io-client
 vi.mock('socket.io-client', () => ({
-  io: vi.fn()
+  io: vi.fn(),
 }));
 
 describe('useWebSocketEvents', () => {
@@ -27,7 +27,7 @@ describe('useWebSocketEvents', () => {
       emit: mockEmit,
       connect: mockConnect,
       disconnect: mockDisconnect,
-      connected: false
+      connected: false,
     };
 
     // Mock io to return our mock socket
@@ -45,7 +45,7 @@ describe('useWebSocketEvents', () => {
       expect.stringContaining('ws://'),
       expect.objectContaining({
         transports: ['websocket', 'polling'],
-        reconnection: true
+        reconnection: true,
       })
     );
 

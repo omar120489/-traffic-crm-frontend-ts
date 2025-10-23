@@ -25,7 +25,7 @@ const authRegisterImports = {
   jwt: () => import('./jwt/AuthRegister'),
   aws: () => import('./aws/AuthRegister'),
   auth0: () => import('./auth0/AuthRegister'),
-  supabase: () => import('./supabase/AuthRegister')
+  supabase: () => import('./supabase/AuthRegister'),
 };
 
 export default function Register() {
@@ -105,8 +105,8 @@ export default function Register() {
                   margin: { xs: 2.5, md: 3 },
                   '& > *': {
                     flexGrow: 1,
-                    flexBasis: '50%'
-                  }
+                    flexBasis: '50%',
+                  },
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

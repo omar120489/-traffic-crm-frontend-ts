@@ -20,7 +20,7 @@ export default function UpgradePlanCard() {
     position: 'absolute',
     width: 200,
     height: 200,
-    borderColor: 'warning.main'
+    borderColor: 'warning.main',
   };
 
   return (
@@ -36,15 +36,15 @@ export default function UpgradePlanCard() {
           borderRadius: '50%',
           top: '65px',
           right: '-150px',
-          ...cardSX
+          ...cardSX,
         },
         '&:before': {
           border: '3px solid ',
           borderRadius: '50%',
           top: '145px',
           right: '-70px',
-          ...cardSX
-        }
+          ...cardSX,
+        },
       }}
     >
       <CardContent>
@@ -55,7 +55,7 @@ export default function UpgradePlanCard() {
             sx={{
               color: 'grey.900',
               opacity: 0.6,
-              ...theme.applyStyles('dark', { color: 'text.secondary', opacity: 1 })
+              ...theme.applyStyles('dark', { color: 'text.secondary', opacity: 1 }),
             }}
           >
             70% discount for 1 years <br />
@@ -73,7 +73,7 @@ export default function UpgradePlanCard() {
                   color="warning"
                   sx={{
                     boxShadow: 'none',
-                    ...theme.applyStyles('dark', { color: 'background.default' })
+                    ...theme.applyStyles('dark', { color: 'background.default' }),
                   }}
                 >
                   Go Premium

@@ -14,7 +14,7 @@ export function useChatSocket(enabled = true) {
       reconnection: true,
       reconnectionAttempts: Infinity,
       reconnectionDelay: 500,
-      reconnectionDelayMax: 5000
+      reconnectionDelayMax: 5000,
     });
     socketRef.current = s;
     return s;

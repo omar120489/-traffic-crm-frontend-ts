@@ -6,7 +6,7 @@ import type {
   DealQuery,
   DealUpdateDto,
   PaginatedResponse,
-  UUID
+  UUID,
 } from 'types/api';
 
 const BASE_PATH = '/api/deals';
@@ -49,7 +49,7 @@ function fromDealDto(dto: any): Deal {
     directCost: dto.directCost ?? dto.direct_cost ?? null,
     netProfit: dto.netProfit ?? dto.net_profit ?? null,
     lossReason: dto.lossReason ?? dto.loss_reason ?? null,
-    lossNotes: dto.lossNotes ?? dto.loss_notes ?? null
+    lossNotes: dto.lossNotes ?? dto.loss_notes ?? null,
   };
 }
 
@@ -57,7 +57,7 @@ export async function listDeals(query?: DealQuery): Promise<PaginatedResponse<De
   const response = await apiGet<PaginatedResponse<any>>(BASE_PATH, { params: query });
   return {
     ...response,
-    items: response.items.map(fromDealDto)
+    items: response.items.map(fromDealDto),
   };
 }
 
@@ -89,5 +89,5 @@ export const dealsApi = {
   getDeal,
   createDeal,
   updateDeal,
-  deleteDeal
+  deleteDeal,
 };

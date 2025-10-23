@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, IconButton, TextField, Tooltip } from '@mui/material';
 
 export default function MessageComposer({
-  onSend
+  onSend,
 }: {
   onSend: (draft: { text?: string }) => void;
 }) {
@@ -23,7 +23,7 @@ export default function MessageComposer({
         p: 1,
         display: 'flex',
         alignItems: 'center',
-        gap: 1
+        gap: 1,
       }}
     >
       <TextField

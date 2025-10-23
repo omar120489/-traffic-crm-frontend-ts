@@ -11,8 +11,8 @@ import SubCard from 'ui-component/cards/SubCard';
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(({ theme }) => ({
   '&.notistack-MuiContent-warning': {
-    color: theme.vars.palette.common.black
-  }
+    color: theme.vars.palette.common.black,
+  },
 }));
 
 // ==============================|| NOTISTACK - COLOR VARIANTS ||============================== //

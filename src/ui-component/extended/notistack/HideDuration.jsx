@@ -28,23 +28,23 @@ export default function HideDuration() {
 
   const marks = [
     {
-      value: 1
+      value: 1,
     },
     {
-      value: 3
+      value: 3,
     },
     {
-      value: 5
+      value: 5,
     },
     {
-      value: 7
+      value: 7,
     },
     {
-      value: 9
+      value: 9,
     },
     {
-      value: 11
-    }
+      value: 11,
+    },
   ];
 
   return (
@@ -68,7 +68,7 @@ export default function HideDuration() {
           if (value !== 11) {
             enqueueSnackbar('Your notification here', {
               autoHideDuration: value * 1000,
-              variant: 'info'
+              variant: 'info',
             });
           } else {
             enqueueSnackbar('Your notification here', { persist: true, variant: 'info' });

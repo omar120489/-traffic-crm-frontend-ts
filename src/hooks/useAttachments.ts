@@ -81,7 +81,7 @@ export function useAttachments(options: UseAttachmentsOptions): UseAttachmentsRe
           file,
           onUploadProgress: (progress) => {
             setUploadProgress(progress);
-          }
+          },
         });
         setAttachments((prev) => [attachment, ...prev]);
         setUploadProgress(null);
@@ -160,7 +160,7 @@ export function useAttachments(options: UseAttachmentsOptions): UseAttachmentsRe
     deletingIds,
     refresh,
     uploadAttachment: upload,
-    deleteAttachment: remove
+    deleteAttachment: remove,
   };
 }
 

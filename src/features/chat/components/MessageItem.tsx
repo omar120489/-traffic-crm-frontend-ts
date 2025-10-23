@@ -13,7 +13,7 @@ export default function MessageItem({ m, isMine }: { m: Message; isMine: boolean
         sx={{
           maxWidth: '75%',
           bgcolor: isMine ? 'primary.main' : 'background.paper',
-          color: isMine ? 'primary.contrastText' : 'text.primary'
+          color: isMine ? 'primary.contrastText' : 'text.primary',
         }}
       >
         <CardContent sx={{ py: 1, px: 1.5 }}>

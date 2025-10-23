@@ -21,7 +21,7 @@ export function useAttribution(): void {
           console.log('[Attribution] Captured:', {
             uti: attribution.uti,
             utm: attribution.utm,
-            platform: attribution.platform
+            platform: attribution.platform,
           });
         }
       }

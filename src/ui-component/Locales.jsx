@@ -21,7 +21,7 @@ function loadLocaleData(i18n) {
 
 export default function Locales({ children }) {
   const {
-    state: { i18n }
+    state: { i18n },
   } = useConfig();
   const [messages, setMessages] = useState();
 

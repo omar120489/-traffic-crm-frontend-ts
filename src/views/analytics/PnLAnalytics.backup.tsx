@@ -25,7 +25,7 @@ import {
   Menu,
   MenuItem as MenuItemComponent,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@mui/material';
 import {
   IconRefresh,
@@ -35,7 +35,7 @@ import {
   IconDownload,
   IconFileTypeCsv,
   IconFileTypeXls,
-  IconFileTypePdf
+  IconFileTypePdf,
 } from '@tabler/icons-react';
 
 import MainCard from 'ui-component/cards/MainCard';
@@ -46,7 +46,7 @@ function formatCurrency(value: number): string {
   return new Intl.NumberFormat(undefined, {
     style: 'currency',
     currency: 'USD',
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value);
 }
 
@@ -139,7 +139,7 @@ export default function PnLAnalytics() {
       'Direct Cost',
       'Net Profit',
       'ROAS',
-      'CPA'
+      'CPA',
     ];
 
     // CSV rows
@@ -153,7 +153,7 @@ export default function PnLAnalytics() {
       row.direct_cost,
       row.net_profit,
       row.roas.toFixed(2),
-      row.cpa.toFixed(2)
+      row.cpa.toFixed(2),
     ]);
 
     // Build CSV string
@@ -277,7 +277,7 @@ export default function PnLAnalytics() {
 
     // Create Excel file with proper BOM for UTF-8
     const blob = new Blob(['\ufeff', excelHTML], {
-      type: 'application/vnd.ms-excel;charset=utf-8'
+      type: 'application/vnd.ms-excel;charset=utf-8',
     });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -591,7 +591,7 @@ export default function PnLAnalytics() {
                         bgcolor: 'success.light',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
                       }}
                     >
                       <IconCash size={32} color="green" />
@@ -624,7 +624,7 @@ export default function PnLAnalytics() {
                         bgcolor: 'primary.light',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
                       }}
                     >
                       <IconTrendingUp size={32} color="blue" />
@@ -657,7 +657,7 @@ export default function PnLAnalytics() {
                         bgcolor: 'warning.light',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
                       }}
                     >
                       <IconReceipt size={32} color="orange" />

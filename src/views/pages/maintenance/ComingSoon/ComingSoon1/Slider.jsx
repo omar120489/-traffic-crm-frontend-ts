@@ -33,7 +33,7 @@ export default function ComingSoonSlider({ handleClickOpen }) {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
   const { colorScheme } = useColorScheme();
 

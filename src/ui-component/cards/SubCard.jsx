@@ -40,7 +40,7 @@ export default function SubCard({
         border: '1px solid',
         borderColor: 'divider',
         ':hover': { boxShadow: defaultShadow },
-        ...(typeof sx === 'function' ? sx(theme) : sx || {})
+        ...(typeof sx === 'function' ? sx(theme) : sx || {}),
       })}
       {...others}
     >
@@ -91,5 +91,5 @@ SubCard.propTypes = {
   footerSX: PropTypes.object,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   actions: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  others: PropTypes.any
+  others: PropTypes.any,
 };

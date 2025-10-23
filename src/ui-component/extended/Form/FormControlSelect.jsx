@@ -16,7 +16,7 @@ export default function FormControlSelect({
   iconSecondary,
   selected,
   textPrimary,
-  textSecondary
+  textSecondary,
 }) {
   const IconPrimary = iconPrimary;
   const primaryIcon = iconPrimary ? (
@@ -68,8 +68,8 @@ export default function FormControlSelect({
                   </>
                 )}
               </>
-            )
-          }
+            ),
+          },
         }}
       >
         {currencies?.map((option, index) => (
@@ -90,5 +90,5 @@ FormControlSelect.propTypes = {
   iconSecondary: PropTypes.any,
   selected: PropTypes.string,
   textPrimary: PropTypes.string,
-  textSecondary: PropTypes.string
+  textSecondary: PropTypes.string,
 };

@@ -14,7 +14,7 @@ import {
   DataGrid,
   type GridColDef,
   type GridPaginationModel,
-  type GridRenderCellParams
+  type GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { useSnackbar } from 'notistack';
 
@@ -30,7 +30,7 @@ import {
   buildExportFilename,
   formatCurrencyForExport,
   formatDateForExport,
-  type ExportColumn
+  type ExportColumn,
 } from 'utils/exporters';
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -43,7 +43,7 @@ function formatCurrency(value?: number | null) {
   return new Intl.NumberFormat(undefined, {
     style: 'currency',
     currency: 'USD',
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value);
 }
 
@@ -64,7 +64,7 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   }).format(new Date(value));
 }
 
@@ -88,12 +88,12 @@ const DEAL_FILTER_CONFIG: FilterConfig[] = [
   {
     label: 'Close Date',
     type: 'date-range',
-    field: 'date'
+    field: 'date',
   },
   {
     label: 'Amount',
     type: 'number-range',
-    field: 'amount'
+    field: 'amount',
   },
   {
     label: 'Stages',
@@ -105,8 +105,8 @@ const DEAL_FILTER_CONFIG: FilterConfig[] = [
       { value: 'Proposal', label: 'Proposal' },
       { value: 'Negotiation', label: 'Negotiation' },
       { value: 'Closed Won', label: 'Closed Won' },
-      { value: 'Closed Lost', label: 'Closed Lost' }
-    ]
+      { value: 'Closed Lost', label: 'Closed Lost' },
+    ],
   },
   {
     label: 'Statuses',
@@ -116,9 +116,9 @@ const DEAL_FILTER_CONFIG: FilterConfig[] = [
       { value: 'Open', label: 'Open' },
       { value: 'Won', label: 'Won' },
       { value: 'Lost', label: 'Lost' },
-      { value: 'Pending', label: 'Pending' }
-    ]
-  }
+      { value: 'Pending', label: 'Pending' },
+    ],
+  },
 ];
 
 export default function DealsListPage() {
@@ -155,7 +155,7 @@ export default function DealsListPage() {
         ? Number(searchParams.get('amount_max'))
         : undefined,
       stages: getArray('stages'),
-      statuses: getArray('statuses')
+      statuses: getArray('statuses'),
     };
 
     setFilterValues(initialFilters);
@@ -175,12 +175,12 @@ export default function DealsListPage() {
       stages: getString('stages'),
       statuses: getString('statuses'),
       stage: getString('stage') as DealQuery['stage'],
-      ownerId: getString('ownerId')
+      ownerId: getString('ownerId'),
     };
   }, [searchParams]);
 
   const { deals, data, loading, error, query, updateQuery, refetch } = useDeals({
-    initialQuery
+    initialQuery,
   });
 
   const syncSearchParams = useCallback(
@@ -224,11 +224,11 @@ export default function DealsListPage() {
       {
         field: 'grossRevenue',
         headerName: 'Gross Revenue',
-        valueFormatter: formatCurrencyForExport
+        valueFormatter: formatCurrencyForExport,
       },
       { field: 'directCost', headerName: 'Direct Cost', valueFormatter: formatCurrencyForExport },
       { field: 'netProfit', headerName: 'Net Profit', valueFormatter: formatCurrencyForExport },
-      { field: 'updatedAt', headerName: 'Updated', valueFormatter: formatDateForExport }
+      { field: 'updatedAt', headerName: 'Updated', valueFormatter: formatDateForExport },
     ],
     []
   );
@@ -266,7 +266,7 @@ export default function DealsListPage() {
   const paginationModel = useMemo(
     () => ({
       page: Math.max(0, (query.page ?? 1) - 1),
-      pageSize: query.size ?? DEFAULT_PAGE_SIZE
+      pageSize: query.size ?? DEFAULT_PAGE_SIZE,
     }),
     [query.page, query.size]
   );
@@ -278,7 +278,7 @@ export default function DealsListPage() {
       updateQuery({ page: nextPage, size: nextSize });
       syncSearchParams({
         page: String(nextPage),
-        size: String(nextSize)
+        size: String(nextSize),
       });
     },
     [syncSearchParams, updateQuery]
@@ -292,7 +292,7 @@ export default function DealsListPage() {
       syncSearchParams({
         search: trimmed.length > 0 ? value : undefined,
         page: '1',
-        size: String(query.size ?? DEFAULT_PAGE_SIZE)
+        size: String(query.size ?? DEFAULT_PAGE_SIZE),
       });
     },
     [query.size, syncSearchParams, updateQuery]
@@ -323,7 +323,7 @@ export default function DealsListPage() {
       statuses:
         Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
           ? filterValues.statuses.join(',')
-          : undefined
+          : undefined,
     };
 
     syncSearchParams(patch);
@@ -342,7 +342,7 @@ export default function DealsListPage() {
       statuses:
         Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
           ? filterValues.statuses.join(',')
-          : undefined
+          : undefined,
     });
   }, [filterValues, query, syncSearchParams, updateQuery]);
 
@@ -366,7 +366,7 @@ export default function DealsListPage() {
       amount_min: undefined,
       amount_max: undefined,
       stages: undefined,
-      statuses: undefined
+      statuses: undefined,
     });
     syncSearchParams({
       page: '1',
@@ -381,7 +381,7 @@ export default function DealsListPage() {
       amount_min: undefined,
       amount_max: undefined,
       stages: undefined,
-      statuses: undefined
+      statuses: undefined,
     });
   }, [query.size, syncSearchParams, updateQuery]);
 
@@ -398,7 +398,7 @@ export default function DealsListPage() {
           setFilterValues(updated);
           syncSearchParams({ date_from: undefined });
           updateQuery({ ...query, date_from: undefined });
-        }
+        },
       });
     }
     if (query.date_to) {
@@ -410,7 +410,7 @@ export default function DealsListPage() {
           setFilterValues(updated);
           syncSearchParams({ date_to: undefined });
           updateQuery({ ...query, date_to: undefined });
-        }
+        },
       });
     }
     if (query.amount_min) {
@@ -422,7 +422,7 @@ export default function DealsListPage() {
           setFilterValues(updated);
           syncSearchParams({ amount_min: undefined });
           updateQuery({ ...query, amount_min: undefined });
-        }
+        },
       });
     }
     if (query.amount_max) {
@@ -434,7 +434,7 @@ export default function DealsListPage() {
           setFilterValues(updated);
           syncSearchParams({ amount_max: undefined });
           updateQuery({ ...query, amount_max: undefined });
-        }
+        },
       });
     }
     if (query.stages) {
@@ -446,7 +446,7 @@ export default function DealsListPage() {
           setFilterValues(updated);
           syncSearchParams({ stages: undefined });
           updateQuery({ ...query, stages: undefined });
-        }
+        },
       });
     }
     if (query.statuses) {
@@ -458,7 +458,7 @@ export default function DealsListPage() {
           setFilterValues(updated);
           syncSearchParams({ statuses: undefined });
           updateQuery({ ...query, statuses: undefined });
-        }
+        },
       });
     }
 
@@ -481,7 +481,7 @@ export default function DealsListPage() {
               Owner: {params.row.ownerId ?? '—'}
             </Typography>
           </Box>
-        )
+        ),
       },
       {
         field: 'amount',
@@ -493,7 +493,7 @@ export default function DealsListPage() {
           <Typography variant="body2" noWrap>
             {formatCurrency(params.row.amount)}
           </Typography>
-        )
+        ),
       },
       {
         field: 'stage',
@@ -502,7 +502,7 @@ export default function DealsListPage() {
         minWidth: 140,
         renderCell: (params: GridRenderCellParams<Deal>) => (
           <Chip label={params.row.stage || '—'} size="small" variant="outlined" />
-        )
+        ),
       },
       {
         field: 'status',
@@ -515,7 +515,7 @@ export default function DealsListPage() {
             size="small"
             color={getStatusColor(params.row.status)}
           />
-        )
+        ),
       },
       {
         field: 'probability',
@@ -526,7 +526,7 @@ export default function DealsListPage() {
           <Typography variant="body2" noWrap>
             {formatProbability(params.row.probability)}
           </Typography>
-        )
+        ),
       },
       {
         field: 'closeDate',
@@ -537,7 +537,7 @@ export default function DealsListPage() {
           <Typography variant="body2" noWrap>
             {formatDate(params.row.closeDate)}
           </Typography>
-        )
+        ),
       },
       {
         field: 'updatedAt',
@@ -548,7 +548,7 @@ export default function DealsListPage() {
           <Typography variant="body2" noWrap>
             {formatDate(params.row.updatedAt)}
           </Typography>
-        )
+        ),
       },
       {
         field: 'actions',
@@ -582,8 +582,8 @@ export default function DealsListPage() {
               {editLink}
             </Box>
           );
-        }
-      }
+        },
+      },
     ],
     []
   );
@@ -597,7 +597,7 @@ export default function DealsListPage() {
             flexDirection: { xs: 'column', md: 'row' },
             gap: 2,
             alignItems: { xs: 'stretch', md: 'center' },
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}
         >
           <TextField
@@ -611,8 +611,8 @@ export default function DealsListPage() {
                   <InputAdornment position="start">
                     <SearchIcon fontSize="small" />
                   </InputAdornment>
-                )
-              }
+                ),
+              },
             }}
           />
           <Box
@@ -620,7 +620,7 @@ export default function DealsListPage() {
               display: 'flex',
               flexDirection: 'row',
               gap: 1.5,
-              justifyContent: { xs: 'flex-start', md: 'flex-end' }
+              justifyContent: { xs: 'flex-start', md: 'flex-end' },
             }}
           >
             <ExportMenu
@@ -694,8 +694,8 @@ export default function DealsListPage() {
             pageSizeOptions={[5, 10, 25, 50]}
             sx={{
               '& .MuiDataGrid-cell': {
-                outline: 'none !important'
-              }
+                outline: 'none !important',
+              },
             }}
           />
         </Box>
@@ -705,7 +705,7 @@ export default function DealsListPage() {
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
             gap: 1,
-            alignItems: { xs: 'flex-start', sm: 'center' }
+            alignItems: { xs: 'flex-start', sm: 'center' },
           }}
         >
           <Typography variant="caption" color="text.secondary">
