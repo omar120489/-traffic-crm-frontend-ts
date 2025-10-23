@@ -1,20 +1,17 @@
 name: release-please
 
 on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
+    workflow_dispatch:
+    push:
+        branches: [main]
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
 
 jobs:
-  release-please:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run release-please (manifest)
-        uses: google-github-actions/release-please-action@v4
-        with:
-          command: manifest
-
+    release-please:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run release-please (manifest)
+              uses: google-github-actions/release-please-action@v4
