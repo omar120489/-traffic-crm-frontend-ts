@@ -1,605 +1,504 @@
 # Contributing to Traffic CRM
 
-Thank you for your interest in contributing to Traffic CRM! This document provides guidelines and instructions for contributing to this project.
+Thank you for your interest in contributing to Traffic CRM! This guide will help you get started with our development workflow.
 
 ## 📋 Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Development Workflow](#development-workflow)
-- [Coding Standards](#coding-standards)
-- [Commit Guidelines](#commit-guidelines)
+- [Code Standards](#code-standards)
+- [Testing Requirements](#testing-requirements)
 - [Pull Request Process](#pull-request-process)
-- [Testing](#testing)
-- [Documentation](#documentation)
-- [Release Process](#release-process)
+- [Issue Management](#issue-management)
+- [Commit Convention](#commit-convention)
+- [Branch Naming](#branch-naming)
 
-## 🤝 Code of Conduct
-
-### Our Pledge
-
-We are committed to providing a welcoming and inclusive experience for everyone. We expect all contributors to:
-
-- Use welcoming and inclusive language
-- Be respectful of differing viewpoints and experiences
-- Gracefully accept constructive criticism
-- Focus on what is best for the community
-- Show empathy towards other community members
-
-### Unacceptable Behavior
-
-- Harassment, trolling, or discriminatory comments
-- Publishing others' private information without permission
-- Other conduct which could reasonably be considered inappropriate
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Node.js**: v18+ (LTS recommended)
-- **pnpm**: v8+ (`npm install -g pnpm`)
-- **PostgreSQL**: v14+
-- **Redis**: v7+
-- **Docker** (optional, for containerized development)
-- **git-filter-repo** (for history management, if needed)
+- **Node.js**: >=18 <21
+- **pnpm**: 10.18.2 (managed via packageManager field)
+- **GitHub CLI**: For workflow automation (`gh auth login`)
+- **Git**: Latest stable version
 
 ### Initial Setup
 
-1. **Fork & Clone**
-
 ```bash
-# Fork the repository on GitHub first
-git clone https://github.com/YOUR_USERNAME/-traffic-crm-frontend-ts.git
+# 1. Clone the repository
+git clone https://github.com/omar120489/-traffic-crm-frontend-ts.git
 cd -traffic-crm-frontend-ts
-```
 
-2. **Install Dependencies**
-
-```bash
+# 2. Install dependencies
 pnpm install
-```
 
-3. **Environment Configuration**
-
-```bash
-# Frontend
-cp apps/frontend/.env.example apps/frontend/.env.local
-
-# Core API
+# 3. Setup environment
+cp apps/frontend/.env.example apps/frontend/.env
 cp apps/core-api/.env.example apps/core-api/.env
 
-# Workers
-cp apps/workers/.env.example apps/workers/.env
+# 4. Start infrastructure
+pnpm docker:up
+
+# 5. Run database migrations
+pnpm db:migrate
+pnpm db:seed
+
+# 6. Verify setup
+pnpm -r typecheck
+pnpm -r lint
+pnpm -r test
 ```
 
-4. **Database Setup**
-
-```bash
-cd apps/core-api
-pnpm prisma migrate dev
-pnpm prisma db seed
-```
-
-5. **Start Development Servers**
-
-```bash
-# From monorepo root
-pnpm dev
-```
+---
 
 ## 🔄 Development Workflow
 
-### Branch Naming Conventions
+We use an automated workflow system with helper scripts. Here's how to work on an issue:
 
-Use descriptive branch names that follow this pattern:
+### Quick Start (Automated)
 
+```bash
+# 1. Start working on an issue (e.g., issue #1)
+./workflow-helper.sh start 1
+
+# 2. Make your changes
+# ... edit code ...
+
+# 3. Commit with conventional format
+git add -A
+git commit -m "feat(frontend): migrate ui-component imports"
+
+# 4. Push your branch
+git push -u origin feat/frontend-migrate-components
+
+# 5. Create a draft PR (auto-labeled with templates)
+./workflow-helper.sh pr 1
+
+# 6. Mark PR as ready when done
+gh pr ready
 ```
-<type>/<short-description>
 
-Examples:
-- feat/add-contact-import
-- fix/deal-amount-calculation
-- docs/api-endpoints
-- chore/update-dependencies
-- refactor/auth-service
-```
+### Manual Workflow
 
-**Types:**
-- `feat`: New features
-- `fix`: Bug fixes
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, missing semicolons, etc.)
-- `refactor`: Code refactoring without changing functionality
-- `perf`: Performance improvements
-- `test`: Adding or updating tests
-- `chore`: Maintenance tasks, dependency updates
-- `ci`: CI/CD configuration changes
-
-### Daily Development Loop
+If you prefer manual control:
 
 ```bash
 # 1. Create a feature branch
-git checkout -b feat/my-new-feature
+git checkout -b feat/your-feature-name
 
-# 2. Make your changes
-# ... code code code ...
+# 2. Make changes and commit
+git add -A
+git commit -m "feat(scope): description"
 
-# 3. Run pre-merge checks
-./scripts/premerge.sh
-
-# 4. Commit with conventional commits
-git add .
-git commit -m "feat(contacts): add bulk import functionality"
-
-# 5. Push to your fork
-git push origin feat/my-new-feature
-
-# 6. Open a Pull Request on GitHub
+# 3. Push and create PR
+git push -u origin feat/your-feature-name
+gh pr create --draft --assignee @me
 ```
 
-### Local Testing
+### Workflow Helper Commands
 
 ```bash
-# Type checking
-pnpm typecheck
-
-# Linting
-pnpm lint
-
-# Run tests
-pnpm test
-
-# Build all packages
-pnpm build
-
-# Run all checks (recommended before PR)
-./scripts/premerge.sh
+./workflow-helper.sh start <N>   # Start work on issue #N
+./workflow-helper.sh pr <N>      # Create PR for issue #N
+./workflow-helper.sh list        # List all issue branches
+./workflow-helper.sh status      # Show current issue
 ```
 
-## 📝 Coding Standards
+---
+
+## 📝 Code Standards
 
 ### TypeScript
 
-- **Strict Mode**: All TypeScript must compile with strict mode enabled
-- **Type Safety**: Avoid `any` unless absolutely necessary; use `unknown` instead
-- **Interfaces over Types**: Prefer `interface` for object shapes
-- **Explicit Return Types**: Always specify return types for functions
-
-```typescript
-// ✅ Good
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
-async function getUser(id: string): Promise<User | null> {
-  // implementation
-}
-
-// ❌ Bad
-function getUser(id) {
-  // implementation
-}
-```
+- **Strict mode**: Enabled across all packages
+- **No `any`**: Use proper types or `unknown`
+- **Prefer interfaces**: Over type aliases for object shapes
+- **Export types**: Always export types used in public APIs
 
 ### Code Style
 
-- **Formatting**: Use Prettier (configured in `.prettierrc`)
-- **Line Length**: Max 100 characters
-- **Quotes**: Single quotes for strings, double for JSX attributes
-- **Semicolons**: Required
-- **Trailing Commas**: Required for multi-line
+We use ESLint and Prettier for consistent formatting:
 
-### React/Frontend
+```bash
+# Auto-fix linting issues
+pnpm -r lint:fix
 
-- **Functional Components**: Use function components with hooks
-- **Component Structure**:
-
-```typescript
-// 1. Imports
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-
-// 2. Types
-interface Props {
-  userId: string;
-}
-
-// 3. Component
-export function UserProfile({ userId }: Props) {
-  // Hooks first
-  const { data, isLoading } = useQuery(/*...*/);
-
-  // Event handlers
-  const handleClick = () => {
-    // ...
-  };
-
-  // Render
-  if (isLoading) return <Spinner />;
-  return <div>{/* ... */}</div>;
-}
+# Format code
+pnpm -r prettier
 ```
 
-- **Hooks**: Custom hooks must start with `use`
-- **File Naming**: PascalCase for components, camelCase for utilities
+### Path Aliases
 
-### Backend/API
-
-- **NestJS Conventions**: Follow NestJS architecture patterns
-- **DTOs**: Use class-validator decorators for validation
-- **Services**: Keep controllers thin, logic in services
-- **Error Handling**: Use NestJS exception filters
+Use path aliases for cleaner imports:
 
 ```typescript
-// ✅ Good - Thin controller
-@Controller('contacts')
-export class ContactsController {
-  constructor(private readonly contactsService: ContactsService) {}
+// ✅ Good
+import { Button } from '@shared/components';
+import { useAuth } from '@shared/hooks';
+import { Deal } from '@features/deals';
 
-  @Get()
-  async list(@Query() query: PaginationQueryDto) {
-    return this.contactsService.list(query);
-  }
-}
-
-// ✅ Good - Business logic in service
-@Injectable()
-export class ContactsService {
-  async list(query: PaginationQueryDto) {
-    // Business logic here
-  }
-}
+// ❌ Bad
+import { Button } from '../../../shared/components/Button';
 ```
 
-### Database
+**Available aliases:**
+- `@shared/*` - Shared components, hooks, utils
+- `@features/*` - Feature-specific code
+- `@data/*` - Data layer (API clients, hooks)
+- `@core/*` - Core utilities (RBAC, filters, export)
 
-- **Migrations**: Always create migrations for schema changes
-- **Naming**: Use snake_case for database columns
-- **Indexing**: Add indexes for frequently queried columns
-- **Seeding**: Update seed data when schema changes
+---
 
-## 💬 Commit Guidelines
+## 🧪 Testing Requirements
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/) specification.
+### Test Coverage Goals
 
-### Commit Message Format
+- **Hooks**: >60% coverage
+- **Core Components**: >40% coverage
+- **Business Logic**: >80% coverage
+- **API Endpoints**: 100% critical paths
+
+### Running Tests
+
+```bash
+# All tests
+pnpm -r test
+
+# Specific workspace
+pnpm --filter ./apps/frontend test:unit
+pnpm --filter @apps/core-api test:e2e
+
+# With coverage
+pnpm --filter ./apps/frontend test:unit -- --coverage
+
+# Watch mode
+pnpm --filter ./apps/frontend test:unit -- --watch
+```
+
+### Writing Tests
+
+**Frontend (Vitest + React Testing Library):**
+
+```typescript
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { MyComponent } from './MyComponent';
+
+describe('MyComponent', () => {
+  it('renders correctly', () => {
+    render(<MyComponent />);
+    expect(screen.getByText('Hello')).toBeInTheDocument();
+  });
+});
+```
+
+**Backend (NestJS Testing):**
+
+```typescript
+import { Test } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+
+describe('LeadsController (e2e)', () => {
+  let app: INestApplication;
+
+  beforeAll(async () => {
+    const moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/leads (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/leads')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.items).toBeDefined();
+      });
+  });
+});
+```
+
+---
+
+## 🔀 Pull Request Process
+
+### Before Creating a PR
+
+- [ ] Code builds successfully (`pnpm build`)
+- [ ] All tests pass (`pnpm test`)
+- [ ] Linting passes (`pnpm lint`)
+- [ ] Type checking passes (`pnpm typecheck`)
+- [ ] No console.log statements (use proper logging)
+- [ ] Documentation updated (if needed)
+
+### PR Template
+
+Our workflow automatically uses PR templates based on the issue number. Templates include:
+
+- 🎯 Goal statement
+- 📋 Checklist of changes
+- ✅ Verification steps
+- 🔗 Auto-closes related issue
+
+### PR Review Process
+
+1. **Draft PR**: Create as draft while working
+2. **Self-review**: Review your own changes first
+3. **Mark ready**: When complete and passing CI
+4. **Code review**: At least one approval required
+5. **Address feedback**: Make requested changes
+6. **Merge**: Squash and merge (maintains clean history)
+
+### CI Checks
+
+All PRs must pass these checks:
+
+- ✅ `pr-title-check` - Conventional commit format
+- ✅ `typecheck-and-build` - Type safety and builds
+- ✅ `lint` - Code style
+- ✅ `test` - Test suite
+- ✅ `security-audit` - Dependency vulnerabilities
+- ✅ `ci-complete` - Overall status
+
+---
+
+## 🏷️ Issue Management
+
+### Issue Labels
+
+We use a structured labeling system:
+
+**Area Labels:**
+- `area:frontend` - Frontend work
+- `area:backend` - Backend work
+- `area:workers` - Workers & queues
+- `area:ci` - CI/CD
+- `area:sdk` - SDK & packages
+- `area:docs` - Documentation
+
+**Priority Labels:**
+- `priority:high` - High priority
+- `priority:medium` - Medium priority (default)
+- `priority:low` - Low priority
+
+**Type Labels:**
+- `type:feat` - New feature
+- `type:fix` - Bug fix
+- `type:refactor` - Code refactoring
+- `type:test` - Testing
+- `type:docs` - Documentation
+- `type:perf` - Performance improvement
+
+### Creating Issues
+
+Use our issue templates when available. Include:
+
+- **Clear title**: Descriptive and specific
+- **Context**: Why is this needed?
+- **Acceptance criteria**: What defines "done"?
+- **Related issues**: Link to related work
+
+---
+
+## 📝 Commit Convention
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint.
+
+### Format
 
 ```
 <type>(<scope>): <subject>
 
-<body>
+[optional body]
 
-<footer>
-```
-
-**Example:**
-
-```
-feat(contacts): add bulk import from CSV
-
-- Add CSV parser with Papa Parse
-- Implement validation for contact fields
-- Add progress indicator for large imports
-- Handle duplicate detection
-
-Closes #123
+[optional footer]
 ```
 
 ### Types
 
 - `feat`: New feature
 - `fix`: Bug fix
-- `docs`: Documentation only changes
-- `style`: Code style changes (formatting, whitespace)
+- `docs`: Documentation only
+- `style`: Code style (formatting, missing semicolons, etc.)
 - `refactor`: Code refactoring
 - `perf`: Performance improvement
 - `test`: Adding or updating tests
-- `chore`: Maintenance, dependencies, tooling
-- `ci`: CI/CD changes
+- `build`: Build system or dependencies
+- `ci`: CI configuration
+- `chore`: Other changes (releases, etc.)
 - `revert`: Revert a previous commit
 
-### Scope
+### Scopes
 
-The scope specifies which part of the codebase is affected:
+Common scopes by area:
 
-- `frontend`: Frontend application
-- `core-api`: Core API service
-- `workers`: Background workers
-- `reporting`: Reporting service
-- `sdk`: SDK package
-- `shared-types`: Shared types package
-- `contacts`, `leads`, `deals`, `companies`: Specific modules
-- `deps`: Dependencies
-- `config`: Configuration files
+- **Frontend**: `frontend`, `ui`, `components`, `hooks`
+- **Backend**: `api`, `auth`, `leads`, `deals`, `companies`
+- **Workers**: `workers`, `queues`, `jobs`
+- **SDK**: `sdk`, `types`
+- **CI/CD**: `ci`, `build`, `deploy`
 
-### Subject
-
-- Use imperative mood: "add" not "added" or "adds"
-- No capitalization of first letter
-- No period at the end
-- Keep it under 72 characters
-
-### Body (Optional)
-
-- Explain the **why** and **what**, not the **how**
-- Use bullet points for multiple changes
-- Wrap at 72 characters
-
-### Footer (Optional)
-
-- Reference issues: `Closes #123`, `Fixes #456`
-- Breaking changes: `BREAKING CHANGE: description`
-
-## 🔀 Pull Request Process
-
-### Before Opening a PR
-
-1. **Run Pre-merge Checks**
+### Examples
 
 ```bash
-./scripts/premerge.sh
+# Feature
+git commit -m "feat(frontend): add pagination to leads table"
+
+# Bug fix
+git commit -m "fix(api): handle null values in deal stage transitions"
+
+# Documentation
+git commit -m "docs: update API endpoint documentation"
+
+# Refactor
+git commit -m "refactor(hooks): extract pagination logic to custom hook"
+
+# Breaking change
+git commit -m "feat(api)!: change pagination response format
+
+BREAKING CHANGE: pagination now returns { items, total, page, size } instead of { data, total }"
 ```
-
-2. **Update Documentation**
-   - Update relevant `.md` files
-   - Add JSDoc comments for new functions
-   - Update API documentation if endpoints changed
-
-3. **Add Tests**
-   - Unit tests for new functions
-   - Integration tests for API endpoints
-   - E2E tests for critical user flows
-
-4. **Self-Review**
-   - Review your own diff
-   - Remove debug code, console.logs
-   - Check for commented-out code
-
-### PR Template
-
-When opening a PR, include:
-
-```markdown
-## Description
-Brief description of changes
-
-## Type of Change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Breaking change
-- [ ] Documentation update
-
-## Changes Made
-- Change 1
-- Change 2
-- Change 3
-
-## Testing
-- [ ] Unit tests added/updated
-- [ ] Integration tests added/updated
-- [ ] Manual testing performed
-
-## Screenshots (if applicable)
-[Add screenshots for UI changes]
-
-## Checklist
-- [ ] Code follows project style guidelines
-- [ ] Self-review completed
-- [ ] Comments added for complex code
-- [ ] Documentation updated
-- [ ] Tests added/updated
-- [ ] All tests passing
-- [ ] No linter errors
-- [ ] Ready for review
-
-## Related Issues
-Closes #[issue number]
-```
-
-### Review Process
-
-1. **Automated Checks**: CI must pass (build, lint, typecheck, test)
-2. **Code Review**: At least 1 approval required
-3. **Review Criteria**:
-   - Code quality and readability
-   - Test coverage
-   - Documentation
-   - Performance considerations
-   - Security implications
-
-### Merging
-
-- **Squash and Merge**: Default for feature branches
-- **Rebase**: For small fixes and updates
-- **Merge Commit**: For large features with meaningful commit history
-
-After merge, the branch will be automatically deleted.
-
-## 🧪 Testing
-
-### Unit Tests
-
-```bash
-# Run all tests
-pnpm test
-
-# Run tests in watch mode
-pnpm test:watch
-
-# Run tests with coverage
-pnpm test:coverage
-```
-
-### Integration Tests
-
-```bash
-# Frontend integration tests
-cd apps/frontend
-pnpm test:integration
-
-# API integration tests
-cd apps/core-api
-pnpm test:e2e
-```
-
-### E2E Tests
-
-```bash
-# Run Playwright tests
-cd apps/frontend
-pnpm test:e2e
-```
-
-### Test Coverage Requirements
-
-- **Minimum Coverage**: 80% for new code
-- **Critical Paths**: 100% coverage required
-- **Utilities**: 100% coverage required
-- **UI Components**: Minimum 70% coverage
-
-### Writing Tests
-
-```typescript
-// ✅ Good test structure
-describe('ContactsService', () => {
-  describe('list', () => {
-    it('should return paginated contacts', async () => {
-      // Arrange
-      const query = { page: 1, size: 10 };
-      
-      // Act
-      const result = await service.list(query);
-      
-      // Assert
-      expect(result.items).toHaveLength(10);
-      expect(result.total).toBeGreaterThan(0);
-    });
-
-    it('should filter by search query', async () => {
-      // ...
-    });
-  });
-});
-```
-
-## 📚 Documentation
-
-### Code Documentation
-
-- **JSDoc**: Document all public functions
-- **Complex Logic**: Add inline comments for complex algorithms
-- **TODOs**: Use `// TODO:` with issue reference
-
-```typescript
-/**
- * Calculates the weighted lead score based on multiple factors.
- * 
- * @param lead - The lead to score
- * @param weights - Scoring weights configuration
- * @returns Normalized score between 0-100
- * 
- * @example
- * ```typescript
- * const score = calculateLeadScore(lead, defaultWeights);
- * console.log(score); // 85
- * ```
- */
-export function calculateLeadScore(
-  lead: Lead,
-  weights: ScoringWeights
-): number {
-  // Implementation
-}
-```
-
-### README Updates
-
-Update `README.md` when adding:
-- New features
-- New dependencies
-- New environment variables
-- New scripts
-
-### Architecture Documentation
-
-Update `docs/ARCHITECTURE_OVERVIEW.md` when:
-- Adding new services
-- Changing data flow
-- Modifying authentication
-- Adding new integrations
-
-## 🚢 Release Process
-
-### Versioning
-
-We use [Semantic Versioning](https://semver.org/):
-
-- **MAJOR** (v2.0.0): Breaking changes
-- **MINOR** (v1.1.0): New features, backward compatible
-- **PATCH** (v1.0.1): Bug fixes, backward compatible
-
-### Creating a Release
-
-1. **Update CHANGELOG.md**
-
-```markdown
-## [1.1.0] - 2025-10-23
-
-### Added
-- Bulk contact import from CSV
-- Advanced search filters
-
-### Changed
-- Improved pagination performance
-- Updated UI components
-
-### Fixed
-- Deal amount calculation bug
-- Auth token refresh issue
-```
-
-2. **Bump Version**
-
-```bash
-# In each package
-pnpm version minor
-```
-
-3. **Create Git Tag**
-
-```bash
-git tag -a v1.1.0 -m "Release v1.1.0"
-git push origin v1.1.0
-```
-
-4. **GitHub Release**
-   - Go to GitHub Releases
-   - Create new release from tag
-   - Copy CHANGELOG entry
-   - Publish release
-
-## 🆘 Getting Help
-
-- **Documentation**: Start with `docs/INDEX.md`
-- **Issues**: Search existing issues or create a new one
-- **Discussions**: Use GitHub Discussions for questions
-- **Slack/Discord**: [Add your team chat link]
-
-## 📞 Contact
-
-- **Maintainer**: [Your Name]
-- **Email**: [your.email@example.com]
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-
-## 📄 License
-
-By contributing, you agree that your contributions will be licensed under the same license as this project (see [LICENSE](./LICENSE) file).
 
 ---
 
-**Thank you for contributing to Traffic CRM!** 🎉
+## 🌿 Branch Naming
 
-Your contributions help make this project better for everyone.
+### Convention
 
+```
+<type>/<scope>-<description>
+```
+
+### Examples
+
+```bash
+feat/frontend-migrate-components
+fix/backend-align-dtos-shared-types
+test/frontend-comprehensive-test-suite
+docs/update-project-structure-guides
+refactor/frontend-consolidate-layouts
+```
+
+### Branch Types
+
+- `feat/` - New features
+- `fix/` - Bug fixes
+- `refactor/` - Code refactoring
+- `test/` - Test additions/updates
+- `docs/` - Documentation
+- `chore/` - Maintenance tasks
+- `hotfix/` - Production hotfixes
+
+---
+
+## 🎯 Definition of Done
+
+A task is considered complete when:
+
+- [ ] Code is implemented and working
+- [ ] Tests are written and passing
+- [ ] Documentation is updated
+- [ ] Code is reviewed and approved
+- [ ] CI checks are green
+- [ ] No regression in existing functionality
+- [ ] Conventional commit message used
+- [ ] PR description is complete
+- [ ] Related issue is linked
+
+---
+
+## 🛠️ Common Tasks
+
+### Adding a New Feature
+
+```bash
+# 1. Start from main
+git checkout main
+git pull origin main
+
+# 2. Create feature branch
+git checkout -b feat/your-feature
+
+# 3. Implement feature with tests
+# ... code ...
+
+# 4. Verify locally
+pnpm --filter <workspace> typecheck
+pnpm --filter <workspace> test
+pnpm --filter <workspace> build
+
+# 5. Commit and push
+git add -A
+git commit -m "feat(scope): description"
+git push -u origin feat/your-feature
+
+# 6. Create PR
+gh pr create --draft --assignee @me
+```
+
+### Fixing a Bug
+
+```bash
+# 1. Create fix branch
+git checkout -b fix/bug-description
+
+# 2. Write failing test (if applicable)
+# 3. Fix the bug
+# 4. Verify test passes
+# 5. Commit and create PR
+
+git commit -m "fix(scope): description"
+```
+
+### Updating Dependencies
+
+```bash
+# Check for outdated packages
+pnpm outdated
+
+# Update specific package
+pnpm update <package-name>
+
+# Update all (carefully!)
+pnpm update --latest
+
+# Verify everything still works
+pnpm -r typecheck
+pnpm -r test
+pnpm -r build
+```
+
+---
+
+## 📚 Additional Resources
+
+- [Project Structure](./docs/PROJECT_STRUCTURE.md)
+- [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
+- [Local Workflow](./docs/LOCAL_WORKFLOW.md)
+- [Testing Guide](./docs/TESTING.md)
+- [Release Process](./docs/RELEASE_PLAYBOOK.md)
+
+---
+
+## 💬 Getting Help
+
+- **Questions**: Open a discussion on GitHub
+- **Bugs**: Create an issue with reproduction steps
+- **Features**: Propose in an issue first
+- **Security**: See [SECURITY.md](./SECURITY.md)
+
+---
+
+## 🎉 Thank You!
+
+Your contributions make Traffic CRM better for everyone. We appreciate your time and effort!
+
+---
+
+**Happy Coding! 🚀**
