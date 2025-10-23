@@ -1,0 +1,17 @@
+name: Docs
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".markdownlint.json"
+jobs:
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm i -g markdownlint-cli
+      - run: markdownlint -c .markdownlint.json "**/*.md" -i node_modules -i .project_audit
+

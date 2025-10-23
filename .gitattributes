@@ -1,0 +1,5 @@
+* text=auto
+docs/** linguist-documentation
+.project_audit/** merge=ours
+pnpm-lock.yaml eol=lf
+

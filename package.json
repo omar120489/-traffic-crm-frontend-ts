@@ -11,6 +11,8 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "audit:full": "pnpm --filter ./apps/frontend run audit:full",
-    "fix:typescript": "pnpm --filter ./apps/frontend run fix:typescript"
+    "fix:typescript": "pnpm --filter ./apps/frontend run fix:typescript",
+    "docs:lint": "markdownlint -c .markdownlint.json \"**/*.md\" -i node_modules -i .project_audit",
+    "docs:fix": "markdownlint -c .markdownlint.json --fix \"**/*.md\" -i node_modules -i .project_audit"
   }
 }
