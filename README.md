@@ -79,6 +79,19 @@ pnpm --filter @apps/workers dev
 - **[LOGO_SETUP.md](./LOGO_SETUP.md)** - Quick logo installation guide
 - **[infra/docker/README.md](./infra/docker/README.md)** - Infrastructure services
 
+## 🛠️ Utility Scripts
+
+- **[docs/SCRIPTS.md](./docs/SCRIPTS.md)** - Pre-merge verification, history cleanup, and maintenance utilities
+- **[docs/LOCAL_WORKFLOW.md](./docs/LOCAL_WORKFLOW.md)** - Local-only development workflow (current, until history cleanup)
+
+Quick reference:
+```bash
+./scripts/premerge.sh              # Verify builds before merge
+MODE=local ./scripts/premerge.sh    # Merge locally (current workflow)
+MODE=pr ./scripts/premerge.sh       # Push branch for PR (blocked by large files)
+./scripts/cleanup-history.sh        # Remove large files from history (advanced)
+```
+
 ## 🔧 Development Commands
 
 ### Root-Level
@@ -318,7 +331,8 @@ pnpm --filter @apps/workers build
 2. Make changes
 3. Run checks: `pnpm typecheck && pnpm lint && pnpm test`
 4. Commit: `git commit -m "feat: add my feature"`
-5. Push and create PR
+5. **Option A (current):** Merge locally with `MODE=local ./scripts/premerge.sh` (see [Local Workflow Guide](./docs/LOCAL_WORKFLOW.md))
+   **Option B (future):** Push and create PR with `MODE=pr ./scripts/premerge.sh` (after running `cleanup-history.sh`)
 
 ## 📄 License
 
