@@ -11,8 +11,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:root"
@@ -40,8 +38,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:frontend"
@@ -80,8 +76,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:backend"
@@ -111,8 +105,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:workers"
@@ -136,8 +128,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:sdk"
@@ -153,8 +143,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 5
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:sdk"
@@ -170,8 +158,6 @@ updates:
       day: "monday"
       time: "09:00"
     open-pull-requests-limit: 3
-    reviewers:
-      - "omar120489"
     labels:
       - "dependencies"
       - "area:ci"
