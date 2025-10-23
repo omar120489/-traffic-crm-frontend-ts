@@ -1,0 +1,2 @@
+import{a}from"./sdk-Dtz1-FIW.js";import{g as i,m as s}from"./attribution-BSL5szA1.js";async function o(t){return a.listLeads(t)}async function c(t){return a.getLead(t)}async function d(t){const e=i(),n=e?{...t,attribution:e}:t,r=await a.createLead(n);return e&&s(),r}async function u(t,e){return a.updateLead(t,e)}async function L(t){return a.deleteLead(t)}const p={listLeads:o,getLead:c,createLead:d,updateLead:u,deleteLead:L};export{p as l};
+//# sourceMappingURL=leads.sdk-UZu3Uvt3.js.map
