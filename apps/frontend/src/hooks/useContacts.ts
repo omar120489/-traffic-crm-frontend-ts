@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { contactsApi } from 'services/contacts';
-import type { Contact, ContactQuery, PaginatedResponse } from 'types/api';
+import { contactsApi } from '@services/contacts';
+import type { Contact, ContactQuery, PaginatedContacts } from '@shared-types';
 
 const DEFAULT_QUERY: ContactQuery = {
   page: 1,
@@ -15,7 +15,7 @@ interface UseContactsOptions {
 
 interface UseContactsResult {
   contacts: Contact[];
-  data: PaginatedResponse<Contact> | null;
+  data: PaginatedContacts | null;
   loading: boolean;
   error: unknown;
   query: ContactQuery;
@@ -29,7 +29,7 @@ export function useContacts(options?: UseContactsOptions): UseContactsResult {
     ...DEFAULT_QUERY,
     ...(options?.initialQuery ?? {}),
   }));
-  const [data, setData] = useState<PaginatedResponse<Contact> | null>(null);
+  const [data, setData] = useState<PaginatedContacts | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
 

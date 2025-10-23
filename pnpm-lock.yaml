@@ -46,6 +46,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: 2.9.0
         version: 2.9.0(react-redux@9.2.0(@types/react@19.2.2)(react@19.2.0)(redux@5.0.1))(react@19.2.0)
+      '@shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@supabase/supabase-js':
         specifier: 2.58.0
         version: 2.58.0

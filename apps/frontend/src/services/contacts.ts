@@ -1,18 +1,18 @@
-import { apiDelete, apiGet, apiPatch, apiPost } from 'utils/axios';
+import { apiDelete, apiGet, apiPatch, apiPost } from '@data/clients/axios';
 import type {
-  ApiResponse,
   Contact,
   ContactCreateDto,
   ContactQuery,
   ContactUpdateDto,
-  PaginatedResponse,
+  PaginatedContacts,
   UUID,
-} from 'types/api';
+  ApiResponse,
+} from '@shared-types';
 
 const BASE_PATH = '/api/contacts';
 
-export async function listContacts(query?: ContactQuery): Promise<PaginatedResponse<Contact>> {
-  return apiGet<PaginatedResponse<Contact>>(BASE_PATH, { params: query });
+export async function listContacts(query?: ContactQuery): Promise<PaginatedContacts> {
+  return apiGet<PaginatedContacts>(BASE_PATH, { params: query });
 }
 
 export async function getContact(id: UUID): Promise<Contact> {

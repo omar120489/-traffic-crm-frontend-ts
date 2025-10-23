@@ -1,23 +1,23 @@
 import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
-import MainLayout from 'layout/MainLayout';
-import Loadable from 'ui-component/Loadable';
-import AuthGuard from 'utils/route-guard/AuthGuard';
+import MainLayout from '@/layout/MainLayout';
+import Loadable from '@/ui-component/Loadable';
+import AuthGuard from '@/utils/route-guard/AuthGuard';
 
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
-const DealsListPage = Loadable(lazy(() => import('views/pages/deals/DealsListPage')));
-const DealDetailPage = Loadable(lazy(() => import('views/deals/DealDetail')));
-const DealEditPage = Loadable(lazy(() => import('views/pages/deals/DealEditPage')));
-const LeadsListPage = Loadable(lazy(() => import('views/pages/leads/LeadsListPage')));
-const LeadDetailPage = Loadable(lazy(() => import('views/leads/LeadDetail')));
-const LeadEditPage = Loadable(lazy(() => import('views/pages/leads/LeadEditPage')));
-const ContactsListPage = Loadable(lazy(() => import('views/pages/contacts/ContactsListPage')));
-const CompaniesListPage = Loadable(lazy(() => import('views/pages/companies/CompaniesListPage')));
-const AnalyticsDashboard = Loadable(lazy(() => import('views/pages/analytics/AnalyticsDashboard')));
-const PnLAnalyticsPage = Loadable(lazy(() => import('views/analytics/PnLAnalytics')));
-const NotificationsPage = Loadable(lazy(() => import('views/notifications/Notifications')));
-const ChatPage = Loadable(lazy(() => import('views/apps/chat/ChatPage')));
+const SamplePage = Loadable(lazy(() => import('@/views/sample-page')));
+const DealsListPage = Loadable(lazy(() => import('@/views/pages/deals/DealsListPage')));
+const DealDetailPage = Loadable(lazy(() => import('@/views/deals/DealDetail')));
+const DealEditPage = Loadable(lazy(() => import('@/views/pages/deals/DealEditPage')));
+const LeadsListPage = Loadable(lazy(() => import('@/views/pages/leads/LeadsListPage')));
+const LeadDetailPage = Loadable(lazy(() => import('@/views/leads/LeadDetail')));
+const LeadEditPage = Loadable(lazy(() => import('@/views/pages/leads/LeadEditPage')));
+const ContactsListPage = Loadable(lazy(() => import('@/views/pages/contacts/ContactsListPage')));
+const CompaniesListPage = Loadable(lazy(() => import('@/views/pages/companies/CompaniesListPage')));
+const AnalyticsDashboard = Loadable(lazy(() => import('@/views/pages/analytics/AnalyticsDashboard')));
+const PnLAnalyticsPage = Loadable(lazy(() => import('@/views/analytics/PnLAnalytics')));
+const NotificationsPage = Loadable(lazy(() => import('@/views/notifications/Notifications')));
+const ChatPage = Loadable(lazy(() => import('@/views/apps/chat/ChatPage')));
 
 const MainRoutes: RouteObject = {
   path: '/',

@@ -18,9 +18,9 @@ import {
   type GridRenderCellParams,
 } from '@mui/x-data-grid';
 
-import MainCard from 'ui-component/cards/MainCard';
-import { useContacts } from 'hooks/useContacts';
-import type { Contact, ContactQuery } from 'types/api';
+import MainCard from '@/ui-component/cards/MainCard';
+import { useContacts } from '@hooks/useContacts';
+import type { Contact, ContactQuery } from '@shared-types';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -344,7 +344,7 @@ export default function ContactsListPage() {
             rows={contacts}
             columns={columns}
             loading={loading}
-            getRowId={(row) => row.id}
+            getRowId={(row: Contact) => row.id}
             paginationMode="server"
             paginationModel={paginationModel}
             onPaginationModelChange={handlePaginationChange}
