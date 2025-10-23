@@ -28,7 +28,7 @@ export default function PreventDuplicate() {
           gap: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
         }}
       >
         <Checkbox
@@ -44,7 +44,7 @@ export default function PreventDuplicate() {
           onClick={() =>
             enqueueSnackbar('You only see me once', {
               preventDuplicate: checked ? true : false,
-              variant: 'info'
+              variant: 'info',
             })
           }
         >

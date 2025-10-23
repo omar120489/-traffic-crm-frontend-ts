@@ -7,7 +7,7 @@ import type { NavItemType } from 'types/menu';
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //
 
 const icons = {
-  IconBrandChrome
+  IconBrandChrome,
 } as const;
 
 const samplePage: NavItemType = {
@@ -21,9 +21,9 @@ const samplePage: NavItemType = {
       title: 'Sample Page',
       type: 'item',
       url: '/sample-page',
-      breadcrumbs: false
-    }
-  ]
+      breadcrumbs: false,
+    },
+  ],
 };
 
 export default samplePage;

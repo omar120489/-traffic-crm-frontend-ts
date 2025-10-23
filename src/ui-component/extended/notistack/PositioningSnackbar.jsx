@@ -25,9 +25,9 @@ export default function PositioningSnackbar() {
               enqueueSnackbar('This is a top-left message', {
                 anchorOrigin: {
                   vertical: 'top',
-                  horizontal: 'left'
+                  horizontal: 'left',
                 },
-                style: { background }
+                style: { background },
               })
             }
           >
@@ -41,9 +41,9 @@ export default function PositioningSnackbar() {
               enqueueSnackbar('This is a top-center message', {
                 anchorOrigin: {
                   vertical: 'top',
-                  horizontal: 'center'
+                  horizontal: 'center',
                 },
-                style: { background }
+                style: { background },
               })
             }
           >
@@ -57,9 +57,9 @@ export default function PositioningSnackbar() {
               enqueueSnackbar('This is a top-right message', {
                 anchorOrigin: {
                   vertical: 'top',
-                  horizontal: 'right'
+                  horizontal: 'right',
                 },
-                style: { background }
+                style: { background },
               })
             }
           >
@@ -73,9 +73,9 @@ export default function PositioningSnackbar() {
               enqueueSnackbar('This is a bottom-left message', {
                 anchorOrigin: {
                   vertical: 'bottom',
-                  horizontal: 'left'
+                  horizontal: 'left',
                 },
-                style: { background }
+                style: { background },
               })
             }
           >
@@ -89,9 +89,9 @@ export default function PositioningSnackbar() {
               enqueueSnackbar('This is a bottom-center message', {
                 anchorOrigin: {
                   vertical: 'bottom',
-                  horizontal: 'center'
+                  horizontal: 'center',
                 },
-                style: { background }
+                style: { background },
               })
             }
           >
@@ -105,9 +105,9 @@ export default function PositioningSnackbar() {
               enqueueSnackbar('This is a bottom-right message', {
                 anchorOrigin: {
                   vertical: 'bottom',
-                  horizontal: 'right'
+                  horizontal: 'right',
                 },
-                style: { background }
+                style: { background },
               })
             }
           >

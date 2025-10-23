@@ -7,14 +7,17 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const DealsListPage = Loadable(lazy(() => import('views/pages/deals/DealsListPage')));
-const DealDetailPage = Loadable(lazy(() => import('views/pages/deals/DealDetailPage')));
+const DealDetailPage = Loadable(lazy(() => import('views/deals/DealDetail')));
 const DealEditPage = Loadable(lazy(() => import('views/pages/deals/DealEditPage')));
 const LeadsListPage = Loadable(lazy(() => import('views/pages/leads/LeadsListPage')));
-const LeadDetailPage = Loadable(lazy(() => import('views/pages/leads/LeadDetailPage')));
+const LeadDetailPage = Loadable(lazy(() => import('views/leads/LeadDetail')));
 const LeadEditPage = Loadable(lazy(() => import('views/pages/leads/LeadEditPage')));
 const ContactsListPage = Loadable(lazy(() => import('views/pages/contacts/ContactsListPage')));
 const CompaniesListPage = Loadable(lazy(() => import('views/pages/companies/CompaniesListPage')));
 const AnalyticsDashboard = Loadable(lazy(() => import('views/pages/analytics/AnalyticsDashboard')));
+const PnLAnalyticsPage = Loadable(lazy(() => import('views/analytics/PnLAnalytics')));
+const NotificationsPage = Loadable(lazy(() => import('views/notifications/Notifications')));
+const ChatPage = Loadable(lazy(() => import('views/apps/chat/ChatPage')));
 
 const MainRoutes: RouteObject = {
   path: '/',
@@ -26,45 +29,57 @@ const MainRoutes: RouteObject = {
   children: [
     {
       path: '/sample-page',
-      element: <SamplePage />
+      element: <SamplePage />,
     },
     {
       path: '/deals',
-      element: <DealsListPage />
+      element: <DealsListPage />,
     },
     {
       path: '/deals/:id',
-      element: <DealDetailPage />
+      element: <DealDetailPage />,
     },
     {
       path: '/deals/:id/edit',
-      element: <DealEditPage />
+      element: <DealEditPage />,
     },
     {
       path: '/leads',
-      element: <LeadsListPage />
+      element: <LeadsListPage />,
     },
     {
       path: '/leads/:id',
-      element: <LeadDetailPage />
+      element: <LeadDetailPage />,
     },
     {
       path: '/leads/:id/edit',
-      element: <LeadEditPage />
+      element: <LeadEditPage />,
     },
     {
       path: '/contacts',
-      element: <ContactsListPage />
+      element: <ContactsListPage />,
     },
     {
       path: '/companies',
-      element: <CompaniesListPage />
+      element: <CompaniesListPage />,
     },
     {
       path: '/analytics',
-      element: <AnalyticsDashboard />
-    }
-  ]
+      element: <AnalyticsDashboard />,
+    },
+    {
+      path: '/analytics/pnl',
+      element: <PnLAnalyticsPage />,
+    },
+    {
+      path: '/notifications',
+      element: <NotificationsPage />,
+    },
+    {
+      path: '/chat',
+      element: <ChatPage />,
+    },
+  ],
 };
 
 export default MainRoutes;

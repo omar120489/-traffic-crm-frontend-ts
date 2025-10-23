@@ -4,8 +4,8 @@ export default function Dialog(): Components['MuiDialog'] {
   return {
     styleOverrides: {
       paper: {
-        overflowY: 'visible'
-      }
-    }
+        overflowY: 'visible',
+      },
+    },
   };
 }

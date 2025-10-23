@@ -6,7 +6,7 @@ import type {
   ContactQuery,
   ContactUpdateDto,
   PaginatedResponse,
-  UUID
+  UUID,
 } from 'types/api';
 
 const BASE_PATH = '/api/contacts';
@@ -36,5 +36,5 @@ export const contactsApi = {
   getContact,
   createContact,
   updateContact,
-  deleteContact
+  deleteContact,
 };

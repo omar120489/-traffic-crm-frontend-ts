@@ -6,9 +6,9 @@ export default function TreeItem() {
       styleOverrides: {
         label: {
           marginTop: 14,
-          marginBottom: 14
-        }
-      }
-    }
+          marginBottom: 14,
+        },
+      },
+    },
   };
 }

@@ -8,18 +8,18 @@ const CustomFormControl = styled(FormControl)(() => ({
     top: 23,
     left: 0,
     '&[data-shrink="false"]': {
-      top: 5
-    }
+      top: 5,
+    },
   },
   '& > div > input': {
-    padding: '30.5px 14px 11.5px !important'
+    padding: '30.5px 14px 11.5px !important',
   },
   '& legend': {
-    display: 'none'
+    display: 'none',
   },
   '& fieldset': {
-    top: 0
-  }
+    top: 0,
+  },
 }));
 
 export default CustomFormControl;

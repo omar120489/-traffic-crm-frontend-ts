@@ -13,7 +13,7 @@ export default function FormControl({
   iconSecondary,
   placeholder,
   textPrimary,
-  textSecondary
+  textSecondary,
 }) {
   const IconPrimary = iconPrimary;
   const primaryIcon = iconPrimary ? (
@@ -68,5 +68,5 @@ FormControl.propTypes = {
   iconSecondary: PropTypes.any,
   placeholder: PropTypes.string,
   textPrimary: PropTypes.string,
-  textSecondary: PropTypes.string
+  textSecondary: PropTypes.string,
 };

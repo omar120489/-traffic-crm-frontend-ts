@@ -55,5 +55,5 @@ Accordion.propTypes = {
   defaultExpandedId: PropTypes.oneOfType([PropTypes.any, PropTypes.bool, PropTypes.string]),
   expandIcon: PropTypes.node,
   square: PropTypes.bool,
-  toggle: PropTypes.bool
+  toggle: PropTypes.bool,
 };

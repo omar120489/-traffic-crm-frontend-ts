@@ -32,7 +32,7 @@ export default function MaxSnackbar() {
     const key = enqueueSnackbar('Your notification here', {
       variant: 'info',
       autoHideDuration: 3000,
-      persist: false // This will allow snackbars to stack as per maxStack
+      persist: false, // This will allow snackbars to stack as per maxStack
     });
 
     snackbarKeys.current.push(key);

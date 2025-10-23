@@ -55,7 +55,7 @@ const validationSchema = Yup.object().shape({
   companyId: Yup.string().nullable(),
   contactId: Yup.string().nullable(),
   closeDate: Yup.string().nullable(),
-  description: Yup.string().nullable()
+  description: Yup.string().nullable(),
 });
 
 function mapDealToFormValues(deal: Deal): DealFormValues {
@@ -74,7 +74,7 @@ function mapDealToFormValues(deal: Deal): DealFormValues {
     companyId: deal.companyId ?? '',
     contactId: deal.contactId ?? '',
     closeDate: deal.closeDate ? deal.closeDate.slice(0, 10) : '',
-    description: deal.description ?? ''
+    description: deal.description ?? '',
   };
 }
 
@@ -96,7 +96,7 @@ function buildUpdatePayload(values: DealFormValues): DealUpdateDto {
     companyId: values.companyId.trim() === '' ? null : values.companyId.trim(),
     contactId: values.contactId.trim() === '' ? null : values.contactId.trim(),
     closeDate: values.closeDate ? new Date(values.closeDate).toISOString() : null,
-    description: values.description.trim() === '' ? null : values.description.trim()
+    description: values.description.trim() === '' ? null : values.description.trim(),
   };
 }
 
@@ -146,7 +146,7 @@ export default function DealEditPage(): ReactElement {
     if (!isValidDealId(id)) {
       setError({
         kind: 'not-found',
-        message: 'The requested deal could not be found.'
+        message: 'The requested deal could not be found.',
       });
       setLoading(false);
       return;
@@ -161,20 +161,20 @@ export default function DealEditPage(): ReactElement {
         if (err.response?.status === 404) {
           setError({
             kind: 'not-found',
-            message: 'The requested deal could not be found.'
+            message: 'The requested deal could not be found.',
           });
         } else {
           setError({
             kind: 'network',
             message:
               err.response?.data?.message ??
-              'We could not load this deal. Please try again in a moment.'
+              'We could not load this deal. Please try again in a moment.',
           });
         }
       } else {
         setError({
           kind: 'network',
-          message: 'We could not load this deal. Please try again in a moment.'
+          message: 'We could not load this deal. Please try again in a moment.',
         });
       }
     } finally {
@@ -263,7 +263,7 @@ export default function DealEditPage(): ReactElement {
             touched,
             errors,
             isSubmitting,
-            dirty
+            dirty,
           }) => (
             <form noValidate onSubmit={submitForm}>
               <Stack spacing={3}>

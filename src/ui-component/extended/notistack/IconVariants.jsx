@@ -33,7 +33,7 @@ function IconVariantsContent() {
     dispatch(
       handlerIconVariants({
         iconVariant: selectedValue,
-        hideIconVariant: selectedValue === 'hide'
+        hideIconVariant: selectedValue === 'hide',
       })
     );
   };

@@ -29,20 +29,20 @@ import { IconBell } from '@tabler/icons-react';
 const status = [
   {
     value: 'all',
-    label: 'All Notification'
+    label: 'All Notification',
   },
   {
     value: 'new',
-    label: 'New'
+    label: 'New',
   },
   {
     value: 'unread',
-    label: 'Unread'
+    label: 'Unread',
   },
   {
     value: 'other',
-    label: 'Other'
-  }
+    label: 'Other',
+  },
 ];
 
 // ==============================|| NOTIFICATION ||============================== //
@@ -95,16 +95,16 @@ export default function NotificationSection() {
             background: theme.vars.palette.warning.light,
             '&:hover, &[aria-controls="menu-list-grow"]': {
               color: theme.vars.palette.warning.light,
-              background: theme.vars.palette.warning.dark
+              background: theme.vars.palette.warning.dark,
             },
             ...theme.applyStyles('dark', {
               color: theme.vars.palette.warning.dark,
               background: theme.vars.palette.dark.main,
               '&:hover, &[aria-controls="menu-list-grow"]': {
                 color: theme.vars.palette.grey[800],
-                background: theme.vars.palette.warning.dark
-              }
-            })
+                background: theme.vars.palette.warning.dark,
+              },
+            }),
           }}
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
@@ -164,7 +164,7 @@ export default function NotificationSection() {
                           height: 1,
                           maxHeight: 'calc(100vh - 205px)',
                           overflowX: 'hidden',
-                          '&::-webkit-scrollbar': { width: 5 }
+                          '&::-webkit-scrollbar': { width: 5 },
                         }}
                       >
                         <Box sx={{ px: 2, pt: 0.25 }}>

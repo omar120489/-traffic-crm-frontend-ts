@@ -25,7 +25,7 @@ const authLoginImports = {
   jwt: () => import('./jwt/AuthLogin'),
   aws: () => import('./aws/AuthLogin'),
   auth0: () => import('./auth0/AuthLogin'),
-  supabase: () => import('./supabase/AuthLogin')
+  supabase: () => import('./supabase/AuthLogin'),
 };
 
 // ================================|| AUTH3 - LOGIN ||================================ //
@@ -101,7 +101,7 @@ export default function Login() {
                 sx={{
                   maxWidth: { xs: 400, lg: 475 },
                   margin: { xs: 2.5, md: 3 },
-                  '& > *': { flexGrow: 1, flexBasis: '50%' }
+                  '& > *': { flexGrow: 1, flexBasis: '50%' },
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

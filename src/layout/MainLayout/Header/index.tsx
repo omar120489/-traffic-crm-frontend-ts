@@ -26,7 +26,7 @@ export default function Header() {
   const darkPalette = paletteVars?.dark ?? theme.palette.dark;
 
   const {
-    state: { menuOrientation }
+    state: { menuOrientation },
   } = useConfig();
 
   const { menuMaster } = useGetMenuMaster() as {
@@ -54,16 +54,16 @@ export default function Header() {
               background: secondaryPalette.light,
               '&:hover': {
                 color: secondaryPalette.light,
-                background: secondaryPalette.dark
+                background: secondaryPalette.dark,
               },
               ...theme.applyStyles('dark', {
                 color: secondaryPalette.main,
                 background: darkPalette.main,
                 '&:hover': {
                   color: secondaryPalette.light,
-                  background: secondaryPalette.main
-                }
-              })
+                  background: secondaryPalette.main,
+                },
+              }),
             }}
             onClick={() => handlerDrawerOpen(!drawerOpen)}
           >

@@ -26,7 +26,7 @@ import useConfig from 'hooks/useConfig';
 export default function LocalizationSection() {
   const {
     state: { borderRadius, i18n },
-    setField
+    setField,
   } = useConfig();
 
   const theme = useTheme();
@@ -73,7 +73,7 @@ export default function LocalizationSection() {
             background: theme.vars.palette.primary.light,
             '&:hover, &[aria-controls="menu-list-grow"]': {
               color: theme.vars.palette.primary.light,
-              background: theme.vars.palette.primary.main
+              background: theme.vars.palette.primary.main,
             },
 
             ...theme.applyStyles('dark', {
@@ -81,9 +81,9 @@ export default function LocalizationSection() {
               background: theme.vars.palette.dark.main,
               '&:hover, &[aria-controls="menu-list-grow"]': {
                 color: theme.vars.palette.primary.light,
-                background: theme.vars.palette.primary.main
-              }
-            })
+                background: theme.vars.palette.primary.main,
+              },
+            }),
           }}
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
@@ -111,9 +111,9 @@ export default function LocalizationSection() {
           {
             name: 'offset',
             options: {
-              offset: [downMD ? 0 : 0, 20]
-            }
-          }
+              offset: [downMD ? 0 : 0, 20],
+            },
+          },
         ]}
       >
         {({ TransitionProps }) => (
@@ -126,7 +126,7 @@ export default function LocalizationSection() {
                       width: '100%',
                       minWidth: 200,
                       maxWidth: { xs: 250, sm: 280 },
-                      borderRadius: `${borderRadius}px`
+                      borderRadius: `${borderRadius}px`,
                     }}
                   >
                     <ListItemButton

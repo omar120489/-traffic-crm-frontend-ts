@@ -41,7 +41,7 @@ import useConfig from 'hooks/useConfig';
 export default function ProfileSection() {
   const theme = useTheme();
   const {
-    state: { borderRadius }
+    state: { borderRadius },
   } = useConfig();
   const navigate = useNavigate();
 
@@ -106,7 +106,7 @@ export default function ProfileSection() {
             sx={{
               typography: 'mediumAvatar',
               margin: '8px 0 8px 8px !important',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
             ref={anchorRef}
             aria-controls={open ? 'menu-list-grow' : undefined}
@@ -133,9 +133,9 @@ export default function ProfileSection() {
           {
             name: 'offset',
             options: {
-              offset: [0, 14]
-            }
-          }
+              offset: [0, 14],
+            },
+          },
         ]}
       >
         {({ TransitionProps }) => (
@@ -183,7 +183,7 @@ export default function ProfileSection() {
                         height: '100%',
                         maxHeight: 'calc(100vh - 250px)',
                         overflowX: 'hidden',
-                        '&::-webkit-scrollbar': { width: 5 }
+                        '&::-webkit-scrollbar': { width: 5 },
                       }}
                     >
                       <UpgradePlanCard />
@@ -192,7 +192,7 @@ export default function ProfileSection() {
                         sx={{
                           bgcolor: 'primary.light',
                           ...theme.applyStyles('dark', { bgcolor: 'dark.800' }),
-                          my: 2
+                          my: 2,
                         }}
                       >
                         <CardContent>
@@ -233,7 +233,7 @@ export default function ProfileSection() {
                           maxWidth: 350,
                           minWidth: 300,
                           borderRadius: `${borderRadius}px`,
-                          '& .MuiListItemButton-root': { mt: 0.5 }
+                          '& .MuiListItemButton-root': { mt: 0.5 },
                         }}
                       >
                         <ListItemButton
@@ -275,10 +275,10 @@ export default function ProfileSection() {
                                       sx: {
                                         mt: 0.25,
                                         ...theme.applyStyles('dark', {
-                                          color: 'background.default'
-                                        })
-                                      }
-                                    }
+                                          color: 'background.default',
+                                        }),
+                                      },
+                                    },
                                   }}
                                   label="02"
                                   variant="filled"

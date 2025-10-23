@@ -25,7 +25,7 @@ const authForgotPasswordImports = {
   jwt: () => import('./jwt/AuthForgotPassword'),
   aws: () => import('./aws/AuthForgotPassword'),
   auth0: () => import('./auth0/AuthForgotPassword'),
-  supabase: () => import('./supabase/AuthForgotPassword')
+  supabase: () => import('./supabase/AuthForgotPassword'),
 };
 
 export default function ForgotPassword() {
@@ -68,7 +68,7 @@ export default function ForgotPassword() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    gap: 2
+                    gap: 2,
                   }}
                 >
                   <Typography
@@ -109,8 +109,8 @@ export default function ForgotPassword() {
                   margin: { xs: 2.5, md: 3 },
                   '& > *': {
                     flexGrow: 1,
-                    flexBasis: '50%'
-                  }
+                    flexBasis: '50%',
+                  },
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

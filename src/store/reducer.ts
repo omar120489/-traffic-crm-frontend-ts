@@ -9,7 +9,7 @@ import accountReducer from './slices/account';
 
 const rootReducer = combineReducers({
   snackbar: snackbarReducer,
-  account: accountReducer
+  account: accountReducer,
 });
 
 export default rootReducer;

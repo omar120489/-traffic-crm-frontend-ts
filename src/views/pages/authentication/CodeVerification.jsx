@@ -27,7 +27,7 @@ const authCodeVerificationImports = {
   jwt: () => import('./jwt/AuthCodeVerification'),
   aws: () => import('./aws/AuthCodeVerification'),
   auth0: () => import('./auth0/AuthCodeVerification'),
-  supabase: () => import('./supabase/AuthCodeVerification')
+  supabase: () => import('./supabase/AuthCodeVerification'),
 };
 
 // ===========================|| AUTH3 - CODE VERIFICATION ||=========================== //
@@ -121,7 +121,7 @@ export default function CodeVerification() {
                 sx={{
                   maxWidth: { xs: 400, lg: 475 },
                   margin: { xs: 2.5, md: 3 },
-                  '& > *': { flexGrow: 1, flexBasis: '50%' }
+                  '& > *': { flexGrow: 1, flexBasis: '50%' },
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

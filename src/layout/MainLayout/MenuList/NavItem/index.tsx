@@ -21,18 +21,20 @@ import type { NavItemType } from 'types/menu';
 
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
+import NotificationsBadge from './NotificationsBadge';
+
 interface NavItemProps {
-  item: NavItemType;
-  level?: number;
-  isParents?: boolean;
-  setSelectedID?: () => void;
+  readonly item: NavItemType;
+  readonly level?: number;
+  readonly isParents?: boolean;
+  readonly setSelectedID?: () => void;
 }
 
 export default function NavItem({
   item,
   level = 1,
   isParents = false,
-  setSelectedID
+  setSelectedID,
 }: NavItemProps) {
   const theme = useTheme();
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
@@ -40,7 +42,7 @@ export default function NavItem({
 
   const { pathname } = useLocation();
   const {
-    state: { menuOrientation, borderRadius, themeDirection }
+    state: { menuOrientation, borderRadius, themeDirection },
   } = useConfig();
 
   const { menuMaster } = useGetMenuMaster();
@@ -66,18 +68,28 @@ export default function NavItem({
   }, []);
 
   const Icon = item.icon;
-  const itemIcon = Icon ? (
-    <Icon
-      stroke={1.5}
-      size={drawerOpen ? '20px' : '24px'}
-      style={{ ...(isHorizontal && isParents && { fontSize: 20, stroke: '1.5' }) }}
-    />
-  ) : (
-    <FiberManualRecordIcon
-      sx={{ width: isSelected ? 8 : 6, height: isSelected ? 8 : 6 }}
-      fontSize={level > 0 ? 'inherit' : 'medium'}
-    />
-  );
+  const iconSize = drawerOpen ? '20px' : '24px';
+  const iconStroke = 1.5;
+  const iconStyle = isHorizontal && isParents ? { fontSize: 20, stroke: '1.5' } : undefined;
+
+  // Extract icon rendering logic to reduce nesting
+  let itemIcon;
+  if (Icon) {
+    if (item.id === 'notifications') {
+      itemIcon = (
+        <NotificationsBadge icon={Icon} size={iconSize} stroke={iconStroke} style={iconStyle} />
+      );
+    } else {
+      itemIcon = <Icon stroke={iconStroke} size={iconSize} style={iconStyle} />;
+    }
+  } else {
+    itemIcon = (
+      <FiberManualRecordIcon
+        sx={{ width: isSelected ? 8 : 6, height: isSelected ? 8 : 6 }}
+        fontSize={level > 0 ? 'inherit' : 'medium'}
+      />
+    );
+  }
 
   const itemTarget = item.target ? '_blank' : '_self';
 
@@ -104,7 +116,7 @@ export default function NavItem({
           backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
           py: 1,
           pl: 2,
-          mr: isParents ? 1 : 0
+          mr: isParents ? 1 : 0,
         }}
         selected={isSelected}
         onClick={handleClick}
@@ -128,7 +140,7 @@ export default function NavItem({
                   fontWeight: 500,
                   color: 'text.secondary',
                   textTransform: 'capitalize',
-                  lineHeight: 1.66
+                  lineHeight: 1.66,
                 }}
               >
                 {item.caption}
@@ -168,9 +180,9 @@ export default function NavItem({
           '&:hover': { bgcolor: 'transparent' },
           '&.Mui-selected': {
             '&:hover': { bgcolor: 'transparent' },
-            bgcolor: 'transparent'
-          }
-        })
+            bgcolor: 'transparent',
+          },
+        }),
       }}
       selected={isSelected}
       onClick={handleClick}
@@ -195,21 +207,21 @@ export default function NavItem({
                 '&:hover': { bgcolor: 'secondary.light' },
                 ...(isSelected && {
                   bgcolor: 'secondary.light',
-                  '&:hover': { bgcolor: 'secondary.light' }
-                })
+                  '&:hover': { bgcolor: 'secondary.light' },
+                }),
               }),
 
             ...theme.applyStyles('dark', {
-              color: isSelected && drawerOpen ? 'text.primary' : 'text.primary',
+              color: 'text.primary',
               ...(!drawerOpen &&
                 level === 1 && {
                   '&:hover': { bgcolor: withAlpha(theme.palette.secondary.main, 0.25) },
                   ...(isSelected && {
                     bgcolor: withAlpha(theme.palette.secondary.main, 0.25),
-                    '&:hover': { bgcolor: withAlpha(theme.palette.secondary.main, 0.3) }
-                  })
-                })
-            })
+                    '&:hover': { bgcolor: withAlpha(theme.palette.secondary.main, 0.3) },
+                  }),
+                }),
+            }),
           }}
         >
           {itemIcon}
@@ -234,8 +246,8 @@ export default function NavItem({
                   color: 'inherit',
                   ...(themeDirection === ThemeDirection.RTL && {
                     textAlign: 'end',
-                    direction: 'rtl'
-                  })
+                    direction: 'rtl',
+                  }),
                 }}
               >
                 <FormattedMessage id={item.title ?? 'menu-item'} />
@@ -252,7 +264,7 @@ export default function NavItem({
                     fontWeight: 500,
                     color: 'text.secondary',
                     textTransform: 'capitalize',
-                    lineHeight: 1.66
+                    lineHeight: 1.66,
                   }}
                 >
                   <FormattedMessage id={item.caption} />

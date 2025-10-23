@@ -7,8 +7,8 @@ export default function DatePicker() {
   return {
     MuiDatePicker: {
       defaultProps: {
-        slots: { openPickerIcon: () => <CalendarTodayTwoTone /> }
-      }
-    }
+        slots: { openPickerIcon: () => <CalendarTodayTwoTone /> },
+      },
+    },
   };
 }

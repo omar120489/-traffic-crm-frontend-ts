@@ -12,6 +12,10 @@ coverage/
 playwright-report/
 storybook-static/
 
+# Local reports & backups (don't index)
+.project_audit/
+.backups/
+
 # Lock and logs
 *.log
 npm-debug.log*
@@ -27,6 +31,15 @@ yarn-error.log*
 # Dependencies and lock files
 package-lock.json
 yarn.lock
+
+# Docker noise
+**/.docker/
+**/docker-compose.*.yml
+
+# Archives & templates (just in case)
+full-version/
+seed/
+*.fig
 
 # Misc
 .DS_Store

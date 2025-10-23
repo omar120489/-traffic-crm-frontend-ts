@@ -14,11 +14,11 @@ import useConfig from 'hooks/useConfig';
 
 const rtlCache = createCache({
   key: 'muirtl',
-  stylisPlugins: [rtlPlugin]
+  stylisPlugins: [rtlPlugin],
 });
 
 const ltrCache = createCache({
-  key: 'mui'
+  key: 'mui',
 });
 
 export default function RTLLayout({ children }) {

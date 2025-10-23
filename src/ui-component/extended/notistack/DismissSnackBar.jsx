@@ -25,7 +25,7 @@ export default function DismissSnackBar() {
             enqueueSnackbar('No connection!', {
               variant: 'error',
               persist: true,
-              anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+              anchorOrigin: { horizontal: 'center', vertical: 'bottom' },
             })
           }
         >

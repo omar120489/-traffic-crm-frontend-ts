@@ -9,7 +9,7 @@ export default function Avatar({ className, color, outline, size, sx, ...others 
     color: color ? `${color}.main` : `primary.main`,
     bgcolor: 'background.paper',
     border: '2px solid',
-    borderColor: color ? `${color}.main` : `primary.main`
+    borderColor: color ? `${color}.main` : `primary.main`,
   };
   let sizeSX = {};
 
@@ -45,5 +45,5 @@ Avatar.propTypes = {
   outline: PropTypes.bool,
   size: PropTypes.oneOf(['badge', 'xs', 'sm', 'md', 'lg', 'xl']),
   sx: PropTypes.any,
-  others: PropTypes.any
+  others: PropTypes.any,
 };

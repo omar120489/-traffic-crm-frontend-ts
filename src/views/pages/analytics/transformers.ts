@@ -29,7 +29,7 @@ export function toTrendSeries(points: TimeSeriesPoint[]): TrendSeries {
   if (points.length === 0) {
     return {
       xAxis: [],
-      series: []
+      series: [],
     };
   }
 
@@ -62,12 +62,12 @@ export function toTrendSeries(points: TimeSeriesPoint[]): TrendSeries {
     id: key,
     label: key === 'default' ? 'Value' : key,
     data,
-    connectNulls: true
+    connectNulls: true,
   }));
 
   return {
     xAxis,
-    series
+    series,
   };
 }
 
@@ -76,7 +76,7 @@ export function toFunnelChartData(stages: FunnelStage[]): FunnelChartData {
     return {
       categories: [],
       counts: [],
-      conversionRates: []
+      conversionRates: [],
     };
   }
 
@@ -85,7 +85,7 @@ export function toFunnelChartData(stages: FunnelStage[]): FunnelChartData {
   return {
     categories: sorted.map((stage) => stage.name),
     counts: sorted.map((stage) => stage.count),
-    conversionRates: sorted.map((stage) => stage.conversionRate)
+    conversionRates: sorted.map((stage) => stage.conversionRate),
   };
 }
 
@@ -100,6 +100,6 @@ export function toCohortRows(items: CohortItem[]): CohortRow[] {
       cohortKey: item.cohortKey,
       total: item.total,
       converted: item.converted,
-      conversionRate: item.conversionRate
+      conversionRate: item.conversionRate,
     }));
 }

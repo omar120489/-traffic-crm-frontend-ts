@@ -7,7 +7,7 @@ const DEFAULT_QUERY: CompanyQuery = {
   page: 1,
   size: 10,
   search: '',
-  companySize: null
+  companySize: null,
 };
 
 interface UseCompaniesOptions {
@@ -28,7 +28,7 @@ interface UseCompaniesResult {
 export function useCompanies(options?: UseCompaniesOptions): UseCompaniesResult {
   const [query, setQueryState] = useState<CompanyQuery>(() => ({
     ...DEFAULT_QUERY,
-    ...(options?.initialQuery ?? {})
+    ...(options?.initialQuery ?? {}),
   }));
   const [data, setData] = useState<PaginatedResponse<Company> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export function useCompanies(options?: UseCompaniesOptions): UseCompaniesResult 
   const effectiveQuery = useMemo(
     () => ({
       ...DEFAULT_QUERY,
-      ...query
+      ...query,
     }),
     [query]
   );
@@ -91,14 +91,14 @@ export function useCompanies(options?: UseCompaniesOptions): UseCompaniesResult 
   const updateQuery = useCallback((patch: Partial<CompanyQuery>) => {
     setQueryState((prev) => ({
       ...prev,
-      ...patch
+      ...patch,
     }));
   }, []);
 
   const setQuery = useCallback((updater: (prev: CompanyQuery) => CompanyQuery) => {
     setQueryState((prev) => ({
       ...prev,
-      ...updater(prev)
+      ...updater(prev),
     }));
   }, []);
 
@@ -114,7 +114,7 @@ export function useCompanies(options?: UseCompaniesOptions): UseCompaniesResult 
     query: effectiveQuery,
     updateQuery,
     setQuery,
-    refetch
+    refetch,
   };
 }
 

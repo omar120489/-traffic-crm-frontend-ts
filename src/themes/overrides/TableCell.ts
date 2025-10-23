@@ -15,9 +15,9 @@ export default function TableCell(theme: Theme): Components['MuiTableCell'] {
         '&.MuiTableCell-head': {
           fontSize: '0.875rem',
           color: headColor,
-          fontWeight: 500
-        }
-      }
-    }
+          fontWeight: 500,
+        },
+      },
+    },
   };
 }

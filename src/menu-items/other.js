@@ -4,7 +4,7 @@ import { IconHelp, IconSitemap } from '@tabler/icons-react';
 // constant
 const icons = {
   IconHelp,
-  IconSitemap
+  IconSitemap,
 };
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
@@ -21,9 +21,9 @@ const other = {
       url: 'https://codedthemes.gitbook.io/berry/',
       icon: icons.IconHelp,
       external: true,
-      target: true
-    }
-  ]
+      target: true,
+    },
+  ],
 };
 
 export default other;

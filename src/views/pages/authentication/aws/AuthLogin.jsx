@@ -53,7 +53,7 @@ export default function AwsCognitoLogin({ ...others }) {
       initialValues={{
         email: 'info@codedthemes.com',
         password: '123456',
-        submit: null
+        submit: null,
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
@@ -64,7 +64,7 @@ export default function AwsCognitoLogin({ ...others }) {
             'Password can not start or end with spaces',
             (value) => value === value.trim()
           )
-          .max(10, 'Password must be less than 10 characters')
+          .max(10, 'Password must be less than 10 characters'),
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {

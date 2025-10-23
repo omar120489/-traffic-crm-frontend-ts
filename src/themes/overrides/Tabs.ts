@@ -10,8 +10,8 @@ export default function Tabs(theme: Theme): Components['MuiTabs'] {
     styleOverrides: {
       flexContainer: {
         borderBottom: '1px solid',
-        borderColor
-      }
-    }
+        borderColor,
+      },
+    },
   };
 }

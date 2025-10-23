@@ -44,25 +44,25 @@ export function createAppTheme(
         minHeight: '48px',
         padding: '16px',
         '@media (min-width: 600px)': {
-          minHeight: '48px'
-        }
-      }
+          minHeight: '48px',
+        },
+      },
     },
     typography,
     colorSchemes: {
       light: {
         palette: palette.light,
-        customShadows: CustomShadows(palette.light, ThemeMode.LIGHT)
+        customShadows: CustomShadows(palette.light, ThemeMode.LIGHT),
       },
       dark: {
         palette: palette.dark,
-        customShadows: CustomShadows(palette.dark, ThemeMode.DARK)
-      }
+        customShadows: CustomShadows(palette.dark, ThemeMode.DARK),
+      },
     },
     cssVariables: {
       cssVarPrefix: CSS_VAR_PREFIX,
-      colorSchemeSelector: 'data-color-scheme'
-    }
+      colorSchemeSelector: 'data-color-scheme',
+    },
   };
 
   const theme = createTheme(themeOptions);
@@ -76,12 +76,12 @@ export function createAppTheme(
 // ==============================|| THEME CUSTOMIZATION PROVIDER ||============================== //
 
 interface ThemeCustomizationProps {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
 export default function ThemeCustomization({ children }: ThemeCustomizationProps) {
   const {
-    state: { borderRadius, fontFamily, outlinedFilled, presetColor, themeDirection }
+    state: { borderRadius, fontFamily, outlinedFilled, presetColor, themeDirection },
   } = useConfig();
 
   const theme = useMemo(

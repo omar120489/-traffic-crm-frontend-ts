@@ -37,7 +37,7 @@ const POSITION_STYLES: Record<TransitionPosition, SxProps<Theme>> = {
   top: { transformOrigin: 'top' },
   'bottom-left': { transformOrigin: 'bottom left' },
   'bottom-right': { transformOrigin: 'bottom right' },
-  bottom: { transformOrigin: 'bottom' }
+  bottom: { transformOrigin: 'bottom' },
 };
 
 export default function Transitions({
@@ -68,7 +68,7 @@ export default function Transitions({
           timeout={{
             appear: 500,
             enter: 600,
-            exit: 400
+            exit: 400,
           }}
         >
           <Box sx={positionSx}>{children}</Box>
@@ -80,7 +80,7 @@ export default function Transitions({
           timeout={{
             appear: 0,
             enter: 400,
-            exit: 200
+            exit: 200,
           }}
           direction={direction}
         >

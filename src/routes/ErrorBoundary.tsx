@@ -11,7 +11,7 @@ const STATUS_MESSAGES: Record<number, string> = {
   401: "Error 401 - You aren't authorized to see this",
   404: "Error 404 - This page doesn't exist!",
   418: 'Error 418 - Contact administrator',
-  503: 'Error 503 - Looks like our API is down'
+  503: 'Error 503 - Looks like our API is down',
 };
 
 function DebugInfo({ error }: DebugInfoProps) {

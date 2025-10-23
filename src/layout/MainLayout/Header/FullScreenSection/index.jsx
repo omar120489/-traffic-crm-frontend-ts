@@ -46,7 +46,7 @@ export default function FullScreen() {
             background: theme.vars.palette.primary.light,
             '&:hover': {
               color: theme.vars.palette.primary.light,
-              background: theme.vars.palette.primary.main
+              background: theme.vars.palette.primary.main,
             },
 
             ...theme.applyStyles('dark', {
@@ -54,9 +54,9 @@ export default function FullScreen() {
               background: theme.vars.palette.dark.main,
               '&:hover': {
                 color: theme.vars.palette.primary.light,
-                background: theme.vars.palette.primary.main
-              }
-            })
+                background: theme.vars.palette.primary.main,
+              },
+            }),
           }}
           aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"

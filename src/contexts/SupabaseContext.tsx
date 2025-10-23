@@ -14,7 +14,7 @@ import {
   clearAuthStorage,
   handleAuthError,
   isValidEmail,
-  isValidPassword
+  isValidPassword,
 } from './auth-utils';
 
 // ==============================|| SUPABASE SETUP ||============================== //
@@ -42,7 +42,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
         // Get current session
         const {
           data: { session },
-          error
+          error,
         } = await supabase.auth.getSession();
 
         if (error) {
@@ -71,7 +71,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
 
     // Listen for auth state changes
     const {
-      data: { subscription }
+      data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Supabase auth state change:', event);
 
@@ -102,7 +102,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
 
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password
+        password,
       });
 
       if (error) {
@@ -134,9 +134,9 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
             data: {
               firstName,
               lastName,
-              full_name: `${firstName} ${lastName}`
-            }
-          }
+              full_name: `${firstName} ${lastName}`,
+            },
+          },
         });
 
         if (error) {
@@ -176,7 +176,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
       }
 
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`
+        redirectTo: `${window.location.origin}/reset-password`,
       });
 
       if (error) {
@@ -192,7 +192,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
   const updateProfile = useCallback(async () => {
     try {
       const {
-        data: { user: currentUser }
+        data: { user: currentUser },
       } = await supabase.auth.getUser();
 
       if (!currentUser) {
@@ -224,7 +224,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
     logout,
     register,
     resetPassword,
-    updateProfile
+    updateProfile,
   };
 
   return <SupabaseContext.Provider value={contextValue}>{children}</SupabaseContext.Provider>;

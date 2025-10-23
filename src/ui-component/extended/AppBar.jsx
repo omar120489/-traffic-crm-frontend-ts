@@ -35,7 +35,7 @@ function ElevationScroll({ children, window }) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
-    target: window
+    target: window,
   });
 
   return cloneElement(children, {
@@ -45,8 +45,8 @@ function ElevationScroll({ children, window }) {
         colorScheme === ThemeMode.DARK && trigger
           ? theme.vars.palette.dark[800]
           : theme.vars.palette.background.default,
-      color: theme.vars.palette.text.dark
-    }
+      color: theme.vars.palette.text.dark,
+    },
   });
 }
 

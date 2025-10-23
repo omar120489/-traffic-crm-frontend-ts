@@ -7,9 +7,9 @@ export default function Select(): Components['MuiSelect'] {
     styleOverrides: {
       select: {
         '&:focus': {
-          backgroundColor: 'transparent'
-        }
-      }
-    }
+          backgroundColor: 'transparent',
+        },
+      },
+    },
   };
 }

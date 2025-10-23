@@ -24,7 +24,7 @@ export default function Alert(theme) {
     return {
       color: isWarningOrSuccess ? paletteColor.dark : paletteColor.main,
       backgroundColor: withAlpha(paletteColor.main, 0.075),
-      '& .MuiAlert-icon': { color: isWarningOrSuccess ? paletteColor.dark : paletteColor.main }
+      '& .MuiAlert-icon': { color: isWarningOrSuccess ? paletteColor.dark : paletteColor.main },
     };
   };
 
@@ -35,7 +35,7 @@ export default function Alert(theme) {
     return {
       color: isWarningOrSuccess ? paletteColor.dark : paletteColor.main,
       borderColor: paletteColor.dark,
-      '& .MuiAlert-icon': { color: isWarningOrSuccess ? paletteColor.dark : paletteColor.main }
+      '& .MuiAlert-icon': { color: isWarningOrSuccess ? paletteColor.dark : paletteColor.main },
     };
   };
 
@@ -47,8 +47,8 @@ export default function Alert(theme) {
       color: isWarningOrSuccess ? vars.palette.common.black : vars.palette.common.white,
       backgroundColor: isWarningOrSuccess ? paletteColor.dark : paletteColor.main,
       '& .MuiAlert-icon': {
-        color: isWarningOrSuccess ? vars.palette.common.black : vars.palette.common.white
-      }
+        color: isWarningOrSuccess ? vars.palette.common.black : vars.palette.common.white,
+      },
     };
   };
 
@@ -56,8 +56,8 @@ export default function Alert(theme) {
     MuiAlert: {
       defaultProps: {
         iconMapping: {
-          primary: <InfoOutlinedIcon sx={{ fontSize: 'inherit' }} />
-        }
+          primary: <InfoOutlinedIcon sx={{ fontSize: 'inherit' }} />,
+        },
       },
       styleOverrides: {
         root: {
@@ -65,11 +65,11 @@ export default function Alert(theme) {
           variants: [
             { props: { variant: 'standard' }, style: standardVariant },
             { props: { variant: 'outlined' }, style: outlinedVariant },
-            { props: { variant: 'filled' }, style: filledVariant }
-          ]
+            { props: { variant: 'filled' }, style: filledVariant },
+          ],
         },
-        outlined: { border: '1px dashed' }
-      }
-    }
+        outlined: { border: '1px dashed' },
+      },
+    },
   };
 }

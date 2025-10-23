@@ -6,7 +6,7 @@ import type {
   CompanyQuery,
   CompanyUpdateDto,
   PaginatedResponse,
-  UUID
+  UUID,
 } from 'types/api';
 
 const BASE_PATH = '/api/companies';
@@ -36,5 +36,5 @@ export const companiesApi = {
   getCompany,
   createCompany,
   updateCompany,
-  deleteCompany
+  deleteCompany,
 };

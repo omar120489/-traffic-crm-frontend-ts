@@ -17,9 +17,9 @@ export default function DataGrid(theme: Theme): DataGridOverrides {
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          '& .MuiDataGrid-columnSeparator': { color: theme.palette.grey[300] }
-        }
-      }
-    }
+          '& .MuiDataGrid-columnSeparator': { color: theme.palette.grey[300] },
+        },
+      },
+    },
   };
 }

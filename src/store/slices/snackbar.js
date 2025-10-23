@@ -6,12 +6,12 @@ const initialState = {
   message: 'Note archived',
   anchorOrigin: {
     vertical: 'bottom',
-    horizontal: 'right'
+    horizontal: 'right',
   },
   severity: 'success',
   variant: 'default',
   alert: {
-    variant: 'filled'
+    variant: 'filled',
   },
   transition: 'Fade',
   close: true,
@@ -19,7 +19,7 @@ const initialState = {
   dense: false,
   iconVariant: 'usedefault',
   actionButton: false,
-  hideIconVariant: false
+  hideIconVariant: false,
 };
 
 // ==============================|| SLICE - SNACKBAR ||============================== //
@@ -39,7 +39,7 @@ const snackbar = createSlice({
         close,
         actionButton,
         severity,
-        hideIconVariant
+        hideIconVariant,
       } = action.payload;
 
       state.action = !state.action;
@@ -75,8 +75,8 @@ const snackbar = createSlice({
       state.iconVariant = iconVariant || initialState.iconVariant;
       state.hideIconVariant =
         hideIconVariant === undefined ? initialState.hideIconVariant : hideIconVariant;
-    }
-  }
+    },
+  },
 });
 
 export default snackbar.reducer;

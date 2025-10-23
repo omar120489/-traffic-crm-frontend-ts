@@ -33,8 +33,8 @@ function ListItemWrapper({ children }) {
         cursor: 'pointer',
         '&:hover': {
           bgcolor: withAlpha(theme.palette.grey[200], 0.3),
-          ...theme.applyStyles('dark', { bgcolor: 'dark.900' })
-        }
+          ...theme.applyStyles('dark', { bgcolor: 'dark.900' }),
+        },
       }}
     >
       {children}
@@ -91,7 +91,7 @@ export default function NotificationList() {
                 color: 'success.dark',
                 bgcolor: 'success.light',
 
-                ...theme.applyStyles('dark', { bgcolor: 'dark.main' })
+                ...theme.applyStyles('dark', { bgcolor: 'dark.main' }),
               }}
             >
               <IconBuildingStore stroke={1.5} size="20px" />
@@ -121,7 +121,7 @@ export default function NotificationList() {
               sx={{
                 color: 'primary.dark',
                 bgcolor: 'primary.light',
-                ...theme.applyStyles('dark', { bgcolor: 'dark.main' })
+                ...theme.applyStyles('dark', { bgcolor: 'dark.main' }),
               }}
             >
               <IconMailbox stroke={1.5} size="20px" />
@@ -167,7 +167,7 @@ export default function NotificationList() {
           <Card
             sx={{
               bgcolor: 'secondary.light',
-              ...theme.applyStyles('dark', { bgcolor: 'dark.main' })
+              ...theme.applyStyles('dark', { bgcolor: 'dark.main' }),
             }}
           >
             <Stack direction="row" sx={{ p: 2.5, gap: 2 }}>

@@ -15,7 +15,7 @@ import {
   DataGrid,
   type GridColDef,
   type GridPaginationModel,
-  type GridRenderCellParams
+  type GridRenderCellParams,
 } from '@mui/x-data-grid';
 
 import MainCard from 'ui-component/cards/MainCard';
@@ -32,7 +32,7 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric'
+    day: 'numeric',
   }).format(new Date(value));
 }
 
@@ -56,12 +56,12 @@ export default function CompaniesListPage() {
       search: searchParams.get('search') ?? '',
       dateFrom: getString('dateFrom'),
       dateTo: getString('dateTo'),
-      ownerId: getString('ownerId')
+      ownerId: getString('ownerId'),
     };
   }, [searchParams]);
 
   const { companies, data, loading, error, query, updateQuery, refetch } = useCompanies({
-    initialQuery
+    initialQuery,
   });
 
   const syncSearchParams = useCallback(
@@ -87,7 +87,7 @@ export default function CompaniesListPage() {
   const paginationModel: GridPaginationModel = useMemo(
     () => ({
       page: Math.max(0, (query.page ?? 1) - 1),
-      pageSize: Number(query.size ?? DEFAULT_PAGE_SIZE)
+      pageSize: Number(query.size ?? DEFAULT_PAGE_SIZE),
     }),
     [query.page, query.size]
   );
@@ -99,7 +99,7 @@ export default function CompaniesListPage() {
       updateQuery({ page: nextPage, size: nextSize });
       syncSearchParams({
         page: String(nextPage),
-        size: String(nextSize)
+        size: String(nextSize),
       });
     },
     [syncSearchParams, updateQuery]
@@ -113,7 +113,7 @@ export default function CompaniesListPage() {
       syncSearchParams({
         search: trimmed.length > 0 ? value : undefined,
         page: '1',
-        size: String(query.size ?? DEFAULT_PAGE_SIZE)
+        size: String(query.size ?? DEFAULT_PAGE_SIZE),
       });
     },
     [query.size, syncSearchParams, updateQuery]
@@ -136,7 +136,7 @@ export default function CompaniesListPage() {
       search: '',
       dateFrom: undefined,
       dateTo: undefined,
-      ownerId: undefined
+      ownerId: undefined,
     });
     syncSearchParams({
       page: '1',
@@ -145,7 +145,7 @@ export default function CompaniesListPage() {
       dateFrom: undefined,
       dateTo: undefined,
       ownerId: undefined,
-      stage: undefined
+      stage: undefined,
     });
   }, [query.size, syncSearchParams, updateQuery]);
 
@@ -165,7 +165,7 @@ export default function CompaniesListPage() {
               Owner: {params.row.ownerId ?? '—'}
             </Typography>
           </Box>
-        )
+        ),
       },
       {
         field: 'domain',
@@ -176,7 +176,7 @@ export default function CompaniesListPage() {
           <Typography variant="body2" noWrap>
             {params.row.domain ?? '—'}
           </Typography>
-        )
+        ),
       },
       {
         field: 'industry',
@@ -187,7 +187,7 @@ export default function CompaniesListPage() {
           <Typography variant="body2" noWrap>
             {params.row.industry ?? '—'}
           </Typography>
-        )
+        ),
       },
       {
         field: 'size',
@@ -199,7 +199,7 @@ export default function CompaniesListPage() {
             <Chip label={params.row.size} size="small" variant="outlined" />
           ) : (
             <Chip label="—" size="small" variant="outlined" />
-          )
+          ),
       },
       {
         field: 'updatedAt',
@@ -210,7 +210,7 @@ export default function CompaniesListPage() {
           <Typography variant="body2" noWrap>
             {formatDate(params.row.updatedAt)}
           </Typography>
-        )
+        ),
       },
       {
         field: 'actions',
@@ -244,8 +244,8 @@ export default function CompaniesListPage() {
               {editLink}
             </Box>
           );
-        }
-      }
+        },
+      },
     ],
     []
   );
@@ -270,7 +270,7 @@ export default function CompaniesListPage() {
             flexDirection: { xs: 'column', md: 'row' },
             gap: 2,
             alignItems: { xs: 'stretch', md: 'center' },
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
           }}
         >
           <TextField
@@ -284,8 +284,8 @@ export default function CompaniesListPage() {
                   <InputAdornment position="start">
                     <SearchIcon fontSize="small" />
                   </InputAdornment>
-                )
-              }
+                ),
+              },
             }}
           />
           <Box
@@ -293,7 +293,7 @@ export default function CompaniesListPage() {
               display: 'flex',
               flexDirection: 'row',
               gap: 1.5,
-              justifyContent: { xs: 'flex-start', md: 'flex-end' }
+              justifyContent: { xs: 'flex-start', md: 'flex-end' },
             }}
           >
             <Button
@@ -339,8 +339,8 @@ export default function CompaniesListPage() {
             pageSizeOptions={[5, 10, 25, 50]}
             sx={{
               '& .MuiDataGrid-cell': {
-                outline: 'none !important'
-              }
+                outline: 'none !important',
+              },
             }}
           />
         </Box>
@@ -350,7 +350,7 @@ export default function CompaniesListPage() {
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
             gap: 1,
-            alignItems: { xs: 'flex-start', sm: 'center' }
+            alignItems: { xs: 'flex-start', sm: 'center' },
           }}
         >
           <Typography variant="caption" color="text.secondary">

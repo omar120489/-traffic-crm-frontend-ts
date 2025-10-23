@@ -9,11 +9,11 @@ export default function Tooltip(theme: Theme): Components['MuiTooltip'] {
         margin: 0,
         lineHeight: 1.4,
         color: theme.palette.background.paper,
-        backgroundColor: theme.palette.text.primary
+        backgroundColor: theme.palette.text.primary,
       },
       arrow: {
-        color: theme.palette.text.primary
-      }
-    }
+        color: theme.palette.text.primary,
+      },
+    },
   };
 }
