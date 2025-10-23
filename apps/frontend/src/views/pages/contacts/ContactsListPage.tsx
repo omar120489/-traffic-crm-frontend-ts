@@ -336,7 +336,7 @@ export default function ContactsListPage() {
           </Alert>
         )}
 
-        <div style={{ width: '100%' }}>
+        <Box sx={{ width: '100%' }}>
           <DataGrid
             autoHeight
             disableColumnMenu
@@ -356,7 +356,7 @@ export default function ContactsListPage() {
               },
             }}
           />
-        </div>
+        </Box>
 
         <Box
           sx={{
