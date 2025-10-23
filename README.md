@@ -1,6 +1,9 @@
 # Traffic CRM Monorepo
 
 [![CI](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml)
+[![Release Please](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml)
+[![Preview Build](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml)
+[![CodeQL](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg)](https://pnpm.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)

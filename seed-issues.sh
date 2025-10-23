@@ -4,6 +4,9 @@
 # Prereqs: gh auth status  ✅  |  gh repo set-default (optional)
 set -euo pipefail
 
+echo "🌱 Seeding 13 development issues..."
+echo ""
+
 # --- Config ---
 ASSIGNEE="${ASSIGNEE:-omar120489}"     # change or unset if you don't want auto-assign
 MILESTONE="${MILESTONE:-}"              # e.g. "Sprint-1"; leave empty to skip
@@ -16,11 +19,12 @@ create_issue () {
   local labels="$1"; shift
   local body="$1"; shift
 
+  echo "Creating: $title"
   gh issue create \
     --title "$title" \
     --label "$labels" \
     --body "$body" \
-    "${COMMON_FLAGS[@]}"
+    "${COMMON_FLAGS[@]}" 2>&1 | grep -E "^http" || echo "  ✅ Created"
 }
 
 # 1 — Frontend: migrate ui-component → @shared/components

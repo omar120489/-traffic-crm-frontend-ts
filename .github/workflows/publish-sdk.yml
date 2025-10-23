@@ -1,0 +1,56 @@
+name: Publish SDK
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write  # For provenance
+
+jobs:
+  publish:
+    # Only run if the release tag is for sdk-js
+    if: contains(github.event.release.tag_name, 'sdk-js')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build SDK
+        run: pnpm --filter @sdk-js/core build
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        working-directory: packages/sdk-js
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Comment on release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tagName = context.payload.release.tag_name;
+            const version = tagName.replace(/.*-v/, '');
+            
+            github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body: `✅ Published @traffic-crm/sdk-js@${version} to npm\n\nhttps://www.npmjs.com/package/@traffic-crm/sdk-js`
+            });
+
