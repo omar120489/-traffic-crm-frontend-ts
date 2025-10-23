@@ -1,16 +1,16 @@
-import { Controller, Get, Param, Body, Post, Patch, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Patch, Delete, Body, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { ContactsService } from './contacts.service';
-import { CreateContactDto, UpdateContactDto } from './dto';
+import { CompaniesService } from './companies.service';
+import { CreateCompanyDto, UpdateCompanyDto } from './dto';
 import { JwtGuard } from '../../auth/jwt.guard';
 import { Org } from '../../auth/org.decorator';
 
-@ApiTags('contacts')
+@ApiTags('companies')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
-@Controller('contacts')
-export class ContactsController {
-  constructor(private readonly svc: ContactsService) {}
+@Controller('companies')
+export class CompaniesController {
+  constructor(private readonly svc: CompaniesService) {}
 
   @Get()
   list(@Org() orgId: string) {
@@ -23,14 +23,14 @@ export class ContactsController {
   }
 
   @Post()
-  create(@Body() dto: CreateContactDto, @Org() orgId: string) {
-    return this.svc.create({ ...dto, orgId });
+  create(@Body() dto: CreateCompanyDto, @Org() orgId: string) {
+    return this.svc.create(orgId, dto);
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() dto: UpdateContactDto,
+    @Body() dto: UpdateCompanyDto,
     @Org() orgId: string
   ) {
     return this.svc.update(orgId, id, dto);
