@@ -12,8 +12,8 @@
     "docker:down": "docker compose -f infra/docker/docker-compose.yml down",
     "audit:full": "pnpm --filter ./apps/frontend run audit:full",
     "fix:typescript": "pnpm --filter ./apps/frontend run fix:typescript",
-    "docs:lint": "markdownlint -c .markdownlint.json \"**/*.md\" -i node_modules -i .project_audit",
-    "docs:fix": "markdownlint -c .markdownlint.json --fix \"**/*.md\" -i node_modules -i .project_audit",
+    "lint:md": "markdownlint-cli2",
+    "lint:md:fix": "markdownlint-cli2 --fix",
     "db:up": "docker compose -f infra/docker/docker-compose.yml up -d postgres",
     "db:migrate": "pnpm --filter @apps/core-api prisma:migrate",
     "db:seed": "pnpm --filter @apps/core-api db:seed",
@@ -25,6 +25,8 @@
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "glob": "^11.0.3",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "markdownlint-cli2": "^0.18.1",
+    "markdownlint-rule-search-replace": "^1.2.0"
   }
 }
