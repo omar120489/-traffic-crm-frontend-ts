@@ -27,7 +27,16 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-import { IconRefresh, IconTrendingUp, IconCash, IconReceipt, IconDownload, IconFileTypeCsv, IconFileTypeXls, IconFileTypePdf } from '@tabler/icons-react';
+import {
+  IconRefresh,
+  IconTrendingUp,
+  IconCash,
+  IconReceipt,
+  IconDownload,
+  IconFileTypeCsv,
+  IconFileTypeXls,
+  IconFileTypePdf
+} from '@tabler/icons-react';
 
 import MainCard from 'ui-component/cards/MainCard';
 import { pnlService } from 'services';
@@ -53,7 +62,7 @@ export default function PnLAnalytics() {
   const [data, setData] = useState<PnLResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
-  
+
   // Filters
   const [filters, setFilters] = useState<PnLQuery>({});
   const [utmSource, setUtmSource] = useState('');
@@ -61,7 +70,7 @@ export default function PnLAnalytics() {
   const [adId, setAdId] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
-  
+
   // Export menu
   const [exportAnchorEl, setExportAnchorEl] = useState<null | HTMLElement>(null);
   const exportMenuOpen = Boolean(exportAnchorEl);
@@ -69,7 +78,7 @@ export default function PnLAnalytics() {
   const loadPnLData = useCallback(async (queryFilters?: PnLQuery) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await pnlService.getPnL(queryFilters);
       setData(response);
@@ -134,7 +143,7 @@ export default function PnLAnalytics() {
     ];
 
     // CSV rows
-    const csvRows = data.rows.map(row => [
+    const csvRows = data.rows.map((row) => [
       row.utm_source || '',
       row.utm_campaign || '',
       row.ad_id || '',
@@ -148,10 +157,7 @@ export default function PnLAnalytics() {
     ]);
 
     // Build CSV string
-    const csvContent = [
-      headers.join(','),
-      ...csvRows.map(row => row.join(','))
-    ].join('\n');
+    const csvContent = [headers.join(','), ...csvRows.map((row) => row.join(','))].join('\n');
 
     // Download file
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -245,7 +251,9 @@ export default function PnLAnalytics() {
             </tr>
           </thead>
           <tbody>
-            ${data.rows.map(row => `
+            ${data.rows
+              .map(
+                (row) => `
               <tr>
                 <td>${row.utm_source || '—'}</td>
                 <td>${row.utm_campaign || '—'}</td>
@@ -258,7 +266,9 @@ export default function PnLAnalytics() {
                 <td class="number">${row.roas.toFixed(2)}</td>
                 <td class="currency">${row.cpa.toFixed(2)}</td>
               </tr>
-            `).join('')}
+            `
+              )
+              .join('')}
           </tbody>
         </table>
       </body>
@@ -266,8 +276,8 @@ export default function PnLAnalytics() {
     `;
 
     // Create Excel file with proper BOM for UTF-8
-    const blob = new Blob(['\ufeff', excelHTML], { 
-      type: 'application/vnd.ms-excel;charset=utf-8' 
+    const blob = new Blob(['\ufeff', excelHTML], {
+      type: 'application/vnd.ms-excel;charset=utf-8'
     });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -350,7 +360,9 @@ export default function PnLAnalytics() {
               </tr>
             </thead>
             <tbody>
-              ${data.rows.map(row => `
+              ${data.rows
+                .map(
+                  (row) => `
                 <tr>
                   <td>${row.utm_source || '—'}</td>
                   <td>${row.utm_campaign || '—'}</td>
@@ -365,7 +377,9 @@ export default function PnLAnalytics() {
                   <td>${formatNumber(row.roas, 2)}x</td>
                   <td>${formatCurrency(row.cpa)}</td>
                 </tr>
-              `).join('')}
+              `
+                )
+                .join('')}
             </tbody>
           </table>
         </body>
@@ -374,27 +388,27 @@ export default function PnLAnalytics() {
 
     printWindow.document.write(htmlContent);
     printWindow.document.close();
-    
+
     // Wait for content to load then print
     printWindow.onload = () => {
       printWindow.print();
       printWindow.close();
     };
-    
+
     handleExportMenuClose();
   };
 
   // Extract unique values for filter dropdowns
   const availableSources = data?.rows
-    ? Array.from(new Set(data.rows.map(r => r.utm_source).filter(Boolean)))
+    ? Array.from(new Set(data.rows.map((r) => r.utm_source).filter(Boolean)))
     : [];
-  
+
   const availableCampaigns = data?.rows
-    ? Array.from(new Set(data.rows.map(r => r.utm_campaign).filter(Boolean)))
+    ? Array.from(new Set(data.rows.map((r) => r.utm_campaign).filter(Boolean)))
     : [];
-  
+
   const availableAdIds = data?.rows
-    ? Array.from(new Set(data.rows.map(r => r.ad_id).filter(Boolean)))
+    ? Array.from(new Set(data.rows.map((r) => r.ad_id).filter(Boolean)))
     : [];
 
   return (
@@ -411,11 +425,7 @@ export default function PnLAnalytics() {
           >
             Export
           </Button>
-          <Menu
-            anchorEl={exportAnchorEl}
-            open={exportMenuOpen}
-            onClose={handleExportMenuClose}
-          >
+          <Menu anchorEl={exportAnchorEl} open={exportMenuOpen} onClose={handleExportMenuClose}>
             <MenuItemComponent onClick={handleExportCSV}>
               <ListItemIcon>
                 <IconFileTypeCsv size={20} />
@@ -534,18 +544,10 @@ export default function PnLAnalytics() {
 
             <Grid item xs={12}>
               <Stack direction="row" spacing={1} justifyContent="flex-end">
-                <Button
-                  variant="contained"
-                  onClick={handleApplyFilters}
-                  size="small"
-                >
+                <Button variant="contained" onClick={handleApplyFilters} size="small">
                   Apply Filters
                 </Button>
-                <Button
-                  variant="outlined"
-                  onClick={handleClearFilters}
-                  size="small"
-                >
+                <Button variant="outlined" onClick={handleClearFilters} size="small">
                   Clear All
                 </Button>
               </Stack>
@@ -734,5 +736,3 @@ export default function PnLAnalytics() {
     </MainCard>
   );
 }
-
-

@@ -71,12 +71,14 @@ export default function NavItem({
   const iconSize = drawerOpen ? '20px' : '24px';
   const iconStroke = 1.5;
   const iconStyle = isHorizontal && isParents ? { fontSize: 20, stroke: '1.5' } : undefined;
-  
+
   // Extract icon rendering logic to reduce nesting
   let itemIcon;
   if (Icon) {
     if (item.id === 'notifications') {
-      itemIcon = <NotificationsBadge icon={Icon} size={iconSize} stroke={iconStroke} style={iconStyle} />;
+      itemIcon = (
+        <NotificationsBadge icon={Icon} size={iconSize} stroke={iconStroke} style={iconStyle} />
+      );
     } else {
       itemIcon = <Icon stroke={iconStroke} size={iconSize} style={iconStyle} />;
     }

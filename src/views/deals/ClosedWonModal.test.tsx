@@ -112,5 +112,3 @@ describe('ClosedWonModal', () => {
     expect(screen.getByText(/-\$200\.00/i)).toBeInTheDocument();
   });
 });
-
-

@@ -179,4 +179,3 @@ export function useWebSocketToasts(): void {
 }
 
 export default useWebSocketToasts;
-

@@ -34,7 +34,10 @@ import { useNavigate } from 'react-router-dom';
 
 import AppPage from 'layouts/AppPage';
 import { useNotifications, type NotificationFilter } from 'hooks/useNotifications';
-import { useNotificationPreferences, type NotificationType } from 'hooks/useNotificationPreferences';
+import {
+  useNotificationPreferences,
+  type NotificationType
+} from 'hooks/useNotificationPreferences';
 import type { Notification } from 'types/api';
 import { isNewNotification } from 'utils/notifications';
 import { track } from 'utils/analytics';
@@ -106,7 +109,11 @@ interface NotificationItemProps {
   readonly onMarkAsUnread: (id: string | number) => Promise<void>;
 }
 
-function InnerNotificationItem({ notification, onMarkAsRead, onMarkAsUnread }: NotificationItemProps) {
+function InnerNotificationItem({
+  notification,
+  onMarkAsRead,
+  onMarkAsUnread
+}: NotificationItemProps) {
   const navigate = useNavigate();
   const isNew = isNewNotification(notification.createdAt);
 
@@ -304,12 +311,7 @@ function NotificationPreferences() {
           </Box>
 
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={unmuteAll}
-              disabled={noneMuted}
-            >
+            <Button size="small" variant="outlined" onClick={unmuteAll} disabled={noneMuted}>
               Enable All
             </Button>
             <Button
@@ -384,9 +386,8 @@ export default function Notifications() {
 
   // Extract nested ternary for readability
   const notificationPlural = unreadCount > 1 ? 's' : '';
-  const unreadText = unreadCount > 0
-    ? `${unreadCount} unread notification${notificationPlural}`
-    : 'All caught up!';
+  const unreadText =
+    unreadCount > 0 ? `${unreadCount} unread notification${notificationPlural}` : 'All caught up!';
 
   // Count for current filter
   const filterCount = filteredNotifications.length;
@@ -395,7 +396,7 @@ export default function Notifications() {
   const toolbar = (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
       <NotificationPreferences />
-      
+
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
         {/* Left: Filter dropdown */}
         <FormControl size="small" sx={{ minWidth: 220 }}>
@@ -434,21 +435,18 @@ export default function Notifications() {
         </FormControl>
         <Box />
       </Box>
-      
+
       <Divider />
     </Box>
   );
 
   // Actions: Mark all as read button
-  const actions = unreadCount > 0 ? (
-    <Button
-      variant="text"
-      size="small"
-      onClick={handleMarkAllAsRead}
-    >
-      Mark all as read
-    </Button>
-  ) : null;
+  const actions =
+    unreadCount > 0 ? (
+      <Button variant="text" size="small" onClick={handleMarkAllAsRead}>
+        Mark all as read
+      </Button>
+    ) : null;
 
   // Custom empty state
   const emptySlot = (
@@ -474,16 +472,17 @@ export default function Notifications() {
   );
 
   // Footer: Pagination
-  const footer = totalPages > 1 ? (
-    <Pagination
-      count={totalPages}
-      page={page}
-      onChange={handlePageChange}
-      color="primary"
-      showFirstButton
-      showLastButton
-    />
-  ) : undefined;
+  const footer =
+    totalPages > 1 ? (
+      <Pagination
+        count={totalPages}
+        page={page}
+        onChange={handlePageChange}
+        color="primary"
+        showFirstButton
+        showLastButton
+      />
+    ) : undefined;
 
   return (
     <AppPage

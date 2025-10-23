@@ -18,7 +18,7 @@ interface UseJourneyEventsResult {
 
 /**
  * Hook to manage journey events for a specific entity
- * 
+ *
  * Features:
  * - Auto-loads events on mount
  * - Subscribes to WebSocket for real-time updates
@@ -130,5 +130,3 @@ export function useJourneyEvents({
     addEvent
   };
 }
-
-

@@ -25,7 +25,7 @@ export async function listJourneyEvents(
     entity_id: entityId,
     ...options
   };
-  
+
   const response = await apiGet<{
     items: Array<{
       id: string;
@@ -59,9 +59,7 @@ export async function listJourneyEvents(
 /**
  * Create a new journey event
  */
-export async function createJourneyEvent(
-  dto: JourneyEventCreateDto
-): Promise<JourneyEvent> {
+export async function createJourneyEvent(dto: JourneyEventCreateDto): Promise<JourneyEvent> {
   // Map camelCase to snake_case for backend
   const payload = {
     entity_type: dto.entityType,
@@ -99,5 +97,3 @@ export const journeyApi = {
   listJourneyEvents,
   createJourneyEvent
 };
-
-

@@ -68,7 +68,8 @@ export default function LostReasonModal({ open, onClose, onConfirm }: LostReason
       <DialogContent>
         <Stack spacing={2} sx={{ pt: 1 }}>
           <Typography variant="body2" color="text.secondary">
-            Please select a reason for marking this deal as lost. This helps track why deals are not closing.
+            Please select a reason for marking this deal as lost. This helps track why deals are not
+            closing.
           </Typography>
 
           <FormControl fullWidth required>
@@ -111,4 +112,3 @@ export default function LostReasonModal({ open, onClose, onConfirm }: LostReason
     </Dialog>
   );
 }
-

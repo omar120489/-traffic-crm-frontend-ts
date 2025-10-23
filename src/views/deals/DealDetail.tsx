@@ -136,7 +136,7 @@ export default function DealDetail(): ReactElement {
 
   const handleClosedWonConfirm = async (values: { grossRevenue: number; directCost: number }) => {
     if (!deal?.id) return;
-    
+
     setShowClosedWonModal(false);
     setUpdating(true);
 
@@ -147,7 +147,7 @@ export default function DealDetail(): ReactElement {
         grossRevenue: values.grossRevenue,
         directCost: values.directCost
       });
-      
+
       setDeal(updatedDeal);
 
       // Create journey event
@@ -179,7 +179,7 @@ export default function DealDetail(): ReactElement {
 
   const handleLostConfirm = async (data: LostReasonData) => {
     if (!deal?.id) return;
-    
+
     setShowLostReasonModal(false);
     setUpdating(true);
 
@@ -190,7 +190,7 @@ export default function DealDetail(): ReactElement {
         lossReason: data.lossReason,
         lossNotes: data.lossNotes
       });
-      
+
       setDeal(updatedDeal);
 
       // Create journey event
@@ -271,10 +271,10 @@ export default function DealDetail(): ReactElement {
               </>
             )}
             {deal.status === 'Lost' && deal.lossReason && (
-              <Chip 
-                label={deal.lossReason.replace('L-', '')} 
-                color="error" 
-                size="small" 
+              <Chip
+                label={deal.lossReason.replace('L-', '')}
+                color="error"
+                size="small"
                 variant="filled"
               />
             )}
@@ -330,7 +330,7 @@ export default function DealDetail(): ReactElement {
           <Typography variant="body1">{deal.description ?? '—'}</Typography>
         </Grid>
 
-        {(deal.grossRevenue !== null && deal.grossRevenue !== undefined) && (
+        {deal.grossRevenue !== null && deal.grossRevenue !== undefined && (
           <>
             <Grid xs={12}>
               <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
@@ -356,10 +356,10 @@ export default function DealDetail(): ReactElement {
               <Typography variant="subtitle2" color="text.secondary">
                 Net Profit
               </Typography>
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  color: (deal.netProfit ?? 0) >= 0 ? 'success.main' : 'error.main' 
+              <Typography
+                variant="h6"
+                sx={{
+                  color: (deal.netProfit ?? 0) >= 0 ? 'success.main' : 'error.main'
                 }}
               >
                 {formatCurrency(deal.netProfit)}
@@ -468,7 +468,7 @@ export default function DealDetail(): ReactElement {
         onClose={handleClosedWonCancel}
         onConfirm={handleClosedWonConfirm}
       />
-      
+
       <LostReasonModal
         open={showLostReasonModal}
         onClose={handleLostCancel}

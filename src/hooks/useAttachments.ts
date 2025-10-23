@@ -32,7 +32,10 @@ export function useAttachments(options: UseAttachmentsOptions): UseAttachmentsRe
   const [error, setError] = useState<unknown>(null);
   const [deletingIds, setDeletingIds] = useState<Set<EntityIdentifier>>(new Set());
 
-  const hasValidTarget = useMemo(() => entityType && entityId !== undefined, [entityType, entityId]);
+  const hasValidTarget = useMemo(
+    () => entityType && entityId !== undefined,
+    [entityType, entityId]
+  );
   const { subscribe } = useWebSocketEvents();
 
   const load = useCallback(async () => {

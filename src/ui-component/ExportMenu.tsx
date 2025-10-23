@@ -69,5 +69,3 @@ export default function ExportMenu({ onExportXLSX, onExportPDF, disabled }: Expo
     </>
   );
 }
-
-

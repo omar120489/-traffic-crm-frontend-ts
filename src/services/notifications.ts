@@ -58,10 +58,7 @@ export async function createNotification(payload: NotificationCreateDto): Promis
  * Mark a notification as read
  */
 export async function markAsRead(id: string | number): Promise<Notification> {
-  const response = await apiPatch<Record<string, unknown>>(
-    `/api/v1/notifications/${id}/read`,
-    {}
-  );
+  const response = await apiPatch<Record<string, unknown>>(`/api/v1/notifications/${id}/read`, {});
   return mapNotificationFromDto(response);
 }
 
@@ -78,4 +75,3 @@ export const notificationsService = {
   markAsRead,
   markAllAsRead
 };
-

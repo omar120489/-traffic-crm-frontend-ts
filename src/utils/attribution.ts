@@ -1,10 +1,10 @@
 /**
  * Attribution Tracking Utility
- * 
+ *
  * Captures UTM parameters and platform advertising IDs from URL query parameters,
  * generates unique tracking identifiers (UTI) per session, and provides attribution
  * data for lead creation with one-time send guard.
- * 
+ *
  * Design:
  * - UTI stored in sessionStorage (new UTI per browser session/tab)
  * - Attribution sent only with first lead of each session
@@ -60,7 +60,7 @@ function getOrCreateUTI(): string {
  */
 function parseURLParameters(): Partial<AttributionData> {
   const params = new URLSearchParams(globalThis.location.search);
-  
+
   const utm = {
     source: params.get('utm_source') || undefined,
     medium: params.get('utm_medium') || undefined,
@@ -68,17 +68,17 @@ function parseURLParameters(): Partial<AttributionData> {
     term: params.get('utm_term') || undefined,
     content: params.get('utm_content') || undefined
   };
-  
+
   const platform = {
     ad_id: params.get('ad_id') || undefined,
     adset_id: params.get('adset_id') || undefined,
     campaign_id: params.get('campaign_id') || undefined
   };
-  
+
   // Only return objects with at least one defined value
-  const hasUtm = Object.values(utm).some(v => v !== undefined);
-  const hasPlatform = Object.values(platform).some(v => v !== undefined);
-  
+  const hasUtm = Object.values(utm).some((v) => v !== undefined);
+  const hasPlatform = Object.values(platform).some((v) => v !== undefined);
+
   return {
     ...(hasUtm && { utm }),
     ...(hasPlatform && { platform })
@@ -94,11 +94,11 @@ function parseURLParameters(): Partial<AttributionData> {
 export function parseAttribution(): AttributionData {
   const uti = getOrCreateUTI();
   const urlParams = parseURLParameters();
-  
+
   // Try to get existing attribution
   const existingData = sessionStorage.getItem(STORAGE_KEYS.ATTRIBUTION);
   let existing: AttributionData | null = null;
-  
+
   try {
     if (existingData) {
       existing = JSON.parse(existingData);
@@ -106,10 +106,10 @@ export function parseAttribution(): AttributionData {
   } catch (error) {
     console.warn('[Attribution] Failed to parse existing attribution:', error);
   }
-  
+
   // Hybrid update logic
   const hasNewParams = urlParams.utm || urlParams.platform;
-  
+
   const attribution: AttributionData = {
     uti,
     utm: {
@@ -124,12 +124,14 @@ export function parseAttribution(): AttributionData {
       adset_id: urlParams.platform?.adset_id ?? existing?.platform?.adset_id,
       campaign_id: urlParams.platform?.campaign_id ?? existing?.platform?.campaign_id
     },
-    captured_at: hasNewParams ? new Date().toISOString() : (existing?.captured_at || new Date().toISOString())
+    captured_at: hasNewParams
+      ? new Date().toISOString()
+      : existing?.captured_at || new Date().toISOString()
   };
-  
+
   // Store updated attribution
   sessionStorage.setItem(STORAGE_KEYS.ATTRIBUTION, JSON.stringify(attribution));
-  
+
   return attribution;
 }
 
@@ -140,16 +142,16 @@ export function parseAttribution(): AttributionData {
  */
 export function getAttributionPayload(): AttributionData | null {
   const hasSent = sessionStorage.getItem(STORAGE_KEYS.SENT_FLAG) === 'true';
-  
+
   if (hasSent) {
     return null;
   }
-  
+
   const data = sessionStorage.getItem(STORAGE_KEYS.ATTRIBUTION);
   if (!data) {
     return null;
   }
-  
+
   try {
     return JSON.parse(data);
   } catch (error) {
@@ -181,4 +183,3 @@ export function clearAttribution(): void {
 export function hasAttributionBeenSent(): boolean {
   return sessionStorage.getItem(STORAGE_KEYS.SENT_FLAG) === 'true';
 }
-

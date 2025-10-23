@@ -241,12 +241,14 @@ export default function LeadsListPage() {
       date_to: filterValues.date_to as string | undefined,
       score_min: filterValues.score_min === undefined ? undefined : String(filterValues.score_min),
       score_max: filterValues.score_max === undefined ? undefined : String(filterValues.score_max),
-      statuses: Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
-        ? filterValues.statuses.join(',')
-        : undefined,
-      sources: Array.isArray(filterValues.sources) && filterValues.sources.length > 0
-        ? filterValues.sources.join(',')
-        : undefined
+      statuses:
+        Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
+          ? filterValues.statuses.join(',')
+          : undefined,
+      sources:
+        Array.isArray(filterValues.sources) && filterValues.sources.length > 0
+          ? filterValues.sources.join(',')
+          : undefined
     };
 
     syncSearchParams(patch);
@@ -258,12 +260,14 @@ export default function LeadsListPage() {
       date_to: filterValues.date_to as string | undefined,
       score_min: filterValues.score_min as number | undefined,
       score_max: filterValues.score_max as number | undefined,
-      statuses: Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
-        ? filterValues.statuses.join(',')
-        : undefined,
-      sources: Array.isArray(filterValues.sources) && filterValues.sources.length > 0
-        ? filterValues.sources.join(',')
-        : undefined
+      statuses:
+        Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
+          ? filterValues.statuses.join(',')
+          : undefined,
+      sources:
+        Array.isArray(filterValues.sources) && filterValues.sources.length > 0
+          ? filterValues.sources.join(',')
+          : undefined
     });
   }, [filterValues, query, syncSearchParams, updateQuery]);
 
@@ -403,8 +407,8 @@ export default function LeadsListPage() {
       { field: 'company', headerName: 'Company' },
       { field: 'status', headerName: 'Status' },
       { field: 'source', headerName: 'Source' },
-      { 
-        field: 'score', 
+      {
+        field: 'score',
         headerName: 'Score',
         valueFormatter: (value) => (value === null || value === undefined ? '—' : `${value}%`)
       },
@@ -415,7 +419,11 @@ export default function LeadsListPage() {
 
   const handleExportXLSX = useCallback(() => {
     try {
-      const filename = buildExportFilename('leads', 'xlsx', query.search ? { search: query.search } : undefined);
+      const filename = buildExportFilename(
+        'leads',
+        'xlsx',
+        query.search ? { search: query.search } : undefined
+      );
       exportToXLSX(leads, exportColumns, filename);
       enqueueSnackbar(`Exported ${leads.length} leads to ${filename}`, { variant: 'success' });
     } catch (error) {
@@ -426,7 +434,11 @@ export default function LeadsListPage() {
 
   const handleExportPDF = useCallback(() => {
     try {
-      const filename = buildExportFilename('leads', 'pdf', query.search ? { search: query.search } : undefined);
+      const filename = buildExportFilename(
+        'leads',
+        'pdf',
+        query.search ? { search: query.search } : undefined
+      );
       exportToPDF(leads, exportColumns, filename, 'Leads Report');
       enqueueSnackbar(`Exported ${leads.length} leads to ${filename}`, { variant: 'success' });
     } catch (error) {

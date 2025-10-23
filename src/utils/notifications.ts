@@ -8,4 +8,3 @@ export const isNewNotification = (iso: string, windowMs = 24 * 60 * 60 * 1000): 
   const created = new Date(iso).getTime();
   return Number.isFinite(created) && Date.now() - created <= windowMs;
 };
-

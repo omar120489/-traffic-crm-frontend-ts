@@ -225,7 +225,8 @@ export type PaginatedLeads = PaginatedResponse<Lead>;
 export type PaginatedContacts = PaginatedResponse<Contact>;
 export type PaginatedCompanies = PaginatedResponse<Company>;
 
-export type EntityIdentifier = UUID | number;
+// UI uses string IDs for consistency - backend may send UUID or number, normalize at edges
+export type EntityIdentifier = string;
 
 export interface Comment {
   id: number | string;

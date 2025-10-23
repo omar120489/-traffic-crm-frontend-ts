@@ -16,7 +16,17 @@
     "skipLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@core/*": ["./core/*"],
+      "@data/*": ["./data/*"],
+      "@features/*": ["./features/*"],
+      "@shared/*": ["./shared/*"],
+      "@styles/*": ["./styles/*"]
+    },
+    "types": ["vitest/globals", "vite/client", "@testing-library/jest-dom"]
   },
-  "include": ["src", "vite.config.mjs"]
+  "include": ["src", "vite.config.mjs", "vitest.setup.ts", "**/*.test.ts", "**/*.test.tsx"],
+  "exclude": ["node_modules", "dist", "build", "backup_*", ".project_audit", "e2e"]
 }

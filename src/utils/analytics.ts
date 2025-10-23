@@ -21,4 +21,3 @@ export const track = (event: string, props?: Record<string, unknown>): void => {
     console.log('[Analytics]', event, props);
   }
 };
-

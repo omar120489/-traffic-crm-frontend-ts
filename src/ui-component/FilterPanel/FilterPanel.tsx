@@ -4,7 +4,6 @@ import {
   Button,
   Collapse,
   FormControl,
-  Grid,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -14,6 +13,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { IconChevronDown, IconChevronUp, IconFilter, IconX } from '@tabler/icons-react';
 
 export interface FilterConfig {
@@ -123,7 +123,15 @@ export function FilterPanel({
 
       {/* Filter Controls */}
       <Collapse in={expanded}>
-        <Box sx={{ p: 2, border: 1, borderColor: 'divider', borderRadius: 1, bgcolor: 'background.paper' }}>
+        <Box
+          sx={{
+            p: 2,
+            border: 1,
+            borderColor: 'divider',
+            borderRadius: 1,
+            bgcolor: 'background.paper'
+          }}
+        >
           {/* Preset Management */}
           {showPresets && (
             <Box sx={{ mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
@@ -141,7 +149,11 @@ export function FilterPanel({
                     {preset.name}
                   </Button>
                 ))}
-                <Button size="small" variant="text" onClick={() => setShowSavePreset(!showSavePreset)}>
+                <Button
+                  size="small"
+                  variant="text"
+                  onClick={() => setShowSavePreset(!showSavePreset)}
+                >
                   {showSavePreset ? 'Cancel' : '+ Save Current'}
                 </Button>
               </Stack>
@@ -155,7 +167,12 @@ export function FilterPanel({
                     onChange={(e) => setPresetName(e.target.value)}
                     sx={{ flexGrow: 1 }}
                   />
-                  <Button size="small" variant="contained" onClick={handleSavePreset} disabled={!presetName.trim()}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={handleSavePreset}
+                    disabled={!presetName.trim()}
+                  >
                     Save
                   </Button>
                 </Stack>
@@ -217,7 +234,12 @@ export function FilterPanel({
                         type="number"
                         label={`${filter.label} Min`}
                         value={(values[`${filter.field}_min`] as number) || ''}
-                        onChange={(e) => handleChange(`${filter.field}_min`, e.target.value ? Number(e.target.value) : undefined)}
+                        onChange={(e) =>
+                          handleChange(
+                            `${filter.field}_min`,
+                            e.target.value ? Number(e.target.value) : undefined
+                          )
+                        }
                       />
                       <TextField
                         fullWidth
@@ -225,7 +247,12 @@ export function FilterPanel({
                         type="number"
                         label={`${filter.label} Max`}
                         value={(values[`${filter.field}_max`] as number) || ''}
-                        onChange={(e) => handleChange(`${filter.field}_max`, e.target.value ? Number(e.target.value) : undefined)}
+                        onChange={(e) =>
+                          handleChange(
+                            `${filter.field}_max`,
+                            e.target.value ? Number(e.target.value) : undefined
+                          )
+                        }
                       />
                     </Stack>
                   </Grid>
@@ -287,7 +314,12 @@ export function FilterPanel({
 
           {/* Action Buttons */}
           <Stack direction="row" spacing={1} sx={{ mt: 2 }} justifyContent="flex-end">
-            <Button variant="outlined" startIcon={<IconX size={18} />} onClick={onClear} disabled={!hasActiveFilters}>
+            <Button
+              variant="outlined"
+              startIcon={<IconX size={18} />}
+              onClick={onClear}
+              disabled={!hasActiveFilters}
+            >
               Clear All
             </Button>
             {onApply && (
@@ -301,5 +333,3 @@ export function FilterPanel({
     </Box>
   );
 }
-
-

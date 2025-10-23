@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    css: true,
     // Do not collect Playwright test files
     exclude: [
       '**/node_modules/**',
@@ -19,6 +20,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+      '@': path.resolve(__dirname, './src'),
+      '@core': path.resolve(__dirname, './src/core'),
+      '@data': path.resolve(__dirname, './src/data'),
+      '@features': path.resolve(__dirname, './src/features'),
+      '@shared': path.resolve(__dirname, './src/shared'),
+      '@styles': path.resolve(__dirname, './src/styles'),
       'ui-component': path.resolve(__dirname, './src/ui-component'),
       'utils': path.resolve(__dirname, './src/utils'),
       'store': path.resolve(__dirname, './src/store'),

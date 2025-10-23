@@ -55,8 +55,7 @@ export function verifyToken(serviceToken: string): boolean {
     return false;
   }
 
-  const expiresAt =
-    decoded.exp > 1_000_000_000_000 ? decoded.exp : decoded.exp * 1000;
+  const expiresAt = decoded.exp > 1_000_000_000_000 ? decoded.exp : decoded.exp * 1000;
 
   return expiresAt > Date.now() - CLOCK_SKEW_BUFFER;
 }

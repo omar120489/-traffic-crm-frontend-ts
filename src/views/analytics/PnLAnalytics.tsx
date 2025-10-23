@@ -25,15 +25,15 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-import { 
-  IconRefresh, 
-  IconTrendingUp, 
-  IconCash, 
-  IconReceipt, 
-  IconDownload, 
-  IconFileTypeCsv, 
-  IconFileTypeXls, 
-  IconFileTypePdf 
+import {
+  IconRefresh,
+  IconTrendingUp,
+  IconCash,
+  IconReceipt,
+  IconDownload,
+  IconFileTypeCsv,
+  IconFileTypeXls,
+  IconFileTypePdf
 } from '@tabler/icons-react';
 
 import AppPage from 'layouts/AppPage';
@@ -56,7 +56,7 @@ export default function PnLAnalytics() {
   const [data, setData] = useState<PnLResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
-  
+
   // Filters
   const [filters, setFilters] = useState<PnLQuery>({});
   const [utmSource, setUtmSource] = useState('');
@@ -64,7 +64,7 @@ export default function PnLAnalytics() {
   const [adId, setAdId] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
-  
+
   // Export menu
   const [exportAnchorEl, setExportAnchorEl] = useState<null | HTMLElement>(null);
   const exportMenuOpen = Boolean(exportAnchorEl);
@@ -72,7 +72,7 @@ export default function PnLAnalytics() {
   const loadPnLData = useCallback(async (queryFilters?: PnLQuery) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await pnlService.getPnL(queryFilters);
       setData(response);
@@ -123,20 +123,32 @@ export default function PnLAnalytics() {
     if (!data || data.rows.length === 0) return;
 
     const headers = [
-      'UTM Source', 'UTM Campaign', 'Ad ID', 'Leads', 'Deals',
-      'Gross Revenue', 'Direct Cost', 'Net Profit', 'ROAS', 'CPA'
+      'UTM Source',
+      'UTM Campaign',
+      'Ad ID',
+      'Leads',
+      'Deals',
+      'Gross Revenue',
+      'Direct Cost',
+      'Net Profit',
+      'ROAS',
+      'CPA'
     ];
 
-    const csvRows = data.rows.map(row => [
-      row.utm_source || '', row.utm_campaign || '', row.ad_id || '',
-      row.leads_count, row.deals_count, row.gross_revenue, row.direct_cost,
-      row.net_profit, row.roas.toFixed(2), row.cpa.toFixed(2)
+    const csvRows = data.rows.map((row) => [
+      row.utm_source || '',
+      row.utm_campaign || '',
+      row.ad_id || '',
+      row.leads_count,
+      row.deals_count,
+      row.gross_revenue,
+      row.direct_cost,
+      row.net_profit,
+      row.roas.toFixed(2),
+      row.cpa.toFixed(2)
     ]);
 
-    const csvContent = [
-      headers.join(','),
-      ...csvRows.map(row => row.join(','))
-    ].join('\n');
+    const csvContent = [headers.join(','), ...csvRows.map((row) => row.join(','))].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -171,7 +183,9 @@ export default function PnLAnalytics() {
         <table>
           <thead><tr><th>UTM Source</th><th>UTM Campaign</th><th>Ad ID</th><th>Leads</th><th>Deals</th><th>Gross Revenue</th><th>Direct Cost</th><th>Net Profit</th><th>ROAS</th><th>CPA</th></tr></thead>
           <tbody>
-            ${data.rows.map(row => `
+            ${data.rows
+              .map(
+                (row) => `
               <tr>
                 <td>${row.utm_source || '—'}</td><td>${row.utm_campaign || '—'}</td><td>${row.ad_id || '—'}</td>
                 <td class="number">${row.leads_count}</td><td class="number">${row.deals_count}</td>
@@ -179,14 +193,18 @@ export default function PnLAnalytics() {
                 <td class="currency">${row.net_profit}</td>
                 <td class="number">${row.roas.toFixed(2)}</td><td class="currency">${row.cpa.toFixed(2)}</td>
               </tr>
-            `).join('')}
+            `
+              )
+              .join('')}
           </tbody>
         </table>
       </body>
       </html>
     `;
 
-    const blob = new Blob(['\ufeff', excelHTML], { type: 'application/vnd.ms-excel;charset=utf-8' });
+    const blob = new Blob(['\ufeff', excelHTML], {
+      type: 'application/vnd.ms-excel;charset=utf-8'
+    });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
@@ -226,7 +244,9 @@ export default function PnLAnalytics() {
           <table>
             <thead><tr><th>UTM Source</th><th>UTM Campaign</th><th>Ad ID</th><th>Leads</th><th>Deals</th><th>Gross Revenue</th><th>Direct Cost</th><th>Net Profit</th><th>ROAS</th><th>CPA</th></tr></thead>
             <tbody>
-              ${data.rows.map(row => `
+              ${data.rows
+                .map(
+                  (row) => `
                 <tr>
                   <td>${row.utm_source || '—'}</td><td>${row.utm_campaign || '—'}</td><td>${row.ad_id || '—'}</td>
                   <td>${row.leads_count}</td><td>${row.deals_count}</td>
@@ -234,7 +254,9 @@ export default function PnLAnalytics() {
                   <td class="${row.net_profit >= 0 ? 'positive' : 'negative'}"><strong>${formatCurrency(row.net_profit)}</strong></td>
                   <td>${formatNumber(row.roas, 2)}x</td><td>${formatCurrency(row.cpa)}</td>
                 </tr>
-              `).join('')}
+              `
+                )
+                .join('')}
             </tbody>
           </table>
         </body>
@@ -251,15 +273,15 @@ export default function PnLAnalytics() {
   };
 
   const availableSources = data?.rows
-    ? Array.from(new Set(data.rows.map(r => r.utm_source).filter(Boolean)))
+    ? Array.from(new Set(data.rows.map((r) => r.utm_source).filter(Boolean)))
     : [];
-  
+
   const availableCampaigns = data?.rows
-    ? Array.from(new Set(data.rows.map(r => r.utm_campaign).filter(Boolean)))
+    ? Array.from(new Set(data.rows.map((r) => r.utm_campaign).filter(Boolean)))
     : [];
-  
+
   const availableAdIds = data?.rows
-    ? Array.from(new Set(data.rows.map(r => r.ad_id).filter(Boolean)))
+    ? Array.from(new Set(data.rows.map((r) => r.ad_id).filter(Boolean)))
     : [];
 
   const actions = (
@@ -275,15 +297,21 @@ export default function PnLAnalytics() {
       </Button>
       <Menu anchorEl={exportAnchorEl} open={exportMenuOpen} onClose={handleExportMenuClose}>
         <MenuItemComponent onClick={handleExportCSV}>
-          <ListItemIcon><IconFileTypeCsv size={20} /></ListItemIcon>
+          <ListItemIcon>
+            <IconFileTypeCsv size={20} />
+          </ListItemIcon>
           <ListItemText>Export as CSV</ListItemText>
         </MenuItemComponent>
         <MenuItemComponent onClick={handleExportExcel}>
-          <ListItemIcon><IconFileTypeXls size={20} /></ListItemIcon>
+          <ListItemIcon>
+            <IconFileTypeXls size={20} />
+          </ListItemIcon>
           <ListItemText>Export as Excel</ListItemText>
         </MenuItemComponent>
         <MenuItemComponent onClick={handleExportPDF}>
-          <ListItemIcon><IconFileTypePdf size={20} /></ListItemIcon>
+          <ListItemIcon>
+            <IconFileTypePdf size={20} />
+          </ListItemIcon>
           <ListItemText>Export as PDF</ListItemText>
         </MenuItemComponent>
       </Menu>
@@ -301,7 +329,9 @@ export default function PnLAnalytics() {
 
   const toolbar = (
     <Paper sx={{ p: 2 }}>
-      <Typography variant="h6" sx={{ mb: 2 }}>Filters</Typography>
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        Filters
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2.4}>
           <TextField
@@ -328,10 +358,16 @@ export default function PnLAnalytics() {
         <Grid item xs={12} md={2.4}>
           <FormControl fullWidth size="small">
             <InputLabel>UTM Source</InputLabel>
-            <Select value={utmSource} onChange={(e: SelectChangeEvent) => setUtmSource(e.target.value)} label="UTM Source">
+            <Select
+              value={utmSource}
+              onChange={(e: SelectChangeEvent) => setUtmSource(e.target.value)}
+              label="UTM Source"
+            >
               <MenuItem value="">All Sources</MenuItem>
               {availableSources.map((source) => (
-                <MenuItem key={source} value={source}>{source}</MenuItem>
+                <MenuItem key={source} value={source}>
+                  {source}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -339,10 +375,16 @@ export default function PnLAnalytics() {
         <Grid item xs={12} md={2.4}>
           <FormControl fullWidth size="small">
             <InputLabel>UTM Campaign</InputLabel>
-            <Select value={utmCampaign} onChange={(e: SelectChangeEvent) => setUtmCampaign(e.target.value)} label="UTM Campaign">
+            <Select
+              value={utmCampaign}
+              onChange={(e: SelectChangeEvent) => setUtmCampaign(e.target.value)}
+              label="UTM Campaign"
+            >
               <MenuItem value="">All Campaigns</MenuItem>
               {availableCampaigns.map((campaign) => (
-                <MenuItem key={campaign} value={campaign}>{campaign}</MenuItem>
+                <MenuItem key={campaign} value={campaign}>
+                  {campaign}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -350,18 +392,28 @@ export default function PnLAnalytics() {
         <Grid item xs={12} md={2.4}>
           <FormControl fullWidth size="small">
             <InputLabel>Ad ID</InputLabel>
-            <Select value={adId} onChange={(e: SelectChangeEvent) => setAdId(e.target.value)} label="Ad ID">
+            <Select
+              value={adId}
+              onChange={(e: SelectChangeEvent) => setAdId(e.target.value)}
+              label="Ad ID"
+            >
               <MenuItem value="">All Ads</MenuItem>
               {availableAdIds.map((id) => (
-                <MenuItem key={id} value={id}>{id}</MenuItem>
+                <MenuItem key={id} value={id}>
+                  {id}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
         </Grid>
         <Grid item xs={12}>
           <Stack direction="row" spacing={1} justifyContent="flex-end">
-            <Button variant="contained" onClick={handleApplyFilters} size="small">Apply Filters</Button>
-            <Button variant="outlined" onClick={handleClearFilters} size="small">Clear All</Button>
+            <Button variant="contained" onClick={handleApplyFilters} size="small">
+              Apply Filters
+            </Button>
+            <Button variant="outlined" onClick={handleClearFilters} size="small">
+              Clear All
+            </Button>
           </Stack>
         </Grid>
       </Grid>
@@ -387,11 +439,15 @@ export default function PnLAnalytics() {
               <Card>
                 <CardContent>
                   <Stack direction="row" alignItems="center" spacing={2}>
-                    <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'success.light', display: 'flex' }}>
+                    <Box
+                      sx={{ p: 1.5, borderRadius: 2, bgcolor: 'success.light', display: 'flex' }}
+                    >
                       <IconCash size={32} color="green" />
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" color="text.secondary">Total Net Profit</Typography>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        Total Net Profit
+                      </Typography>
                       <Typography variant="h4" sx={{ color: 'success.main' }}>
                         {formatCurrency(data.summary.total_net_profit)}
                       </Typography>
@@ -408,15 +464,21 @@ export default function PnLAnalytics() {
               <Card>
                 <CardContent>
                   <Stack direction="row" alignItems="center" spacing={2}>
-                    <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'primary.light', display: 'flex' }}>
+                    <Box
+                      sx={{ p: 1.5, borderRadius: 2, bgcolor: 'primary.light', display: 'flex' }}
+                    >
                       <IconTrendingUp size={32} color="blue" />
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" color="text.secondary">Average ROAS</Typography>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        Average ROAS
+                      </Typography>
                       <Typography variant="h4" sx={{ color: 'primary.main' }}>
                         {formatNumber(data.summary.average_roas, 2)}x
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">Return on Ad Spend</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Return on Ad Spend
+                      </Typography>
                     </Box>
                   </Stack>
                 </CardContent>
@@ -427,15 +489,21 @@ export default function PnLAnalytics() {
               <Card>
                 <CardContent>
                   <Stack direction="row" alignItems="center" spacing={2}>
-                    <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: 'warning.light', display: 'flex' }}>
+                    <Box
+                      sx={{ p: 1.5, borderRadius: 2, bgcolor: 'warning.light', display: 'flex' }}
+                    >
                       <IconReceipt size={32} color="orange" />
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" color="text.secondary">Average CPA</Typography>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        Average CPA
+                      </Typography>
                       <Typography variant="h4" sx={{ color: 'warning.main' }}>
                         {formatCurrency(data.summary.average_cpa)}
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">Cost Per Acquisition</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Cost Per Acquisition
+                      </Typography>
                     </Box>
                   </Stack>
                 </CardContent>
@@ -462,7 +530,10 @@ export default function PnLAnalytics() {
               </TableHead>
               <TableBody>
                 {data.rows.map((row, index) => (
-                  <TableRow key={`${row.utm_source}-${row.utm_campaign}-${row.ad_id}-${index}`} hover>
+                  <TableRow
+                    key={`${row.utm_source}-${row.utm_campaign}-${row.ad_id}-${index}`}
+                    hover
+                  >
                     <TableCell>{row.utm_source || '—'}</TableCell>
                     <TableCell>{row.utm_campaign || '—'}</TableCell>
                     <TableCell>{row.ad_id || '—'}</TableCell>
@@ -470,7 +541,10 @@ export default function PnLAnalytics() {
                     <TableCell align="right">{row.deals_count}</TableCell>
                     <TableCell align="right">{formatCurrency(row.gross_revenue)}</TableCell>
                     <TableCell align="right">{formatCurrency(row.direct_cost)}</TableCell>
-                    <TableCell align="right" sx={{ color: row.net_profit >= 0 ? 'success.main' : 'error.main' }}>
+                    <TableCell
+                      align="right"
+                      sx={{ color: row.net_profit >= 0 ? 'success.main' : 'error.main' }}
+                    >
                       <strong>{formatCurrency(row.net_profit)}</strong>
                     </TableCell>
                     <TableCell align="right">{formatNumber(row.roas, 2)}x</TableCell>
@@ -485,4 +559,3 @@ export default function PnLAnalytics() {
     </AppPage>
   );
 }
-

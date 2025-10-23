@@ -33,9 +33,7 @@ const renderWithProviders = (ui: React.ReactElement) => {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <SnackbarProvider>
-          <MemoryRouter>
-            {ui}
-          </MemoryRouter>
+          <MemoryRouter>{ui}</MemoryRouter>
         </SnackbarProvider>
       </ThemeProvider>
     </StyledEngineProvider>
@@ -214,7 +212,7 @@ describe('Notifications Page', () => {
 
   it('should display "All caught up!" when all notifications are read', () => {
     const readNotifications = mockNotifications.map((n) => ({ ...n, isRead: true }));
-    
+
     vi.mocked(useNotifications).mockReturnValue({
       notifications: readNotifications,
       filteredNotifications: readNotifications,
@@ -270,7 +268,7 @@ describe('Notifications Page', () => {
 
   it('should not show "Mark all as read" button when all notifications are read', () => {
     const readNotifications = mockNotifications.map((n) => ({ ...n, isRead: true }));
-    
+
     vi.mocked(useNotifications).mockReturnValue({
       notifications: readNotifications,
       filteredNotifications: readNotifications,
@@ -298,7 +296,7 @@ describe('Notifications Page', () => {
 
   it('should call markAsRead when clicking on unread notification', async () => {
     const user = userEvent.setup();
-    
+
     vi.mocked(useNotifications).mockReturnValue({
       notifications: mockNotifications,
       filteredNotifications: mockNotifications,
@@ -331,7 +329,7 @@ describe('Notifications Page', () => {
 
   it('should not call markAsRead when clicking on read notification', async () => {
     const user = userEvent.setup();
-    
+
     vi.mocked(useNotifications).mockReturnValue({
       notifications: mockNotifications,
       filteredNotifications: mockNotifications,
@@ -363,7 +361,7 @@ describe('Notifications Page', () => {
 
   it('should call markAllAsRead when clicking "Mark all as read" button', async () => {
     const user = userEvent.setup();
-    
+
     vi.mocked(useNotifications).mockReturnValue({
       notifications: mockNotifications,
       filteredNotifications: mockNotifications,

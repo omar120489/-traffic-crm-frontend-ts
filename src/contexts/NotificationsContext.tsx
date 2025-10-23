@@ -22,9 +22,7 @@ export function NotificationsProvider({ children }: NotificationsProviderProps) 
 
   const value = useMemo(() => ({ unreadCount, refresh }), [unreadCount, refresh]);
 
-  return (
-    <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>
-  );
+  return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
 }
 
 /**
@@ -50,4 +48,3 @@ export function useNotificationsContext(): NotificationsContextValue {
   }
   return context;
 }
-

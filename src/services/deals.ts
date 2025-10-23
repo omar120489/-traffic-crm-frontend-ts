@@ -73,7 +73,10 @@ export async function createDeal(payload: DealCreateDto): Promise<Deal> {
 
 export async function updateDeal(id: UUID, payload: DealUpdateDto): Promise<Deal> {
   const mappedPayload = toDealUpdateDto(payload);
-  const response = await apiPatch<Record<string, unknown>, any>(`${BASE_PATH}/${id}`, mappedPayload);
+  const response = await apiPatch<Record<string, unknown>, any>(
+    `${BASE_PATH}/${id}`,
+    mappedPayload
+  );
   return fromDealDto(response);
 }
 

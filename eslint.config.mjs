@@ -79,7 +79,33 @@ export default [
       'no-restricted-imports': [
         'error',
         {
-          patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*']
+          patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
+          paths: [
+            {
+              name: 'ui-component',
+              message: 'Use AppPage + MUI primitives instead. See RUN.md for migration guide.'
+            },
+            {
+              name: '@tabler/icons-react',
+              message: 'Use @mui/icons-material for consistency. Import specific icons only.'
+            },
+            {
+              name: 'apexcharts',
+              message: 'Use @mui/x-charts for consistency with MUI ecosystem.'
+            },
+            {
+              name: 'react-perfect-scrollbar',
+              message: 'Use native overflow with MUI containers (Box with sx={{ overflow: "auto" }}).'
+            },
+            {
+              name: 'fullcalendar',
+              message: 'Use approved calendar library (discuss with team if needed).'
+            },
+            {
+              name: 'moment',
+              message: 'Use date-fns or Day.js for smaller bundle size and better tree-shaking.'
+            }
+          ]
         }
       ],
 

@@ -72,19 +72,13 @@ function getEventTitle(event: JourneyEvent): string {
     case 'deal_won':
       return 'Deal marked as Won';
     case 'deal_lost':
-      return payload?.reason
-        ? `Deal marked as Lost: ${payload.reason}`
-        : 'Deal marked as Lost';
+      return payload?.reason ? `Deal marked as Lost: ${payload.reason}` : 'Deal marked as Lost';
     case 'first_quote_sent':
       return 'First quote sent to customer';
     case 'message_sent':
-      return payload?.subject
-        ? `Message sent: ${payload.subject}`
-        : 'Message sent';
+      return payload?.subject ? `Message sent: ${payload.subject}` : 'Message sent';
     case 'agent_handoff':
-      return payload?.agent
-        ? `Handed off to ${payload.agent}`
-        : 'Handed off to another agent';
+      return payload?.agent ? `Handed off to ${payload.agent}` : 'Handed off to another agent';
     case 'deal_created':
       return 'Deal created';
     case 'lead_created':
@@ -229,11 +223,7 @@ export default function ActivityTimeline({
               secondary={
                 <>
                   {description && (
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mt: 0.5, mb: 0.5 }}
-                    >
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, mb: 0.5 }}>
                       {description}
                     </Typography>
                   )}
@@ -249,5 +239,3 @@ export default function ActivityTimeline({
     </List>
   );
 }
-
-

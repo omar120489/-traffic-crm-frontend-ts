@@ -27,7 +27,13 @@
     "dev:reporting": "cd traffic-crm-backend-reporting && npm run start:dev",
     "dev:services": "docker-compose up -d mailhog minio",
     "dev:all": "./scripts/check-ports.sh && npm run dev:services && npm run dev:backend & npm run dev:reporting & npm start",
-    "check:ports": "source .env 2>/dev/null || true && ./scripts/check-ports.sh"
+    "check:ports": "source .env 2>/dev/null || true && ./scripts/check-ports.sh",
+    "audit:full": "bash scripts/audit_all.sh",
+    "codemod:preview": "ts-node scripts/codemod_modernize.ts",
+    "codemod:apply": "ts-node scripts/codemod_modernize.ts --apply",
+    "fix:typescript": "ts-node scripts/fix_remaining.ts --write",
+    "fix:preview": "ts-node scripts/fix_remaining.ts",
+    "verify:all": "pnpm run lint && pnpm typecheck && pnpm test --run && pnpm build"
   },
   "dependencies": {
     "@auth0/auth0-react": "2.5.0",

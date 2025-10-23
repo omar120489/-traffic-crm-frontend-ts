@@ -9,14 +9,15 @@ import type { Attachment } from 'types/api';
 
 const attachmentsMocks = vi.hoisted(() => ({
   list: vi.fn<(entityType: string, entityId: string | number) => Promise<Attachment[]>>(),
-  upload: vi.fn<
-    (options: {
-      entityType: string;
-      entityId: string | number;
-      file: File;
-      onUploadProgress?: (progress: number) => void;
-    }) => Promise<Attachment>
-  >(),
+  upload:
+    vi.fn<
+      (options: {
+        entityType: string;
+        entityId: string | number;
+        file: File;
+        onUploadProgress?: (progress: number) => void;
+      }) => Promise<Attachment>
+    >(),
   remove: vi.fn()
 }));
 
@@ -65,9 +66,7 @@ describe('useAttachments', () => {
       return uploadedAttachment;
     });
 
-    let hookValue:
-      | ReturnType<typeof useAttachments>
-      | null = null;
+    let hookValue: ReturnType<typeof useAttachments> | null = null;
 
     function TestComponent() {
       hookValue = useAttachments({

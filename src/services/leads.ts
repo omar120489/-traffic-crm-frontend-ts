@@ -23,15 +23,13 @@ export async function getLead(id: UUID): Promise<Lead> {
 export async function createLead(payload: LeadCreateDto): Promise<Lead> {
   // Attempt to get attribution data (will be null if already sent this session)
   const attribution = getAttributionPayload();
-  
+
   // Merge attribution into payload if available
-  const finalPayload = attribution 
-    ? { ...payload, attribution }
-    : payload;
-  
+  const finalPayload = attribution ? { ...payload, attribution } : payload;
+
   // Create lead with attribution
   const response = await apiPost<LeadCreateDto, Lead>(BASE_PATH, finalPayload);
-  
+
   // Mark attribution as sent after successful creation
   if (attribution) {
     markAttributionSent();
@@ -44,7 +42,7 @@ export async function createLead(payload: LeadCreateDto): Promise<Lead> {
       });
     }
   }
-  
+
   return response;
 }
 

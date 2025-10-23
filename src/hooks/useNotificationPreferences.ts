@@ -96,7 +96,13 @@ export function useNotificationPreferences() {
    * Mute all notification types
    */
   const muteAll = useCallback(() => {
-    const allTypes: NotificationType[] = ['comment', 'attachment', 'notification', 'email', 'mention'];
+    const allTypes: NotificationType[] = [
+      'comment',
+      'attachment',
+      'notification',
+      'email',
+      'mention'
+    ];
     setPreferences({ mutedTypes: allTypes });
   }, []);
 
@@ -117,4 +123,3 @@ export function useNotificationPreferences() {
 }
 
 export default useNotificationPreferences;
-

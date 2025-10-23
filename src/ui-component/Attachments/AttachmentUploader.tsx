@@ -134,7 +134,11 @@ export function AttachmentUploader({
           <Tooltip title="Refresh list">
             <span>
               <IconButton onClick={() => void refresh()} disabled={loading}>
-                {loading ? <CircularProgress size={20} /> : <RefreshOutlinedIcon fontSize="small" />}
+                {loading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <RefreshOutlinedIcon fontSize="small" />
+                )}
               </IconButton>
             </span>
           </Tooltip>
@@ -225,7 +229,8 @@ export function AttachmentUploader({
                     primary={attachment.filename}
                     secondary={
                       <Typography variant="caption" color="text.secondary">
-                        {formatFileSize(attachment.fileSize)} • {formatTimestamp(attachment.createdAt)}
+                        {formatFileSize(attachment.fileSize)} •{' '}
+                        {formatTimestamp(attachment.createdAt)}
                       </Typography>
                     }
                   />

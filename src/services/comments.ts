@@ -87,7 +87,10 @@ export async function listComments(params: ListCommentsParams): Promise<CommentL
 }
 
 export async function createComment(payload: CommentCreateDto): Promise<Comment> {
-  const response = await apiPost<CommentCreateRequest, CommentDto>(BASE_URL, toCreateRequest(payload));
+  const response = await apiPost<CommentCreateRequest, CommentDto>(
+    BASE_URL,
+    toCreateRequest(payload)
+  );
 
   return mapComment(response);
 }

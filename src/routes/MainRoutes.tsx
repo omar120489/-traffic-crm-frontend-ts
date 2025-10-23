@@ -17,6 +17,7 @@ const CompaniesListPage = Loadable(lazy(() => import('views/pages/companies/Comp
 const AnalyticsDashboard = Loadable(lazy(() => import('views/pages/analytics/AnalyticsDashboard')));
 const PnLAnalyticsPage = Loadable(lazy(() => import('views/analytics/PnLAnalytics')));
 const NotificationsPage = Loadable(lazy(() => import('views/notifications/Notifications')));
+const ChatPage = Loadable(lazy(() => import('views/apps/chat/ChatPage')));
 
 const MainRoutes: RouteObject = {
   path: '/',
@@ -73,6 +74,10 @@ const MainRoutes: RouteObject = {
     {
       path: '/notifications',
       element: <NotificationsPage />
+    },
+    {
+      path: '/chat',
+      element: <ChatPage />
     }
   ]
 };

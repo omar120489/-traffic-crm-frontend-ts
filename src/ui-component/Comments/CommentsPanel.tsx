@@ -95,7 +95,11 @@ export function CommentsPanel({ entityType, entityId, title = 'Comments' }: Comm
           <Tooltip title="Refresh">
             <span>
               <IconButton onClick={() => void refresh()} disabled={loading}>
-                {loading ? <CircularProgress size={20} /> : <RefreshOutlinedIcon fontSize="small" />}
+                {loading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <RefreshOutlinedIcon fontSize="small" />
+                )}
               </IconButton>
             </span>
           </Tooltip>
@@ -114,11 +118,7 @@ export function CommentsPanel({ entityType, entityId, title = 'Comments' }: Comm
             disabled={isCreating}
           />
           <Box display="flex" justifyContent="flex-end">
-            <Button
-              variant="contained"
-              onClick={() => void handleSubmit()}
-              disabled={!canSubmit}
-            >
+            <Button variant="contained" onClick={() => void handleSubmit()} disabled={!canSubmit}>
               {isCreating ? <CircularProgress size={20} /> : 'Post'}
             </Button>
           </Box>

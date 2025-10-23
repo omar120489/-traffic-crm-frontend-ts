@@ -148,8 +148,12 @@ export default function DealsListPage() {
     const initialFilters: FilterValues = {
       date_from: getString('date_from'),
       date_to: getString('date_to'),
-      amount_min: searchParams.get('amount_min') ? Number(searchParams.get('amount_min')) : undefined,
-      amount_max: searchParams.get('amount_max') ? Number(searchParams.get('amount_max')) : undefined,
+      amount_min: searchParams.get('amount_min')
+        ? Number(searchParams.get('amount_min'))
+        : undefined,
+      amount_max: searchParams.get('amount_max')
+        ? Number(searchParams.get('amount_max'))
+        : undefined,
       stages: getArray('stages'),
       statuses: getArray('statuses')
     };
@@ -162,8 +166,12 @@ export default function DealsListPage() {
       search: searchParams.get('search') ?? '',
       date_from: getString('date_from'),
       date_to: getString('date_to'),
-      amount_min: searchParams.get('amount_min') ? Number(searchParams.get('amount_min')) : undefined,
-      amount_max: searchParams.get('amount_max') ? Number(searchParams.get('amount_max')) : undefined,
+      amount_min: searchParams.get('amount_min')
+        ? Number(searchParams.get('amount_min'))
+        : undefined,
+      amount_max: searchParams.get('amount_max')
+        ? Number(searchParams.get('amount_max'))
+        : undefined,
       stages: getString('stages'),
       statuses: getString('statuses'),
       stage: getString('stage') as DealQuery['stage'],
@@ -213,7 +221,11 @@ export default function DealsListPage() {
       { field: 'status', headerName: 'Status' },
       { field: 'closeDate', headerName: 'Close Date', valueFormatter: formatDateForExport },
       { field: 'ownerId', headerName: 'Owner' },
-      { field: 'grossRevenue', headerName: 'Gross Revenue', valueFormatter: formatCurrencyForExport },
+      {
+        field: 'grossRevenue',
+        headerName: 'Gross Revenue',
+        valueFormatter: formatCurrencyForExport
+      },
       { field: 'directCost', headerName: 'Direct Cost', valueFormatter: formatCurrencyForExport },
       { field: 'netProfit', headerName: 'Net Profit', valueFormatter: formatCurrencyForExport },
       { field: 'updatedAt', headerName: 'Updated', valueFormatter: formatDateForExport }
@@ -223,7 +235,11 @@ export default function DealsListPage() {
 
   const handleExportXLSX = useCallback(() => {
     try {
-      const filename = buildExportFilename('deals', 'xlsx', query.search ? { search: query.search } : undefined);
+      const filename = buildExportFilename(
+        'deals',
+        'xlsx',
+        query.search ? { search: query.search } : undefined
+      );
       exportToXLSX(deals, exportColumns, filename);
       enqueueSnackbar(`Exported ${deals.length} deals to ${filename}`, { variant: 'success' });
     } catch (error) {
@@ -234,7 +250,11 @@ export default function DealsListPage() {
 
   const handleExportPDF = useCallback(() => {
     try {
-      const filename = buildExportFilename('deals', 'pdf', query.search ? { search: query.search } : undefined);
+      const filename = buildExportFilename(
+        'deals',
+        'pdf',
+        query.search ? { search: query.search } : undefined
+      );
       exportToPDF(deals, exportColumns, filename, 'Deals Report');
       enqueueSnackbar(`Exported ${deals.length} deals to ${filename}`, { variant: 'success' });
     } catch (error) {
@@ -292,14 +312,18 @@ export default function DealsListPage() {
       page: '1', // Reset to page 1 on filter change
       date_from: filterValues.date_from as string | undefined,
       date_to: filterValues.date_to as string | undefined,
-      amount_min: filterValues.amount_min === undefined ? undefined : String(filterValues.amount_min),
-      amount_max: filterValues.amount_max === undefined ? undefined : String(filterValues.amount_max),
-      stages: Array.isArray(filterValues.stages) && filterValues.stages.length > 0
-        ? filterValues.stages.join(',')
-        : undefined,
-      statuses: Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
-        ? filterValues.statuses.join(',')
-        : undefined
+      amount_min:
+        filterValues.amount_min === undefined ? undefined : String(filterValues.amount_min),
+      amount_max:
+        filterValues.amount_max === undefined ? undefined : String(filterValues.amount_max),
+      stages:
+        Array.isArray(filterValues.stages) && filterValues.stages.length > 0
+          ? filterValues.stages.join(',')
+          : undefined,
+      statuses:
+        Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
+          ? filterValues.statuses.join(',')
+          : undefined
     };
 
     syncSearchParams(patch);
@@ -311,12 +335,14 @@ export default function DealsListPage() {
       date_to: filterValues.date_to as string | undefined,
       amount_min: filterValues.amount_min as number | undefined,
       amount_max: filterValues.amount_max as number | undefined,
-      stages: Array.isArray(filterValues.stages) && filterValues.stages.length > 0
-        ? filterValues.stages.join(',')
-        : undefined,
-      statuses: Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
-        ? filterValues.statuses.join(',')
-        : undefined
+      stages:
+        Array.isArray(filterValues.stages) && filterValues.stages.length > 0
+          ? filterValues.stages.join(',')
+          : undefined,
+      statuses:
+        Array.isArray(filterValues.statuses) && filterValues.statuses.length > 0
+          ? filterValues.statuses.join(',')
+          : undefined
     });
   }, [filterValues, query, syncSearchParams, updateQuery]);
 

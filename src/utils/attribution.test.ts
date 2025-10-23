@@ -16,7 +16,7 @@ describe('attribution', () => {
   beforeEach(() => {
     // Clear sessionStorage before each test
     sessionStorage.clear();
-    
+
     // Mock window.location.search
     delete (window as any).location;
     (window as any).location = { search: '' };
@@ -28,7 +28,8 @@ describe('attribution', () => {
 
   describe('parseAttribution', () => {
     it('should parse UTM parameters from URL', () => {
-      (window as any).location.search = '?utm_source=facebook&utm_campaign=spring_sale&utm_medium=cpc';
+      (window as any).location.search =
+        '?utm_source=facebook&utm_campaign=spring_sale&utm_medium=cpc';
 
       const result = parseAttribution();
 
@@ -50,7 +51,7 @@ describe('attribution', () => {
     });
 
     it('should parse both UTM and platform parameters', () => {
-      (window as any).location.search = 
+      (window as any).location.search =
         '?utm_source=google&utm_medium=cpc&ad_id=999&campaign_id=xyz';
 
       const result = parseAttribution();
@@ -68,7 +69,7 @@ describe('attribution', () => {
 
       const stored = sessionStorage.getItem('traffic_crm_attribution');
       expect(stored).toBeTruthy();
-      
+
       const parsed = JSON.parse(stored!);
       expect(parsed.utm.source).toBe('twitter');
       expect(parsed.platform.ad_id).toBe('555');
@@ -76,7 +77,7 @@ describe('attribution', () => {
 
     it('should reuse existing UTI on subsequent calls', () => {
       (window as any).location.search = '?utm_source=facebook';
-      
+
       const result1 = parseAttribution();
       const result2 = parseAttribution();
 
@@ -225,7 +226,7 @@ describe('attribution', () => {
 
   describe('edge cases', () => {
     it('should handle special characters in UTM parameters', () => {
-      (window as any).location.search = 
+      (window as any).location.search =
         '?utm_source=email&utm_campaign=hello%20world&utm_content=50%25%20off';
 
       const result = parseAttribution();
@@ -257,5 +258,3 @@ describe('attribution', () => {
     });
   });
 });
-
-

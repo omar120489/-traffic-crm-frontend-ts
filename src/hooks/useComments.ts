@@ -46,7 +46,10 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
   const [updatingIds, setUpdatingIds] = useState<Set<EntityIdentifier>>(new Set());
   const [deletingIds, setDeletingIds] = useState<Set<EntityIdentifier>>(new Set());
 
-  const hasValidTarget = useMemo(() => entityType && entityId !== undefined, [entityType, entityId]);
+  const hasValidTarget = useMemo(
+    () => entityType && entityId !== undefined,
+    [entityType, entityId]
+  );
   const { subscribe } = useWebSocketEvents();
 
   const handleResponse = useCallback((response: CommentListResponse) => {
@@ -111,27 +114,24 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
     [entityId, entityType, hasValidTarget]
   );
 
-  const update = useCallback(
-    async (id: EntityIdentifier, payload: CommentUpdateDto) => {
+  const update = useCallback(async (id: EntityIdentifier, payload: CommentUpdateDto) => {
+    setUpdatingIds((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+    try {
+      const updated = await commentsService.updateComment(id, payload);
+      setComments((prev) => prev.map((comment) => (comment.id === id ? updated : comment)));
+      return updated;
+    } finally {
       setUpdatingIds((prev) => {
         const next = new Set(prev);
-        next.add(id);
+        next.delete(id);
         return next;
       });
-      try {
-        const updated = await commentsService.updateComment(id, payload);
-        setComments((prev) => prev.map((comment) => (comment.id === id ? updated : comment)));
-        return updated;
-      } finally {
-        setUpdatingIds((prev) => {
-          const next = new Set(prev);
-          next.delete(id);
-          return next;
-        });
-      }
-    },
-    []
-  );
+    }
+  }, []);
 
   const remove = useCallback(async (id: EntityIdentifier) => {
     setDeletingIds((prev) => {

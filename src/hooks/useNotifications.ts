@@ -168,40 +168,46 @@ export function useNotifications(): UseNotificationsResult {
   }, [load]);
 
   // Mark a notification as read with optimistic update
-  const markAsRead = useCallback(async (id: string | number) => {
-    // Optimistic update
-    setNotifications((prev) =>
-      prev.map((notif) => (notif.id === id ? { ...notif, isRead: true } : notif))
-    );
+  const markAsRead = useCallback(
+    async (id: string | number) => {
+      // Optimistic update
+      setNotifications((prev) =>
+        prev.map((notif) => (notif.id === id ? { ...notif, isRead: true } : notif))
+      );
 
-    try {
-      await notificationsService.markAsRead(id);
-    } catch (err) {
-      console.error('[useNotifications] Failed to mark notification as read:', err);
-      // Revert optimistic update on error
-      await load();
-      throw err;
-    }
-  }, [load]);
+      try {
+        await notificationsService.markAsRead(id);
+      } catch (err) {
+        console.error('[useNotifications] Failed to mark notification as read:', err);
+        // Revert optimistic update on error
+        await load();
+        throw err;
+      }
+    },
+    [load]
+  );
 
   // Mark a notification as unread with optimistic update
-  const markAsUnread = useCallback(async (id: string | number) => {
-    // Optimistic update
-    setNotifications((prev) =>
-      prev.map((notif) => (notif.id === id ? { ...notif, isRead: false } : notif))
-    );
+  const markAsUnread = useCallback(
+    async (id: string | number) => {
+      // Optimistic update
+      setNotifications((prev) =>
+        prev.map((notif) => (notif.id === id ? { ...notif, isRead: false } : notif))
+      );
 
-    try {
-      // Note: Backend endpoint doesn't exist yet, but structure is ready
-      // await notificationsService.markAsUnread(id);
-      console.log('[useNotifications] Mark as unread not yet implemented on backend for id:', id);
-    } catch (err) {
-      console.error('[useNotifications] Failed to mark notification as unread:', err);
-      // Revert optimistic update on error
-      await load();
-      throw err;
-    }
-  }, [load]);
+      try {
+        // Note: Backend endpoint doesn't exist yet, but structure is ready
+        // await notificationsService.markAsUnread(id);
+        console.log('[useNotifications] Mark as unread not yet implemented on backend for id:', id);
+      } catch (err) {
+        console.error('[useNotifications] Failed to mark notification as unread:', err);
+        // Revert optimistic update on error
+        await load();
+        throw err;
+      }
+    },
+    [load]
+  );
 
   // Mark all notifications as read with optimistic update
   const markAllAsRead = useCallback(async () => {
@@ -253,4 +259,3 @@ export function useNotifications(): UseNotificationsResult {
 }
 
 export default useNotifications;
-

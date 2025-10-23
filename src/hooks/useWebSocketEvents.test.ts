@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { io, Socket } from 'socket.io-client';
+import { io, type Socket } from 'socket.io-client';
 
 import { useWebSocketEvents } from './useWebSocketEvents';
 
@@ -19,7 +19,7 @@ describe('useWebSocketEvents', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Create a mock socket instance
     mockSocket = {
       on: mockOn,
@@ -107,7 +107,7 @@ describe('useWebSocketEvents', () => {
     const { result } = renderHook(() => useWebSocketEvents());
 
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    
+
     result.current.emit('test:event', { data: 'test' });
 
     expect(mockEmit).not.toHaveBeenCalled();
@@ -142,4 +142,3 @@ describe('useWebSocketEvents', () => {
     expect(testEventCalls).toHaveLength(2);
   });
 });
-

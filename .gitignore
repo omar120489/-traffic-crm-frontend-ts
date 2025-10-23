@@ -42,3 +42,6 @@ yarn-error.log*
 test-results/
 playwright-report/
 playwright/.cache/
+
+# Project audit results (local analysis only)
+.project_audit/

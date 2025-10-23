@@ -4,6 +4,7 @@ import {
   IconReceipt2,
   IconBug,
   IconBellRinging,
+  IconMessageCircle,
   IconPhoneCall,
   IconQuestionMark,
   IconShieldLock,
@@ -19,6 +20,7 @@ const icons = {
   IconReceipt2,
   IconBug,
   IconBellRinging,
+  IconMessageCircle,
   IconPhoneCall,
   IconQuestionMark,
   IconShieldLock,
@@ -92,6 +94,14 @@ const pages = {
       url: '/notifications',
       icon: icons.IconBellRinging,
       breadcrumbs: false
+    },
+    {
+      id: 'chat',
+      title: 'chat',
+      type: 'item',
+      url: '/chat',
+      icon: icons.IconMessageCircle,
+      breadcrumbs: true
     },
     {
       id: 'maintenance',

@@ -66,5 +66,3 @@ export function useFilterPresets(storageKey: string) {
     clearPresets
   };
 }
-
-

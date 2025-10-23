@@ -11,14 +11,15 @@ const commentsMocks = vi.hoisted(() => ({
   list: vi.fn<
     (params: { entityType?: string; entityId?: string | number }) => Promise<CommentListResponse>
   >(),
-  create: vi.fn<
-    (payload: {
-      entityType: string;
-      entityId: string | number;
-      content: string;
-      mentions?: Array<string | number>;
-    }) => Promise<Comment>
-  >(),
+  create:
+    vi.fn<
+      (payload: {
+        entityType: string;
+        entityId: string | number;
+        content: string;
+        mentions?: Array<string | number>;
+      }) => Promise<Comment>
+    >(),
   update: vi.fn(),
   remove: vi.fn()
 }));
@@ -71,9 +72,7 @@ describe('useComments', () => {
     });
     commentsMocks.create.mockImplementation(async () => newComment);
 
-    let hookValue:
-      | ReturnType<typeof useComments>
-      | null = null;
+    let hookValue: ReturnType<typeof useComments> | null = null;
 
     function TestComponent() {
       hookValue = useComments({

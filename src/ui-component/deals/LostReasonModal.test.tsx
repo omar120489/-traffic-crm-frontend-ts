@@ -5,13 +5,7 @@ import LostReasonModal from './LostReasonModal';
 
 describe('LostReasonModal', () => {
   it('renders when open', () => {
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
+    render(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     expect(screen.getByText('Mark Deal as Lost')).toBeInTheDocument();
     expect(screen.getByLabelText(/Loss Reason/i)).toBeInTheDocument();
@@ -19,25 +13,13 @@ describe('LostReasonModal', () => {
   });
 
   it('does not render when closed', () => {
-    render(
-      <LostReasonModal
-        open={false}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
+    render(<LostReasonModal open={false} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     expect(screen.queryByText('Mark Deal as Lost')).not.toBeInTheDocument();
   });
 
   it('disables confirm button when no reason is selected', () => {
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
+    render(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     const confirmButton = screen.getByRole('button', { name: /Confirm & Mark Lost/i });
     expect(confirmButton).toBeDisabled();
@@ -45,14 +27,8 @@ describe('LostReasonModal', () => {
 
   it('enables confirm button when a reason is selected', async () => {
     const user = userEvent.setup();
-    
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
+
+    render(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     // Open the dropdown
     const select = screen.getByLabelText(/Loss Reason/i);
@@ -70,14 +46,8 @@ describe('LostReasonModal', () => {
   it('calls onConfirm with selected reason when confirmed', async () => {
     const user = userEvent.setup();
     const onConfirm = vi.fn();
-    
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={onConfirm}
-      />
-    );
+
+    render(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={onConfirm} />);
 
     // Select a reason
     const select = screen.getByLabelText(/Loss Reason/i);
@@ -98,14 +68,8 @@ describe('LostReasonModal', () => {
   it('includes notes in onConfirm when provided', async () => {
     const user = userEvent.setup();
     const onConfirm = vi.fn();
-    
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={onConfirm}
-      />
-    );
+
+    render(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={onConfirm} />);
 
     // Select a reason
     const select = screen.getByLabelText(/Loss Reason/i);
@@ -130,14 +94,8 @@ describe('LostReasonModal', () => {
   it('calls onClose when cancel button is clicked', async () => {
     const user = userEvent.setup();
     const onClose = vi.fn();
-    
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={onClose}
-        onConfirm={vi.fn()}
-      />
-    );
+
+    render(<LostReasonModal open={true} onClose={onClose} onConfirm={vi.fn()} />);
 
     const cancelButton = screen.getByRole('button', { name: /Cancel/i });
     await user.click(cancelButton);
@@ -148,11 +106,7 @@ describe('LostReasonModal', () => {
   it('resets state when closed', async () => {
     const user = userEvent.setup();
     const { rerender } = render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
+      <LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />
     );
 
     // Select a reason and add notes
@@ -165,21 +119,9 @@ describe('LostReasonModal', () => {
     await user.type(notesInput, 'Test notes');
 
     // Close and reopen the modal
-    rerender(
-      <LostReasonModal
-        open={false}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
-    
-    rerender(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
+    rerender(<LostReasonModal open={false} onClose={vi.fn()} onConfirm={vi.fn()} />);
+
+    rerender(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     // Should be reset - confirm button disabled
     const confirmButton = screen.getByRole('button', { name: /Confirm & Mark Lost/i });
@@ -188,14 +130,8 @@ describe('LostReasonModal', () => {
 
   it('displays all loss reason options', async () => {
     const user = userEvent.setup();
-    
-    render(
-      <LostReasonModal
-        open={true}
-        onClose={vi.fn()}
-        onConfirm={vi.fn()}
-      />
-    );
+
+    render(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     // Open the dropdown
     const select = screen.getByLabelText(/Loss Reason/i);
@@ -210,5 +146,3 @@ describe('LostReasonModal', () => {
     expect(screen.getByRole('option', { name: /Other/i })).toBeInTheDocument();
   });
 });
-
-

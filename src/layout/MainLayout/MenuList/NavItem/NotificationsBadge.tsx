@@ -18,7 +18,12 @@ interface NotificationsBadgeProps {
  * <NotificationsBadge icon={IconBellRinging} size="20px" stroke={1.5} />
  * ```
  */
-export default function NotificationsBadge({ icon: Icon, size, stroke, style }: NotificationsBadgeProps) {
+export default function NotificationsBadge({
+  icon: Icon,
+  size,
+  stroke,
+  style
+}: NotificationsBadgeProps) {
   const unreadCount = useUnreadCount();
 
   return (
@@ -41,4 +46,3 @@ export default function NotificationsBadge({ icon: Icon, size, stroke, style }: 
     </Badge>
   );
 }
-

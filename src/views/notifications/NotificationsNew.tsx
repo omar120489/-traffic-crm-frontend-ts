@@ -36,7 +36,10 @@ import { useNavigate } from 'react-router-dom';
 
 import AppPage from 'layouts/AppPage';
 import { useNotifications, type NotificationFilter } from 'hooks/useNotifications';
-import { useNotificationPreferences, type NotificationType } from 'hooks/useNotificationPreferences';
+import {
+  useNotificationPreferences,
+  type NotificationType
+} from 'hooks/useNotificationPreferences';
 import type { Notification } from 'types/api';
 import { isNewNotification } from 'utils/notifications';
 import { track } from 'utils/analytics';
@@ -108,7 +111,11 @@ interface NotificationItemProps {
   readonly onMarkAsUnread: (id: string | number) => Promise<void>;
 }
 
-function InnerNotificationItem({ notification, onMarkAsRead, onMarkAsUnread }: NotificationItemProps) {
+function InnerNotificationItem({
+  notification,
+  onMarkAsRead,
+  onMarkAsUnread
+}: NotificationItemProps) {
   const navigate = useNavigate();
   const isNew = isNewNotification(notification.createdAt);
 
@@ -170,7 +177,9 @@ function InnerNotificationItem({ notification, onMarkAsRead, onMarkAsUnread }: N
                     {notification.message}
                   </Typography>
                 )}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
+                <Box
+                  sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5, flexWrap: 'wrap' }}
+                >
                   <Typography variant="caption" color="text.secondary">
                     {formatRelativeTime(notification.createdAt)}
                   </Typography>
@@ -304,7 +313,13 @@ function NotificationPreferences() {
             <Button size="small" variant="outlined" onClick={unmuteAll} disabled={noneMuted}>
               Enable All
             </Button>
-            <Button size="small" variant="outlined" color="secondary" onClick={muteAll} disabled={allMuted}>
+            <Button
+              size="small"
+              variant="outlined"
+              color="secondary"
+              onClick={muteAll}
+              disabled={allMuted}
+            >
               Disable All
             </Button>
           </Box>
@@ -355,9 +370,8 @@ export default function Notifications() {
   };
 
   const notificationPlural = unreadCount > 1 ? 's' : '';
-  const subtitle = unreadCount > 0
-    ? `${unreadCount} unread notification${notificationPlural}`
-    : 'All caught up!';
+  const subtitle =
+    unreadCount > 0 ? `${unreadCount} unread notification${notificationPlural}` : 'All caught up!';
 
   const actions = (
     <Button
@@ -374,10 +388,18 @@ export default function Notifications() {
   const toolbar = (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
       <NotificationPreferences />
-      
+
       {!loading && !error && (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 2,
+              flexWrap: 'wrap'
+            }}
+          >
             <FormControl size="small" sx={{ minWidth: 220 }}>
               <InputLabel>Filter</InputLabel>
               <Select value={filter} onChange={handleFilterChange} label="Filter">
@@ -447,16 +469,17 @@ export default function Notifications() {
     </Box>
   );
 
-  const footer = totalPages > 1 ? (
-    <Pagination
-      count={totalPages}
-      page={page}
-      onChange={handlePageChange}
-      color="primary"
-      showFirstButton
-      showLastButton
-    />
-  ) : undefined;
+  const footer =
+    totalPages > 1 ? (
+      <Pagination
+        count={totalPages}
+        page={page}
+        onChange={handlePageChange}
+        color="primary"
+        showFirstButton
+        showLastButton
+      />
+    ) : undefined;
 
   return (
     <AppPage
@@ -485,4 +508,3 @@ export default function Notifications() {
     </AppPage>
   );
 }
-

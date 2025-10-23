@@ -74,7 +74,13 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs'
+        '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+        '@': path.resolve(__dirname, './src'),
+        '@core': path.resolve(__dirname, './src/core'),
+        '@data': path.resolve(__dirname, './src/data'),
+        '@features': path.resolve(__dirname, './src/features'),
+        '@shared': path.resolve(__dirname, './src/shared'),
+        '@styles': path.resolve(__dirname, './src/styles')
       }
     },
     base,
