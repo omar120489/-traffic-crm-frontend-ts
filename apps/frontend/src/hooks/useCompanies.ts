@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { companiesApi } from 'services/companies';
-import type { Company, CompanyQuery, PaginatedResponse } from 'types/api';
+import { companiesApi } from '@services/companies';
+import type { Company, CompanyQuery, PaginatedCompanies } from '@shared-types';
 
 const DEFAULT_QUERY: CompanyQuery = {
   page: 1,
@@ -16,7 +16,7 @@ interface UseCompaniesOptions {
 
 interface UseCompaniesResult {
   companies: Company[];
-  data: PaginatedResponse<Company> | null;
+  data: PaginatedCompanies | null;
   loading: boolean;
   error: unknown;
   query: CompanyQuery;
@@ -30,7 +30,7 @@ export function useCompanies(options?: UseCompaniesOptions): UseCompaniesResult 
     ...DEFAULT_QUERY,
     ...(options?.initialQuery ?? {}),
   }));
-  const [data, setData] = useState<PaginatedResponse<Company> | null>(null);
+  const [data, setData] = useState<PaginatedCompanies | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
 

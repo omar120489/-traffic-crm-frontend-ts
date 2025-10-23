@@ -1,18 +1,18 @@
-import { apiDelete, apiGet, apiPatch, apiPost } from 'utils/axios';
+import { apiDelete, apiGet, apiPatch, apiPost } from '@data/clients/axios';
 import type {
-  ApiResponse,
   Company,
   CompanyCreateDto,
   CompanyQuery,
   CompanyUpdateDto,
-  PaginatedResponse,
+  PaginatedCompanies,
   UUID,
-} from 'types/api';
+  ApiResponse,
+} from '@shared-types';
 
 const BASE_PATH = '/api/companies';
 
-export async function listCompanies(query?: CompanyQuery): Promise<PaginatedResponse<Company>> {
-  return apiGet<PaginatedResponse<Company>>(BASE_PATH, { params: query });
+export async function listCompanies(query?: CompanyQuery): Promise<PaginatedCompanies> {
+  return apiGet<PaginatedCompanies>(BASE_PATH, { params: query });
 }
 
 export async function getCompany(id: UUID): Promise<Company> {

@@ -18,9 +18,9 @@ import {
   type GridRenderCellParams,
 } from '@mui/x-data-grid';
 
-import MainCard from 'ui-component/cards/MainCard';
-import { useCompanies } from 'hooks/useCompanies';
-import type { Company, CompanyQuery } from 'types/api';
+import MainCard from '@/ui-component/cards/MainCard';
+import { useCompanies } from '@hooks/useCompanies';
+import type { Company, CompanyQuery } from '@shared-types';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -331,7 +331,7 @@ export default function CompaniesListPage() {
             rows={companies}
             columns={columns}
             loading={loading}
-            getRowId={(row) => row.id}
+            getRowId={(row: Company) => row.id}
             paginationMode="server"
             paginationModel={paginationModel}
             onPaginationModelChange={handlePaginationChange}
