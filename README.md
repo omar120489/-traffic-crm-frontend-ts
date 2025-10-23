@@ -1,5 +1,13 @@
 # Traffic CRM Monorepo
 
+[![CI](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg)](https://pnpm.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://reactjs.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-10-e0234e.svg)](https://nestjs.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+
 Full-stack TypeScript CRM platform for travel/traffic businesses with React frontend, NestJS backend, and background workers.
 
 ## 🏗️ Architecture
@@ -327,22 +335,53 @@ pnpm --filter @apps/workers build
 
 ## 🤝 Contributing
 
-1. Create a feature branch: `git checkout -b feature/my-feature`
-2. Make changes
-3. Run checks: `pnpm typecheck && pnpm lint && pnpm test`
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for detailed guidelines on:
+
+- Development setup and workflow
+- Coding standards and style guide
+- Commit message conventions
+- Pull request process
+- Testing requirements
+
+**Quick Start:**
+
+1. Fork & clone: `git clone https://github.com/YOUR_USERNAME/-traffic-crm-frontend-ts.git`
+2. Create a branch: `git checkout -b feat/my-feature`
+3. Make changes & test: `./scripts/premerge.sh`
 4. Commit: `git commit -m "feat: add my feature"`
-5. **Option A (current):** Merge locally with `MODE=local ./scripts/premerge.sh` (see [Local Workflow Guide](./docs/LOCAL_WORKFLOW.md))
-   **Option B (future):** Push and create PR with `MODE=pr ./scripts/premerge.sh` (after running `cleanup-history.sh`)
+5. Push & create PR: `git push origin feat/my-feature`
+
+See also:
+- [Local Development Workflow](./docs/LOCAL_WORKFLOW.md)
+- [Scripts Reference](./docs/SCRIPTS.md)
+- [Changelog](./CHANGELOG.md)
 
 ## 📄 License
 
 Proprietary - All rights reserved
 
-## 🆘 Support
+## 🆘 Support & Documentation
 
-- **Issues:** Check [STACK_SETUP_COMPLETE.md](./STACK_SETUP_COMPLETE.md) troubleshooting section
-- **SDK:** See [docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)
+### 📚 Documentation
+
+- **📍 Start Here:** [Documentation Index](./docs/INDEX.md) - Central navigation for all docs
+- **📐 Architecture:** [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md) - System design
+- **🔧 Development:** [Local Workflow](./docs/LOCAL_WORKFLOW.md) - Development guide
+- **✅ Production:** [Post-Sync Validation](./docs/POST_SYNC_VALIDATION_CHECKLIST.md)
+- **⚙️ Scripts:** [Scripts Reference](./docs/SCRIPTS.md) - Automation tools
+- **🤝 Contributing:** [Contributing Guide](./CONTRIBUTING.md) - How to contribute
+- **📝 Changelog:** [Changelog](./CHANGELOG.md) - Version history
+
+### 🔧 Troubleshooting
+
+- **SDK Issues:** See [docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)
 - **Infrastructure:** See [infra/docker/README.md](./infra/docker/README.md)
+- **Common Issues:** Check [docs/INDEX.md#troubleshooting](./docs/INDEX.md)
+
+### 💬 Get Help
+
+- **Issues:** [GitHub Issues](https://github.com/omar120489/-traffic-crm-frontend-ts/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/omar120489/-traffic-crm-frontend-ts/discussions)
 
 ---
 
