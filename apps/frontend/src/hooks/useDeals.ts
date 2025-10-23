@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { dealsApi } from 'services/deals';
-import type { Deal, DealQuery, PaginatedResponse } from 'types/api';
+import { dealsApi } from '@services/deals';
+import type { Deal, DealQuery, PaginatedDeals } from '@shared-types';
 
 const DEFAULT_QUERY: DealQuery = {
   page: 1,
@@ -15,7 +15,7 @@ interface UseDealsOptions {
 
 interface UseDealsResult {
   deals: Deal[];
-  data: PaginatedResponse<Deal> | null;
+  data: PaginatedDeals | null;
   loading: boolean;
   error: unknown;
   query: DealQuery;
@@ -29,7 +29,7 @@ export function useDeals(options?: UseDealsOptions): UseDealsResult {
     ...DEFAULT_QUERY,
     ...(options?.initialQuery ?? {}),
   }));
-  const [data, setData] = useState<PaginatedResponse<Deal> | null>(null);
+  const [data, setData] = useState<PaginatedDeals | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
 

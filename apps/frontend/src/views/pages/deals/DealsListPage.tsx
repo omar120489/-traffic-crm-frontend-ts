@@ -18,12 +18,12 @@ import {
 } from '@mui/x-data-grid';
 import { useSnackbar } from 'notistack';
 
-import MainCard from 'ui-component/cards/MainCard';
-import ExportMenu from 'ui-component/ExportMenu';
-import { FilterPanel, type FilterConfig, type FilterValues } from 'ui-component/FilterPanel';
-import { useDeals } from 'hooks/useDeals';
-import { useFilterPresets } from 'hooks/useFilterPresets';
-import type { Deal, DealQuery } from 'types/api';
+import MainCard from '@/ui-component/cards/MainCard';
+import ExportMenu from '@/ui-component/ExportMenu';
+import { FilterPanel, type FilterConfig, type FilterValues } from '@/ui-component/FilterPanel';
+import { useDeals } from '@hooks/useDeals';
+import { useFilterPresets } from '@hooks/useFilterPresets';
+import type { Deal, DealQuery } from '@shared-types';
 import {
   exportToXLSX,
   exportToPDF,
@@ -31,7 +31,7 @@ import {
   formatCurrencyForExport,
   formatDateForExport,
   type ExportColumn,
-} from 'utils/exporters';
+} from '@utils/exporters';
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -686,7 +686,7 @@ export default function DealsListPage() {
             rows={deals}
             columns={columns}
             loading={loading}
-            getRowId={(row) => row.id}
+            getRowId={(row: Deal) => row.id}
             paginationMode="server"
             paginationModel={paginationModel}
             onPaginationModelChange={handlePaginationChange}

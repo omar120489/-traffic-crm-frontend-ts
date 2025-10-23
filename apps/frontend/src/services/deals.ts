@@ -1,13 +1,13 @@
-import { apiDelete, apiGet, apiPatch, apiPost } from 'utils/axios';
+import { apiDelete, apiGet, apiPatch, apiPost } from '@data/clients/axios';
 import type {
-  ApiResponse,
   Deal,
   DealCreateDto,
   DealQuery,
   DealUpdateDto,
-  PaginatedResponse,
+  PaginatedDeals,
   UUID,
-} from 'types/api';
+  ApiResponse,
+} from '@shared-types';
 
 const BASE_PATH = '/api/deals';
 
@@ -53,8 +53,8 @@ function fromDealDto(dto: any): Deal {
   };
 }
 
-export async function listDeals(query?: DealQuery): Promise<PaginatedResponse<Deal>> {
-  const response = await apiGet<PaginatedResponse<any>>(BASE_PATH, { params: query });
+export async function listDeals(query?: DealQuery): Promise<PaginatedDeals> {
+  const response = await apiGet<PaginatedDeals>(BASE_PATH, { params: query });
   return {
     ...response,
     items: response.items.map(fromDealDto),
