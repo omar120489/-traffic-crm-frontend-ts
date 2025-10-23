@@ -44,5 +44,3 @@ seed/
 # Misc
 .DS_Store
 .git/
-infra/
-tools/

@@ -16,7 +16,7 @@ import AttachmentUploader from 'ui-component/Attachments/AttachmentUploader';
 import CommentsPanel from 'ui-component/Comments/CommentsPanel';
 import MainCard from 'ui-component/cards/MainCard';
 import ActivityTimeline from 'ui-component/ActivityTimeline/ActivityTimeline';
-import { dealsApi } from 'services/deals';
+import { dealsApi } from '@services/deals.sdk';
 import { useJourneyEvents } from 'hooks/useJourneyEvents';
 import type { Deal } from 'types/api';
 import ClosedWonModal from './ClosedWonModal';

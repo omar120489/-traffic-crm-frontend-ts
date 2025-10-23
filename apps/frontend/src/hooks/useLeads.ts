@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { leadsApi } from '@services/leads';
+import { leadsApi } from '@services/leads.sdk';
 import type { Lead, LeadQuery, PaginatedLeads } from '@shared-types';
 
 const DEFAULT_QUERY: LeadQuery = {

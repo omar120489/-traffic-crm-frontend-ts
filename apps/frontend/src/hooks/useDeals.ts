@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { dealsApi } from '@services/deals';
+import { dealsApi } from '@services/deals.sdk';
 import type { Deal, DealQuery, PaginatedDeals } from '@shared-types';
 
 const DEFAULT_QUERY: DealQuery = {

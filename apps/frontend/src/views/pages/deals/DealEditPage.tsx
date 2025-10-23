@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 
 import MainCard from 'ui-component/cards/MainCard';
 import { DEAL_STAGES, DEAL_STATUSES } from 'constants/deals';
-import { dealsApi } from 'services/deals';
+import { dealsApi } from '@services/deals.sdk';
 import type { Deal, DealUpdateDto } from 'types/api';
 import { useSnackbar } from 'notistack';
 import { isAxiosError } from 'axios';

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { companiesApi } from '@services/companies';
+import { companiesApi } from '@services/companies.sdk';
 import type { Company, CompanyQuery, PaginatedCompanies } from '@shared-types';
 
 const DEFAULT_QUERY: CompanyQuery = {

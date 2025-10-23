@@ -16,7 +16,7 @@ import AttachmentUploader from 'ui-component/Attachments/AttachmentUploader';
 import CommentsPanel from 'ui-component/Comments/CommentsPanel';
 import MainCard from 'ui-component/cards/MainCard';
 import ActivityTimeline from 'ui-component/ActivityTimeline/ActivityTimeline';
-import { leadsApi } from 'services/leads';
+import { leadsApi } from '@services/leads.sdk';
 import { useJourneyEvents } from 'hooks/useJourneyEvents';
 import type { Lead } from 'types/api';
 

@@ -1,0 +1,336 @@
+# Traffic CRM Monorepo
+
+Full-stack TypeScript CRM platform for travel/traffic businesses with React frontend, NestJS backend, and background workers.
+
+## 🏗️ Architecture
+
+```
+traffic-crm/
+├── apps/
+│   ├── frontend/          # React 19 + Vite + TypeScript + MUI
+│   ├── core-api/          # NestJS + Fastify + Prisma + PostgreSQL
+│   ├── workers/           # BullMQ + Redis background jobs
+│   ├── api-dev/           # Legacy Express mock API (deprecated)
+│   └── reporting/         # NestJS reporting microservice
+├── packages/
+│   ├── sdk-js/            # Auto-generated typed SDK from OpenAPI
+│   └── shared-types/      # Shared TypeScript types (Zod schemas)
+└── infra/
+    └── docker/            # PostgreSQL, Redis, MailHog, MinIO
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ (Note: Workspace runs on Node 24+)
+- pnpm 10+ (installed via `corepack enable`)
+- Docker Desktop
+
+### One-Command Setup
+
+```bash
+./scripts/quick-start.sh
+```
+
+This will:
+1. Start Docker services (PostgreSQL, Redis, MailHog, MinIO)
+2. Run database migrations
+3. Seed demo data
+4. Generate dev JWT token
+5. Attempt SDK generation (if API is running)
+
+### Manual Setup (Alternative)
+
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Start infrastructure
+pnpm docker:up
+
+# 3. Setup database
+pnpm db:migrate
+pnpm db:seed
+
+# 4. Generate dev JWT
+pnpm dev:jwt
+# Copy token and add to apps/frontend/.env.local:
+# VITE_DEV_JWT=<paste_token_here>
+
+# 5. Start Core API
+pnpm --filter @apps/core-api dev
+
+# 6. Generate SDK types (after API is running)
+pnpm sdk:gen
+
+# 7. Start Frontend (new terminal)
+pnpm --filter ./apps/frontend dev
+
+# 8. (Optional) Start Workers
+pnpm --filter @apps/workers dev
+```
+
+## 📚 Documentation
+
+- **[STACK_SETUP_COMPLETE.md](./STACK_SETUP_COMPLETE.md)** - Full stack setup guide & troubleshooting
+- **[docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)** - Migrating services to typed SDK
+- **[docs/guides/BRANDING_SETUP.md](./docs/guides/BRANDING_SETUP.md)** - Logo & branding setup
+- **[LOGO_SETUP.md](./LOGO_SETUP.md)** - Quick logo installation guide
+- **[infra/docker/README.md](./infra/docker/README.md)** - Infrastructure services
+
+## 🔧 Development Commands
+
+### Root-Level
+
+```bash
+pnpm dev              # Start all apps in parallel
+pnpm build            # Build all apps
+pnpm typecheck        # Type check all workspaces
+pnpm lint             # Lint all workspaces
+pnpm test             # Run all tests
+
+# Infrastructure
+pnpm docker:up        # Start Docker services
+pnpm docker:down      # Stop Docker services
+pnpm db:up            # Start PostgreSQL only
+pnpm db:migrate       # Run Prisma migrations
+pnpm db:seed          # Seed demo data
+
+# Development utilities
+pnpm dev:jwt          # Generate dev JWT token
+pnpm sdk:gen          # Regenerate SDK types
+```
+
+### Per-App
+
+```bash
+# Core API
+pnpm --filter @apps/core-api dev            # Start with hot reload
+pnpm --filter @apps/core-api prisma:studio  # Open Prisma Studio GUI
+
+# Frontend
+pnpm --filter ./apps/frontend dev     # Start Vite dev server
+pnpm --filter ./apps/frontend build   # Production build
+
+# Workers (optional)
+pnpm --filter @apps/workers dev       # Start background workers
+```
+
+## 🌐 Service URLs
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| Frontend | http://localhost:5173 | - |
+| Core API | http://localhost:3000 | - |
+| Swagger Docs | http://localhost:3000/docs | - |
+| Prisma Studio | http://localhost:5555 | (run `prisma:studio`) |
+| MailHog UI | http://localhost:8025 | - |
+| MinIO Console | http://localhost:9001 | admin / minioadmin |
+
+## 🧪 Demo Data
+
+The seed creates:
+- **Org:** demo-org
+- **Company:** Acme Inc.
+- **Contacts:** John Doe, Jane Smith
+- **Leads:** Website Inquiry (NEW), Referral (QUALIFIED)
+- **Deals:** Acme Pilot ($12k), Enterprise Package ($50k)
+
+Access these via `/contacts`, `/leads`, `/deals` in the frontend.
+
+## 🏗️ Tech Stack
+
+### Frontend
+- React 19 (RC)
+- TypeScript 5.6
+- Vite 7
+- Material-UI (MUI) 7
+- React Router 7
+- Redux Toolkit + Redux Persist
+- SWR for data fetching
+- Axios (legacy) + ky (SDK)
+- Formik + Yup validation
+- ApexCharts for analytics
+- XLSX for exports
+
+### Backend
+- NestJS 10
+- Fastify 4
+- Prisma 5
+- PostgreSQL 16
+- Jose (JWT)
+- BullMQ (job queues)
+- IORedis
+- Zod validation
+- Swagger/OpenAPI
+
+### Infrastructure
+- Docker Compose
+- PostgreSQL 16
+- Redis 7
+- MailHog (email testing)
+- MinIO (S3-compatible storage)
+
+### Monorepo
+- pnpm workspaces
+- TypeScript project references
+- Shared types package
+- Auto-generated SDK
+
+## 🔐 Authentication
+
+**Development:** Uses dev JWT tokens generated via `pnpm dev:jwt`
+
+**Production:** Integrate with:
+- Auth0 (recommended)
+- AWS Cognito
+- Keycloak
+- Custom JWT issuer
+
+See `apps/core-api/src/auth/jwt.guard.ts` for implementation.
+
+## 📊 Database
+
+### Schema Management
+
+```bash
+# Create migration
+pnpm --filter @apps/core-api prisma:migrate --name <migration_name>
+
+# Generate Prisma Client
+pnpm --filter @apps/core-api prisma:generate
+
+# Open Prisma Studio
+pnpm --filter @apps/core-api prisma:studio
+```
+
+### Entities
+- Orgs (multi-tenancy)
+- Contacts
+- Companies
+- Leads (with scoring)
+- Deals (with stages)
+- Activities
+- Comments
+- Attachments
+- Notifications
+
+## 🔄 Background Jobs (Workers)
+
+Located in `apps/workers/`:
+
+**Queues:**
+- `lead-scoring`: Automatic lead qualification
+- `enrichment`: Contact/company data enrichment
+
+**Usage:**
+```typescript
+import { leadScoringQueue } from '@apps/workers';
+
+await leadScoringQueue.add('score', { leadId: 'ld-123' });
+```
+
+**Start:** `pnpm --filter @apps/workers dev`
+
+## 📦 Packages
+
+### `@sdk-js/core`
+Auto-generated typed client from Core API's OpenAPI spec.
+
+```typescript
+import { api } from '@/data/clients/sdk';
+
+const contacts = await api.listContacts();
+const contact = await api.getContact('ct-123');
+```
+
+Regenerate: `pnpm sdk:gen`
+
+### `@shared-types`
+Shared TypeScript types and Zod schemas.
+
+```typescript
+import type { Contact, Lead, Deal } from '@shared-types';
+```
+
+## 🧪 Testing
+
+```bash
+# Frontend unit tests (Vitest)
+pnpm --filter ./apps/frontend test
+
+# Frontend E2E tests (Playwright)
+pnpm --filter ./apps/frontend test:e2e
+pnpm --filter ./apps/frontend test:e2e:ui  # Interactive mode
+
+# Backend tests
+pnpm --filter @apps/core-api test
+```
+
+## 📝 Environment Variables
+
+### Frontend (`.env.local`)
+
+```env
+VITE_APP_API_URL=http://localhost:3000/api
+VITE_DEV_JWT=<token_from_pnpm_dev:jwt>
+```
+
+### Core API (`.env`)
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/trafficcrm
+REDIS_URL=redis://localhost:6379
+DEV_JWT_SECRET=dev-secret-change-me
+PORT=3000
+NODE_ENV=development
+```
+
+See `.env.example` files in each app for full list.
+
+## 🚢 Deployment
+
+### Frontend (Vercel/Netlify)
+
+```bash
+pnpm --filter ./apps/frontend build
+# Deploy dist/ folder
+```
+
+### Core API (Railway/Fly.io/AWS)
+
+```bash
+pnpm --filter @apps/core-api build
+# Deploy with Dockerfile or buildpack
+```
+
+### Workers (Background service)
+
+```bash
+pnpm --filter @apps/workers build
+# Deploy as separate service with Redis access
+```
+
+## 🤝 Contributing
+
+1. Create a feature branch: `git checkout -b feature/my-feature`
+2. Make changes
+3. Run checks: `pnpm typecheck && pnpm lint && pnpm test`
+4. Commit: `git commit -m "feat: add my feature"`
+5. Push and create PR
+
+## 📄 License
+
+Proprietary - All rights reserved
+
+## 🆘 Support
+
+- **Issues:** Check [STACK_SETUP_COMPLETE.md](./STACK_SETUP_COMPLETE.md) troubleshooting section
+- **SDK:** See [docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)
+- **Infrastructure:** See [infra/docker/README.md](./infra/docker/README.md)
+
+---
+
+**Built with ❤️ for the travel industry**
+

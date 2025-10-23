@@ -14,7 +14,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import MainCard from 'ui-component/cards/MainCard';
-import { leadsApi } from 'services/leads';
+import { leadsApi } from '@services/leads.sdk';
 import type { Lead, LeadUpdateDto } from 'types/api';
 import { useSnackbar } from 'notistack';
 import { isAxiosError } from 'axios';

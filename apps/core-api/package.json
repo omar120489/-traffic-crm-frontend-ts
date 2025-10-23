@@ -11,7 +11,13 @@
     "lint": "eslint .",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "prisma db seed",
+    "db:seed": "tsx prisma/seed.ts",
+    "dev:jwt": "node scripts/make-dev-jwt.mjs"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -40,6 +46,7 @@
     "prettier": "^3.3.3",
     "prisma": "^5.19.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.2"
   }
 }
