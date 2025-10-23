@@ -12,5 +12,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["vite.config.mjs"]
+  "include": [
+    "vite.config.mjs"
+  ],
+  "extends": "../../tsconfig.base.json"
 }
