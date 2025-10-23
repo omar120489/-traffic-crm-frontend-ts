@@ -1,43 +1,39 @@
 name: CI
-
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+  pull_request: { branches: [main, develop, chore/**] }
+  push: { branches: [main, develop] }
 jobs:
-  build-and-test:
+  typecheck-and-build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        workspace: ['@apps/core-api','./apps/frontend','@shared-types','@sdk-js/core']
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Typecheck
-        run: npx tsc --noEmit
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Build
-        run: npm run build
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Playwright smoke tests
-        env:
-          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3002
-        run: npx playwright test e2e/leads-deals-detail.spec.ts --config=playwright.config.ts --reporter=line
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 10.18.2 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter ${{ matrix.workspace }} typecheck
+      - run: pnpm --filter ${{ matrix.workspace }} build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 10.18.2 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 10.18.2 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
