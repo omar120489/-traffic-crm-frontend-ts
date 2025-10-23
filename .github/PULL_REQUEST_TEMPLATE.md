@@ -1,57 +1,89 @@
-## Description
-<!-- Provide a brief description of the changes in this PR -->
+# Pull Request
 
-## Type of Change
-- [ ] 🐛 Bug fix
-- [ ] ✨ New feature
-- [ ] 🔨 Refactoring
-- [ ] 📝 Documentation
-- [ ] 🎨 UI/UX improvements
+## 📝 What
 
-## Code Standards Checklist
+<!-- Describe the changes in this PR. What does it do? -->
 
-### Page Architecture
-- [ ] Uses `AppPage` for page chrome (no `MainCard` in page files)
-- [ ] URL-driven filters/pagination (`useUrlQuery` from `react-router-dom`)
-- [ ] Loading/Error/Empty states via `AppPage` props
-- [ ] Search/filters in toolbar (not inline in page body)
+## 🎯 Why
 
-### Data & Exports
-- [ ] Exports use `core/export` (CSV/XLSX/PDF)
-- [ ] Data fetching uses standardized hooks from `data/hooks/`
-- [ ] Server-side pagination implemented
+<!-- Why are these changes needed? What problem do they solve? -->
 
-### Security & Access
-- [ ] RBAC gates on restricted actions (if applicable)
-- [ ] No sensitive data in client logs
-- [ ] API endpoints use proper authentication
+<!-- Link related issues: -->
+Closes #(issue)
 
-### UI/UX Standards
-- [ ] No horizontal scroll @ 1440/1024/768/375px viewports
-- [ ] Container width respects theme settings (max 1200px when enabled)
-- [ ] Responsive design tested on mobile/tablet/desktop
-- [ ] Loading indicators during async operations
+## 🔨 How
 
-### Code Quality
-- [ ] TypeScript: No `any` types (use proper types or `unknown`)
-- [ ] ESLint: No warnings or errors
-- [ ] Prettier: Code formatted
-- [ ] Tests: Unit/E2E tests added/updated (if applicable)
+<!-- How were these changes implemented? Provide technical details. -->
 
-## Testing
-<!-- Describe how you tested these changes -->
+## ✅ Testing
 
-- [ ] Tested in development environment
-- [ ] Tested across different screen sizes
-- [ ] Tested with sample data
-- [ ] No console errors
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] E2E tests added/updated (if applicable)
+- [ ] Manual testing performed
+- [ ] All tests passing locally
 
-## Screenshots/Videos
-<!-- Add screenshots or videos if this is a UI change -->
+### Test Coverage
 
-## Related Issues
-<!-- Link to related issues: Fixes #123, Closes #456 -->
+<!-- Describe what testing was done -->
 
-## Additional Notes
-<!-- Any additional context or notes for reviewers -->
+## 📸 Screenshots (UI Changes)
 
+<!-- If this PR includes UI changes, add screenshots or videos -->
+
+| Before | After |
+|--------|-------|
+| [screenshot] | [screenshot] |
+
+## 📚 Documentation
+
+- [ ] Documentation updated (README, docs/, inline comments)
+- [ ] API documentation updated (if applicable)
+- [ ] CHANGELOG.md updated
+- [ ] Migration guide added (if breaking change)
+
+## 🔍 Code Quality Checklist
+
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] No commented-out code or debug statements
+- [ ] No console.log statements (or intentional)
+- [ ] Error handling implemented
+- [ ] Edge cases considered
+
+## 🚀 Deployment Notes
+
+<!-- Any special deployment considerations? Database migrations? Environment variables? -->
+
+- [ ] No special deployment steps needed
+- [ ] Database migration required (see: [link])
+- [ ] Environment variables added/changed (document in .env.example)
+- [ ] Infrastructure changes required
+
+## ⚠️ Breaking Changes
+
+- [ ] This PR introduces breaking changes
+
+<!-- If yes, describe the breaking changes and migration path -->
+
+## 🔗 Related PRs
+
+<!-- Link any related PRs -->
+
+## 📋 Pre-merge Checklist
+
+- [ ] Branch is up to date with `main`
+- [ ] Conventional commit message format used
+- [ ] No merge conflicts
+- [ ] CI/CD checks passing
+- [ ] Reviewers assigned
+- [ ] Ready for review
+
+---
+
+**Reviewer Guidelines:**
+- Check code quality and style
+- Verify test coverage
+- Review documentation updates
+- Test locally if UI/functionality changes
+- Approve if all criteria met

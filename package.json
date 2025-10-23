@@ -18,9 +18,13 @@
     "db:migrate": "pnpm --filter @apps/core-api prisma:migrate",
     "db:seed": "pnpm --filter @apps/core-api db:seed",
     "dev:jwt": "node apps/core-api/scripts/make-dev-jwt.mjs",
-    "sdk:gen": "pnpm --filter @sdk-js/core gen"
+    "sdk:gen": "pnpm --filter @sdk-js/core gen",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "glob": "^11.0.3"
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "glob": "^11.0.3",
+    "husky": "^9.1.7"
   }
 }

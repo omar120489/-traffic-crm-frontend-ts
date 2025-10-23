@@ -1,0 +1,31 @@
+# CODEOWNERS - Automatic reviewer assignment
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo
+*                               @omar120489
+
+# Frontend ownership
+/apps/frontend/                 @omar120489
+/packages/sdk-js/               @omar120489
+
+# Backend ownership
+/apps/core-api/                 @omar120489
+/apps/workers/                  @omar120489
+/apps/reporting/                @omar120489
+
+# Shared packages
+/packages/shared-types/         @omar120489
+
+# Infrastructure
+/infra/                         @omar120489
+/.github/                       @omar120489
+
+# Documentation
+/docs/                          @omar120489
+*.md                            @omar120489
+
+# Configuration files
+*.json                          @omar120489
+*.yaml                          @omar120489
+*.yml                           @omar120489
+

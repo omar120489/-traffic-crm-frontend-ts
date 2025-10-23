@@ -47,12 +47,27 @@ Welcome to the Traffic CRM documentation! This index organizes all documentation
 | [LOCAL_WORKFLOW.md](./LOCAL_WORKFLOW.md) | Local-only development workflow, safety practices, rollback procedures |
 | [SCRIPTS.md](./SCRIPTS.md) | Reference for `premerge.sh`, `cleanup-history.sh`, and sync scripts |
 
+### Code Quality & Standards
+
+| File | Purpose |
+|------|---------|
+| [commitlint.config.mjs](../commitlint.config.mjs) | Conventional Commits configuration |
+| [.github/CODEOWNERS](../.github/CODEOWNERS) | Automatic reviewer assignment |
+| [.github/pull_request_template.md](../.github/pull_request_template.md) | PR checklist and template |
+| [.github/ISSUE_TEMPLATE/bug_report.md](../.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
+| [.github/ISSUE_TEMPLATE/feature_request.md](../.github/ISSUE_TEMPLATE/feature_request.md) | Feature request template |
+
 ### GitHub & Collaboration
 
 | Document | Description |
 |----------|-------------|
 | [POST_SYNC_VALIDATION_CHECKLIST.md](./POST_SYNC_VALIDATION_CHECKLIST.md) | Branch protection, CI/CD, security settings, team onboarding |
+| [BRANCH_PROTECTION_SETUP.md](./BRANCH_PROTECTION_SETUP.md) | Step-by-step guide for GitHub branch protection rules |
+| [POST_SYNC_CLEANUP.md](./POST_SYNC_CLEANUP.md) | Cleanup guide for backups and temporary files (after 7 days) |
 | [SYNC_COMPLETE_SUCCESS.md](../SYNC_COMPLETE_SUCCESS.md) | GitHub sync results and verification steps |
+| [SECURITY.md](../SECURITY.md) | Security policy and vulnerability reporting |
+| [CONTRIBUTING.md](../CONTRIBUTING.md) | Comprehensive contribution guidelines and standards |
+| [CHANGELOG.md](../CHANGELOG.md) | Complete version history with semantic versioning |
 
 ### Specialized Guides
 
@@ -298,4 +313,5 @@ When documentation becomes outdated:
 **📍 You are here:** Documentation Index  
 **🏠 Return to:** [Project README](../README.md)  
 **🚀 Repository:** https://github.com/omar120489/-traffic-crm-frontend-ts
+
 

@@ -52,3 +52,4 @@ playwright/.cache/
 backup_*/
 *.tar.gz
 *.fig
+.git.backup.*
