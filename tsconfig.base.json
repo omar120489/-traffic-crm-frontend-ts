@@ -9,7 +9,20 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@shared-types/*": ["packages/shared-types/src/*"]
+      "@shared-types/*": ["packages/shared-types/src/*"],
+      "@/*": ["apps/frontend/src/*"],
+      "@core/*": ["apps/frontend/src/core/*"],
+      "@data/*": ["apps/frontend/src/data/*"],
+      "@features/*": ["apps/frontend/src/features/*"],
+      "@shared/*": ["apps/frontend/src/shared/*"],
+      "@views/*": ["apps/frontend/src/views/*"],
+      "@hooks/*": ["apps/frontend/src/hooks/*"],
+      "@services/*": ["apps/frontend/src/services/*"],
+      "@types/*": ["apps/frontend/src/types/*"],
+      "@contexts/*": ["apps/frontend/src/contexts/*"],
+      "@store/*": ["apps/frontend/src/store/*"],
+      "@utils/*": ["apps/frontend/src/utils/*"],
+      "@assets/*": ["apps/frontend/src/assets/*"]
     }
   }
 }

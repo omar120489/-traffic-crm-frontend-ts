@@ -75,11 +75,20 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+        '@shared-types': path.resolve(__dirname, '../../packages/shared-types/src'),
         '@': path.resolve(__dirname, './src'),
         '@core': path.resolve(__dirname, './src/core'),
         '@data': path.resolve(__dirname, './src/data'),
         '@features': path.resolve(__dirname, './src/features'),
         '@shared': path.resolve(__dirname, './src/shared'),
+        '@views': path.resolve(__dirname, './src/views'),
+        '@hooks': path.resolve(__dirname, './src/hooks'),
+        '@services': path.resolve(__dirname, './src/services'),
+        '@types': path.resolve(__dirname, './src/types'),
+        '@contexts': path.resolve(__dirname, './src/contexts'),
+        '@store': path.resolve(__dirname, './src/store'),
+        '@utils': path.resolve(__dirname, './src/utils'),
+        '@assets': path.resolve(__dirname, './src/assets'),
         '@styles': path.resolve(__dirname, './src/styles')
       }
     },
