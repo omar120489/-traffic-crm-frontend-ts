@@ -47,7 +47,7 @@
     "@fontsource/roboto": "5.2.8",
     "@mui/icons-material": "7.3.4",
     "@mui/material": "7.3.4",
-    "@mui/x-charts": "^8.14.1",
+    "@mui/x-charts": "^8.15.0",
     "@mui/x-data-grid": "^8.14.1",
     "@reduxjs/toolkit": "2.9.0",
     "@supabase/supabase-js": "2.58.0",
