@@ -107,6 +107,200 @@ DEV_JWT=$(pnpm --silent dev:jwt) ./scripts/premerge.sh
 
 ---
 
+## scripts/sync_github.sh
+
+**Automated GitHub sync utility** for safely replacing a GitHub repository with your local content.
+
+### What It Does
+
+This script automates the entire process of replacing a GitHub repository with your local code:
+
+1. **Backs up current state** (creates backup branch and .git directory copy)
+2. **Cleans Git history** (runs `cleanup-history.sh` to remove large files)
+3. **Updates remote URL** (optional, if you need to change target repo)
+4. **Force-pushes to GitHub** (replaces remote completely)
+5. **Verifies success** (checks remote matches local)
+
+### ⚠️ WARNING
+
+**This script performs destructive operations!**
+
+- Rewrites Git history (removes large files)
+- Force-pushes to GitHub (replaces all remote content)
+- Cannot be easily undone once pushed
+
+### When to Use
+
+Use this script when you want to:
+- Replace an existing GitHub repo with your local content
+- Clean up Git history and enable remote pushes
+- Migrate from one repo to another
+- Start fresh on GitHub with cleaned history
+
+### Usage
+
+```bash
+./scripts/sync_github.sh
+```
+
+The script is fully interactive and will:
+- Show current status and remote URL
+- Ask for confirmation before each destructive step
+- Offer to change remote URL if needed
+- Create automatic backups before proceeding
+
+### What Happens
+
+**Step 1: Remote URL Configuration**
+- Shows current remote
+- Offers to change it (e.g., from `servers.git` to `traffic-crm.git`)
+- Detects if you're targeting the wrong repo
+
+**Step 2: Local Backups**
+- Creates backup branch: `backup/before-sync-YYYYMMDD-HHMMSS`
+- Copies `.git` directory to `.git.backup.YYYYMMDD-HHMMSS`
+
+**Step 3: Clean Git History**
+- Runs `cleanup-history.sh` automatically
+- Removes `.backups/`, `*.tar.gz`, `*.fig`, and blobs >100MB
+- Shrinks `.git` from ~984MB to ~100MB
+
+**Step 4: Force Push**
+- Asks for final confirmation
+- Pushes all branches with `--force`
+- Pushes all tags with `--force`
+
+**Step 5: Verification**
+- Checks remote commit matches local
+- Provides next steps and rollback instructions
+
+### Example Session
+
+```bash
+$ ./scripts/sync_github.sh
+
+ℹ GitHub Sync Script - Starting pre-flight checks...
+✓ Git repository detected
+✓ Working tree is clean
+ℹ Current remote: https://github.com/omar120489/servers.git
+⚠ Remote appears to be MCP servers repo, not Traffic CRM!
+ℹ Current branch: main
+ℹ Commits ahead of remote: 40
+ℹ Current .git size: 984M
+
+==========================================
+  REVIEW BEFORE PROCEEDING
+==========================================
+
+ℹ Step 1: Remote URL Configuration
+  Current: https://github.com/omar120489/servers.git
+
+? Do you want to change the remote URL? [y/N]: y
+Enter new remote URL: https://github.com/omar120489/traffic-crm-frontend-ts.git
+ℹ Setting remote to: https://github.com/omar120489/traffic-crm-frontend-ts.git
+✓ Remote URL updated
+
+ℹ Step 2: Creating local backups...
+✓ Backup branch created
+✓ .git directory backed up
+✓ Backups complete!
+
+ℹ Step 3: Cleaning Git history...
+? Run cleanup-history.sh? [y/N]: y
+[cleanup output...]
+✓ History cleaned!
+ℹ New .git size: 98M (was: 984M)
+
+ℹ Step 4: Force push to GitHub
+==========================================
+  ⚠️  FINAL CONFIRMATION ⚠️
+==========================================
+
+This will:
+  1. PERMANENTLY DELETE all content in: https://github.com/omar120489/traffic-crm-frontend-ts.git
+  2. Replace it with your current local repository
+  3. Push branch: main
+  4. Push all tags
+
+? Are you ABSOLUTELY SURE you want to force-push? [y/N]: y
+
+✓ All branches pushed!
+✓ All tags pushed!
+
+✓ Remote matches local! Push verified.
+
+==========================================
+  🎉 SYNC COMPLETE! 🎉
+==========================================
+```
+
+### Rollback Procedure
+
+If something goes wrong, you can restore from backups:
+
+```bash
+# Option 1: Restore from backup branch
+git checkout backup/before-sync-YYYYMMDD-HHMMSS
+git branch -D main
+git checkout -b main
+
+# Option 2: Restore .git directory
+rm -rf .git
+mv .git.backup.YYYYMMDD-HHMMSS .git
+
+# Option 3: Force push backup to restore remote
+git push origin --force --all
+```
+
+### After Successful Sync
+
+Once the script completes:
+
+1. **Verify on GitHub:**
+   - Open your repo in browser
+   - Check structure: `apps/`, `packages/`, `scripts/`, `docs/`
+   - Confirm latest commit message matches local
+
+2. **Test CI/CD:**
+   - Go to Actions tab on GitHub
+   - Verify workflows run successfully
+
+3. **Resume normal workflow:**
+   ```bash
+   # PR mode now works!
+   MODE=pr ./scripts/premerge.sh
+   
+   # Or regular git workflow
+   git commit -m "feat: new feature"
+   git push origin main
+   ```
+
+4. **Cleanup backups (after a few days):**
+   ```bash
+   git branch -d backup/before-sync-YYYYMMDD-HHMMSS
+   rm -rf .git.backup.YYYYMMDD-HHMMSS
+   ```
+
+### Troubleshooting
+
+**"Remote appears to be MCP servers repo"**
+- The script detects if you're targeting the wrong repo
+- Change remote URL when prompted
+- Or confirm if you really want to overwrite that repo
+
+**"Failed to push branches"**
+- Check network connection
+- Verify GitHub credentials
+- Ensure you have push permissions to the repo
+- Check if repo is archived or locked
+
+**"Remote and local commits don't match"**
+- This might be normal if you pushed multiple branches
+- Verify manually on GitHub
+- Check that the correct branch was pushed
+
+---
+
 ## scripts/cleanup-history.sh
 
 **Git history cleanup utility** for removing large files that block GitHub push.
@@ -248,10 +442,13 @@ MODE=pr ./scripts/premerge.sh
 # Merge to main locally
 MODE=local ./scripts/premerge.sh
 
-# Clean Git history (use with caution!)
+# Sync to GitHub (automated: backup + cleanup + force push)
+./scripts/sync_github.sh
+
+# Clean Git history manually (use with caution!)
 ./scripts/cleanup-history.sh
 
-# After history cleanup, re-add remote and force push
+# After manual cleanup, re-add remote and force push
 git remote add origin <url>
 git push --force --all
 ```
