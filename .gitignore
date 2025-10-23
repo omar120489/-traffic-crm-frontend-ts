@@ -46,3 +46,9 @@ playwright/.cache/
 # Project audit results (local analysis only)
 .project_audit/
 .env.backup
+
+# Backup archives (too large for git)
+.backups/
+backup_*/
+*.tar.gz
+*.fig

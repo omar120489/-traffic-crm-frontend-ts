@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { contactsApi } from '@services/contacts.sdk';
+import { contactsSdkApi as contactsApi } from '@services/contacts.sdk';
 import type { Contact, ContactQuery, PaginatedContacts } from '@shared-types';
 
 const DEFAULT_QUERY: ContactQuery = {

@@ -32,10 +32,10 @@ export async function deleteContact(id: string) {
   return api.deleteContact(id);
 }
 
-// Named export for convenience
+// Named export for convenience (aliased to match old service interface)
 export const contactsSdkApi = {
-  fetchContacts,
-  fetchContact,
+  listContacts: fetchContacts,
+  getContact: fetchContact,
   createContact,
   updateContact,
   deleteContact,

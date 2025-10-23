@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
-import rioLogo from '@/assets/images/brand/rio-travels.png';
+import rioLogo from '@/assets/images/brand/rio-travels.svg';
 
 /**
  * RIO Travels Logo Component
