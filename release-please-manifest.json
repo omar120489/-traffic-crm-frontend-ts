@@ -1,0 +1,8 @@
+{
+  ".": "0.1.0",
+  "packages/sdk-js": "0.1.0",
+  "packages/shared-types": "0.1.0",
+  "apps/frontend": "0.1.0",
+  "apps/core-api": "0.1.0"
+}
+
