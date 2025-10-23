@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { leadsApi } from 'services/leads';
-import type { Lead, LeadQuery, PaginatedResponse } from 'types/api';
+import { leadsApi } from '@services/leads';
+import type { Lead, LeadQuery, PaginatedLeads } from '@shared-types';
 
 const DEFAULT_QUERY: LeadQuery = {
   page: 1,
@@ -15,7 +15,7 @@ interface UseLeadsOptions {
 
 interface UseLeadsResult {
   leads: Lead[];
-  data: PaginatedResponse<Lead> | null;
+  data: PaginatedLeads | null;
   loading: boolean;
   error: unknown;
   query: LeadQuery;
@@ -29,7 +29,7 @@ export function useLeads(options?: UseLeadsOptions): UseLeadsResult {
     ...DEFAULT_QUERY,
     ...(options?.initialQuery ?? {}),
   }));
-  const [data, setData] = useState<PaginatedResponse<Lead> | null>(null);
+  const [data, setData] = useState<PaginatedLeads | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
 

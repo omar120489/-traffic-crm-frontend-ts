@@ -1,19 +1,19 @@
-import { apiDelete, apiGet, apiPatch, apiPost } from 'utils/axios';
-import { getAttributionPayload, markAttributionSent } from 'utils/attribution';
+import { apiDelete, apiGet, apiPatch, apiPost } from '@data/clients/axios';
+import { getAttributionPayload, markAttributionSent } from '@utils/attribution';
 import type {
-  ApiResponse,
   Lead,
   LeadCreateDto,
   LeadQuery,
   LeadUpdateDto,
-  PaginatedResponse,
+  PaginatedLeads,
   UUID,
-} from 'types/api';
+  ApiResponse,
+} from '@shared-types';
 
 const BASE_PATH = '/api/leads';
 
-export async function listLeads(query?: LeadQuery): Promise<PaginatedResponse<Lead>> {
-  return apiGet<PaginatedResponse<Lead>>(BASE_PATH, { params: query });
+export async function listLeads(query?: LeadQuery): Promise<PaginatedLeads> {
+  return apiGet<PaginatedLeads>(BASE_PATH, { params: query });
 }
 
 export async function getLead(id: UUID): Promise<Lead> {

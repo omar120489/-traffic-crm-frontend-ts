@@ -24,19 +24,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import PersonAddIcon from '@mui/icons-material/PersonAddAlt1';
 import { useSnackbar } from 'notistack';
 
-import MainCard from 'ui-component/cards/MainCard';
-import ExportMenu from 'ui-component/ExportMenu';
-import { FilterPanel, type FilterConfig, type FilterValues } from 'ui-component/FilterPanel';
-import useLeads from 'hooks/useLeads';
-import { useFilterPresets } from 'hooks/useFilterPresets';
-import type { Lead, LeadQuery } from 'types/api';
+import MainCard from '@/ui-component/cards/MainCard';
+import ExportMenu from '@/ui-component/ExportMenu';
+import { FilterPanel, type FilterConfig, type FilterValues } from '@/ui-component/FilterPanel';
+import useLeads from '@hooks/useLeads';
+import { useFilterPresets } from '@hooks/useFilterPresets';
+import type { Lead, LeadQuery } from '@shared-types';
 import {
   exportToXLSX,
   exportToPDF,
   buildExportFilename,
   formatDateForExport,
   type ExportColumn,
-} from 'utils/exporters';
+} from '@utils/exporters';
 
 const STATUS_COLOR: Record<string, 'default' | 'success' | 'warning' | 'error' | 'info'> = {
   new: 'default',
@@ -410,7 +410,7 @@ export default function LeadsListPage() {
       {
         field: 'score',
         headerName: 'Score',
-        valueFormatter: (value) => (value === null || value === undefined ? '—' : `${value}%`),
+        valueFormatter: (value: unknown) => (value === null || value === undefined ? '—' : `${value}%`),
       },
       { field: 'createdAt', headerName: 'Created', valueFormatter: formatDateForExport },
     ],
