@@ -1,0 +1,140 @@
+name: Preview Build
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "apps/frontend/**"
+      - "packages/**"
+      - "pnpm-lock.yaml"
+
+# Cancel previous runs for the same PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build frontend
+        run: pnpm --filter ./apps/frontend build
+        env:
+          NODE_ENV: production
+
+      - name: Get build size
+        id: build-size
+        run: |
+          SIZE=$(du -sh apps/frontend/dist | cut -f1)
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+          
+          # Count files
+          FILES=$(find apps/frontend/dist -type f | wc -l)
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+          
+          # Get largest files
+          LARGEST=$(find apps/frontend/dist -type f -exec du -h {} + | sort -rh | head -5 | awk '{print $2}' | xargs -I {} basename {} | tr '\n' ', ' | sed 's/,$//')
+          echo "largest=$LARGEST" >> $GITHUB_OUTPUT
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build-pr-${{ github.event.pull_request.number }}
+          path: apps/frontend/dist
+          retention-days: 7
+          compression-level: 9
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const buildSize = '${{ steps.build-size.outputs.size }}';
+            const fileCount = '${{ steps.build-size.outputs.files }}';
+            const largest = '${{ steps.build-size.outputs.largest }}';
+            const runId = context.runId;
+            const prNumber = context.payload.pull_request.number;
+            
+            const comment = `## 📦 Preview Build Ready!
+            
+            **Build completed successfully** ✅
+            
+            ### 📊 Build Stats
+            - **Size:** ${buildSize}
+            - **Files:** ${fileCount}
+            - **Largest files:** ${largest}
+            
+            ### 📥 Download Artifact
+            [Download build artifact](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId})
+            
+            ### 🚀 Next Steps
+            1. Download the artifact from the link above
+            2. Extract and serve locally: \`npx serve dist/\`
+            3. Test the preview build
+            
+            ---
+            *Build artifact will be available for 7 days*
+            `;
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Preview Build Ready')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: comment
+              });
+            }
+
