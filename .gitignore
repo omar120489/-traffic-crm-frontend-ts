@@ -45,3 +45,4 @@ playwright/.cache/
 
 # Project audit results (local analysis only)
 .project_audit/
+.env.backup
