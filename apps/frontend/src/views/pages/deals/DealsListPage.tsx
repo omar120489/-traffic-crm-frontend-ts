@@ -32,20 +32,9 @@ import {
   formatDateForExport,
   type ExportColumn,
 } from '@utils/exporters';
+import { formatMoney } from '@/utils/currency';
 
 const DEFAULT_PAGE_SIZE = 10;
-
-function formatCurrency(value?: number | null) {
-  if (value === null || value === undefined || Number.isNaN(value)) {
-    return '—';
-  }
-
-  return new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(value);
-}
 
 function formatProbability(value?: number | null) {
   if (value === null || value === undefined) {
@@ -416,7 +405,7 @@ export default function DealsListPage() {
     if (query.amount_min) {
       chips.push({
         key: 'amount_min',
-        label: `Min: ${formatCurrency(query.amount_min)}`,
+        label: `Min: ${formatMoney(query.amount_min)}`,
         onDelete: () => {
           const updated = { ...filterValues, amount_min: undefined };
           setFilterValues(updated);
@@ -428,7 +417,7 @@ export default function DealsListPage() {
     if (query.amount_max) {
       chips.push({
         key: 'amount_max',
-        label: `Max: ${formatCurrency(query.amount_max)}`,
+        label: `Max: ${formatMoney(query.amount_max)}`,
         onDelete: () => {
           const updated = { ...filterValues, amount_max: undefined };
           setFilterValues(updated);
@@ -491,7 +480,7 @@ export default function DealsListPage() {
         type: 'number',
         renderCell: (params: GridRenderCellParams<Deal>) => (
           <Typography variant="body2" noWrap>
-            {formatCurrency(params.row.amount)}
+            {formatMoney(params.row.amountCents ?? params.row.amount, params.row.currency)}
           </Typography>
         ),
       },

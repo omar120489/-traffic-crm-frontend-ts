@@ -17,11 +17,29 @@ let ContactsService = class ContactsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    list(orgId) {
-        return this.prisma.contact.findMany({
-            where: { orgId },
-            include: { company: true }
-        });
+    async list(orgId, query) {
+        const { page, size, search } = query;
+        const skip = (page - 1) * size;
+        const where = {
+            orgId,
+            ...(search && {
+                OR: [
+                    { name: { contains: search, mode: 'insensitive' } },
+                    { email: { contains: search, mode: 'insensitive' } },
+                ],
+            }),
+        };
+        const [items, total] = await Promise.all([
+            this.prisma.contact.findMany({
+                where,
+                skip,
+                take: size,
+                orderBy: { createdAt: 'desc' },
+                include: { company: true },
+            }),
+            this.prisma.contact.count({ where }),
+        ]);
+        return { items, total };
     }
     async get(orgId, id) {
         const contact = await this.prisma.contact.findFirst({

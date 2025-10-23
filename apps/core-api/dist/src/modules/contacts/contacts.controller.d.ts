@@ -1,9 +1,10 @@
 import { ContactsService } from './contacts.service';
 import { CreateContactDto, UpdateContactDto } from './dto';
+import { PaginationQueryDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
 export declare class ContactsController {
     private readonly svc;
     constructor(svc: ContactsService);
-    list(orgId: string): import("@prisma/client").Prisma.PrismaPromise<({
+    list(orgId: string, query: PaginationQueryDto): Promise<PaginatedResponseDto<{
         company: {
             orgId: string;
             name: string;
@@ -19,7 +20,7 @@ export declare class ContactsController {
         companyId: string | null;
         id: string;
         createdAt: Date;
-    })[]>;
+    }>>;
     get(id: string, orgId: string): Promise<{
         orgId: string;
         name: string;

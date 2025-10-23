@@ -21,22 +21,11 @@ import { useJourneyEvents } from 'hooks/useJourneyEvents';
 import type { Deal } from 'types/api';
 import ClosedWonModal from './ClosedWonModal';
 import LostReasonModal, { type LostReasonData } from 'ui-component/deals/LostReasonModal';
+import { formatMoney } from '@/utils/currency';
 
 type DealDetailTab = 'summary' | 'activity' | 'comments' | 'attachments';
 
 type LoadError = { kind: 'not-found'; message: string } | { kind: 'network'; message: string };
-
-function formatCurrency(value?: number | null) {
-  if (value === null || value === undefined || Number.isNaN(value)) {
-    return '—';
-  }
-
-  return new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 2,
-  }).format(value);
-}
 
 function formatProbability(value?: number | null) {
   if (value === null || value === undefined || Number.isNaN(value)) {
@@ -233,7 +222,7 @@ export default function DealDetail(): ReactElement {
           <Typography variant="subtitle2" color="text.secondary">
             Amount
           </Typography>
-          <Typography variant="body1">{formatCurrency(deal.amount)}</Typography>
+          <Typography variant="body1">{formatMoney(deal.amount)}</Typography>
         </Grid>
 
         <Grid xs={12} md={6}>
@@ -342,14 +331,14 @@ export default function DealDetail(): ReactElement {
               <Typography variant="subtitle2" color="text.secondary">
                 Gross Revenue
               </Typography>
-              <Typography variant="body1">{formatCurrency(deal.grossRevenue)}</Typography>
+              <Typography variant="body1">{formatMoney(deal.grossRevenue)}</Typography>
             </Grid>
 
             <Grid xs={12} md={4}>
               <Typography variant="subtitle2" color="text.secondary">
                 Direct Cost
               </Typography>
-              <Typography variant="body1">{formatCurrency(deal.directCost)}</Typography>
+              <Typography variant="body1">{formatMoney(deal.directCost)}</Typography>
             </Grid>
 
             <Grid xs={12} md={4}>
@@ -362,7 +351,7 @@ export default function DealDetail(): ReactElement {
                   color: (deal.netProfit ?? 0) >= 0 ? 'success.main' : 'error.main',
                 }}
               >
-                {formatCurrency(deal.netProfit)}
+                {formatMoney(deal.netProfit)}
               </Typography>
             </Grid>
           </>

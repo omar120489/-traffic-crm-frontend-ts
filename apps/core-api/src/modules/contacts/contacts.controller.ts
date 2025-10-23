@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Body, Post, Patch, Delete, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, Body, Post, Patch, Delete, UseGuards, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto, UpdateContactDto } from './dto';
 import { JwtGuard } from '../../auth/jwt.guard';
 import { Org } from '../../auth/org.decorator';
+import { PaginationQueryDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
 
 @ApiTags('contacts')
 @ApiBearerAuth()
@@ -13,8 +14,10 @@ export class ContactsController {
   constructor(private readonly svc: ContactsService) {}
 
   @Get()
-  list(@Org() orgId: string) {
-    return this.svc.list(orgId);
+  @ApiOkResponse({ type: PaginatedResponseDto })
+  async list(@Org() orgId: string, @Query() query: PaginationQueryDto) {
+    const { items, total } = await this.svc.list(orgId, query);
+    return new PaginatedResponseDto(items, total, query.page, query.size);
   }
 
   @Get(':id')

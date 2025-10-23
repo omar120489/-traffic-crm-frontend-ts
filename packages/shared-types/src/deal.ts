@@ -15,6 +15,8 @@ export type DealStatus = 'Open' | 'Won' | 'Lost' | 'On Hold' | (string & {});
 export interface Deal extends BaseEntity {
   name: string;
   amount: number;
+  amountCents?: number; // Backend field for currency safety
+  currency?: string; // Currency code (e.g., 'USD')
   stage: DealStage;
   status: DealStatus;
   ownerId: UUID;

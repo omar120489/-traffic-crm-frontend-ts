@@ -1,77 +1,68 @@
 import ky from 'ky';
-import type { paths } from './types.gen';
 
 /**
- * Minimal typed client using ky.
- * - baseUrl: core API base (e.g., http://localhost:3000/api)
- * - getToken: async function returning a Bearer token for Authorization
+ * Minimal typed client using ky with:
+ * - JWT header (when provided)
+ * - Centralized retry/timeout
+ * - Normalized errors via beforeError
  */
-export function createClient(opts: {
-  baseUrl: string;
-  getToken?: () => Promise<string | null> | string | null;
+export function createClient(opts:{
+  baseUrl:string;
+  getToken?:()=>Promise<string|null>|string|null;
 }) {
   const { baseUrl, getToken } = opts;
 
   const http = ky.create({
     prefixUrl: baseUrl.replace(/\/+$/, ''),
+    timeout: 10000,
+    retry: { limit: 2, methods: ['get'], statusCodes: [408,413,429,500,502,503,504] },
     hooks: {
-      beforeRequest: [
-        async (req) => {
-          const tok = typeof getToken === 'function' ? await getToken() : getToken;
-          if (tok) req.headers.set('Authorization', `Bearer ${tok}`);
-          req.headers.set('Content-Type', 'application/json');
+      beforeRequest: [async (req) => {
+        const tok = typeof getToken === 'function' ? await getToken() : getToken;
+        if (tok) req.headers.set('Authorization', `Bearer ${tok}`);
+        req.headers.set('Content-Type', 'application/json');
+      }],
+      beforeError: [async (error) => {
+        const { response } = error;
+        if (response) {
+          let body:any=null; try { body = await response.clone().json(); } catch {}
+          const msg = (body?.message||body?.error||body?.detail) ?? response.statusText ?? error.message;
+          error.message = msg;
+          (error as any).status = response.status;
+          (error as any).body = body;
         }
-      ]
+        return error;
+      }]
     }
   });
 
   return {
     // Contacts
-    listContacts: async (query?: any) =>
-      http.get('contacts', { searchParams: query }).json() as Promise<any>,
-    getContact: async (id: string) =>
-      http.get(`contacts/${id}`).json() as Promise<any>,
-    createContact: async (body: any) =>
-      http.post('contacts', { json: body }).json() as Promise<any>,
-    updateContact: async (id: string, body: any) =>
-      http.patch(`contacts/${id}`, { json: body }).json() as Promise<any>,
-    deleteContact: async (id: string) =>
-      http.delete(`contacts/${id}`).json() as Promise<any>,
+    listContacts:(q?:any)=>http.get('contacts',{searchParams:q}).json<any>(),
+    getContact:(id:string)=>http.get(`contacts/${id}`).json<any>(),
+    createContact:(b:any)=>http.post('contacts',{json:b}).json<any>(),
+    updateContact:(id:string,b:any)=>http.patch(`contacts/${id}`,{json:b}).json<any>(),
+    deleteContact:(id:string)=>http.delete(`contacts/${id}`).json<any>(),
 
     // Leads
-    listLeads: async (query?: any) =>
-      http.get('leads', { searchParams: query }).json() as Promise<any>,
-    getLead: async (id: string) =>
-      http.get(`leads/${id}`).json() as Promise<any>,
-    createLead: async (body: any) =>
-      http.post('leads', { json: body }).json() as Promise<any>,
-    updateLead: async (id: string, body: any) =>
-      http.patch(`leads/${id}`, { json: body }).json() as Promise<any>,
-    deleteLead: async (id: string) =>
-      http.delete(`leads/${id}`).json() as Promise<any>,
+    listLeads:(q?:any)=>http.get('leads',{searchParams:q}).json<any>(),
+    getLead:(id:string)=>http.get(`leads/${id}`).json<any>(),
+    createLead:(b:any)=>http.post('leads',{json:b}).json<any>(),
+    updateLead:(id:string,b:any)=>http.patch(`leads/${id}`,{json:b}).json<any>(),
+    deleteLead:(id:string)=>http.delete(`leads/${id}`).json<any>(),
 
     // Deals
-    listDeals: async (query?: any) =>
-      http.get('deals', { searchParams: query }).json() as Promise<any>,
-    getDeal: async (id: string) =>
-      http.get(`deals/${id}`).json() as Promise<any>,
-    createDeal: async (body: any) =>
-      http.post('deals', { json: body }).json() as Promise<any>,
-    updateDeal: async (id: string, body: any) =>
-      http.patch(`deals/${id}`, { json: body }).json() as Promise<any>,
-    deleteDeal: async (id: string) =>
-      http.delete(`deals/${id}`).json() as Promise<any>,
+    listDeals:(q?:any)=>http.get('deals',{searchParams:q}).json<any>(),
+    getDeal:(id:string)=>http.get(`deals/${id}`).json<any>(),
+    createDeal:(b:any)=>http.post('deals',{json:b}).json<any>(),
+    updateDeal:(id:string,b:any)=>http.patch(`deals/${id}`,{json:b}).json<any>(),
+    deleteDeal:(id:string)=>http.delete(`deals/${id}`).json<any>(),
 
     // Companies
-    listCompanies: async (query?: any) =>
-      http.get('companies', { searchParams: query }).json() as Promise<any>,
-    getCompany: async (id: string) =>
-      http.get(`companies/${id}`).json() as Promise<any>,
-    createCompany: async (body: any) =>
-      http.post('companies', { json: body }).json() as Promise<any>,
-    updateCompany: async (id: string, body: any) =>
-      http.patch(`companies/${id}`, { json: body }).json() as Promise<any>,
-    deleteCompany: async (id: string) =>
-      http.delete(`companies/${id}`).json() as Promise<any>,
+    listCompanies:(q?:any)=>http.get('companies',{searchParams:q}).json<any>(),
+    getCompany:(id:string)=>http.get(`companies/${id}`).json<any>(),
+    createCompany:(b:any)=>http.post('companies',{json:b}).json<any>(),
+    updateCompany:(id:string,b:any)=>http.patch(`companies/${id}`,{json:b}).json<any>(),
+    deleteCompany:(id:string)=>http.delete(`companies/${id}`).json<any>(),
   };
 }
