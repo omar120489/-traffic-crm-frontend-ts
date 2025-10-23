@@ -29,6 +29,7 @@ traffic-crm/
 ### 2. Git History Preserved
 
 All files moved using `git mv` - history is intact:
+
 ```bash
 ✅ commit 3c99cba - chore(monorepo): scaffold /apps & /packages...
 ```
@@ -36,10 +37,12 @@ All files moved using `git mv` - history is intact:
 ### 3. PNPM Workspaces Configured
 
 **Root package.json** includes:
+
 - `"packageManager": "pnpm@10.18.2"`
 - Scripts: `dev`, `build`, `typecheck`, `lint`, `test`, `docker:up`, `docker:down`
 
 **Workspace recognition:**
+
 ```
 ✅ traffic-crm (root)
 ✅ apps/frontend
@@ -49,16 +52,19 @@ All files moved using `git mv` - history is intact:
 ### 4. TypeScript Base Config
 
 **tsconfig.base.json** created with:
+
 - Modern settings (ES2022, ESNext, Bundler resolution)
 - Path alias: `@shared-types/*` → `packages/shared-types/src/*`
 
 **App configs extended:**
+
 - ✅ `apps/frontend/tsconfig.json` - extends `../../tsconfig.base.json`
 - ✅ `apps/reporting/traffic-crm-backend-reporting/tsconfig.json` - extends `../../../tsconfig.base.json`
 
 ### 5. Build Verification
 
 **Frontend build:** ✅ SUCCESS in 7.33s
+
 ```bash
 cd apps/frontend && pnpm build
 ✓ built in 7.33s
@@ -112,6 +118,7 @@ pnpm fix:typescript   # Run frontend TS fixes
 ### Immediate (Optional)
 
 1. **Run dev servers:**
+
    ```bash
    # Terminal 1
    cd apps/api-dev && pnpm dev
@@ -124,11 +131,13 @@ pnpm fix:typescript   # Run frontend TS fixes
    ```
 
 2. **Or use parallel mode:**
+
    ```bash
    pnpm dev  # Runs all apps at once
    ```
 
 3. **Test the setup:**
+
    ```bash
    pnpm typecheck  # Check all TypeScript
    pnpm build      # Build all apps
@@ -158,7 +167,7 @@ pnpm fix:typescript   # Run frontend TS fixes
 
 ## 🛠️ How to Use Monorepo
 
-### Add dependencies to a specific app:
+### Add dependencies to a specific app
 
 ```bash
 # Frontend
@@ -169,7 +178,7 @@ pnpm add <package>
 pnpm --filter ./apps/frontend add <package>
 ```
 
-### Run scripts for a specific app:
+### Run scripts for a specific app
 
 ```bash
 # From root
@@ -177,7 +186,7 @@ pnpm --filter ./apps/frontend run build
 pnpm --filter ./apps/frontend run dev
 ```
 
-### Run scripts for all apps:
+### Run scripts for all apps
 
 ```bash
 pnpm -r run build     # All apps
@@ -237,4 +246,3 @@ If you encounter any issues:
 ---
 
 **Status:** ✅ Phase 1 Complete - Ready for Phase 2 or merge to main!
-

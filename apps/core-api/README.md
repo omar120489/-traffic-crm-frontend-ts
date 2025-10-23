@@ -22,8 +22,9 @@ pnpm dev
 ```
 
 API will be available at:
-- **API**: http://localhost:3000/api
-- **Swagger Docs**: http://localhost:3000/docs
+
+- **API**: <http://localhost:3000/api>
+- **Swagger Docs**: <http://localhost:3000/docs>
 
 ## Available Scripts
 
@@ -153,4 +154,3 @@ Regenerate after schema changes:
 ```bash
 pnpm prisma:generate
 ```
-

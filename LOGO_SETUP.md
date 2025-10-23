@@ -27,6 +27,7 @@ pnpm dev
 ```
 
 **What to look for:**
+
 - ✅ Browser tab shows RIO logo favicon
 - ✅ Header displays full RIO Travels logo
 - ✅ PWA manifest uses logo as app icon
@@ -36,13 +37,17 @@ pnpm dev
 ## What's Been Updated
 
 ### 🖼️ Logo Component
+
 **File:** `apps/frontend/src/ui-component/Logo.jsx`
+
 - Replaced SVG with image import
 - Displays your PNG logo in header
 - Responsive sizing with `height` prop
 
 ### 🌐 HTML Head
+
 **File:** `apps/frontend/index.html`
+
 - Title: "RIO Travels CRM - Your Trusted Travel Partner"
 - Favicon points to `rio-travels.png`
 - Apple touch icon configured
@@ -50,7 +55,9 @@ pnpm dev
 - Theme color set to `#2B5F8C` (RIO blue)
 
 ### 📱 PWA Manifest
+
 **File:** `apps/frontend/public/site.webmanifest`
+
 - App name: "RIO Travels CRM"
 - Short name: "RIO Travels"
 - Brand colors configured
@@ -85,18 +92,22 @@ secondary: {
 ## Troubleshooting
 
 **Logo not showing?**
+
 1. Ensure PNG files exist in both locations
 2. Clear browser cache (Cmd+Shift+R / Ctrl+F5)
 3. Check browser console for 404 errors
 4. Verify file names match exactly: `rio-travels.png`
 
 **Logo too big/small?**
+
 - Edit `Logo.jsx` and adjust the `height` prop (default: 32px)
 - For header: `<Logo height={40} />`
 
 **PWA icons not working?**
+
 - PNG should be at least 512x512px for best quality
 - Consider generating multiple sizes with:
+
   ```bash
   # Using ImageMagick or similar
   convert rio-travels.png -resize 192x192 public/icon-192.png
@@ -113,6 +124,7 @@ secondary: {
 4. 🚀 Build and deploy
 
 **Optional Enhancements:**
+
 - Add a dark mode variant of the logo
 - Create an animated loading spinner with your logo
 - Add logo to email templates / PDF exports
@@ -120,7 +132,7 @@ secondary: {
 ---
 
 **Need help?** Check:
+
 - Logo component: `apps/frontend/src/ui-component/Logo.jsx`
 - Branding assets: `apps/frontend/src/assets/images/brand/`
 - Public assets: `apps/frontend/public/`
-

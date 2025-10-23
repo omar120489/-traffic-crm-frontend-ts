@@ -165,6 +165,7 @@ Successfully implemented enterprise-grade environment configuration management f
 ### Onboarding (New Developer)
 
 **Before**:
+
 ```bash
 # Clone repo
 git clone ...
@@ -175,6 +176,7 @@ npm start
 ```
 
 **After**:
+
 ```bash
 # Clone repo
 git clone ...
@@ -188,12 +190,14 @@ npm start
 ### Error Messages
 
 **Before**:
+
 ```
 TypeError: Cannot read property 'API_URL' of undefined
   at axios.js:12
 ```
 
 **After**:
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  ❌ FATAL ERROR: Missing Required Environment Variables         │
@@ -284,8 +288,8 @@ The following items are explicitly **deferred** to future phases:
 ## Reference
 
 - **Architecture Guide**: Configuration Architecture Guide (provided by user)
-- **Twelve-Factor App**: https://12factor.net/config
-- **Vite Env Loading**: https://vitejs.dev/guide/env-and-mode.html
+- **Twelve-Factor App**: <https://12factor.net/config>
+- **Vite Env Loading**: <https://vitejs.dev/guide/env-and-mode.html>
 - **Port Management**: `docs/port-management.md`
 - **Contributing**: `CONTRIBUTING.md`
 
@@ -304,4 +308,3 @@ The following items are explicitly **deferred** to future phases:
 
 *Report generated: October 21, 2025*  
 *Implementation: Configuration Hardening (P0, P1, P2)*
-

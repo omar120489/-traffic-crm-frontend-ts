@@ -12,6 +12,7 @@
 A comprehensive, interactive script that safely replaces a GitHub repository with your local content.
 
 **Features:**
+
 - ✅ Pre-flight checks (working tree, remote URL, repo size)
 - ✅ Automatic remote URL detection (warns if targeting wrong repo)
 - ✅ Local backups (branch + .git directory)
@@ -41,30 +42,36 @@ That's it! The script will walk you through everything interactively.
 ### What It Will Do
 
 **Step 1:** Show current status
+
 - Remote URL
 - Current branch
 - Commits ahead
 - .git size
 
 **Step 2:** Offer to change remote URL
+
 - Detects if you're targeting wrong repo (MCP servers vs Traffic CRM)
 - Lets you enter new URL if needed
 
 **Step 3:** Create backups
+
 - Backup branch: `backup/before-sync-YYYYMMDD-HHMMSS`
 - .git copy: `.git.backup.YYYYMMDD-HHMMSS`
 
 **Step 4:** Clean Git history
+
 - Runs `cleanup-history.sh` automatically
 - Removes `.backups/`, `*.tar.gz`, `*.fig`
 - Shrinks `.git` from 984MB → ~100MB
 
 **Step 5:** Force push
+
 - Final confirmation required
 - Pushes all branches with `--force`
 - Pushes all tags with `--force`
 
 **Step 6:** Verify and report
+
 - Checks remote matches local
 - Shows next steps
 - Provides rollback instructions
@@ -200,6 +207,7 @@ All done! 🚀
 ### Automatic Backups
 
 **Before any destructive operations:**
+
 - ✅ Backup branch created
 - ✅ .git directory copied
 - ✅ Both can be used to restore
@@ -226,16 +234,19 @@ All done! 🚀
 You need to decide which GitHub repository to target:
 
 **Option A: Create New Traffic CRM Repo (Recommended)**
-1. Go to GitHub: https://github.com/new
+
+1. Go to GitHub: <https://github.com/new>
 2. Create repo: `traffic-crm-frontend-ts`
 3. Don't initialize (no README, .gitignore, license)
 4. When script asks, enter: `https://github.com/omar120489/traffic-crm-frontend-ts.git`
 
 **Option B: Use Existing Repo**
+
 - If you already have a Traffic CRM repo, enter its URL when prompted
 - Script will replace all content in that repo
 
 **Option C: Overwrite servers.git (Not Recommended)**
+
 - Keep current remote (`servers.git`)
 - This will **delete all MCP servers content**
 - Only do this if you're sure
@@ -243,9 +254,11 @@ You need to decide which GitHub repository to target:
 ### Decision 2: Coordinate Force Push
 
 **If working alone:**
+
 - Just run the script
 
 **If working with team:**
+
 1. Announce you're rewriting history
 2. Ask everyone to push their work first
 3. Run the script
@@ -258,9 +271,11 @@ You need to decide which GitHub repository to target:
 ### Immediate Steps
 
 1. **Verify on GitHub**
+
    ```bash
    open https://github.com/YOUR-USERNAME/traffic-crm-frontend-ts
    ```
+
    Check:
    - ✅ Structure: `apps/`, `packages/`, `scripts/`, `docs/`
    - ✅ Latest commit message matches local
@@ -272,6 +287,7 @@ You need to decide which GitHub repository to target:
    - Fix any issues
 
 3. **Update local config**
+
    ```bash
    # Remove "PR mode blocked" note from docs
    # MODE=pr should now work!
@@ -344,12 +360,14 @@ git push origin --mirror
 ### "Failed to push branches"
 
 **Possible causes:**
+
 - Network issue
 - No push permissions
 - Wrong credentials
 - Repo archived/locked
 
 **Fix:**
+
 ```bash
 # Check remote and credentials
 git remote -v
@@ -364,10 +382,12 @@ gh auth login
 **What it means:** Verification detected mismatch
 
 **This might be normal if:**
+
 - You pushed multiple branches
 - Using different branch locally vs remote
 
 **Fix:**
+
 ```bash
 # Manually verify on GitHub
 # Check the correct branch was pushed
@@ -402,4 +422,3 @@ The script will guide you through everything step by step with clear prompts and
 **Questions?** See full documentation in `docs/SCRIPTS.md` or review `REPOSITORY_ANALYSIS.md` for current status.
 
 **Next:** Once sync is complete, see `docs/LOCAL_WORKFLOW.md` → "Future: Transitioning to PR Workflow" section.
-

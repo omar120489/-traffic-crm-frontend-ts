@@ -5,4 +5,3 @@
 - **Project Structure:** `PROJECT_STRUCTURE.md`
 
 > Generated local reports: `.project_audit/` (gitignored)
-

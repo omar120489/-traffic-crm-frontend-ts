@@ -1,6 +1,6 @@
 # Step 4: Loss Reason Taxonomy - Verification Guide
 
-## ✅ Implementation Complete!
+## ✅ Implementation Complete
 
 All components of the **Loss Reason Taxonomy** have been successfully implemented with backend validation, frontend UI, and comprehensive tests.
 
@@ -87,6 +87,7 @@ All components of the **Loss Reason Taxonomy** have been successfully implemente
 ## 📋 Manual Verification Steps
 
 ### **Prerequisites:**
+
 1. **Backend running:** `dev-backend` should be running on port 8787
 2. **Frontend running:** `npm start` on port 3002
 3. **Logged in:** Use `info@codedthemes.com` / `123456`
@@ -155,6 +156,7 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/$DEAL_ID \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "message": "loss_reason is required when transitioning to Lost. Valid values: L-Price/Budget, L-Timing/Postponed, L-Qualification/Not a fit, L-Competitor, L-No response, L-Other"
@@ -177,6 +179,7 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/$DEAL_ID \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "message": "loss_reason is required when transitioning to Lost. Valid values: L-Price/Budget, L-Timing/Postponed, L-Qualification/Not a fit, L-Competitor, L-No response, L-Other"
@@ -200,6 +203,7 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/$DEAL_ID \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "id": "12345",
@@ -215,6 +219,7 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/$DEAL_ID \
 **Status Code:** `200 OK`
 
 **Backend Console Log:**
+
 ```
 ❌ Deal marked Lost {
   dealId: '12345',
@@ -237,6 +242,7 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/$DEAL_ID \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "id": "12345",
@@ -250,6 +256,7 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/$DEAL_ID \
 **Status Code:** `200 OK`
 
 **Backend Console Log:**
+
 ```
 ❌ Deal marked Lost {
   dealId: '12345',
@@ -325,6 +332,7 @@ npm run test:unit
 ```
 
 **Expected Output:**
+
 ```
 ✓ src/ui-component/deals/LostReasonModal.test.tsx  (9 tests)
   ✓ renders when open
@@ -486,6 +494,7 @@ if (!lossReason || !validReasons.includes(lossReason)) {
 After verifying Step 4, we can proceed to:
 
 **Step 5: Journey Events + Activity Timeline**
+
 - Backend: `POST /api/v1/journey-events` and `GET /api/v1/journey-events?lead_id=`
 - Event types: `first_quote_sent`, `message_sent`, `agent_handoff`, `status_change`
 - Frontend: Reusable `ActivityTimeline` component
@@ -495,6 +504,7 @@ After verifying Step 4, we can proceed to:
 **or**
 
 **Step 6: Deal/Lead Export (CSV)**
+
 - Backend: `GET /api/deals/export` and `GET /api/leads/export`
 - Frontend: "Export" button on list pages
 - Filters applied to export
@@ -534,5 +544,3 @@ curl -X PATCH http://127.0.0.1:8787/api/deals/<DEAL_ID> \
 ---
 
 **✅ Step 4 Complete! Loss Reason Taxonomy is production-ready!** 🎉
-
-

@@ -11,6 +11,7 @@ This guide provides manual verification steps for the newly implemented **Advanc
 ### Backend Enhancements (dev-backend/server.js)
 
 **GET /api/deals** - Enhanced with:
+
 - **Date ranges:** `date_from`, `date_to` (for `close_date`)
 - **Numeric ranges:** `amount_min`, `amount_max`
 - **Multi-select:** `stages` (comma-separated), `statuses` (comma-separated)
@@ -18,6 +19,7 @@ This guide provides manual verification steps for the newly implemented **Advanc
 - **Sorting:** Existing sorting maintained
 
 **GET /api/leads** - Enhanced with:
+
 - **Date ranges:** `date_from`, `date_to` (for `created_at`)
 - **Numeric ranges:** `score_min`, `score_max`
 - **Multi-select:** `statuses` (comma-separated), `sources` (comma-separated)
@@ -26,6 +28,7 @@ This guide provides manual verification steps for the newly implemented **Advanc
 ### Frontend Components
 
 **FilterPanel Component** (`src/ui-component/FilterPanel/`)
+
 - Collapsible panel with "Show Filters" / "Hide Filters" toggle
 - Date range pickers, numeric range inputs, multi-select dropdowns
 - "Apply Filters" and "Clear All" buttons
@@ -33,10 +36,12 @@ This guide provides manual verification steps for the newly implemented **Advanc
 - Berry-styled UI
 
 **useFilterPresets Hook** (`src/hooks/useFilterPresets.ts`)
+
 - Manages filter presets in localStorage
 - Provides `savePreset`, `deletePreset`, and `clearPresets` functions
 
 **Updated List Pages**
+
 - **DealsListPage:** Integrated FilterPanel with URL sync and active filter chips
 - **LeadsListPage:** Integrated FilterPanel with URL sync and active filter chips
 - Active filters displayed as removable chips
@@ -49,36 +54,42 @@ This guide provides manual verification steps for the newly implemented **Advanc
 ### 1. Backend Verification (curl)
 
 #### Deals - Date Range Filter
+
 ```bash
 # Filter deals by close date range
 curl "http://127.0.0.1:8787/api/deals?date_from=2025-01-01&date_to=2025-12-31" | jq .
 ```
 
 #### Deals - Amount Range Filter
+
 ```bash
 # Filter deals by amount range
 curl "http://127.0.0.1:8787/api/deals?amount_min=1000&amount_max=50000" | jq .
 ```
 
 #### Deals - Multi-Select Filter
+
 ```bash
 # Filter deals by multiple stages and statuses
 curl "http://127.0.0.1:8787/api/deals?stages=Proposal,Negotiation&statuses=Open" | jq .
 ```
 
 #### Leads - Date Range Filter
+
 ```bash
 # Filter leads by created date range
 curl "http://127.0.0.1:8787/api/leads?date_from=2025-01-01&date_to=2025-12-31" | jq .
 ```
 
 #### Leads - Score Range Filter
+
 ```bash
 # Filter leads by score range
 curl "http://127.0.0.1:8787/api/leads?score_min=50&score_max=100" | jq .
 ```
 
 #### Leads - Multi-Select Filter
+
 ```bash
 # Filter leads by multiple statuses and sources
 curl "http://127.0.0.1:8787/api/leads?statuses=New,Contacted&sources=Web,Email" | jq .
@@ -89,6 +100,7 @@ curl "http://127.0.0.1:8787/api/leads?statuses=New,Contacted&sources=Web,Email" 
 ### 2. Frontend Verification (Browser)
 
 #### Prerequisites
+
 1. Start dev-backend: `cd dev-backend && npm start` (port 8787)
 2. Start frontend: `npm run dev` (port 3002)
 3. Log in with credentials: `admin@example.com` / `admin123`
@@ -98,6 +110,7 @@ curl "http://127.0.0.1:8787/api/leads?statuses=New,Contacted&sources=Web,Email" 
 #### Test Case 1: Deals Advanced Filters
 
 **Steps:**
+
 1. Navigate to **Deals** page (`/deals`)
 2. Click **"Show Filters"** button
 3. Verify filter panel expands and displays:
@@ -131,6 +144,7 @@ curl "http://127.0.0.1:8787/api/leads?statuses=New,Contacted&sources=Web,Email" 
 #### Test Case 2: Leads Advanced Filters
 
 **Steps:**
+
 1. Navigate to **Leads** page (`/leads`)
 2. Click **"Show Filters"** button
 3. Set filters:
@@ -151,6 +165,7 @@ curl "http://127.0.0.1:8787/api/leads?statuses=New,Contacted&sources=Web,Email" 
 #### Test Case 3: Filter Presets (Save/Load)
 
 **Steps:**
+
 1. Navigate to **Deals** page
 2. Click **"Show Filters"**
 3. Set custom filters (e.g., Amount Min: `5000`, Stage: `Proposal`)
@@ -170,6 +185,7 @@ curl "http://127.0.0.1:8787/api/leads?statuses=New,Contacted&sources=Web,Email" 
     - Active chips appear
 
 **Note:** Presets are stored in `localStorage` under keys:
+
 - `deals-filter-presets`
 - `leads-filter-presets`
 
@@ -180,12 +196,15 @@ You can inspect them in browser DevTools > Application > Local Storage.
 #### Test Case 4: URL State Management (Shareable URLs)
 
 **Steps:**
+
 1. Navigate to **Deals** page
 2. Apply filters (e.g., `amount_min=10000&stages=Proposal`)
 3. Copy the URL from the browser address bar, e.g.:
+
    ```
    http://localhost:3002/deals?date_from=2025-01-01&amount_min=10000&stages=Proposal
    ```
+
 4. Open a new browser tab or incognito window
 5. Paste the URL and press Enter
 6. Verify:
@@ -199,6 +218,7 @@ You can inspect them in browser DevTools > Application > Local Storage.
 #### Test Case 5: Filter + Export Integration
 
 **Steps:**
+
 1. Navigate to **Deals** page
 2. Apply filters (e.g., Amount Min: `10000`)
 3. Click **"Export"** button
@@ -212,6 +232,7 @@ You can inspect them in browser DevTools > Application > Local Storage.
 #### Test Case 6: Filter Persistence Across Navigation
 
 **Steps:**
+
 1. Navigate to **Deals** page
 2. Apply filters and verify results
 3. Click on a deal to view **DealDetail** page
@@ -226,6 +247,7 @@ You can inspect them in browser DevTools > Application > Local Storage.
 ## 🔍 Edge Cases to Test
 
 ### Empty Results
+
 1. Apply filters that match no records (e.g., `amount_min=999999`)
 2. Verify:
    - Table shows "No rows" message
@@ -233,12 +255,14 @@ You can inspect them in browser DevTools > Application > Local Storage.
    - No errors in console
 
 ### Invalid Date Range
+
 1. Set `date_to` before `date_from`
 2. Verify:
    - Backend returns valid response (empty or all results, depending on implementation)
    - No frontend crash
 
 ### Multi-Select with No Selection
+
 1. Open multi-select dropdown
 2. Click away without selecting anything
 3. Verify:
@@ -246,6 +270,7 @@ You can inspect them in browser DevTools > Application > Local Storage.
    - No errors
 
 ### Rapid Filter Changes
+
 1. Apply filter → immediately change it → apply again
 2. Verify:
    - No race conditions
@@ -306,5 +331,3 @@ You can inspect them in browser DevTools > Application > Local Storage.
 ---
 
 **Step 7 (Advanced Search & Filters) is complete and production-ready!** 🎉
-
-

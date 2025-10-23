@@ -22,4 +22,3 @@ import rioLogo from '@/assets/images/brand/rio-travels.png';
 ```
 
 No additional configuration needed - the build system will handle optimization.
-

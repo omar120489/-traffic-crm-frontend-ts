@@ -1,8 +1,9 @@
-# ⚠️ Create GitHub Repository First!
+# ⚠️ Create GitHub Repository First
 
 ## Current Status
 
 ✅ **Local preparations complete:**
+
 - Backups created: `backup/before-sync-20251024-011344`
 - Remote set to: `https://github.com/omar120489/traffic-crm-frontend-ts.git`
 - .git backup: `.git.backup.20251024-011344`
@@ -10,6 +11,7 @@
 ❌ **GitHub repository does not exist yet!**
 
 Push failed with:
+
 ```
 remote: Repository not found.
 fatal: repository 'https://github.com/omar120489/traffic-crm-frontend-ts.git/' not found
@@ -21,7 +23,7 @@ fatal: repository 'https://github.com/omar120489/traffic-crm-frontend-ts.git/' n
 
 ### Step 1: Create the GitHub Repository
 
-1. Go to: **https://github.com/new**
+1. Go to: **<https://github.com/new>**
 2. **Repository name:** `traffic-crm-frontend-ts`
 3. **Description:** (optional) "Traffic CRM - Full-stack TypeScript monorepo with React frontend, NestJS backend"
 4. **Visibility:** Choose Public or Private
@@ -95,4 +97,3 @@ git push origin --force --tags
 ---
 
 **Ready?** Create the repo on GitHub, then come back and run the sync script! 🚀
-

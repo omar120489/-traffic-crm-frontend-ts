@@ -304,4 +304,3 @@ If working with others:
 ---
 
 **Questions or issues?** Check `docs/SCRIPTS.md` or review `git reflog` for recent history.
-

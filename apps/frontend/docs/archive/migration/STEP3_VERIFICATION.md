@@ -1,6 +1,6 @@
 # Step 3: P&L API + Dashboard Scaffold - Verification Guide
 
-## ✅ Implementation Complete!
+## ✅ Implementation Complete
 
 All components of the **P&L Analytics Dashboard** have been successfully implemented with stub data and working filters.
 
@@ -83,6 +83,7 @@ All components of the **P&L Analytics Dashboard** have been successfully impleme
 The stub endpoint returns realistic P&L data:
 
 ### **Summary Metrics:**
+
 - **Total Leads:** 150
 - **Total Deals:** 12
 - **Total Gross Revenue:** $144,000
@@ -105,6 +106,7 @@ The stub endpoint returns realistic P&L data:
 ## 📋 Manual Verification Steps
 
 ### **Prerequisites:**
+
 1. **Backend running:** `dev-backend` should be running on port 8787
 2. **Frontend running:** `npm start` on port 3002
 3. **Logged in:** Use `info@codedthemes.com` / `123456`
@@ -149,6 +151,7 @@ On the P&L Analytics page, you should see **3 KPI cards** at the top:
 Below the KPI cards, you should see a **data table** with:
 
 **Headers:**
+
 - UTM Source
 - UTM Campaign
 - Ad ID
@@ -161,6 +164,7 @@ Below the KPI cards, you should see a **data table** with:
 - CPA (right-aligned)
 
 **Rows:**
+
 - **4 rows of data** (Facebook, Google, Twitter, LinkedIn)
 - All values formatted correctly (currency with $ sign, ROAS with x)
 - **Net Profit in green** (all values positive in stub data)
@@ -184,6 +188,7 @@ Below the KPI cards, you should see a **data table** with:
 4. Click **"Apply"** button
 
 **Expected Result:**
+
 - Table shows **only 1 row** (Facebook)
 - KPI cards update:
   - Total Net Profit: $50,000
@@ -198,6 +203,7 @@ Below the KPI cards, you should see a **data table** with:
 4. Click **"Apply"**
 
 **Expected Result:**
+
 - Table shows **only 1 row** (Google - winter_promo)
 - KPI cards update:
   - Total Net Profit: $36,000
@@ -212,6 +218,7 @@ Below the KPI cards, you should see a **data table** with:
 4. Click **"Apply"**
 
 **Expected Result:**
+
 - Table shows **only 1 row** (Facebook ad 12345)
 
 #### **Test 4d: Multiple Filters**
@@ -223,6 +230,7 @@ Below the KPI cards, you should see a **data table** with:
 5. Click **"Apply"**
 
 **Expected Result:**
+
 - Table shows **1 row** (all filters match Facebook spring_sale ad)
 - KPIs reflect only this row's data
 
@@ -231,6 +239,7 @@ Below the KPI cards, you should see a **data table** with:
 1. Click **"Clear"** button
 
 **Expected Result:**
+
 - All dropdown selections reset to "All..."
 - Table shows **all 4 rows**
 - KPIs show full summary
@@ -252,11 +261,13 @@ Below the KPI cards, you should see a **data table** with:
 Test the backend endpoint directly:
 
 #### **Test 6a: Get all data**
+
 ```bash
 curl http://localhost:8787/api/v1/pnl | jq
 ```
 
 **Expected Response:**
+
 ```json
 {
   "summary": {
@@ -274,24 +285,29 @@ curl http://localhost:8787/api/v1/pnl | jq
 ```
 
 #### **Test 6b: Filter by source**
+
 ```bash
 curl "http://localhost:8787/api/v1/pnl?utm_source=facebook" | jq
 ```
 
 **Expected Response:**
+
 - Only 1 row in `rows` array (facebook)
 - Summary recalculated for that row only
 
 #### **Test 6c: Filter by multiple parameters**
+
 ```bash
 curl "http://localhost:8787/api/v1/pnl?utm_source=google&utm_campaign=winter_promo" | jq
 ```
 
 **Expected Response:**
+
 - Only 1 row (Google winter_promo)
 - `filters_applied` shows utm_source and utm_campaign
 
 **Backend log should show:**
+
 ```
 📊 P&L data requested {
   filters: { utm_source: 'facebook', utm_campaign: undefined, ad_id: undefined, ... },
@@ -308,6 +324,7 @@ curl "http://localhost:8787/api/v1/pnl?utm_source=google&utm_campaign=winter_pro
 3. Reload the P&L Analytics page
 
 **Verify:**
+
 - **CircularProgress spinner** appears while loading
 - KPI cards and table hidden during load
 - Smooth transition when data arrives
@@ -320,6 +337,7 @@ curl "http://localhost:8787/api/v1/pnl?utm_source=google&utm_campaign=winter_pro
 2. Try to refresh the P&L page
 
 **Verify:**
+
 - **Error alert** appears (red box)
 - Message: "Failed to load P&L data. Please try again."
 - **"Retry" button** visible
@@ -329,6 +347,7 @@ curl "http://localhost:8787/api/v1/pnl?utm_source=google&utm_campaign=winter_pro
 4. Click "Retry" again
 
 **Verify:**
+
 - Data loads successfully
 - Error disappears
 
@@ -339,6 +358,7 @@ curl "http://localhost:8787/api/v1/pnl?utm_source=google&utm_campaign=winter_pro
 1. Resize browser to mobile width (< 600px)
 
 **Verify:**
+
 - KPI cards stack vertically (one per row)
 - Table scrolls horizontally if needed
 - Filters stack vertically
@@ -351,6 +371,7 @@ curl "http://localhost:8787/api/v1/pnl?utm_source=google&utm_campaign=winter_pro
 Currently not applicable with stub data, but the table has empty state handling:
 
 If backend returns `rows: []`:
+
 - Table shows: "No data available for the selected filters"
 
 ---
@@ -442,6 +463,7 @@ Net Profit = Gross Revenue - Direct Cost
 After verifying Step 3, we can proceed to:
 
 **Step 4: Loss Reason Taxonomy**
+
 - Frontend: Loss Reason dropdown required when setting status to "Lost"
 - Backend: Enforce `loss_reason` field on "Lost" transition
 - Dropdown with controlled list (e.g., "Price Too High", "Competitor", "No Budget", "Not Interested")
@@ -450,6 +472,7 @@ After verifying Step 3, we can proceed to:
 **or**
 
 **Step 5: Journey Events + Activity Timeline**
+
 - Backend: `POST /api/v1/journey-events` and `GET /api/v1/journey-events?lead_id=`
 - Frontend: Reusable `ActivityTimeline` component
 - Event types: `first_quote_sent`, `message_sent`, `agent_handoff`, `status_change`
@@ -479,5 +502,3 @@ open http://localhost:3002/analytics/pnl
 ---
 
 **✅ Step 3 Complete! P&L Analytics Dashboard is functional with stub data!** 🎉
-
-

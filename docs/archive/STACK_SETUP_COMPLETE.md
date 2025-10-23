@@ -1,6 +1,7 @@
-# 🚀 Full Stack Setup Complete!
+# 🚀 Full Stack Setup Complete
 
 Your Traffic CRM monorepo is now wired end-to-end with:
+
 - ✅ **Typed SDK** generated from Core API Swagger
 - ✅ **Prisma Seeds** with demo data
 - ✅ **Dev JWT Generator** for local auth bypass
@@ -12,37 +13,43 @@ Your Traffic CRM monorepo is now wired end-to-end with:
 ## 📦 What Was Added
 
 ### 1. **Packages/SDK-JS** (`packages/sdk-js/`)
-   - OpenAPI-generated TypeScript client using `ky`
-   - Auto-typed from `/docs-json` endpoint
-   - Supports contacts, companies, leads, deals modules
+
+- OpenAPI-generated TypeScript client using `ky`
+- Auto-typed from `/docs-json` endpoint
+- Supports contacts, companies, leads, deals modules
 
 ### 2. **Frontend SDK Client** (`apps/frontend/src/data/clients/sdk.ts`)
-   - Unified API client with auth header injection
-   - Reads JWT from `.env.local` (`VITE_DEV_JWT`) or `localStorage`
-   - Example service: `services/contacts.sdk.ts`
+
+- Unified API client with auth header injection
+- Reads JWT from `.env.local` (`VITE_DEV_JWT`) or `localStorage`
+- Example service: `services/contacts.sdk.ts`
 
 ### 3. **Prisma Seed** (`apps/core-api/prisma/seed.ts`)
-   - Demo org: `demo-org`
-   - 1 company: Acme Inc.
-   - 2 contacts: John Doe, Jane Smith
-   - 2 leads: Website Inquiry, Referral
-   - 2 deals: Acme Pilot, Enterprise Package
+
+- Demo org: `demo-org`
+- 1 company: Acme Inc.
+- 2 contacts: John Doe, Jane Smith
+- 2 leads: Website Inquiry, Referral
+- 2 deals: Acme Pilot, Enterprise Package
 
 ### 4. **JWT Generator** (`apps/core-api/scripts/make-dev-jwt.mjs`)
-   - Creates valid JWT tokens for local dev
-   - Claims: `orgId`, `sub` (userId), `roles`
-   - Valid for 24 hours
+
+- Creates valid JWT tokens for local dev
+- Claims: `orgId`, `sub` (userId), `roles`
+- Valid for 24 hours
 
 ### 5. **Workers** (`apps/workers/`)
-   - **lead-scoring** queue: Automatic lead qualification
-   - **enrichment** queue: Contact/company data enrichment
-   - Uses BullMQ + IORedis
+
+- **lead-scoring** queue: Automatic lead qualification
+- **enrichment** queue: Contact/company data enrichment
+- Uses BullMQ + IORedis
 
 ### 6. **Docker Compose** (`infra/docker/docker-compose.yml`)
-   - PostgreSQL 16 (port 5432)
-   - Redis 7 (port 6379)
-   - MailHog (ports 1025/8025)
-   - MinIO (ports 9000/9001)
+
+- PostgreSQL 16 (port 5432)
+- Redis 7 (port 6379)
+- MailHog (ports 1025/8025)
+- MinIO (ports 9000/9001)
 
 ---
 
@@ -59,6 +66,7 @@ docker compose -f infra/docker/docker-compose.yml ps
 ```
 
 **Expected Output:**
+
 ```
 trafficcrm-postgres   running   healthy   5432/tcp
 trafficcrm-redis      running   healthy   6379/tcp
@@ -77,6 +85,7 @@ pnpm db:seed
 ```
 
 **Expected Output:**
+
 ```
 🌱 Seeding database...
 ✅ Org: Demo Org (demo-org)
@@ -98,6 +107,7 @@ pnpm dev:jwt
 ```
 
 **Expected Output:**
+
 ```
 🔐 Dev JWT Token (valid for 24h):
 
@@ -120,6 +130,7 @@ pnpm --filter @apps/core-api dev
 ```
 
 **Wait for:**
+
 ```
 [Nest] INFO [NestFactory] Starting Nest application...
 [Nest] INFO [InstanceLoader] AppModule dependencies initialized
@@ -128,7 +139,7 @@ pnpm --filter @apps/core-api dev
 [Nest] INFO Swagger docs: http://localhost:3000/docs
 ```
 
-**Verify Swagger:** Open http://localhost:3000/docs
+**Verify Swagger:** Open <http://localhost:3000/docs>
 
 ### Step 5: Generate SDK Types & Start Frontend
 
@@ -140,7 +151,7 @@ pnpm sdk:gen
 pnpm --filter ./apps/frontend dev
 ```
 
-**Open:** http://localhost:5173
+**Open:** <http://localhost:5173>
 
 ---
 
@@ -158,6 +169,7 @@ curl -H "Authorization: Bearer <TOKEN>" \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "items": [
@@ -185,7 +197,7 @@ curl -H "Authorization: Bearer <TOKEN>" \
 
 ### Test 2: Frontend SDK Call
 
-Open browser console on http://localhost:5173 and run:
+Open browser console on <http://localhost:5173> and run:
 
 ```javascript
 // Import SDK (if not already available globally)
@@ -200,9 +212,10 @@ console.log(contacts);
 
 ### Test 3: Contacts Page
 
-Navigate to http://localhost:5173/contacts
+Navigate to <http://localhost:5173/contacts>
 
 **Expected:**
+
 - Table with John Doe and Jane Smith
 - Pagination controls
 - Search bar functional
@@ -367,6 +380,7 @@ pnpm sdk:gen  # Regenerate frontend types
 **New:** Use `services/contacts.sdk.ts` (already created)
 
 **Migration:**
+
 ```typescript
 // Old: apps/frontend/src/services/contacts.ts
 import { apiGet } from '@data/clients/axios';
@@ -384,6 +398,7 @@ export async function listContacts() {
 ```
 
 **To migrate:**
+
 1. Test SDK service alongside old one
 2. Update imports in components: `import { listContacts } from '@services/contacts.sdk'`
 3. Delete old service once verified
@@ -518,15 +533,15 @@ lsof -ti:5173 | xargs kill -9
 
 | Service | URL | Purpose |
 |---------|-----|---------|
-| **Frontend** | http://localhost:5173 | React app |
-| **Core API** | http://localhost:3000 | NestJS REST API |
-| **Swagger Docs** | http://localhost:3000/docs | API documentation |
-| **Swagger JSON** | http://localhost:3000/docs-json | OpenAPI spec (for SDK) |
+| **Frontend** | <http://localhost:5173> | React app |
+| **Core API** | <http://localhost:3000> | NestJS REST API |
+| **Swagger Docs** | <http://localhost:3000/docs> | API documentation |
+| **Swagger JSON** | <http://localhost:3000/docs-json> | OpenAPI spec (for SDK) |
 | **PostgreSQL** | localhost:5432 | Database |
-| **Prisma Studio** | http://localhost:5555 | Database GUI (run `prisma:studio`) |
+| **Prisma Studio** | <http://localhost:5555> | Database GUI (run `prisma:studio`) |
 | **Redis** | localhost:6379 | Job queues, cache |
-| **MailHog UI** | http://localhost:8025 | Email testing |
-| **MinIO Console** | http://localhost:9001 | S3 storage UI (admin/minioadmin) |
+| **MailHog UI** | <http://localhost:8025> | Email testing |
+| **MinIO Console** | <http://localhost:9001> | S3 storage UI (admin/minioadmin) |
 
 ---
 
@@ -573,18 +588,19 @@ traffic-crm/
 - [ ] Database migrated: `pnpm db:migrate`
 - [ ] Seed data loaded: `pnpm db:seed`
 - [ ] JWT generated: `pnpm dev:jwt` (token copied to `.env.local`)
-- [ ] Core API running: http://localhost:3000/docs
+- [ ] Core API running: <http://localhost:3000/docs>
 - [ ] SDK types generated: `pnpm sdk:gen` (no errors)
-- [ ] Frontend running: http://localhost:5173
+- [ ] Frontend running: <http://localhost:5173>
 - [ ] Contacts page loads with John Doe & Jane Smith
 - [ ] No 401/403 errors in browser console
 - [ ] Workers ready (optional): `pnpm --filter @apps/workers dev`
 
 ---
 
-## 🎉 You're Ready!
+## 🎉 You're Ready
 
 Your full stack is now operational:
+
 - ✅ **Backend**: NestJS + Fastify + Prisma + PostgreSQL
 - ✅ **Frontend**: React + Vite + TypeScript + MUI
 - ✅ **SDK**: Typed API client with auth
@@ -597,10 +613,10 @@ Your full stack is now operational:
 ---
 
 **Questions?** Check:
+
 - `packages/sdk-js/README.md` - SDK usage
 - `infra/docker/README.md` - Infrastructure details
 - `apps/workers/README.md` - Workers usage
 - `apps/core-api/README.md` - API development
 
 **Need help with a specific module?** All patterns are established - just follow the Contacts example!
-

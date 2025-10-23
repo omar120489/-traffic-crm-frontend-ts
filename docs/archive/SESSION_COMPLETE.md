@@ -39,6 +39,7 @@ f9a9e70 fix(sdk): add module config to tsconfig and placeholder types
 **File:** `packages/sdk-js/src/index.ts`
 
 **Features:**
+
 - `ky.beforeError` hook for centralized error handling
 - Extracts `message`, `error`, `detail` from response bodies
 - Attaches `status` and `body` to error objects
@@ -46,6 +47,7 @@ f9a9e70 fix(sdk): add module config to tsconfig and placeholder types
 - 10-second timeout
 
 **Usage:**
+
 ```typescript
 try {
   await client.listContacts({ page: 1 });
@@ -63,6 +65,7 @@ try {
 **File:** `apps/frontend/src/utils/currency.ts`
 
 **Functions:**
+
 - `formatMoney(cents, currency)` → "$12,345.67"
 - `amountToCents(amount)` → cents integer
 - `centsToDisplay(cents)` → "12345.67"
@@ -70,10 +73,12 @@ try {
 - `formatMoneyPlain(cents)` → "12,345.67"
 
 **Applied to:**
+
 - ✅ DealsListPage (currency column)
 - ✅ DealDetail (amount, revenue, cost, profit)
 
 **Backend Support:**
+
 - Deal type now has `amountCents` and `currency` fields
 - Backward compatible with legacy `amount` field
 
@@ -82,17 +87,20 @@ try {
 ### **3. Backend Pagination**
 
 **Files:**
+
 - `apps/core-api/src/common/dto/pagination.dto.ts` (DTOs)
 - All CRUD controllers updated
 - All CRUD services updated
 
 **Modules:**
+
 1. **Contacts** - Search: `name`, `email`
 2. **Leads** - Search: `source`, `status`
 3. **Deals** - Search: `title`, `stage`
 4. **Companies** - Search: `name`, `domain`
 
 **Query Params:**
+
 ```typescript
 {
   page: number;    // Min 1
@@ -102,6 +110,7 @@ try {
 ```
 
 **Response:**
+
 ```typescript
 {
   items: T[];
@@ -121,12 +130,14 @@ try {
 **New Hooks:**
 
 #### **`usePagination`** - State management
+
 ```typescript
 const { query, page, size, search, setPage, setSize, setSearch, reset } = 
   usePagination({ page: 1, size: 10 });
 ```
 
 #### **`usePaginatedQuery`** - Data fetching
+
 ```typescript
 const { data, loading, error, page, setPage, setSearch, refetch } = 
   usePaginatedQuery({
@@ -139,6 +150,7 @@ const { data, loading, error, page, setPage, setSearch, refetch } =
 **New Component:**
 
 #### **`<PaginationToolbar />`** - Reusable UI
+
 ```typescript
 <PaginationToolbar
   page={page}
@@ -155,6 +167,7 @@ const { data, loading, error, page, setPage, setSearch, refetch } =
 ```
 
 **Features:**
+
 - Search input with icon
 - Page size selector (5, 10, 25, 50, 100)
 - MUI Pagination with first/last buttons
@@ -169,6 +182,7 @@ const { data, loading, error, page, setPage, setSearch, refetch } =
 **File:** `.github/workflows/ci.yml`
 
 **Jobs:**
+
 1. **typecheck-and-build** (matrix strategy)
    - `@apps/core-api`
    - `./apps/frontend`
@@ -186,6 +200,7 @@ const { data, loading, error, page, setPage, setSearch, refetch } =
 **File:** `apps/frontend/index.html`
 
 **Improvements:**
+
 - Theme-color with media queries (light/dark)
 - Safe fallback for old browsers
 - `color-scheme` hint
@@ -193,6 +208,7 @@ const { data, loading, error, page, setPage, setSearch, refetch } =
 - `viewport-fit=cover` for notched devices
 
 **PWA Manifest:** `apps/frontend/public/manifest.webmanifest`
+
 - Name, icons, theme colors
 - Standalone display mode
 - Ready for installation
@@ -275,12 +291,14 @@ curl "http://localhost:3000/api/companies?page=1&size=100" \
 ### **3. Test Frontend**
 
 Navigate to:
-- http://localhost:5173/contacts
-- http://localhost:5173/leads
-- http://localhost:5173/deals
-- http://localhost:5173/companies
+
+- <http://localhost:5173/contacts>
+- <http://localhost:5173/leads>
+- <http://localhost:5173/deals>
+- <http://localhost:5173/companies>
 
 **Verify:**
+
 - ✅ Data loads without errors
 - ✅ Search works (case-insensitive)
 - ✅ Page size selector works
@@ -295,6 +313,7 @@ Navigate to:
 **Total: 57 files across backend, frontend, infrastructure**
 
 ### **Backend (8 controllers + 8 services + 1 DTO):**
+
 - `apps/core-api/src/common/dto/pagination.dto.ts`
 - `apps/core-api/src/modules/contacts/*`
 - `apps/core-api/src/modules/leads/*`
@@ -302,6 +321,7 @@ Navigate to:
 - `apps/core-api/src/modules/companies/*`
 
 ### **Frontend (3 hooks + 1 component + 1 util + 3 pages):**
+
 - `apps/frontend/src/hooks/usePagination.ts`
 - `apps/frontend/src/hooks/usePaginatedQuery.ts`
 - `apps/frontend/src/ui-component/PaginationToolbar.tsx`
@@ -312,11 +332,13 @@ Navigate to:
 - `apps/frontend/public/manifest.webmanifest`
 
 ### **Infrastructure:**
+
 - `.github/workflows/ci.yml`
 - `packages/sdk-js/src/index.ts`
 - `packages/shared-types/src/deal.ts`
 
 ### **Documentation:**
+
 - 4 comprehensive markdown guides
 
 ---
@@ -324,17 +346,20 @@ Navigate to:
 ## 🎯 Next Steps (Optional)
 
 ### **Immediate:**
+
 1. ✅ Test the stack end-to-end
 2. ✅ Update existing list pages to use new hooks
 3. ✅ Verify currency displays correctly in Deals UI
 
 ### **Short-term:**
+
 1. **Advanced Filtering** - Add date ranges, status filters per module
 2. **Sorting** - Add `sortBy` and `sortOrder` to pagination
 3. **Caching** - Wrap SDK calls with SWR or React Query
 4. **Export** - Integrate with existing `formatMoney()` for exports
 
 ### **Long-term:**
+
 1. **Infinite Scroll** - Alternative to pagination for mobile
 2. **Virtual Scrolling** - For very large lists
 3. **Saved Filters** - User presets for common queries
@@ -345,12 +370,14 @@ Navigate to:
 ## ✅ Quality Checks
 
 **Backend:**
+
 ```bash
 ✅ pnpm --filter @apps/core-api build
 ✅ pnpm --filter @apps/core-api typecheck
 ```
 
 **Frontend:**
+
 ```bash
 ✅ pnpm --filter @sdk-js/core build
 ⚠️  pnpm --filter ./apps/frontend build (pre-existing logo issue)
@@ -358,6 +385,7 @@ Navigate to:
 ```
 
 **CI:**
+
 ```bash
 ✅ .github/workflows/ci.yml configured
 ✅ Ready to run on PR/push
@@ -368,6 +396,7 @@ Navigate to:
 ## 🎉 Session Highlights
 
 ### **Before:**
+
 - ❌ No pagination on any endpoint
 - ❌ Inconsistent error messages
 - ❌ Manual currency formatting everywhere
@@ -376,6 +405,7 @@ Navigate to:
 - ❌ No pagination UI components
 
 ### **After:**
+
 - ✅ All 4 CRUD modules paginated
 - ✅ Normalized SDK errors
 - ✅ Centralized currency utilities
@@ -384,6 +414,7 @@ Navigate to:
 - ✅ Reusable pagination hooks & components
 
 ### **Impact:**
+
 - **Backend:** Standardized, validated, searchable pagination
 - **Frontend:** Type-safe, reusable, beautiful pagination UI
 - **DX:** Better errors, better docs, better tooling
@@ -403,6 +434,7 @@ GET /api/companies?page={page}&size={size}&search={query}
 ```
 
 **Constraints:**
+
 - `page`: integer, min 1
 - `size`: integer, 1-100
 - `search`: string, optional
@@ -426,4 +458,3 @@ GET /api/companies?page={page}&size={size}&search={query}
 Branch: `chore/quick-wins-and-currency`  
 Status: ✅ All features complete & tested  
 Next: Merge to `develop` or `main`
-

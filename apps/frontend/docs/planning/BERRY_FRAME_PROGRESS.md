@@ -24,6 +24,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ## ✅ Completed Pages (2)
 
 ### 1. **P&L Analytics** ✅
+
 - **Route**: `/analytics/pnl`
 - **File**: `src/views/analytics/PnLAnalytics.tsx`
 - **Completed**: 2025-10-22
@@ -37,6 +38,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 - **Notes**: Reference implementation for all other pages
 
 ### 2. **Notifications** ✅
+
 - **Route**: `/notifications`
 - **File**: `src/views/notifications/Notifications.tsx`
 - **Completed**: 2025-10-22
@@ -54,6 +56,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ## 🔴 HIGH PRIORITY - Phase 1 (0/4)
 
 ### 3. **Contacts List** ⏳
+
 - **Route**: `/contacts`
 - **File**: `src/views/pages/contacts/ContactsListPage.tsx`
 - **Status**: ⏳ Not Started
@@ -74,6 +77,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Handle loading/error/empty states
 
 ### 4. **Leads List** ⏳
+
 - **Route**: `/leads`
 - **File**: `src/views/pages/leads/LeadsListPage.tsx`
 - **Status**: ⏳ Not Started
@@ -93,6 +97,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Handle states
 
 ### 5. **Deals List** ⏳
+
 - **Route**: `/deals`
 - **File**: `src/views/pages/deals/DealsListPage.tsx`
 - **Status**: ⏳ Not Started
@@ -112,6 +117,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Handle states
 
 ### 6. **Companies List** ⏳
+
 - **Route**: `/companies`
 - **File**: `src/views/pages/companies/CompaniesListPage.tsx`
 - **Status**: ⏳ Not Started
@@ -136,6 +142,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ## 🔴 HIGH PRIORITY - Phase 2 (0/4)
 
 ### 7. **Lead Detail** ⏳
+
 - **Route**: `/leads/:id`
 - **File**: `src/views/leads/LeadDetail.tsx`
 - **Status**: ⏳ Not Started
@@ -156,6 +163,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Handle complex state management
 
 ### 8. **Deal Detail** ⏳
+
 - **Route**: `/deals/:id`
 - **File**: `src/views/deals/DealDetail.tsx`
 - **Status**: ⏳ Not Started
@@ -172,6 +180,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Proper value formatting
 
 ### 9. **Lead Detail Page** ⏳
+
 - **Route**: N/A (wrapper)
 - **File**: `src/views/pages/leads/LeadDetailPage.tsx`
 - **Status**: ⏳ Not Started
@@ -182,6 +191,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Migrate or remove
 
 ### 10. **Deal Detail Page** ⏳
+
 - **Route**: N/A (wrapper)
 - **File**: `src/views/pages/deals/DealDetailPage.tsx`
 - **Status**: ⏳ Not Started
@@ -198,6 +208,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ## 🟡 MEDIUM PRIORITY - Phase 3 (0/2)
 
 ### 11. **Lead Edit** ⏳
+
 - **Route**: `/leads/:id/edit`
 - **File**: `src/views/pages/leads/LeadEditPage.tsx`
 - **Status**: ⏳ Not Started
@@ -215,6 +226,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Loading during save
 
 ### 12. **Deal Edit** ⏳
+
 - **Route**: `/deals/:id/edit`
 - **File**: `src/views/pages/deals/DealEditPage.tsx`
 - **Status**: ⏳ Not Started
@@ -233,6 +245,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ## 🟢 LOW PRIORITY - Phase 4 (0/2)
 
 ### 13. **Analytics Dashboard** ⏳
+
 - **Route**: `/analytics`
 - **File**: `src/views/pages/analytics/AnalyticsDashboard.tsx`
 - **Status**: ⏳ Not Started
@@ -250,6 +263,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
   - [ ] Handle chart responsiveness
 
 ### 14. **Sample Page** ⏳
+
 - **Route**: `/sample-page`
 - **File**: `src/views/sample-page/index.jsx`
 - **Status**: ⏳ Not Started
@@ -267,6 +281,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ## 📈 Weekly Targets
 
 ### **Week 1** (Current)
+
 - [x] Complete: P&L Analytics
 - [x] Complete: Notifications
 - [ ] Complete: Contacts List
@@ -277,6 +292,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 **Target**: 6/14 pages (43%)
 
 ### **Week 2**
+
 - [ ] Complete: Lead Detail
 - [ ] Complete: Deal Detail
 - [ ] Complete: Lead Detail Page
@@ -285,12 +301,14 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 **Target**: 10/14 pages (71%)
 
 ### **Week 3**
+
 - [ ] Complete: Lead Edit
 - [ ] Complete: Deal Edit
 
 **Target**: 12/14 pages (86%)
 
 ### **Week 4**
+
 - [ ] Complete: Analytics Dashboard
 - [ ] Complete: Sample Page
 - [ ] Final QA & documentation
@@ -329,13 +347,15 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 
 **Start with**: Contacts List (`src/views/pages/contacts/ContactsListPage.tsx`)
 
-**Why**: 
+**Why**:
+
 - Simplest list page
 - Already has good structure
 - No complex FilterPanel
 - Good template for other list pages
 
 **Steps**:
+
 1. Read `QUICK_MIGRATION_GUIDE.md`
 2. Open `src/views/pages/contacts/ContactsListPage.tsx`
 3. Have `src/views/analytics/PnLAnalytics.tsx` open as reference
@@ -350,18 +370,21 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 ### **Completed Migrations**
 
 #### P&L Analytics
+
 - ✅ Export functionality works great in actions slot
 - ✅ 5-column filter layout (md={2.4}) works well
 - ✅ TableContainer overflow works perfectly
 - ⚠️ Had to remove `width: '100%'` from toolbar Paper
 
 #### Notifications
+
 - ✅ Preferences accordion works in toolbar
 - ✅ Filter dropdown in toolbar looks clean
 - ✅ Pagination in footer slot works well
 - ✅ Empty state with CTA is engaging
 
 ### **Patterns Discovered**
+
 1. **Toolbar Paper**: Never use `width: '100%'` - let AppPage control it
 2. **Grid Columns**: Use `md={2.4}` (5 cols) for dense filters, `md={3}` (4 cols) for balance
 3. **TableContainer**: Always wrap with `sx={{ overflowX: 'auto' }}`
@@ -374,6 +397,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 **Current**: None ✅
 
 **Resolved**:
+
 - ✅ Port mismatch (localhost:3003 vs 3002) - Cleared Vite cache
 - ✅ Width overflow - Removed explicit widths
 - ✅ Table overflow - Added TableContainer with overflow
@@ -382,4 +406,3 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 14% (2/14
 
 **Status**: Ready to continue Phase 1! 🚀  
 **Next Update**: After completing Contacts List
-

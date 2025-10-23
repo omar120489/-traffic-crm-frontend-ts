@@ -18,6 +18,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 ## 📁 Files Created (8 new files)
 
 ### 1. **Core WebSocket & Notifications**
+
 - `src/hooks/useWebSocketEvents.ts` (~170 lines)
   - Singleton WebSocket connection management
   - Auto-connect, auto-reconnect
@@ -41,6 +42,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
   - Integrated with notistack
 
 ### 2. **UI Components**
+
 - `src/views/notifications/Notifications.tsx` (~200 lines)
   - Notifications Center page
   - List with unread indicators
@@ -49,12 +51,14 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
   - Berry MUI patterns
 
 ### 3. **Tests** (all passing ✅)
+
 - `src/hooks/useWebSocketEvents.test.ts` (9 tests)
 - `src/hooks/useNotifications.test.tsx` (8 tests)
 - `src/views/notifications/Notifications.test.tsx` (13 tests)
 - **Total: 30 tests passing**
 
 ### 4. **Test Setup**
+
 - `vitest.setup.ts` - jest-dom matchers configuration
 
 ---
@@ -62,6 +66,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 ## 🔧 Files Updated (7 files)
 
 ### 1. **Auto-Refresh Integration**
+
 - `src/hooks/useComments.ts`
   - Subscribe to comment:new, comment:updated, comment:deleted
   - Refresh only if event's entityType/entityId matches
@@ -71,12 +76,14 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
   - Refresh only if event's entityType/entityId matches
 
 ### 2. **Type Definitions**
+
 - `src/types/api.ts`
   - Added `Notification` interface
   - Added `NotificationListResponse` interface
   - Added `NotificationCreateDto` type
 
 ### 3. **Routing & Menu**
+
 - `src/routes/MainRoutes.tsx`
   - Added lazy-loaded `/notifications` route
   - Protected with `AuthGuard`
@@ -85,15 +92,18 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
   - Added "Notifications" menu item with `IconBellRinging`
 
 ### 4. **Toast Pipeline**
+
 - `src/App.jsx`
   - Integrated `useWebSocketToasts` at app root
   - Refactored to use `AppContent` component
 
 ### 5. **Service Exports**
+
 - `src/services/index.ts`
   - Added `notificationsService` export
 
 ### 6. **Test Configuration**
+
 - `vitest.config.ts`
   - Added `setupFiles: ['./vitest.setup.ts']`
 
@@ -102,6 +112,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 ## 🎯 Features Delivered
 
 ### WebSocket Connectivity ✅
+
 - Singleton connection to `ws://localhost:8787`
 - Auto-derives URL from `VITE_APP_API_URL` (http→ws, https→wss)
 - Supports `VITE_APP_WS_URL` override
@@ -109,6 +120,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 - Clean subscription management
 
 ### Real-Time Notifications ✅
+
 - Auto-load on mount
 - Real-time updates via WebSocket
 - Optimistic UI updates
@@ -116,6 +128,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 - Unread count badge
 
 ### Toast Pipeline ✅
+
 - Event-driven toasts for:
   - `comment:new` → info variant
   - `comment:updated` → info variant
@@ -125,11 +138,13 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
   - `mention:new` → info variant
 
 ### Auto-Refresh ✅
+
 - Comments auto-refresh on matching WebSocket events
 - Attachments auto-refresh on matching WebSocket events
 - Only refreshes when entityType/entityId match
 
 ### Notifications Page ✅
+
 - Berry MUI compliant design
 - List view with unread indicators
 - Mark as read on click
@@ -145,6 +160,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 ### **30/30 tests passing** ✅
 
 **useWebSocketEvents tests:**
+
 - ✅ Initialize WebSocket connection on mount
 - ✅ Update connected state when socket connects
 - ✅ Subscribe to WebSocket events
@@ -156,6 +172,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 - ✅ Handle multiple subscriptions to the same event
 
 **useNotifications tests:**
+
 - ✅ Load notifications on mount
 - ✅ Compute unread count correctly
 - ✅ Handle loading error
@@ -166,6 +183,7 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 - ✅ Handle empty notifications list
 
 **Notifications Page tests:**
+
 - ✅ Render loading state
 - ✅ Render error state
 - ✅ Render empty state
@@ -183,16 +201,19 @@ npm install --save-dev @types/socket.io-client @testing-library/react @testing-l
 ## 🚀 Verification Steps
 
 ### 1. Start Backend
+
 ```bash
 cd dev-backend && npm start
 ```
 
 ### 2. Start Frontend
+
 ```bash
 npm run dev
 ```
 
 ### 3. Manual Checks
+
 - ✅ WebSocket connects to `ws://localhost:8787`
 - ✅ Navigate to `/notifications` in app
 - ✅ POST a notification via curl/Postman → observe toast + page update
@@ -200,6 +221,7 @@ npm run dev
 - ✅ Upload an attachment → observe toast + auto-refresh
 
 ### 4. Run Tests
+
 ```bash
 npx vitest run --environment=jsdom "src/(hooks|views)/**/(useWebSocketEvents|useNotifications|Notifications).{test,spec}.{ts,tsx}"
 ```
@@ -236,11 +258,13 @@ npx vitest run --environment=jsdom "src/(hooks|views)/**/(useWebSocketEvents|use
 ## 🔗 Integration Points
 
 ### With Option A (Comments & Attachments)
+
 - `useComments` auto-refreshes on WebSocket events
 - `useAttachments` auto-refreshes on WebSocket events
 - Toasts display for comment/attachment operations
 
 ### With Existing Infrastructure
+
 - Uses existing `axiosServices` instance
 - Follows Berry MUI patterns (MainCard, Typography, etc.)
 - Integrates with Notistack for toasts
@@ -252,6 +276,7 @@ npx vitest run --environment=jsdom "src/(hooks|views)/**/(useWebSocketEvents|use
 ## 🎉 Ready for Production
 
 The implementation is complete, tested, and ready for:
+
 1. Manual verification with dev-backend
 2. Integration into the main app
 3. Optional: Add unread count badge to menu icon
@@ -290,4 +315,3 @@ None. All functionality working as expected.
 **Implementation Date:** October 21, 2025  
 **Developer:** AI Assistant  
 **Status:** ✅ Complete & Tested
-

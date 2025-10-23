@@ -746,6 +746,7 @@ CompaniesListPage
 ```
 
 **Simpler** than Leads/Deals because:
+
 - No FilterPanel (basic filters only)
 - Card grid instead of table
 - Fewer columns/fields
@@ -1031,7 +1032,8 @@ DealDetailPage
 
 ## 2.3 & 2.4 Lead/Deal Detail Page (Wrappers)
 
-**Files**: 
+**Files**:
+
 - `src/views/pages/leads/LeadDetailPage.tsx`
 - `src/views/pages/deals/DealDetailPage.tsx`
 
@@ -1039,6 +1041,7 @@ DealDetailPage
 **Estimated Time**: 30-45 minutes each
 
 These might be **wrappers** or **duplicates** of the main detail pages. Need to check if they:
+
 1. Are identical → Remove duplicates
 2. Serve different purposes → Migrate both
 
@@ -1374,6 +1377,7 @@ AnalyticsDashboardPage
 ### **Chart Library**
 
 Assuming Recharts (common in React apps):
+
 - `LineChart` for revenue trends
 - `PieChart` for pipeline distribution
 - `BarChart` for forecast comparison
@@ -1552,6 +1556,7 @@ AppPage
 ## 5. **Action Patterns**
 
 Common action buttons:
+
 - **List pages**: Export, Refresh, Create New
 - **Detail pages**: Edit, Delete, More Options
 - **Edit pages**: Cancel, Save Draft, Save Changes
@@ -1583,4 +1588,3 @@ Common action buttons:
 **Status**: Architecture plan complete ✅  
 **Created**: 2025-10-22  
 **Maintainer**: Dev Team
-

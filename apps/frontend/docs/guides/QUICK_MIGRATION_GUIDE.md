@@ -8,11 +8,13 @@
 ## 🚀 5-Step Migration Process
 
 ### **Step 1: Import AppPage** (30 sec)
+
 ```tsx
 import AppPage from 'layouts/AppPage';
 ```
 
 ### **Step 2: Extract Actions** (5 min)
+
 ```tsx
 // Move all header buttons here
 const actions = (
@@ -28,6 +30,7 @@ const actions = (
 ```
 
 ### **Step 3: Extract Toolbar** (10 min)
+
 ```tsx
 // Move filters, search, etc. here
 const toolbar = (
@@ -67,6 +70,7 @@ const toolbar = (
 ```
 
 ### **Step 4: Wrap with AppPage** (10 min)
+
 ```tsx
 return (
   <AppPage
@@ -103,6 +107,7 @@ return (
 ```
 
 ### **Step 5: Remove Old Code** (5 min)
+
 ```tsx
 // ❌ DELETE these:
 // - <MainCard> wrapper
@@ -127,6 +132,7 @@ return (
 ## 🎯 Post-Migration Checklist
 
 ### **Functionality**
+
 - [ ] Loading state shows skeletons
 - [ ] Error state shows alert with retry button
 - [ ] Empty state shows helpful message
@@ -136,6 +142,7 @@ return (
 - [ ] Data loads correctly
 
 ### **Layout**
+
 - [ ] No horizontal scroll on desktop
 - [ ] No horizontal scroll on tablet
 - [ ] No horizontal scroll on mobile
@@ -144,6 +151,7 @@ return (
 - [ ] Filters wrap properly on mobile
 
 ### **Code Quality**
+
 - [ ] No `width: '100%'` on Papers/Boxes
 - [ ] TableContainer has `overflowX: 'auto'`
 - [ ] No TypeScript errors
@@ -156,6 +164,7 @@ return (
 ## 🔧 Common Patterns
 
 ### **Pattern 1: List Page with Filters**
+
 ```tsx
 export default function MyListPage() {
   const { data, loading, error, refetch } = useMyData();
@@ -199,6 +208,7 @@ export default function MyListPage() {
 ```
 
 ### **Pattern 2: Detail Page with Tabs**
+
 ```tsx
 export default function MyDetailPage() {
   const { id } = useParams();
@@ -239,6 +249,7 @@ export default function MyDetailPage() {
 ```
 
 ### **Pattern 3: Form/Edit Page**
+
 ```tsx
 export default function MyEditPage() {
   const { id } = useParams();
@@ -282,6 +293,7 @@ export default function MyEditPage() {
 ## 🚨 Common Mistakes
 
 ### ❌ **Mistake 1: Adding width to toolbar**
+
 ```tsx
 // WRONG
 const toolbar = (
@@ -299,6 +311,7 @@ const toolbar = (
 ```
 
 ### ❌ **Mistake 2: Not wrapping tables**
+
 ```tsx
 // WRONG
 <Table>...</Table>  // ❌ Can overflow
@@ -310,6 +323,7 @@ const toolbar = (
 ```
 
 ### ❌ **Mistake 3: Manual loading/error handling**
+
 ```tsx
 // WRONG
 return (
@@ -334,6 +348,7 @@ return (
 ```
 
 ### ❌ **Mistake 4: Forgetting onRetry**
+
 ```tsx
 // WRONG
 <AppPage error={error}>  // ❌ No retry button
@@ -343,6 +358,7 @@ return (
 ```
 
 ### ❌ **Mistake 5: Too many columns in Grid**
+
 ```tsx
 // WRONG - 3 columns at 1200px is tight
 <Grid item xs={12} md={4}>  // ❌ 400px per column
@@ -359,6 +375,7 @@ return (
 ## 📊 Testing Checklist
 
 ### **Desktop (>1200px)**
+
 - [ ] Content centered with gutters
 - [ ] Max width 1200px enforced
 - [ ] No horizontal scroll
@@ -366,12 +383,14 @@ return (
 - [ ] Tables display correctly
 
 ### **Tablet (768px-1200px)**
+
 - [ ] Content uses full width with gutters
 - [ ] Filters stack appropriately
 - [ ] No horizontal scroll
 - [ ] Buttons wrap to new line if needed
 
 ### **Mobile (<768px)**
+
 - [ ] Content uses full width
 - [ ] Filters stack vertically
 - [ ] Tables scroll horizontally (internally)
@@ -379,6 +398,7 @@ return (
 - [ ] Touch targets are large enough
 
 ### **States**
+
 - [ ] Loading: Skeletons appear
 - [ ] Error: Alert with message + retry button
 - [ ] Empty: Helpful message appears
@@ -418,4 +438,3 @@ return (
 ---
 
 **Ready to migrate?** Pick a page and follow the 5 steps! ⚡
-

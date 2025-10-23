@@ -19,14 +19,17 @@ npm start
 ## ✅ What You Get
 
 ### Scripts Created
+
 - ✅ `scripts/vite_berry_cleanup.sh` - Safe cleanup automation
 - ✅ `scripts/find_berry_leftovers.sh` - Audit remaining old code
 
 ### Standards Added
+
 - ✅ `.github/PULL_REQUEST_TEMPLATE.md` - PR checklist enforcing standards
 - ✅ `VITE_BERRY_STANDARDIZATION.md` - Complete migration guide
 
 ### Safety Features
+
 - ✅ Auto-creates git branch with timestamp
 - ✅ Backs up src/ before changes
 - ✅ Only removes legacy/demo/unused files
@@ -35,12 +38,14 @@ npm start
 ## 📋 Next Steps After Cleanup
 
 1. **Review Changes**
+
    ```bash
    git status
    git diff
    ```
 
 2. **Create Core Modules** (if not existing)
+
    ```bash
    mkdir -p src/core/{app-page,filters,export,rbac}
    mkdir -p src/data/{clients,hooks}
@@ -55,6 +60,7 @@ npm start
    - Add RBAC gates
 
 4. **Test & Iterate**
+
    ```bash
    npm start
    npm run lint
@@ -63,6 +69,7 @@ npm start
    ```
 
 5. **Commit & Push**
+
    ```bash
    git add .
    git commit -m "chore: standardize Vite Berry architecture"
@@ -72,6 +79,7 @@ npm start
 ## 🎯 Success Criteria
 
 After cleanup, you should have:
+
 - ✅ Working Vite dev server (`npm start`)
 - ✅ No eslint/typescript errors
 - ✅ All existing pages still render
@@ -103,4 +111,3 @@ git branch -D <cleanup-branch>
 ---
 
 **Remember:** This is a **safe, reversible** cleanup. Your working app stays intact!
-

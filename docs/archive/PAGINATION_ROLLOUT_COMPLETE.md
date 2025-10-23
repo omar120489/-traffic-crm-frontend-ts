@@ -11,18 +11,22 @@
 Applied **standardized pagination** to all CRUD modules:
 
 ### ✅ **1. Contacts** (already done)
+
 - Controller: `PaginationQueryDto` + `PaginatedResponseDto`
 - Service: Search on `name` & `email`, ordered by `createdAt DESC`
 
 ### ✅ **2. Leads** (just completed)
+
 - Controller: `PaginationQueryDto` + `PaginatedResponseDto`
 - Service: Search on `source` & `status`, ordered by `createdAt DESC`
 
 ### ✅ **3. Deals** (just completed)
+
 - Controller: `PaginationQueryDto` + `PaginatedResponseDto`
 - Service: Search on `title` & `stage`, ordered by `createdAt DESC`
 
 ### ✅ **4. Companies** (just completed)
+
 - Controller: `PaginationQueryDto` + `PaginatedResponseDto`
 - Service: Search on `name` & `domain`, ordered by `createdAt DESC`
 
@@ -31,6 +35,7 @@ Applied **standardized pagination** to all CRUD modules:
 ## 📝 Pattern Applied (all modules)
 
 ### **Controller:**
+
 ```typescript
 import { PaginationQueryDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
 import { Query } from '@nestjs/common';
@@ -45,6 +50,7 @@ async list(@Org() orgId: string, @Query() query: PaginationQueryDto) {
 ```
 
 ### **Service:**
+
 ```typescript
 import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 
@@ -111,18 +117,21 @@ All list endpoints now return:
 ## 🚀 API Usage Examples
 
 ### **Basic Pagination:**
+
 ```bash
 curl "http://localhost:3000/api/contacts?page=1&size=10" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
 ### **With Search:**
+
 ```bash
 curl "http://localhost:3000/api/leads?page=1&size=5&search=website" \
   -H "Authorization: Bearer $TOKEN"
 ```
 
 ### **Large Page:**
+
 ```bash
 curl "http://localhost:3000/api/deals?page=1&size=50" \
   -H "Authorization: Bearer $TOKEN"
@@ -145,17 +154,21 @@ Invalid values return `400 Bad Request` with clear error messages.
 ## 🎯 Next Steps
 
 ### **Immediate:**
+
 1. ✅ **SDK Regeneration**: Run `pnpm sdk:gen` after Core API starts
 2. ✅ **Test Pagination**: All endpoints now support `?page=X&size=Y&search=Z`
 
 ### **Follow-Up:**
+
 1. **Frontend Updates**: Update all list hooks to use pagination params
+
    ```typescript
    const { data } = useLeads({ page: 1, size: 10, search: '' });
    // data.items, data.total, data.totalPages available
    ```
 
 2. **Advanced Filtering**: Add more query params (e.g., `status`, `dateFrom`, `dateTo`)
+
    ```typescript
    // Extend PaginationQueryDto per module
    export class LeadQueryDto extends PaginationQueryDto {
@@ -165,6 +178,7 @@ Invalid values return `400 Bad Request` with clear error messages.
    ```
 
 3. **Sorting**: Add `sortBy` and `sortOrder` params
+
    ```typescript
    orderBy: { [query.sortBy || 'createdAt']: query.sortOrder || 'desc' }
    ```
@@ -189,6 +203,7 @@ Invalid values return `400 Bad Request` with clear error messages.
 ## ✅ Verification
 
 All builds passing:
+
 ```bash
 ✅ pnpm --filter @apps/core-api build
 ✅ pnpm --filter @sdk-js/core build
@@ -209,4 +224,3 @@ All builds passing:
 - **Ready** for SDK regeneration
 
 **All systems go for production!** 🚀
-

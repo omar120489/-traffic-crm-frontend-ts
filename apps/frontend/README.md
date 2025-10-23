@@ -51,12 +51,14 @@ If conflicts exist, edit `.env` to use different ports.
 ### 4. Start Development Environment
 
 **Option A: All Services (Recommended)**
+
 ```bash
 npm run dev:all
 # Starts Docker services, backend APIs, and frontend with pre-flight port check
 ```
 
 **Option B: Individual Services**
+
 ```bash
 npm run dev:services   # Start MailHog + MinIO (Docker)
 npm run dev:backend    # Start Express mock API (port 8787)
@@ -66,15 +68,16 @@ npm start             # Start Vite frontend (port 3002)
 
 ### 5. Access the Application
 
-- **Frontend**: http://localhost:3002
-- **MailHog UI**: http://localhost:8025
-- **MinIO Console**: http://localhost:9001
+- **Frontend**: <http://localhost:3002>
+- **MailHog UI**: <http://localhost:8025>
+- **MinIO Console**: <http://localhost:9001>
 
 Default login: `demo@example.com` / `demo`
 
 ## 🏗️ Architecture
 
 ### Frontend
+
 - **Framework**: React 19.2.0 with TypeScript
 - **Build Tool**: Vite 7.1.9 (HMR, code splitting)
 - **UI Library**: Material-UI 7.3.4
@@ -84,6 +87,7 @@ Default login: `demo@example.com` / `demo`
 - **HTTP Client**: Axios with typed interceptors
 
 ### Backend Services
+
 - **Dev Backend**: Express.js (port 8787)
   - Mock CRM API endpoints
   - MailHog email integration
@@ -98,6 +102,7 @@ Default login: `demo@example.com` / `demo`
   - TCP-based microservice communication
 
 ### Infrastructure
+
 - **Docker Compose**: MailHog (email), MinIO (storage)
 - **Nginx**: Production web server with security headers
 - **Vercel**: Serverless deployment option
@@ -105,6 +110,7 @@ Default login: `demo@example.com` / `demo`
 ## 🗺️ Application Routes
 
 ### Core Entity Management
+
 - **`/leads`** - Leads list with search and server-side pagination
 - **`/leads/:id`** - Lead detail view with formatted data
 - **`/leads/:id/edit`** - Lead edit form (Formik + Yup validation)
@@ -116,6 +122,7 @@ Default login: `demo@example.com` / `demo`
 - **`/analytics`** - Analytics dashboard with URL-synced filters, charts, cohorts, and drill-down
 
 ### Features
+
 - **ID Guard**: Invalid entity IDs show friendly 404 with "Back to list" button
 - **Network Retry**: Failed requests show retry/back CTAs
 - **Pristine Detection**: Save button disabled until form has changes
@@ -125,6 +132,7 @@ Default login: `demo@example.com` / `demo`
 - **Analytics Drill-Downs**: KPI, trend, and funnel widgets hop directly into filtered entity lists
 
 ### Analytics Dashboard Highlights
+
 - **URL-Synced Filters**: Date range, source, owner, stage, and interval hydrate from the URL and persist via localStorage between sessions.
 - **Lazy-Loaded Charts**: Line and bar charts load on demand with Suspense fallbacks to keep the main bundle lean.
 - **Consistent Drill-Down**: KPIs, trend points, and funnel bars navigate to `/leads` or `/deals` while preserving selected filters.
@@ -187,6 +195,7 @@ traffic-crm-frontend-ts/
 ## 🧪 Testing
 
 ### End-to-End Tests (Playwright)
+
 ```bash
 npm run test:smoke     # Run smoke tests (leads/deals detail & edit flows)
 npm run test:e2e       # Run all E2E tests
@@ -195,12 +204,15 @@ npm run test:e2e:debug # Debug mode with step-through
 ```
 
 ### API Smoke Tests
+
 ```bash
 npm run smoke         # Test all API endpoints
 ```
 
 ### CI/CD Pipeline
+
 Every PR and push to `main` runs:
+
 1. **Type Check** - `tsc --noEmit`
 2. **Lint** - ESLint with TypeScript parser
 3. **Build** - Production bundle
@@ -295,6 +307,7 @@ PLAYWRIGHT_BASE_URL=http://localhost:3002
 ## 🤝 Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines on:
+
 - Development setup and workflow
 - Code quality checks (typecheck, lint, build)
 - Testing requirements (E2E smoke tests)
@@ -302,15 +315,18 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines on:
 - Architecture and code style guidelines
 
 Quick start:
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Ensure all CI gates pass locally:
+
    ```bash
    npm run typecheck  # ✅ 0 errors
    npm run lint       # ✅ 0 warnings
    npm run build      # ✅ successful
    npm run test:smoke # ✅ all passing
    ```
+
 4. Commit with conventional format (`feat:`, `fix:`, `docs:`, etc.)
 5. Push to branch and open a Pull Request
 
@@ -344,6 +360,7 @@ npx tsc --noEmit
 ## 📚 Documentation
 
 ### Active Documentation
+
 - [README](./README.md) - Main project documentation
 - [CONTRIBUTING](./CONTRIBUTING.md) - Contribution guidelines  
 - [PROJECT_STATUS](./PROJECT_STATUS.md) - Current project status & metrics
@@ -352,6 +369,7 @@ npx tsc --noEmit
 - [Port Management](./docs/port-management.md) - Port configuration guide
 
 ### Historical Archive
+
 Migration documentation and step-by-step verification reports are preserved in [`docs/archive/migration/`](./docs/archive/migration/) for reference.
 
 ---

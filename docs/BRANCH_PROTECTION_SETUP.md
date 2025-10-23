@@ -13,7 +13,7 @@ This guide walks you through setting up branch protection rules on GitHub to enf
 
 ### Step 1: Navigate to Settings
 
-1. Go to your repository: https://github.com/omar120489/-traffic-crm-frontend-ts
+1. Go to your repository: <https://github.com/omar120489/-traffic-crm-frontend-ts>
 2. Click **Settings** (top right)
 3. In the left sidebar, click **Branches** (under "Code and automation")
 4. Click **Add branch protection rule**
@@ -23,13 +23,15 @@ This guide walks you through setting up branch protection rules on GitHub to enf
 #### Basic Settings
 
 **Branch name pattern:**
+
 ```
 main
 ```
 
-#### Protection Rules (Check these boxes):
+#### Protection Rules (Check these boxes)
 
 ##### ✅ Require a pull request before merging
+
 - [x] **Require pull request before merging**
   - [x] Require approvals: **1** (minimum)
   - [x] Dismiss stale pull request approvals when new commits are pushed
@@ -39,6 +41,7 @@ main
   - [x] Require approval of the most recent reviewable push
 
 ##### ✅ Require status checks to pass before merging
+
 - [x] **Require status checks to pass before merging**
   - [x] Require branches to be up to date before merging
   - **Add required status checks:**
@@ -50,31 +53,38 @@ main
     - `pr-title-check` (validates conventional commits)
 
 ##### ✅ Require conversation resolution before merging
+
 - [x] **Require conversation resolution before merging**
 
 ##### ✅ Require signed commits (Optional but recommended)
+
 - [x] **Require signed commits**
 
 ##### ✅ Require linear history
+
 - [x] **Require linear history**
   - Prevents merge commits
   - Enforces rebase or squash merging
 
 ##### ⚠️ Do not allow bypassing the above settings
+
 - [x] **Do not allow bypassing the above settings**
   - Even admins must follow the rules
   - Optional: Uncheck if you need emergency access
 
 ##### ✅ Restrict pushes
+
 - [ ] **Restrict pushes** (optional)
   - If checked, only specified users/teams can push
   - Leave unchecked for flexibility
 
 ##### ✅ Allow force pushes
+
 - [ ] **Allow force pushes** (leave unchecked)
   - Prevents force pushes to main
 
 ##### ✅ Allow deletions
+
 - [ ] **Allow deletions** (leave unchecked)
   - Prevents accidental branch deletion
 
@@ -110,6 +120,7 @@ Repeat the process with slightly relaxed rules:
 After setting up, test the protection:
 
 ### Test 1: Direct push to main (should fail)
+
 ```bash
 git checkout main
 echo "test" >> README.md
@@ -120,6 +131,7 @@ git push origin main
 ```
 
 ### Test 2: Create a PR (should work)
+
 ```bash
 git checkout -b test/branch-protection
 echo "test" >> README.md
@@ -130,10 +142,12 @@ git push origin test/branch-protection
 ```
 
 ### Test 3: PR without approvals (should block merge)
+
 - Try to merge the PR
 - Expected: Merge button is disabled until approval
 
 ### Test 4: PR without status checks (should block merge)
+
 - Create a PR that breaks build
 - Expected: Cannot merge until CI passes
 
@@ -163,6 +177,7 @@ With branch protection enabled, `.github/CODEOWNERS` file will automatically:
 - Ensure domain experts review changes
 
 **Example:**
+
 ```
 /apps/frontend/    @omar120489
 /apps/core-api/    @omar120489
@@ -175,6 +190,7 @@ With branch protection enabled, `.github/CODEOWNERS` file will automatically:
 If you need to bypass protection for urgent fixes:
 
 ### Option 1: Temporarily disable protection
+
 1. Go to Settings → Branches
 2. Edit the protection rule
 3. Uncheck "Do not allow bypassing"
@@ -182,12 +198,14 @@ If you need to bypass protection for urgent fixes:
 5. Re-enable "Do not allow bypassing"
 
 ### Option 2: Use exception for admins
+
 1. Edit protection rule
 2. Check "Allow specified actors to bypass"
 3. Add yourself
 4. Bypass when needed (use sparingly!)
 
 ### Option 3: Emergency branch
+
 ```bash
 git checkout -b emergency/critical-fix
 # Make fix
@@ -202,11 +220,13 @@ git push origin emergency/critical-fix
 ### Regular Review Schedule
 
 **Monthly:**
+
 - Review status check requirements
 - Verify CODEOWNERS are up to date
 - Check if any rules are too strict/loose
 
 **Quarterly:**
+
 - Audit bypass usage (if enabled)
 - Review protection rule effectiveness
 - Adjust based on team feedback
@@ -215,7 +235,8 @@ git push origin emergency/critical-fix
 
 ## 🎓 Best Practices
 
-### DO:
+### DO
+
 ✅ Require at least 1 approval  
 ✅ Require all status checks to pass  
 ✅ Require linear history  
@@ -223,7 +244,8 @@ git push origin emergency/critical-fix
 ✅ Require conversation resolution  
 ✅ Use CODEOWNERS for automatic review requests  
 
-### DON'T:
+### DON'T
+
 ❌ Allow force pushes to main  
 ❌ Allow direct commits to main  
 ❌ Skip status checks  
@@ -235,18 +257,22 @@ git push origin emergency/critical-fix
 ## 🆘 Troubleshooting
 
 ### Status check not appearing
+
 - **Cause:** CI job name mismatch
 - **Fix:** Check `.github/workflows/ci.yml` job names match exactly
 
 ### Cannot merge PR despite passing checks
+
 - **Cause:** Branch not up to date
 - **Fix:** `git fetch && git rebase origin/main`
 
 ### CODEOWNERS not requesting reviews
+
 - **Cause:** File path pattern incorrect or file not committed
 - **Fix:** Verify `.github/CODEOWNERS` is committed and paths are correct
 
 ### Need to merge without approval (emergency)
+
 - **Cause:** Only admin available, no one to review
 - **Fix:** Temporarily allow bypass or use admin override (document why)
 
@@ -296,6 +322,7 @@ Before marking this complete:
 **🔒 Your main branch is now protected!**
 
 New workflow:
+
 1. Create feature branch
 2. Make changes
 3. Push and create PR
@@ -304,4 +331,3 @@ New workflow:
 6. Merge only after approval + passing checks
 
 **No more direct pushes to main!** 🎉
-

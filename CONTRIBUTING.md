@@ -144,6 +144,7 @@ import { Button } from '../../../shared/components/Button';
 ```
 
 **Available aliases:**
+
 - `@shared/*` - Shared components, hooks, utils
 - `@features/*` - Feature-specific code
 - `@data/*` - Data layer (API clients, hooks)
@@ -275,6 +276,7 @@ All PRs must pass these checks:
 We use a structured labeling system:
 
 **Area Labels:**
+
 - `area:frontend` - Frontend work
 - `area:backend` - Backend work
 - `area:workers` - Workers & queues
@@ -283,11 +285,13 @@ We use a structured labeling system:
 - `area:docs` - Documentation
 
 **Priority Labels:**
+
 - `priority:high` - High priority
 - `priority:medium` - Medium priority (default)
 - `priority:low` - Low priority
 
 **Type Labels:**
+
 - `type:feat` - New feature
 - `type:fix` - Bug fix
 - `type:refactor` - Code refactoring
@@ -495,7 +499,7 @@ pnpm -r build
 
 ---
 
-## 🎉 Thank You!
+## 🎉 Thank You
 
 Your contributions make Traffic CRM better for everyone. We appreciate your time and effort!
 

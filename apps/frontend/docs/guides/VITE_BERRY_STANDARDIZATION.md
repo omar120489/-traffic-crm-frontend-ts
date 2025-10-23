@@ -5,6 +5,7 @@ This document outlines the standardization process for our Vite + React + Berry 
 ## 🎯 Goal
 
 Maintain a working Vite/React application while:
+
 - Removing unused legacy Berry components
 - Standardizing on modern patterns (AppPage, URL filters, exports, RBAC)
 - Keeping the app running without breaking changes
@@ -20,6 +21,7 @@ Maintain a working Vite/React application while:
 **State:** Redux Toolkit 2.9
 
 **Keep These:**
+
 - ✅ `index.html` - Vite entry point
 - ✅ `vite.config.mjs` - Build configuration
 - ✅ `src/main.tsx` - Application entry
@@ -40,6 +42,7 @@ Maintain a working Vite/React application while:
 ```
 
 **What it does:**
+
 - Creates a new branch with timestamp
 - Backs up `src/` directory
 - Removes legacy/demo/unused files
@@ -48,6 +51,7 @@ Maintain a working Vite/React application while:
 - Reinstalls dependencies
 
 **What it DOES NOT touch:**
+
 - Vite configuration files
 - Working page components
 - Essential Berry theme files
@@ -139,6 +143,7 @@ export default function ContactsListPage() {
 ```
 
 **Benefits:**
+
 - ✅ Consistent loading/error/empty states
 - ✅ Standard toolbar positioning
 - ✅ Enforces no horizontal scroll
@@ -182,6 +187,7 @@ export default function ContactsListPage() {
 ```
 
 **Benefits:**
+
 - ✅ Shareable links with filters
 - ✅ Browser back/forward works
 - ✅ Bookmark-friendly URLs
@@ -304,6 +310,7 @@ Before submitting a PR, ensure:
 Keep your current Berry theme but ensure:
 
 1. **CSS Variables** (MUI v7):
+
    ```tsx
    // src/themes/index.tsx
    <ThemeProvider theme={theme}>
@@ -314,6 +321,7 @@ Keep your current Berry theme but ensure:
    ```
 
 2. **Container Width**:
+
    ```tsx
    // MainLayout should enforce max width
    sx={{
@@ -323,6 +331,7 @@ Keep your current Berry theme but ensure:
    ```
 
 3. **No Horizontal Scroll**:
+
    ```tsx
    // MainLayout content area
    sx={{
@@ -336,12 +345,14 @@ Keep your current Berry theme but ensure:
 ## 🔄 Migration Path
 
 ### Phase 1: Foundation (Week 1)
+
 - [x] Run cleanup scripts
 - [ ] Set up `core/` modules (AppPage, filters, export, RBAC)
 - [ ] Create `.github/PULL_REQUEST_TEMPLATE.md`
 - [ ] Add ESLint rules
 
 ### Phase 2: Migrate Pages (Week 2-3)
+
 - [ ] Contacts page → AppPage
 - [ ] Leads page → AppPage
 - [ ] Deals page → AppPage
@@ -349,6 +360,7 @@ Keep your current Berry theme but ensure:
 - [ ] Analytics page → AppPage
 
 ### Phase 3: Polish (Week 4)
+
 - [ ] Remove old `ui-component/cards/MainCard`
 - [ ] Audit all imports
 - [ ] Document custom patterns
@@ -368,6 +380,7 @@ Keep your current Berry theme but ensure:
 ## 🆘 Help
 
 If you encounter issues:
+
 1. Check the backup created by cleanup script
 2. Review git diff to see what changed
 3. Revert with: `git checkout <previous-branch>`
@@ -377,4 +390,3 @@ If you encounter issues:
 
 **Last Updated:** October 22, 2025  
 **Version:** 1.0.0
-

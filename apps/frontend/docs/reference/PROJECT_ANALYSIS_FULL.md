@@ -2,7 +2,7 @@
 
 **Date:** October 23, 2025  
 **Total Files:** 2,166 (excluding build artifacts)  
-**Repository:** https://github.com/omar120489/servers  
+**Repository:** <https://github.com/omar120489/servers>  
 **Current Branch:** `chore/vite-berry-cleanup-20251023-000400`
 
 ---
@@ -10,6 +10,7 @@
 ## 🎯 Project Overview
 
 ### Identity
+
 - **Name:** traffic-crm-frontend-ts
 - **Version:** 1.0.0
 - **Type:** Vite + React 19 + TypeScript SPA
@@ -19,12 +20,14 @@
 ### Technology Stack
 
 **Core Framework:**
+
 - **Build Tool:** Vite 7.1.11 (ESM, HMR, optimized builds)
 - **Frontend:** React 19.2.0 (latest)
 - **Language:** TypeScript 5.9.3 + JavaScript (mixed)
 - **Routing:** React Router v7.9.3
 
 **UI Framework:**
+
 - **Library:** Material-UI v7.3.4 (latest)
 - **Styling:** Emotion (@emotion/react, @emotion/styled)
 - **Icons:** @tabler/icons-react 3.35.0 + @mui/icons-material 7.3.4
@@ -32,11 +35,13 @@
 - **Animations:** Framer Motion 12.23.22
 
 **State Management:**
+
 - **Global State:** Redux Toolkit 2.9.0 + Redux Persist 6.0.0
 - **Server State:** SWR 2.3.6 (for data fetching)
 - **Local State:** React hooks
 
 **Authentication (Multi-provider):**
+
 - JWT (custom implementation)
 - Firebase 12.3.0
 - Auth0 (@auth0/auth0-react 2.5.0)
@@ -44,28 +49,34 @@
 - Supabase (@supabase/supabase-js 2.58.0)
 
 **Forms & Validation:**
+
 - **Forms:** Formik 2.4.6
 - **Validation:** Yup 1.7.1
 
 **Data & Communication:**
+
 - **HTTP Client:** Axios 1.12.2
 - **Real-time:** Socket.io-client 4.8.1
 - **Internationalization:** React Intl 7.1.13
 
 **Export & Reports:**
+
 - **PDF:** jsPDF 3.0.3 + jspdf-autotable 5.0.2
 - **Excel:** xlsx 0.18.5
 
 **Testing:**
+
 - **E2E:** Playwright 1.56.1
 - **Unit:** Vitest 1.6.0 + Testing Library
 
 **Linting & Formatting:**
+
 - **ESLint:** 9.37.0 (with TypeScript, React, Prettier, a11y plugins)
 - **Prettier:** 3.6.2
 - **TypeScript ESLint:** 8.46.2
 
 **Additional:**
+
 - **Maps:** Mapbox GL 3.15.0
 - **Notifications:** Notistack 3.0.2
 - **Module Federation:** @originjs/vite-plugin-federation 1.4.1
@@ -96,6 +107,7 @@
 ### Main Source Directory (`src/`) - 271 files
 
 #### 1. **Entry Points** (3 files)
+
 ```
 src/
 ├── index.jsx           # Application entry (renders to DOM)
@@ -104,6 +116,7 @@ src/
 ```
 
 #### 2. **Configuration** (2 files)
+
 ```
 src/config/
 ├── config.ts           # App configuration
@@ -111,6 +124,7 @@ src/config/
 ```
 
 #### 3. **Types** (5 TypeScript definition files)
+
 ```
 src/types/
 ├── api.ts              # API response types (Lead, Deal, Contact, Company)
@@ -121,6 +135,7 @@ src/types/
 ```
 
 #### 4. **Contexts** (11 files - 8 TSX, 3 TS)
+
 **Purpose:** React Context providers for global state
 
 ```
@@ -144,6 +159,7 @@ src/contexts/
 ```
 
 #### 5. **Custom Hooks** (23 files - 21 TS, 2 TSX)
+
 **Purpose:** Reusable business logic
 
 ```
@@ -185,6 +201,7 @@ src/hooks/
 ```
 
 #### 6. **Services** (11 TypeScript files)
+
 **Purpose:** API communication layer
 
 ```
@@ -203,6 +220,7 @@ src/services/
 ```
 
 #### 7. **Layouts** (17 files)
+
 **Purpose:** Page shell components
 
 ```
@@ -245,12 +263,14 @@ src/layout/
 ```
 
 Additional layout:
+
 ```
 src/layouts/
 └── AppPage.tsx               # New standard page shell (alternative to MainCard)
 ```
 
 #### 8. **Menu Items** (5 files)
+
 **Purpose:** Navigation configuration
 
 ```
@@ -263,6 +283,7 @@ src/menu-items/
 ```
 
 #### 9. **Routing** (5 TSX files)
+
 **Purpose:** Application routes
 
 ```
@@ -275,6 +296,7 @@ src/routes/
 ```
 
 #### 10. **Redux Store** (8 files - 7 TS, 1 JS)
+
 **Purpose:** Global state management
 
 ```
@@ -291,6 +313,7 @@ src/store/
 ```
 
 #### 11. **Themes** (40 files - 20 JSX, 19 TS, 1 TSX)
+
 **Purpose:** Material-UI theming
 
 ```
@@ -340,6 +363,7 @@ src/themes/
 ```
 
 #### 12. **UI Components** (44 files)
+
 **Purpose:** Reusable UI building blocks
 
 ```
@@ -409,6 +433,7 @@ src/ui-component/
 ```
 
 #### 13. **Views (Pages)** (64 files - 45 JSX, 17 TSX, 2 TS)
+
 **Purpose:** Application pages
 
 ```
@@ -511,6 +536,7 @@ src/views/
 ```
 
 #### 14. **Utilities** (15 files)
+
 **Purpose:** Helper functions
 
 ```
@@ -542,6 +568,7 @@ src/utils/
 ```
 
 #### 15. **Assets** (239 files)
+
 ```
 src/assets/
 ├── images/ (229 files):
@@ -583,6 +610,7 @@ src/assets/
 ### 1. **Backend Services**
 
 #### Dev Backend (`dev-backend/`)
+
 **Purpose:** Local development API server
 
 ```
@@ -595,6 +623,7 @@ dev-backend/
 ```
 
 **Features:**
+
 - Mock API for leads, deals, contacts, companies
 - WebSocket support (Socket.io)
 - File uploads (MinIO integration)
@@ -603,6 +632,7 @@ dev-backend/
 - RBAC middleware
 
 #### Reporting Service (`traffic-crm-backend-reporting/`)
+
 **Purpose:** Separate NestJS service for analytics
 
 ```
@@ -626,6 +656,7 @@ traffic-crm-backend-reporting/
 ### 2. **Testing**
 
 #### E2E Tests (`e2e/`)
+
 **Purpose:** Playwright end-to-end tests
 
 ```
@@ -639,6 +670,7 @@ e2e/
 ```
 
 **Test Coverage:**
+
 - 6 test suites
 - Covers critical user flows
 - CI/CD integration ready
@@ -673,6 +705,7 @@ docs/
 ```
 
 **Root-level Documentation:**
+
 - README.md
 - CONTRIBUTING.md
 - PROJECT_STATUS.md
@@ -731,19 +764,23 @@ vite-standard-modules-pack/
 ## 🔌 Ports & Services
 
 ### Frontend
+
 - **Dev Server:** 3002 (Vite HMR)
 - **Preview:** 3002 (production build preview)
 
 ### Backend Services
+
 - **Dev Backend:** 8787 (Express + Socket.io)
 - **Reporting Service:** 8006 (NestJS)
 
 ### Infrastructure
+
 - **MailHog:** 8025 (Email testing UI)
 - **MinIO Console:** 9001 (S3-compatible storage)
 - **MinIO API:** 9000
 
 **Start all services:**
+
 ```bash
 npm run dev:all
 ```
@@ -811,7 +848,9 @@ Component re-renders with fresh data
 ## 📊 Key Features Breakdown
 
 ### 1. **Lead Management**
+
 **Files:**
+
 - `src/views/pages/leads/LeadsListPage.tsx` (list view)
 - `src/views/pages/leads/LeadDetailPage.tsx` (detail view)
 - `src/views/pages/leads/LeadEditPage.tsx` (edit form)
@@ -820,6 +859,7 @@ Component re-renders with fresh data
 - `src/hooks/useLeads.ts` (data hook)
 
 **Features:**
+
 - DataGrid with server-side pagination
 - Advanced filtering (status, source, date range)
 - Export to CSV/XLSX/PDF
@@ -830,7 +870,9 @@ Component re-renders with fresh data
 - Journey event tracking
 
 ### 2. **Deal Management**
+
 **Files:**
+
 - `src/views/pages/deals/DealsListPage.tsx`
 - `src/views/pages/deals/DealDetailPage.tsx`
 - `src/views/pages/deals/DealEditPage.tsx`
@@ -841,6 +883,7 @@ Component re-renders with fresh data
 - `src/hooks/useDeals.ts`
 
 **Features:**
+
 - Deal pipeline visualization
 - Close deal (won/lost) with modals
 - P&L tracking (revenue, costs, profit)
@@ -850,36 +893,45 @@ Component re-renders with fresh data
 - Export functionality
 
 ### 3. **Contact Management**
+
 **Files:**
+
 - `src/views/pages/contacts/ContactsListPage.tsx`
 - `src/services/contacts.ts`
 - `src/hooks/useContacts.ts`
 
 **Features:**
+
 - Contact list with search
 - Export contacts
 - Link contacts to companies
 - Contact details management
 
 ### 4. **Company Management**
+
 **Files:**
+
 - `src/views/pages/companies/CompaniesListPage.tsx`
 - `src/services/companies.ts`
 - `src/hooks/useCompanies.ts`
 
 **Features:**
+
 - Company list & search
 - Associated contacts
 - Company details
 
 ### 5. **Analytics Dashboard**
+
 **Files:**
+
 - `src/views/pages/analytics/AnalyticsDashboard.tsx`
 - `src/views/analytics/PnLAnalytics.tsx`
 - `src/views/analytics/PnLAnalyticsNew.tsx`
 - `src/services/pnl.ts`
 
 **Features:**
+
 - KPI cards (revenue, deals, win rate)
 - Charts (MUI X-Charts):
   - Revenue trends (line chart)
@@ -890,7 +942,9 @@ Component re-renders with fresh data
 - Export reports
 
 ### 6. **Notifications System**
+
 **Files:**
+
 - `src/views/notifications/Notifications.tsx`
 - `src/views/notifications/NotificationsNew.tsx`
 - `src/contexts/NotificationsContext.tsx`
@@ -900,6 +954,7 @@ Component re-renders with fresh data
 - `src/utils/notifications.ts`
 
 **Features:**
+
 - Real-time notifications (Socket.io)
 - Notification preferences (email, in-app, push)
 - Notification types (comment, mention, deal update, etc.)
@@ -907,12 +962,15 @@ Component re-renders with fresh data
 - Bulk actions
 
 ### 7. **Activity Timeline**
+
 **Files:**
+
 - `src/ui-component/ActivityTimeline/ActivityTimeline.tsx`
 - `src/hooks/useJourneyEvents.ts`
 - `src/services/journey.ts`
 
 **Features:**
+
 - Visual timeline of user actions
 - Event types (email sent, call made, deal updated, etc.)
 - User avatars
@@ -920,7 +978,9 @@ Component re-renders with fresh data
 - Grouped by date
 
 ### 8. **Comments & Attachments**
+
 **Files:**
+
 - `src/ui-component/Comments/CommentsPanel.tsx`
 - `src/ui-component/Attachments/AttachmentUploader.tsx`
 - `src/hooks/useComments.ts`
@@ -929,6 +989,7 @@ Component re-renders with fresh data
 - `src/services/attachments.ts`
 
 **Features:**
+
 - Comment threads
 - @mentions
 - File uploads (MinIO backend)
@@ -936,7 +997,9 @@ Component re-renders with fresh data
 - Comment/attachment notifications
 
 ### 9. **Authentication (Multi-provider)**
+
 **Files:**
+
 - `src/contexts/JWTContext.tsx`
 - `src/contexts/FirebaseContext.tsx`
 - `src/contexts/Auth0Context.tsx`
@@ -945,6 +1008,7 @@ Component re-renders with fresh data
 - `src/views/pages/authentication/` (44 files)
 
 **Providers:**
+
 1. JWT (custom backend)
 2. Firebase (Google, GitHub, etc.)
 3. Auth0 (SSO)
@@ -952,6 +1016,7 @@ Component re-renders with fresh data
 5. Supabase (open-source)
 
 **Features:**
+
 - Login/Register
 - Forgot Password/Reset
 - Email Verification
@@ -960,11 +1025,14 @@ Component re-renders with fresh data
 - Role-based access
 
 ### 10. **Advanced Filtering**
+
 **Files:**
+
 - `src/ui-component/FilterPanel/FilterPanel.tsx`
 - `src/hooks/useFilterPresets.ts`
 
 **Features:**
+
 - Text filters
 - Select filters (single/multi)
 - Date range filters
@@ -973,16 +1041,20 @@ Component re-renders with fresh data
 - URL synchronization
 
 ### 11. **Export Functionality**
+
 **Files:**
+
 - `src/ui-component/ExportMenu.tsx`
 - `src/utils/exporters.ts`
 
 **Formats:**
+
 - CSV (text/csv)
 - Excel (XLSX)
 - PDF (jsPDF + autotable)
 
 **Used in:**
+
 - Leads list
 - Deals list
 - Contacts list
@@ -994,6 +1066,7 @@ Component re-renders with fresh data
 ## 🔒 Security Features
 
 ### 1. **Authentication**
+
 - Multiple auth providers (JWT, Firebase, Auth0, AWS, Supabase)
 - Token-based authentication
 - Refresh token rotation
@@ -1003,18 +1076,21 @@ Component re-renders with fresh data
 - OTP 2FA support
 
 ### 2. **Authorization**
+
 - RBAC middleware (`dev-backend/middleware/rbac.js`)
 - Route guards (`src/utils/route-guard/`)
 - Permission-based UI rendering
 - Role-based menu items
 
 ### 3. **API Security**
+
 - Axios interceptors for auth tokens
 - CSRF protection (production)
 - Environment variable validation
 - Secure HTTP headers (production)
 
 ### 4. **Data Protection**
+
 - Input sanitization (Formik + Yup)
 - XSS protection (React's built-in escaping)
 - Secure file uploads (MinIO with signed URLs)
@@ -1025,7 +1101,9 @@ Component re-renders with fresh data
 ## 🧪 Testing Strategy
 
 ### Unit Tests (Vitest)
+
 **Files:**
+
 - `src/contexts/JWTContext.test.tsx`
 - `src/contexts/jwt-helpers.test.ts`
 - `src/hooks/useAttachments.test.tsx`
@@ -1041,7 +1119,9 @@ Component re-renders with fresh data
 **Coverage:** 11 test files
 
 ### E2E Tests (Playwright)
+
 **Files:**
+
 - `e2e/analytics.spec.ts`
 - `e2e/deals.spec.ts`
 - `e2e/leads-deals-detail.spec.ts`
@@ -1052,6 +1132,7 @@ Component re-renders with fresh data
 **Coverage:** 6 test suites
 
 ### Test Commands
+
 ```bash
 npm run test:unit       # Vitest
 npm run test:e2e        # Playwright
@@ -1065,6 +1146,7 @@ npm run test:e2e:debug  # Playwright debug mode
 ## 📈 Performance Optimizations
 
 ### Build Optimizations (Vite)
+
 1. **Code Splitting:**
    - Route-based (React.lazy)
    - Vendor chunk separation
@@ -1082,6 +1164,7 @@ npm run test:e2e:debug  # Playwright debug mode
    - Chunk size warnings (1000 KB limit)
 
 ### Runtime Optimizations
+
 1. **Memoization:**
    - `useMemo` for expensive calculations
    - `useCallback` for stable function references
@@ -1107,6 +1190,7 @@ npm run test:e2e:debug  # Playwright debug mode
 ## 🌐 Internationalization (i18n)
 
 **Files:**
+
 - `src/utils/locales/en.json`
 - `src/utils/locales/fr.json`
 - `src/utils/locales/ro.json`
@@ -1115,6 +1199,7 @@ npm run test:e2e:debug  # Playwright debug mode
 - `src/layout/MainLayout/Header/LocalizationSection/`
 
 **Supported Languages:**
+
 - English (en)
 - French (fr)
 - Romanian (ro)
@@ -1127,7 +1212,9 @@ npm run test:e2e:debug  # Playwright debug mode
 ## 🎨 Theming System
 
 ### Berry Theme Variants (6 themes)
+
 **Files:**
+
 - `src/assets/scss/_theme1.module.scss` (Default Blue)
 - `src/assets/scss/_theme2.module.scss` (Dark)
 - `src/assets/scss/_theme3.module.scss` (Purple)
@@ -1136,6 +1223,7 @@ npm run test:e2e:debug  # Playwright debug mode
 - `src/assets/scss/_theme6.module.scss` (Red)
 
 ### Customization Options
+
 - **Layout:** Vertical / Horizontal
 - **Drawer:** Mini / Full
 - **Font Family:** Roboto / Poppins / Inter
@@ -1144,6 +1232,7 @@ npm run test:e2e:debug  # Playwright debug mode
 - **Dark Mode:** Yes (theme2)
 
 ### Configuration
+
 **File:** `src/contexts/ConfigContext.tsx`
 
 **Persisted in:** localStorage
@@ -1153,6 +1242,7 @@ npm run test:e2e:debug  # Playwright debug mode
 ## 🔧 Build & Deployment
 
 ### Development
+
 ```bash
 npm start                    # Vite dev server (port 3002)
 npm run dev:backend          # Dev backend (port 8787)
@@ -1162,6 +1252,7 @@ npm run dev:all              # All services together
 ```
 
 ### Production Build
+
 ```bash
 npm run build                # Production build (dist/)
 npm run build:staging        # Staging build (with .env.qa)
@@ -1169,6 +1260,7 @@ npm run preview              # Preview production build
 ```
 
 ### Code Quality
+
 ```bash
 npm run lint                 # ESLint check
 npm run lint:fix             # ESLint auto-fix
@@ -1177,6 +1269,7 @@ npm run typecheck            # TypeScript check
 ```
 
 ### Testing
+
 ```bash
 npm run test:unit            # Unit tests
 npm run test:e2e             # E2E tests
@@ -1185,6 +1278,7 @@ npm run e2e:ui               # Playwright UI
 ```
 
 ### Deployment Targets
+
 1. **Vercel** (configured in `vercel.json`)
 2. **Docker** (Dockerfile + docker-compose.yml)
 3. **Manual Deploy** (`deploy-vercel.sh`, `deploy-docker.sh`)
@@ -1194,7 +1288,9 @@ npm run e2e:ui               # Playwright UI
 ## 🚨 Known Issues & Technical Debt
 
 ### 1. **TypeScript Errors (164 total)**
+
 **Categories:**
+
 - Test file compatibility (vitest vs jest matchers) - 90+ errors
 - MUI v7 Grid API changes (`item` prop deprecated) - 50+ errors
 - Socket.io type imports (missing exports) - 8 errors
@@ -1204,7 +1300,9 @@ npm run e2e:ui               # Playwright UI
 **Priority:** Low (can be addressed incrementally)
 
 ### 2. **Legacy Berry Imports (230 occurrences)**
+
 **Examples:**
+
 - `import MainCard from 'ui-component/cards/MainCard'` - 15+ files
 - `import { IconX } from '@tabler/icons-react'` - 200+ files
 - `import navigation from 'menu-items'` - 5+ files
@@ -1213,6 +1311,7 @@ npm run e2e:ui               # Playwright UI
 **Priority:** High (migration in progress)
 
 ### 3. **Mixed JavaScript/TypeScript**
+
 - 131 JavaScript files
 - 140 TypeScript files
 
@@ -1220,6 +1319,7 @@ npm run e2e:ui               # Playwright UI
 **Priority:** Medium (gradual migration)
 
 ### 4. **Duplicate/Unused Code**
+
 - Multiple Berry versions (`full-version/`, `seed/`)
 - Backup analytics files (`PnLAnalytics.backup.tsx`)
 - Unused JavaScript versions (`javascript_v5.0.0-*`)
@@ -1228,6 +1328,7 @@ npm run e2e:ui               # Playwright UI
 **Priority:** Low (can be cleaned up post-migration)
 
 ### 5. **Test Coverage**
+
 - Only 11 unit tests (low coverage)
 - 6 E2E tests (core flows covered)
 
@@ -1239,6 +1340,7 @@ npm run e2e:ui               # Playwright UI
 ## 📊 Migration Status (Current Cleanup)
 
 ### ✅ Completed
+
 1. ✅ Ran `vite_berry_cleanup.sh` - removed legacy/demo files
 2. ✅ Created `backup_src_20251023-000400/` - full source backup
 3. ✅ Dependencies reinstalled with pnpm
@@ -1249,12 +1351,15 @@ npm run e2e:ui               # Playwright UI
 8. ✅ CI workflow created (blocks test artifacts)
 
 ### 🔄 In Progress
+
 - **Current Branch:** `chore/vite-berry-cleanup-20251023-000400`
 - **Status:** Cleanup complete, awaiting standard modules integration
 - **Backup:** `backup_src_20251023-000400/src` (928 bytes)
 
 ### 📦 Ready for Integration
+
 **Your Standard Modules Pack:**
+
 - ✅ AppPage (replacement for MainCard)
 - ✅ useUrlQuery (URL-driven filters)
 - ✅ Export utilities (CSV/XLSX/PDF)
@@ -1266,6 +1371,7 @@ npm run e2e:ui               # Playwright UI
 **Location:** `vite-standard-modules-pack/src/`
 
 ### 🎯 Next Steps
+
 1. Copy standard modules to `src/`
 2. Update imports in pages to use new modules
 3. Test one page (Contacts) thoroughly
@@ -1280,6 +1386,7 @@ npm run e2e:ui               # Playwright UI
 ## 📈 Project Metrics
 
 ### Codebase Size
+
 - **Total Files:** 2,166
 - **Source Files (src/):** 271
 - **TypeScript:** 140 files
@@ -1288,17 +1395,20 @@ npm run e2e:ui               # Playwright UI
 - **Assets:** 239 files (images + styles)
 
 ### Lines of Code (Estimated)
+
 - **Source Code:** ~45,000 lines
 - **Tests:** ~2,500 lines
 - **Config:** ~1,000 lines
 - **Documentation:** ~5,000 lines
 
 ### Dependencies
+
 - **Production:** 58 packages
 - **Development:** 28 packages
 - **Total:** 86 packages
 
 ### Bundle Size (Production)
+
 - **Initial Load:** ~800 KB (estimated, gzipped)
 - **Vendor Chunk:** ~600 KB (React, MUI, etc.)
 - **App Code:** ~200 KB (your code)
@@ -1308,12 +1418,15 @@ npm run e2e:ui               # Playwright UI
 ## 🎯 Recommended Next Actions
 
 ### Immediate (Week 1)
+
 1. **Integrate Standard Modules**
+
    ```bash
    cp -R vite-standard-modules-pack/src/* src/
    ```
 
 2. **Test Integration**
+
    ```bash
    npm start
    npm run typecheck
@@ -1328,6 +1441,7 @@ npm run e2e:ui               # Playwright UI
    - Test thoroughly
 
 ### Short-term (Weeks 2-3)
+
 4. **Migrate Remaining Pages**
    - Leads
    - Deals
@@ -1344,6 +1458,7 @@ npm run e2e:ui               # Playwright UI
    - E2E tests for migrated pages
 
 ### Long-term (Month 2+)
+
 7. **Remove Legacy Code**
    - Delete `full-version/`
    - Delete `seed/`
@@ -1371,6 +1486,7 @@ npm run e2e:ui               # Playwright UI
 ## 📞 Support & Resources
 
 ### Documentation
+
 - **Main README:** `README.md`
 - **Contributing Guide:** `CONTRIBUTING.md`
 - **Project Status:** `PROJECT_STATUS.md`
@@ -1380,13 +1496,15 @@ npm run e2e:ui               # Playwright UI
 - **Quick Start Cleanup:** `QUICK_START_CLEANUP.md`
 
 ### External Resources
-- **Berry Admin Demo:** https://berrydashboard.io
-- **Material-UI Docs:** https://mui.com
-- **React Router Docs:** https://reactrouter.com
-- **Vite Docs:** https://vitejs.dev
-- **Playwright Docs:** https://playwright.dev
+
+- **Berry Admin Demo:** <https://berrydashboard.io>
+- **Material-UI Docs:** <https://mui.com>
+- **React Router Docs:** <https://reactrouter.com>
+- **Vite Docs:** <https://vitejs.dev>
+- **Playwright Docs:** <https://playwright.dev>
 
 ### Scripts
+
 - `npm run check:ports` - Check port availability
 - `./scripts/vite_berry_cleanup.sh` - Run cleanup
 - `./scripts/find_berry_leftovers.sh` - Find legacy imports
@@ -1397,6 +1515,7 @@ npm run e2e:ui               # Playwright UI
 ## ✨ Summary
 
 **Traffic CRM Frontend** is a modern, feature-rich React application built with:
+
 - ✅ Latest tech stack (React 19, Vite 7, MUI 7, TypeScript)
 - ✅ Comprehensive CRM features (Leads, Deals, Contacts, Companies, Analytics)
 - ✅ Multiple auth providers
@@ -1409,6 +1528,7 @@ npm run e2e:ui               # Playwright UI
 - ✅ CI/CD ready (Vercel, Docker)
 
 **Current Status:**
+
 - ✅ Cleanup complete
 - ✅ Backup created
 - ✅ Legacy imports identified (230)
@@ -1421,4 +1541,3 @@ npm run e2e:ui               # Playwright UI
 
 **Generated:** October 23, 2025  
 **Status:** ✅ Comprehensive Analysis Complete
-

@@ -21,6 +21,7 @@ This document outlines the comprehensive port management system implemented for 
 ### Environment Variables
 
 #### `.env.example` (Template)
+
 ```bash
 # Frontend (Vite dev server)
 PORT=3002
@@ -46,23 +47,28 @@ NODE_ENV=development
 ```
 
 #### `.env` (Local Development)
+
 Copy from `.env.example` and customize for your local environment.
 
 ### Service Configurations
 
 #### Frontend API Configuration
+
 - **File**: `src/utils/axios.ts`
 - **Configuration**: Uses `VITE_APP_API_URL` with fallback to `http://localhost:8787/`
 
 #### Playwright Testing
+
 - **File**: `playwright.config.ts`
 - **Configuration**: Uses `PLAYWRIGHT_BASE_URL` with fallback to `http://localhost:3002`
 
 #### Dev Backend
+
 - **File**: `dev-backend/server.js`
 - **Configuration**: Uses `DEV_BACKEND_PORT` with fallback to `8787`
 
 #### Reporting Service
+
 - **File**: `traffic-crm-backend-reporting/src/main.ts`
 - **Configuration**: Uses `PORT` with fallback to `8005`
 
@@ -114,7 +120,9 @@ npm run dev:all
 ### Conflict Resolution
 
 #### Option 1: Change Ports (Recommended)
+
 Edit `.env` file:
+
 ```bash
 PORT=3002                    # Frontend
 DEV_BACKEND_PORT=8788       # Dev backend
@@ -122,6 +130,7 @@ REPORTING_SERVICE_PORT=8006  # Reporting service
 ```
 
 #### Option 2: Kill Conflicting Processes
+
 ```bash
 # Find process using port
 sudo lsof -nP -iTCP:3001 -sTCP:LISTEN
@@ -202,18 +211,22 @@ services:
 ### Common Issues
 
 #### 1. E2E Tests Fail to Connect
+
 - **Cause**: Playwright baseURL doesn't match Vite port
 - **Solution**: Ensure `PLAYWRIGHT_BASE_URL` matches `PORT` in `.env`
 
 #### 2. Frontend Can't Connect to Backend
+
 - **Cause**: `VITE_APP_API_URL` points to wrong port
 - **Solution**: Update `.env` with correct `DEV_BACKEND_PORT`
 
 #### 3. Port Already in Use
+
 - **Cause**: Another service is using the same port
 - **Solution**: Run `npm run check:ports` and resolve conflicts
 
 #### 4. Docker Services Won't Start
+
 - **Cause**: Host ports are already bound
 - **Solution**: Change Docker port mappings in `docker-compose.yml`
 

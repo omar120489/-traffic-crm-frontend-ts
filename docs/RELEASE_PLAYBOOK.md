@@ -47,6 +47,7 @@ We use **release-please** for automated releases based on Conventional Commits. 
 ### Automated Flow (Recommended)
 
 **Prerequisites:**
+
 - Conventional commits on `main`
 - CI passing
 - No breaking changes (or documented)
@@ -596,4 +597,3 @@ gh workflow run release-please.yml
 ---
 
 **Questions?** Open a discussion or check [CONTRIBUTING.md](../CONTRIBUTING.md)
-

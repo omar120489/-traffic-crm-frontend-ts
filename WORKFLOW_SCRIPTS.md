@@ -10,6 +10,7 @@ Automated workflow tools for Traffic CRM development. These scripts streamline i
 ```
 
 This will:
+
 1. ✅ Make all scripts executable
 2. ✅ Seed GitHub labels
 3. ✅ Create 13 development issues
@@ -22,6 +23,7 @@ This will:
 ## 📋 Available Scripts
 
 ### `setup-dev-workflow.sh`
+
 **Complete automated setup**
 
 Runs all setup steps in order. Use this for initial setup or when onboarding new team members.
@@ -33,9 +35,11 @@ Runs all setup steps in order. Use this for initial setup or when onboarding new
 ---
 
 ### `seed-labels.sh`
+
 **Create GitHub labels**
 
 Creates 16 color-coded labels for organizing issues and PRs:
+
 - Area labels (frontend, backend, workers, ci, sdk, docs)
 - Priority labels (high, medium, low)
 - Type labels (refactor, architecture, performance, etc.)
@@ -47,9 +51,11 @@ Creates 16 color-coded labels for organizing issues and PRs:
 ---
 
 ### `seed-issues.sh`
+
 **Create development issues**
 
 Creates 13 pre-defined issues covering:
+
 - Frontend refactoring and testing
 - Backend API improvements
 - Workers reliability
@@ -70,6 +76,7 @@ MILESTONE="Sprint 1" ./seed-issues.sh
 ---
 
 ### `workflow-helper.sh`
+
 **Main workflow tool**
 
 Your primary interface for day-to-day development.
@@ -89,6 +96,7 @@ Your primary interface for day-to-day development.
 ```
 
 **Example workflow:**
+
 ```bash
 # 1. Start issue #1
 ./workflow-helper.sh start 1
@@ -107,6 +115,7 @@ git push -u origin feat/frontend-migrate-components
 ---
 
 ### `create-branches.sh`
+
 **Create all issue branches**
 
 Creates 13 local branches (one per issue) from main.
@@ -116,6 +125,7 @@ Creates 13 local branches (one per issue) from main.
 ```
 
 Branches created:
+
 - `feat/frontend-migrate-components`
 - `refactor/frontend-consolidate-layouts`
 - `feat/frontend-organize-hooks-features`
@@ -124,6 +134,7 @@ Branches created:
 ---
 
 ### `push-all-branches.sh`
+
 **Push all branches to GitHub**
 
 Pushes all 13 issue branches to origin in one command.
@@ -133,6 +144,7 @@ Pushes all 13 issue branches to origin in one command.
 ```
 
 Useful when:
+
 - Setting up a new team member
 - Syncing branches across machines
 - Preparing for parallel development
@@ -140,9 +152,11 @@ Useful when:
 ---
 
 ### `generate-pr-templates.sh`
+
 **Generate PR description templates**
 
 Creates 13 PR templates in `.github/PR_TEMPLATES/` with:
+
 - Goal statement
 - Change checklist
 - Verification steps
@@ -157,6 +171,7 @@ Templates are automatically used by `create-pr.sh`.
 ---
 
 ### `create-pr.sh`
+
 **Create PR with template and labels**
 
 Creates a draft PR with the correct template and auto-applied labels.
@@ -170,6 +185,7 @@ Creates a draft PR with the correct template and auto-applied labels.
 ```
 
 **Features:**
+
 - Loads issue-specific template
 - Auto-applies correct labels
 - Creates as draft (mark ready when done)
@@ -178,6 +194,7 @@ Creates a draft PR with the correct template and auto-applied labels.
 ---
 
 ### `auto-label-prs.sh`
+
 **Manually add labels to existing PR**
 
 If you created a PR manually and need to add labels:
@@ -261,6 +278,7 @@ Each issue is automatically labeled:
 ### Change Default Assignee
 
 Edit `seed-issues.sh`:
+
 ```bash
 ASSIGNEE="${ASSIGNEE:-yourusername}"
 ```
@@ -268,6 +286,7 @@ ASSIGNEE="${ASSIGNEE:-yourusername}"
 ### Add Milestone
 
 Edit `seed-issues.sh`:
+
 ```bash
 MILESTONE="${MILESTONE:-Sprint 1}"
 ```
@@ -290,6 +309,7 @@ Edit the `create_issue` calls in `seed-issues.sh`.
 ### "gh: command not found"
 
 Install GitHub CLI:
+
 ```bash
 # macOS
 brew install gh
@@ -304,6 +324,7 @@ gh auth login
 ### "Permission denied" when running scripts
 
 Make scripts executable:
+
 ```bash
 chmod +x *.sh
 ```
@@ -352,4 +373,3 @@ ls -la .github/PR_TEMPLATES/
 ---
 
 **Questions?** See [CONTRIBUTING.md](./CONTRIBUTING.md) or open a discussion on GitHub.
-

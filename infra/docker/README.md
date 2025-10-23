@@ -32,9 +32,9 @@ docker compose -f infra/docker/docker-compose.yml down -v
 
 - **PostgreSQL**: `postgresql://postgres:postgres@localhost:5432/trafficcrm`
 - **Redis**: `redis://localhost:6379`
-- **MailHog Web**: http://localhost:8025
-- **MinIO Console**: http://localhost:9001 (admin/minioadmin)
-- **MinIO API**: http://localhost:9000
+- **MailHog Web**: <http://localhost:8025>
+- **MinIO Console**: <http://localhost:9001> (admin/minioadmin)
+- **MinIO API**: <http://localhost:9000>
 
 ## Health Checks
 
@@ -47,10 +47,10 @@ docker compose -f infra/docker/docker-compose.yml ps
 ## Environment Variables
 
 Core API connects via these defaults:
+
 - `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/trafficcrm`
 - `REDIS_URL=redis://localhost:6379`
 - `SMTP_HOST=localhost:1025`
 - `S3_ENDPOINT=http://localhost:9000`
 
 See `apps/core-api/.env.example` for full configuration.
-

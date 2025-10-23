@@ -1,6 +1,6 @@
 # Step 5: Journey Events + Activity Timeline - Verification Guide
 
-## ✅ Implementation Complete!
+## ✅ Implementation Complete
 
 All components of the **Journey Events and Activity Timeline** system have been successfully implemented with backend endpoints, frontend hook, Berry-styled UI, and real-time WebSocket updates!
 
@@ -122,6 +122,7 @@ All components of the **Journey Events and Activity Timeline** system have been 
 ## 📋 Manual Verification Steps
 
 ### **Prerequisites:**
+
 1. **Backend running:** `dev-backend` should be running on port 8787
 2. **Frontend running:** `npm start` on port 3002
 3. **Logged in:** Use `info@codedthemes.com` / `123456`
@@ -146,6 +147,7 @@ curl -X POST http://127.0.0.1:8787/api/v1/journey-events \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "id": "1729584000123",
@@ -164,6 +166,7 @@ curl -X POST http://127.0.0.1:8787/api/v1/journey-events \
 **Status Code:** `200 OK`
 
 **Backend Console Log:**
+
 ```
 📝 Journey event created {
   eventId: '1729584000123',
@@ -187,6 +190,7 @@ curl -X POST http://127.0.0.1:8787/api/v1/journey-events \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "message": "entity_type, entity_id, and type are required"
@@ -210,6 +214,7 @@ curl -X POST http://127.0.0.1:8787/api/v1/journey-events \
 ```
 
 **Expected Response:**
+
 ```json
 {
   "message": "entity_type must be \"deal\" or \"lead\""
@@ -228,6 +233,7 @@ curl "http://127.0.0.1:8787/api/v1/journey-events?entity_type=deal&entity_id=123
 ```
 
 **Expected Response:**
+
 ```json
 {
   "items": [
@@ -248,6 +254,7 @@ curl "http://127.0.0.1:8787/api/v1/journey-events?entity_type=deal&entity_id=123
 **Status Code:** `200 OK`
 
 **Backend Console Log:**
+
 ```
 📋 Journey events listed {
   entityType: 'deal',
@@ -267,6 +274,7 @@ curl "http://127.0.0.1:8787/api/v1/journey-events?entity_type=deal&entity_id=123
 ```
 
 **Expected Response:**
+
 ```json
 {
   "items": [ /* up to 10 events */ ],
@@ -504,6 +512,7 @@ return eventDate.toLocaleDateString(undefined, {
 ## 🎨 UI Screenshots (What You'll See)
 
 ### **Loading State:**
+
 ```
 ┌───────────────────────────────────┐
 │                                   │
@@ -513,6 +522,7 @@ return eventDate.toLocaleDateString(undefined, {
 ```
 
 ### **Empty State:**
+
 ```
 ┌───────────────────────────────────┐
 │                                   │
@@ -524,6 +534,7 @@ return eventDate.toLocaleDateString(undefined, {
 ```
 
 ### **Timeline with Events:**
+
 ```
 ┌───────────────────────────────────────────────────┐
 │ 🏆  Deal marked as Won                           │
@@ -568,9 +579,10 @@ return eventDate.toLocaleDateString(undefined, {
 
 ---
 
-## 🚀 Status: Production-Ready!
+## 🚀 Status: Production-Ready
 
 All components verified and tested:
+
 - ✅ Backend API functional
 - ✅ WebSocket real-time updates
 - ✅ Frontend hook with auto-loading
@@ -598,6 +610,7 @@ All components verified and tested:
 Ready to proceed to:
 
 **Step 6: Deal/Lead Export (CSV)**
+
 - Backend: `GET /api/deals/export` and `GET /api/leads/export`
 - Apply current filters to export
 - Frontend: "Export" button on list pages
@@ -607,11 +620,10 @@ Ready to proceed to:
 **or**
 
 **Step 7: Advanced Search & Filters**
+
 - Backend: Enhanced query support (full-text search, date ranges, multi-select)
 - Frontend: FilterPanel component with advanced controls
 - Save/load filter presets
 - Filter state in URL query params
 
 **Let me know which direction you'd like to go!** 🚀
-
-

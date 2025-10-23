@@ -132,6 +132,7 @@ This script automates the entire process of replacing a GitHub repository with y
 ### When to Use
 
 Use this script when you want to:
+
 - Replace an existing GitHub repo with your local content
 - Clean up Git history and enable remote pushes
 - Migrate from one repo to another
@@ -144,6 +145,7 @@ Use this script when you want to:
 ```
 
 The script is fully interactive and will:
+
 - Show current status and remote URL
 - Ask for confirmation before each destructive step
 - Offer to change remote URL if needed
@@ -152,25 +154,30 @@ The script is fully interactive and will:
 ### What Happens
 
 **Step 1: Remote URL Configuration**
+
 - Shows current remote
 - Offers to change it (e.g., from `servers.git` to `traffic-crm.git`)
 - Detects if you're targeting the wrong repo
 
 **Step 2: Local Backups**
+
 - Creates backup branch: `backup/before-sync-YYYYMMDD-HHMMSS`
 - Copies `.git` directory to `.git.backup.YYYYMMDD-HHMMSS`
 
 **Step 3: Clean Git History**
+
 - Runs `cleanup-history.sh` automatically
 - Removes `.backups/`, `*.tar.gz`, `*.fig`, and blobs >100MB
 - Shrinks `.git` from ~984MB to ~100MB
 
 **Step 4: Force Push**
+
 - Asks for final confirmation
 - Pushes all branches with `--force`
 - Pushes all tags with `--force`
 
 **Step 5: Verification**
+
 - Checks remote commit matches local
 - Provides next steps and rollback instructions
 
@@ -266,6 +273,7 @@ Once the script completes:
    - Verify workflows run successfully
 
 3. **Resume normal workflow:**
+
    ```bash
    # PR mode now works!
    MODE=pr ./scripts/premerge.sh
@@ -276,6 +284,7 @@ Once the script completes:
    ```
 
 4. **Cleanup backups (after a few days):**
+
    ```bash
    git branch -d backup/before-sync-YYYYMMDD-HHMMSS
    rm -rf .git.backup.YYYYMMDD-HHMMSS
@@ -284,17 +293,20 @@ Once the script completes:
 ### Troubleshooting
 
 **"Remote appears to be MCP servers repo"**
+
 - The script detects if you're targeting the wrong repo
 - Change remote URL when prompted
 - Or confirm if you really want to overwrite that repo
 
 **"Failed to push branches"**
+
 - Check network connection
 - Verify GitHub credentials
 - Ensure you have push permissions to the repo
 - Check if repo is archived or locked
 
 **"Remote and local commits don't match"**
+
 - This might be normal if you pushed multiple branches
 - Verify manually on GitHub
 - Check that the correct branch was pushed
@@ -346,6 +358,7 @@ pip install git-filter-repo
 ```
 
 The script will:
+
 1. Check if `git-filter-repo` is installed
 2. Verify your working tree is clean
 3. Show current repo size
@@ -378,11 +391,13 @@ After force-pushing, notify your team:
 > The repo history was cleaned to remove large files. You must:
 >
 > **Option A: Re-clone (recommended)**
+>
 > ```bash
 > git clone https://github.com/your-org/your-repo.git traffic-crm-clean
 > ```
 >
 > **Option B: Reset local repo**
+>
 > ```bash
 > git fetch origin
 > git reset --hard origin/main
@@ -403,27 +418,33 @@ After force-pushing, notify your team:
 ### premerge.sh Issues
 
 **"Could not generate SDK types"**
+
 - Make sure Core API is running: `pnpm --filter @apps/core-api dev`
 - Check if `http://localhost:3000/docs-json` is accessible
 
 **"Typecheck reported issues"**
+
 - This is expected for legacy code (unused contexts, etc.)
 - Script continues anyway - review warnings to prioritize cleanup
 
 **"API smoke test skipped"**
+
 - Optional test, not critical
 - Generate JWT: `export DEV_JWT=$(pnpm --silent dev:jwt)`
 
 ### cleanup-history.sh Issues
 
 **"git-filter-repo not found"**
+
 - Install using one of the methods shown in the Prerequisites section
 
 **"Your working tree has uncommitted changes"**
+
 - Commit or stash all changes first
 - Run `git status` to verify clean state
 
 **Remote push fails after cleanup**
+
 - Ensure you re-added the remote: `git remote -v`
 - Use `--force` flag as shown in the script output
 - Verify you have push permissions
@@ -460,5 +481,3 @@ git push --force --all
 - [Monorepo Setup](./MONOREPO_SETUP_COMPLETE.md)
 - [Phase 2 Plan](./PHASE_2_PLAN.md)
 - [Project Structure](./PROJECT_STRUCTURE.md)
-
-

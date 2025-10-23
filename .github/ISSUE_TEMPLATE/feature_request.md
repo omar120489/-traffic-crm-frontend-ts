@@ -59,4 +59,3 @@ If you have specific criteria for this feature, list them:
 **Priority:** [Low / Medium / High / Critical]  
 **Effort Estimate:** [Small / Medium / Large / XL]  
 **Affected Areas:** [Frontend / Backend / API / Workers / Documentation]
-

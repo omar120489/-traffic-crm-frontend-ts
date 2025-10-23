@@ -1,6 +1,6 @@
 # Step 6: XLSX & PDF Export - Verification Guide
 
-## ✅ Implementation Complete!
+## ✅ Implementation Complete
 
 All components of the **XLSX and PDF Export** system have been successfully implemented with client-side export functionality for Deals and Leads!
 
@@ -83,6 +83,7 @@ All components of the **XLSX and PDF Export** system have been successfully impl
 ## 📋 Manual Verification Steps
 
 ### **Prerequisites:**
+
 1. **Backend running:** `dev-backend` should be running on port 8787
 2. **Frontend running:** `npm start` on port 3002
 3. **Logged in:** Use `info@codedthemes.com` / `123456`
@@ -212,9 +213,11 @@ To test error handling, you can temporarily modify the code or use browser DevTo
 
 1. Open browser DevTools → Console
 2. Before clicking export, run:
+
    ```javascript
    window.XLSX = undefined; // Simulate missing library
    ```
+
 3. Click **"Export"** → **"Export XLSX"**
 4. **Verify:**
    - Error toast appears: "Export failed. Please try again."
@@ -239,7 +242,7 @@ To test error handling, you can temporarily modify the code or use browser DevTo
 
 1. Create a deal or lead with special characters:
    - Name: "Test & Company <Ltd.>"
-   - Email: "user+test@example.com"
+   - Email: "<user+test@example.com>"
 2. Export to XLSX and PDF
 3. **Verify:**
    - Special characters display correctly
@@ -283,6 +286,7 @@ To test error handling, you can temporarily modify the code or use browser DevTo
 ## 🔧 Technical Details
 
 ### **Filename Format:**
+
 ```
 {entity}_{YYYY-MM-DD}_{HH-mm}[_filtered].{xlsx|pdf}
 
@@ -292,6 +296,7 @@ Examples:
 ```
 
 ### **Column Mapping (Deals):**
+
 ```typescript
 [
   { field: 'id', headerName: 'ID' },
@@ -309,11 +314,13 @@ Examples:
 ```
 
 ### **PDF Orientation Logic:**
+
 ```typescript
 const orientation = columns.length > 6 ? 'landscape' : 'portrait';
 ```
 
 ### **XLSX Column Widths:**
+
 ```typescript
 const colWidths = columns.map((col) => ({
   wch: Math.max(col.headerName.length, 15) // At least 15 chars
@@ -321,6 +328,7 @@ const colWidths = columns.map((col) => ({
 ```
 
 ### **PDF Styling:**
+
 ```typescript
 headStyles: {
   fillColor: [33, 150, 243], // Berry primary blue
@@ -357,6 +365,7 @@ alternateRowStyles: {
 ## 🎨 UI Screenshots (What You'll See)
 
 ### **Export Button & Menu:**
+
 ```
 ┌────────────────────────────────────────┐
 │ Search Deals                           │
@@ -371,6 +380,7 @@ alternateRowStyles: {
 ```
 
 ### **Success Toast:**
+
 ```
 ┌────────────────────────────────────────┐
 │ ✓ Exported 25 deals to                 │
@@ -379,6 +389,7 @@ alternateRowStyles: {
 ```
 
 ### **XLSX Output Preview:**
+
 ```
 | ID  | Deal Name   | Amount   | Stage      | Status | ... |
 |-----|-------------|----------|------------|--------|-----|
@@ -387,6 +398,7 @@ alternateRowStyles: {
 ```
 
 ### **PDF Output Preview:**
+
 ```
 ┌──────────────────────────────────────────────────────┐
 │ Deals Report                                          │
@@ -447,9 +459,10 @@ For large datasets (> 5,000 rows), consider implementing backend export endpoint
 
 ---
 
-## 🚀 Status: Production-Ready!
+## 🚀 Status: Production-Ready
 
 All components verified and tested:
+
 - ✅ Dependencies installed
 - ✅ Export utilities functional
 - ✅ ExportMenu component working
@@ -478,17 +491,20 @@ All components verified and tested:
 ## 🎯 Optional Future Enhancements
 
 **Step 6.1: Backend Export Endpoints** (for large datasets)
+
 - `GET /api/deals/export?format=xlsx|pdf` with streaming
 - Apply same filters as list endpoints
 - Handle datasets > 10,000 rows efficiently
 
 **Step 6.2: Advanced Export Options**
+
 - Column selection UI (checkbox list)
 - Custom date range selection
 - Export templates (predefined column sets)
 - Scheduled exports (email delivery)
 
 **Step 6.3: Additional Formats**
+
 - CSV export (simple text format)
 - JSON export (for API integration)
 - Google Sheets integration
@@ -522,5 +538,3 @@ open http://localhost:3002/leads
 ---
 
 **✅ Step 6 Complete! XLSX & PDF exports are production-ready!** 🎉
-
-

@@ -45,6 +45,7 @@ traffic-crm/
 ```
 
 This will:
+
 1. Start Docker services (PostgreSQL, Redis, MailHog, MinIO)
 2. Run database migrations
 3. Seed demo data
@@ -96,6 +97,7 @@ pnpm --filter @apps/workers dev
 - **[docs/LOCAL_WORKFLOW.md](./docs/LOCAL_WORKFLOW.md)** - Local-only development workflow (current, until history cleanup)
 
 Quick reference:
+
 ```bash
 ./scripts/premerge.sh              # Verify builds before merge
 MODE=local ./scripts/premerge.sh    # Merge locally (current workflow)
@@ -145,16 +147,17 @@ pnpm --filter @apps/workers dev       # Start background workers
 
 | Service | URL | Credentials |
 |---------|-----|-------------|
-| Frontend | http://localhost:5173 | - |
-| Core API | http://localhost:3000 | - |
-| Swagger Docs | http://localhost:3000/docs | - |
-| Prisma Studio | http://localhost:5555 | (run `prisma:studio`) |
-| MailHog UI | http://localhost:8025 | - |
-| MinIO Console | http://localhost:9001 | admin / minioadmin |
+| Frontend | <http://localhost:5173> | - |
+| Core API | <http://localhost:3000> | - |
+| Swagger Docs | <http://localhost:3000/docs> | - |
+| Prisma Studio | <http://localhost:5555> | (run `prisma:studio`) |
+| MailHog UI | <http://localhost:8025> | - |
+| MinIO Console | <http://localhost:9001> | admin / minioadmin |
 
 ## 🧪 Demo Data
 
 The seed creates:
+
 - **Org:** demo-org
 - **Company:** Acme Inc.
 - **Contacts:** John Doe, Jane Smith
@@ -166,6 +169,7 @@ Access these via `/contacts`, `/leads`, `/deals` in the frontend.
 ## 🏗️ Tech Stack
 
 ### Frontend
+
 - React 19 (RC)
 - TypeScript 5.6
 - Vite 7
@@ -179,6 +183,7 @@ Access these via `/contacts`, `/leads`, `/deals` in the frontend.
 - XLSX for exports
 
 ### Backend
+
 - NestJS 10
 - Fastify 4
 - Prisma 5
@@ -190,6 +195,7 @@ Access these via `/contacts`, `/leads`, `/deals` in the frontend.
 - Swagger/OpenAPI
 
 ### Infrastructure
+
 - Docker Compose
 - PostgreSQL 16
 - Redis 7
@@ -197,6 +203,7 @@ Access these via `/contacts`, `/leads`, `/deals` in the frontend.
 - MinIO (S3-compatible storage)
 
 ### Monorepo
+
 - pnpm workspaces
 - TypeScript project references
 - Shared types package
@@ -207,6 +214,7 @@ Access these via `/contacts`, `/leads`, `/deals` in the frontend.
 **Development:** Uses dev JWT tokens generated via `pnpm dev:jwt`
 
 **Production:** Integrate with:
+
 - Auth0 (recommended)
 - AWS Cognito
 - Keycloak
@@ -230,6 +238,7 @@ pnpm --filter @apps/core-api prisma:studio
 ```
 
 ### Entities
+
 - Orgs (multi-tenancy)
 - Contacts
 - Companies
@@ -245,10 +254,12 @@ pnpm --filter @apps/core-api prisma:studio
 Located in `apps/workers/`:
 
 **Queues:**
+
 - `lead-scoring`: Automatic lead qualification
 - `enrichment`: Contact/company data enrichment
 
 **Usage:**
+
 ```typescript
 import { leadScoringQueue } from '@apps/workers';
 
@@ -260,6 +271,7 @@ await leadScoringQueue.add('score', { leadId: 'ld-123' });
 ## 📦 Packages
 
 ### `@sdk-js/core`
+
 Auto-generated typed client from Core API's OpenAPI spec.
 
 ```typescript
@@ -272,6 +284,7 @@ const contact = await api.getContact('ct-123');
 Regenerate: `pnpm sdk:gen`
 
 ### `@shared-types`
+
 Shared TypeScript types and Zod schemas.
 
 ```typescript
@@ -355,6 +368,7 @@ We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md)
 5. Push & create PR: `git push origin feat/my-feature`
 
 See also:
+
 - [Local Development Workflow](./docs/LOCAL_WORKFLOW.md)
 - [Scripts Reference](./docs/SCRIPTS.md)
 - [Changelog](./CHANGELOG.md)
@@ -389,4 +403,3 @@ Proprietary - All rights reserved
 ---
 
 **Built with ❤️ for the travel industry**
-

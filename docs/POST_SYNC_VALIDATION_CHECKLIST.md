@@ -1,6 +1,6 @@
 # Post-Sync Validation Checklist
 
-**Repository:** https://github.com/omar120489/-traffic-crm-frontend-ts  
+**Repository:** <https://github.com/omar120489/-traffic-crm-frontend-ts>  
 **Sync Date:** October 24, 2025  
 **Status:** ✅ Sync Complete - Ready for Production
 
@@ -9,7 +9,7 @@
 ## ✅ Immediate Verification (Already Complete)
 
 - [x] **Repository accessible on GitHub**
-  - URL: https://github.com/omar120489/-traffic-crm-frontend-ts
+  - URL: <https://github.com/omar120489/-traffic-crm-frontend-ts>
   - Structure: `apps/`, `packages/`, `scripts/`, `docs/` visible
 
 - [x] **Local and Remote HEAD match**
@@ -44,6 +44,7 @@
 ### 1. Repository Settings
 
 #### a) Repository Name (Optional)
+
 - [ ] **Consider removing leading dash**
   - Current: `-traffic-crm-frontend-ts`
   - Suggested: `traffic-crm-frontend-ts`
@@ -52,16 +53,19 @@
   - Update local remote: `git remote set-url origin https://github.com/omar120489/traffic-crm-frontend-ts.git`
 
 #### b) Repository Description
+
 - [ ] Add description
   - Navigate to: Settings → General → Description
   - Suggested: "Traffic CRM - Full-stack TypeScript monorepo with React frontend, NestJS backend, and BullMQ workers"
 
 #### c) Topics/Tags
+
 - [ ] Add topics for discoverability
   - Navigate to: Settings → General → Topics
   - Suggested: `typescript`, `react`, `nestjs`, `monorepo`, `crm`, `vite`, `prisma`, `bullmq`
 
 #### d) Social Preview
+
 - [ ] Upload social preview image (optional)
   - Navigate to: Settings → General → Social preview
   - Recommended size: 1280x640px
@@ -69,6 +73,7 @@
 ### 2. Branch Protection Rules
 
 #### Main Branch Protection
+
 - [ ] **Enable branch protection for `main`**
   - Navigate to: Settings → Branches → Add rule
   - Branch name pattern: `main`
@@ -85,6 +90,7 @@
   - [ ] Allow deletions (leave unchecked)
 
 **Commands to verify:**
+
 ```bash
 # Try force push (should be blocked)
 git push --force origin main
@@ -100,10 +106,13 @@ git push origin feature/test
 ### 3. GitHub Actions / CI/CD
 
 #### a) Verify Workflows
+
 - [ ] **Check if workflows exist**
+
   ```bash
   ls -la .github/workflows/
   ```
+
   - Expected: `ci.yml` or similar
 
 - [ ] **Enable Actions if disabled**
@@ -115,6 +124,7 @@ git push origin feature/test
   - Recommended: "Read and write permissions"
 
 #### b) Set Up Secrets
+
 - [ ] **Add required secrets**
   - Navigate to: Settings → Secrets and variables → Actions
   - Add secrets for:
@@ -124,7 +134,9 @@ git push origin feature/test
     - [ ] Any API keys or external service tokens
 
 #### c) Test CI Pipeline
+
 - [ ] **Trigger a test run**
+
   ```bash
   git checkout -b test/ci-verification
   echo "# CI Test" > CI_TEST.md
@@ -132,7 +144,8 @@ git push origin feature/test
   git commit -m "test: verify CI pipeline"
   git push origin test/ci-verification
   ```
-  - Visit: https://github.com/omar120489/-traffic-crm-frontend-ts/actions
+
+  - Visit: <https://github.com/omar120489/-traffic-crm-frontend-ts/actions>
   - Verify: Build runs and passes
 
 ### 4. Collaborators & Teams (If Applicable)
@@ -147,6 +160,7 @@ git push origin feature/test
 
 - [ ] **Set up code owners** (optional but recommended)
   - Create: `.github/CODEOWNERS`
+
   ```
   # Global owners
   * @omar120489
@@ -164,6 +178,7 @@ git push origin feature/test
 ### 5. Security Settings
 
 #### a) Dependabot
+
 - [ ] **Enable Dependabot alerts**
   - Navigate to: Settings → Security → Code security and analysis
   - Enable: "Dependabot alerts"
@@ -171,6 +186,7 @@ git push origin feature/test
 
 - [ ] **Configure Dependabot version updates**
   - Create: `.github/dependabot.yml`
+
   ```yaml
   version: 2
   updates:
@@ -181,12 +197,14 @@ git push origin feature/test
   ```
 
 #### b) Code Scanning
+
 - [ ] **Enable code scanning** (if available)
   - Navigate to: Settings → Security → Code security and analysis
   - Enable: "Code scanning"
   - Set up: GitHub CodeQL analysis
 
 #### c) Secret Scanning
+
 - [ ] **Enable secret scanning** (if available on your plan)
   - Navigate to: Settings → Security → Code security and analysis
   - Enable: "Secret scanning"
@@ -241,17 +259,20 @@ git push origin --delete test/verify-push
 **Share these instructions:**
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/omar120489/-traffic-crm-frontend-ts.git
    cd -traffic-crm-frontend-ts
    ```
 
 2. **Install dependencies:**
+
    ```bash
    pnpm install
    ```
 
 3. **Set up environment:**
+
    ```bash
    # Copy example env files
    cp apps/frontend/.env.example apps/frontend/.env.local
@@ -266,6 +287,7 @@ git push origin --delete test/verify-push
    ```
 
 4. **Start development:**
+
    ```bash
    # Terminal 1: Core API
    pnpm --filter @apps/core-api dev
@@ -286,6 +308,7 @@ git push origin --delete test/verify-push
 Old clones won't work. Choose one:
 
 **Option A: Re-clone (Recommended)**
+
 ```bash
 # Backup any local changes first
 cd ~/projects
@@ -295,6 +318,7 @@ cd traffic-crm
 ```
 
 **Option B: Reset existing clone**
+
 ```bash
 cd traffic-crm
 git fetch origin
@@ -460,6 +484,7 @@ git push origin --delete test/final-check
 Check off when complete:
 
 ### Essential (Must Have)
+
 - [x] Repository accessible on GitHub
 - [x] All branches and tags synced
 - [x] Local and remote HEAD match
@@ -469,6 +494,7 @@ Check off when complete:
 - [ ] Documentation updated
 
 ### Recommended (Should Have)
+
 - [ ] Repository name cleaned (no leading dash)
 - [ ] Dependabot enabled
 - [ ] Code scanning enabled
@@ -477,6 +503,7 @@ Check off when complete:
 - [ ] Deployment configured
 
 ### Optional (Nice to Have)
+
 - [ ] GitHub Pages enabled
 - [ ] Custom domain configured
 - [ ] Monitoring set up
@@ -488,6 +515,7 @@ Check off when complete:
 ## 📞 Support & Resources
 
 ### Documentation
+
 - **Main README:** `README.md`
 - **Sync Success:** `SYNC_COMPLETE_SUCCESS.md`
 - **Scripts Guide:** `docs/SCRIPTS.md`
@@ -495,6 +523,7 @@ Check off when complete:
 - **Repository Analysis:** `REPOSITORY_ANALYSIS.md`
 
 ### Key Commands
+
 ```bash
 # Normal workflow
 git checkout -b feature/name
@@ -510,11 +539,13 @@ cat SYNC_COMPLETE_SUCCESS.md
 ```
 
 ### GitHub Resources
-- **Repository:** https://github.com/omar120489/-traffic-crm-frontend-ts
-- **Actions:** https://github.com/omar120489/-traffic-crm-frontend-ts/actions
-- **Settings:** https://github.com/omar120489/-traffic-crm-frontend-ts/settings
+
+- **Repository:** <https://github.com/omar120489/-traffic-crm-frontend-ts>
+- **Actions:** <https://github.com/omar120489/-traffic-crm-frontend-ts/actions>
+- **Settings:** <https://github.com/omar120489/-traffic-crm-frontend-ts/settings>
 
 ### Rollback Procedures
+
 See `SYNC_COMPLETE_SUCCESS.md` section "🆘 Rollback (If Needed)"
 
 ---
@@ -522,21 +553,25 @@ See `SYNC_COMPLETE_SUCCESS.md` section "🆘 Rollback (If Needed)"
 ## 📅 Maintenance Schedule
 
 ### Daily
+
 - Monitor CI/CD pipeline for failures
 - Review Dependabot alerts
 
 ### Weekly
+
 - Review open PRs
 - Check repository insights/metrics
 - Update dependencies if needed
 
 ### Monthly
+
 - Review and update documentation
 - Clean up stale branches
 - Verify backups are working
 - Review security alerts
 
 ### Quarterly
+
 - Review branch protection rules
 - Audit collaborator access
 - Review monitoring/alerting setup
@@ -558,5 +593,3 @@ Once all essential items are checked:
 **Checklist Created:** October 24, 2025  
 **Last Updated:** October 24, 2025  
 **Status:** 🟡 In Progress → 🟢 Complete (when all essentials checked)
-
-

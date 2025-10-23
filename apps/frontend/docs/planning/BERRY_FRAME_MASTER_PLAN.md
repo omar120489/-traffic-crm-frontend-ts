@@ -7,6 +7,7 @@
 ## 📊 Current Status
 
 ### ✅ **Completed** (2/14 pages)
+
 | Page | Status | File |
 |------|--------|------|
 | **P&L Analytics** | ✅ Migrated | `src/views/analytics/PnLAnalytics.tsx` |
@@ -15,6 +16,7 @@
 ### ❌ **Pending Migration** (12/14 pages)
 
 #### **Core CRM Pages (8)**
+
 | # | Page | Route | File | Priority |
 |---|------|-------|------|----------|
 | 1 | Leads List | `/leads` | `src/views/pages/leads/LeadsListPage.tsx` | 🔴 **HIGH** |
@@ -27,12 +29,14 @@
 | 8 | Companies List | `/companies` | `src/views/pages/companies/CompaniesListPage.tsx` | 🟡 **MEDIUM** |
 
 #### **Dashboard & Analytics (2)**
+
 | # | Page | Route | File | Priority |
 |---|------|-------|------|----------|
 | 9 | Analytics Dashboard | `/analytics` | `src/views/pages/analytics/AnalyticsDashboard.tsx` | 🟢 **LOW** |
 | 10 | Sample Page | `/sample-page` | `src/views/sample-page/index.jsx` | 🟢 **LOW** |
 
 #### **Detail/Edit Pages (2)**
+
 | # | Page | File | Priority |
 |---|------|------|----------|
 | 11 | Lead Detail (sub) | `src/views/pages/leads/LeadDetailPage.tsx` | 🟡 **MEDIUM** |
@@ -43,6 +47,7 @@
 ## 🎯 Migration Strategy
 
 ### **Phase 1: Core List Pages** (Week 1) 🔴
+
 **Priority**: HIGH - Most trafficked pages
 
 1. ✅ **Contacts List** (`ContactsListPage.tsx`)
@@ -69,6 +74,7 @@
 ---
 
 ### **Phase 2: Detail Pages** (Week 2) 🔴
+
 **Priority**: HIGH - User detail workflows
 
 5. ✅ **Lead Detail** (`LeadDetail.tsx`)
@@ -92,6 +98,7 @@
 ---
 
 ### **Phase 3: Edit Pages** (Week 3) 🟡
+
 **Priority**: MEDIUM - Less frequent but critical
 
 9. ✅ **Lead Edit** (`LeadEditPage.tsx`)
@@ -107,6 +114,7 @@
 ---
 
 ### **Phase 4: Dashboards** (Week 4) 🟢
+
 **Priority**: LOW - Can stay as-is longer
 
 11. ✅ **Analytics Dashboard** (`AnalyticsDashboard.tsx`)
@@ -136,6 +144,7 @@
 ## 📋 Migration Checklist (Per Page)
 
 ### **Before Migration**
+
 - [ ] Read the current page file
 - [ ] Identify main sections (header, filters, content, footer)
 - [ ] Note any custom layouts or special components
@@ -143,6 +152,7 @@
 - [ ] Take screenshot for comparison
 
 ### **During Migration**
+
 - [ ] Import `AppPage` from `'layouts/AppPage'`
 - [ ] Move page title to `title` prop
 - [ ] Move subtitle/description to `subtitle` prop
@@ -158,6 +168,7 @@
 - [ ] Remove old `MainCard` wrapper (AppPage includes it)
 
 ### **After Migration**
+
 - [ ] Test loading state
 - [ ] Test error state
 - [ ] Test empty state
@@ -175,6 +186,7 @@
 ## 🎨 Migration Template
 
 ### **Before** (Typical structure)
+
 ```tsx
 import MainCard from 'ui-component/cards/MainCard';
 import { Alert, Skeleton } from '@mui/material';
@@ -217,6 +229,7 @@ export default function MyPage() {
 ```
 
 ### **After** (AppPage structure)
+
 ```tsx
 import AppPage from 'layouts/AppPage';
 
@@ -260,11 +273,13 @@ export default function MyPage() {
 ## 🚀 Quick Start Guide
 
 ### **1. Import AppPage**
+
 ```tsx
 import AppPage from 'layouts/AppPage';
 ```
 
 ### **2. Extract Sections**
+
 ```tsx
 // Actions (buttons, etc.)
 const actions = (
@@ -285,6 +300,7 @@ const toolbar = (
 ```
 
 ### **3. Wrap with AppPage**
+
 ```tsx
 return (
   <AppPage
@@ -307,6 +323,7 @@ return (
 ## 🔧 Common Issues & Fixes
 
 ### **Issue 1: Content Overflows**
+
 ```tsx
 // ❌ WRONG
 <Paper sx={{ p: 2, width: '100%' }}>
@@ -316,6 +333,7 @@ return (
 ```
 
 ### **Issue 2: Table Causes Horizontal Scroll**
+
 ```tsx
 // ❌ WRONG
 <Table>{/* ... */}</Table>
@@ -327,6 +345,7 @@ return (
 ```
 
 ### **Issue 3: Grid Columns Don't Fit**
+
 ```tsx
 // ❌ WRONG - 3 columns can be tight
 <Grid item xs={12} md={4}>
@@ -339,6 +358,7 @@ return (
 ```
 
 ### **Issue 4: Loading/Error States Still Manual**
+
 ```tsx
 // ❌ WRONG - Manual handling
 {loading && <Skeleton />}
@@ -356,6 +376,7 @@ return (
 ## 📊 Progress Tracking
 
 ### **Week 1: Core List Pages**
+
 - [ ] Day 1: Contacts List (1 hour)
 - [ ] Day 2: Leads List (1 hour)
 - [ ] Day 3: Deals List (1 hour)
@@ -363,16 +384,19 @@ return (
 - [ ] Day 5: Testing & fixes
 
 ### **Week 2: Detail Pages**
+
 - [ ] Day 1-2: Lead Detail (2 hours)
 - [ ] Day 3-4: Deal Detail (2 hours)
 - [ ] Day 5: Lead/Deal Detail wrappers + testing
 
 ### **Week 3: Edit Pages**
+
 - [ ] Day 1-2: Lead Edit (1.5 hours)
 - [ ] Day 3-4: Deal Edit (1.5 hours)
 - [ ] Day 5: Testing & polish
 
 ### **Week 4: Dashboards & Polish**
+
 - [ ] Day 1-2: Analytics Dashboard (1.5 hours)
 - [ ] Day 3: Sample Page (0.5 hours)
 - [ ] Day 4-5: Final testing, documentation, QA
@@ -399,16 +423,19 @@ A page is **fully migrated** when:
 ## 🎯 Next Steps
 
 ### **Immediate (Today)**
+
 1. Start with **Contacts List** (easiest, good template)
 2. Use migration as reference for others
 3. Document any issues found
 
 ### **This Week**
+
 1. Complete Phase 1 (4 list pages)
 2. Create reusable patterns
 3. Update this doc with learnings
 
 ### **This Month**
+
 1. Complete all 12 pages
 2. Final QA pass
 3. Update documentation
@@ -430,6 +457,7 @@ A page is **fully migrated** when:
 ## 🤝 Team Guidelines
 
 ### **Code Review Checklist**
+
 - [ ] AppPage component used correctly
 - [ ] Props passed in correct slots
 - [ ] No explicit widths on containers
@@ -440,6 +468,7 @@ A page is **fully migrated** when:
 - [ ] Accessibility verified
 
 ### **Testing Checklist**
+
 - [ ] Desktop (1920px, 1440px, 1200px)
 - [ ] Tablet (768px, 1024px)
 - [ ] Mobile (375px, 414px)
@@ -459,4 +488,3 @@ A page is **fully migrated** when:
 **Last Updated**: 2025-10-22  
 **Maintainer**: Dev Team  
 **Priority**: 🔴 HIGH
-

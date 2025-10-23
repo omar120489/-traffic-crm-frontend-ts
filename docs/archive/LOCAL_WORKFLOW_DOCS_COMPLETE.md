@@ -32,11 +32,13 @@ Added a prominent **⚠️ Note About PR Mode** section after "What It Does" in 
 ### 3. Updated `README.md` (2 locations)
 
 **In Utility Scripts section:**
+
 - Added link to `LOCAL_WORKFLOW.md` with note "(current, until history cleanup)"
 - Updated quick reference to show `MODE=local` as current workflow
 - Reordered examples to emphasize local-first approach
 
 **In Contributing section:**
+
 - Updated step 5 to show two options:
   - **Option A (current):** Local merge with `MODE=local ./scripts/premerge.sh`
   - **Option B (future):** Push PR after running `cleanup-history.sh`
@@ -172,4 +174,3 @@ grep "LOCAL_WORKFLOW.md" README.md
 **Documentation Complete!** 🎉
 
 Users can now efficiently work with the local-only workflow and have a clear path to transition to PR-based workflow when ready.
-

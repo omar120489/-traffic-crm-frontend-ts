@@ -3,6 +3,7 @@
 ## ✅ Pre-Flight Checklist
 
 **All Systems Ready:**
+
 - ✅ Scripts created and executable (`vite_berry_cleanup.sh`, `find_berry_leftovers.sh`)
 - ✅ Documentation complete (3 guides + PR template)
 - ✅ GitHub standards in place (workflow + template)
@@ -23,6 +24,7 @@
 ```
 
 **What happens:**
+
 1. Creates branch: `chore/vite-berry-cleanup-YYYYMMDD-HHMMSS`
 2. Backs up: `backup_src_YYYYMMDD-HHMMSS/`
 3. Removes legacy files:
@@ -35,6 +37,7 @@
 6. Reinstalls dependencies
 
 **Expected output:**
+
 ```
 == Vite Berry cleanup (safe) ==
 Creating branch: chore/vite-berry-cleanup-20251022-235959
@@ -59,12 +62,14 @@ Branch: chore/vite-berry-cleanup-20251022-235959
 ```
 
 **Reviews:**
+
 - Old `ui-component` imports
 - `MainCard` usage
 - Legacy icon libraries
 - Deprecated theme paths
 
 **Example output:**
+
 ```
 == Scanning for old Berry imports & files ==
 
@@ -89,6 +94,7 @@ npm run test:e2e:smoke
 ```
 
 **Expected results:**
+
 - ✅ App starts on `http://localhost:3002`
 - ✅ No TypeScript errors
 - ✅ No ESLint warnings
@@ -125,13 +131,15 @@ git push origin <cleanup-branch-name>
 
 ## 📊 Expected Outcomes
 
-### Before Cleanup:
+### Before Cleanup
+
 - Mixed page patterns (some MainCard, some custom)
 - Legacy Berry imports scattered
 - Duplicate theme/layout variants
 - Slower build times
 
-### After Cleanup:
+### After Cleanup
+
 - ✅ Leaner codebase (-10-15% build time)
 - ✅ Clear migration path to AppPage
 - ✅ All working pages intact
@@ -142,9 +150,10 @@ git push origin <cleanup-branch-name>
 
 ## 🆘 Rollback Procedures
 
-### If something breaks:
+### If something breaks
 
 #### Option A: Restore from backup
+
 ```bash
 rm -rf src
 cp -R backup_src_<timestamp>/src .
@@ -153,12 +162,14 @@ npm start
 ```
 
 #### Option B: Git revert
+
 ```bash
 git checkout chore/docs-cleanup
 git branch -D <cleanup-branch>
 ```
 
 #### Option C: Full archive restore
+
 ```bash
 cd /Users/kguermene/Desktop
 tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
@@ -169,12 +180,14 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 ## 📈 Post-Cleanup Roadmap
 
 ### Week 1: Foundation
+
 - [ ] Create `core/app-page/AppPage.tsx`
 - [ ] Create `core/filters/useUrlQuery.ts`
 - [ ] Create `core/export/` utilities
 - [ ] Create `core/rbac/permissions.ts`
 
 ### Week 2-3: Page Migration
+
 - [ ] Migrate Contacts page to AppPage
 - [ ] Migrate Leads page to AppPage
 - [ ] Migrate Deals page to AppPage
@@ -182,6 +195,7 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 - [ ] Migrate Analytics page to AppPage
 
 ### Week 4: Finalization
+
 - [ ] Add ESLint rule: `no-restricted-imports` for MainCard
 - [ ] Remove unused `ui-component/cards/MainCard`
 - [ ] Update team documentation
@@ -192,6 +206,7 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 ## 🎯 Quality Gates
 
 **Before merging cleanup PR, ensure:**
+
 - ✅ All existing pages render without errors
 - ✅ No console errors in browser
 - ✅ `npm run lint` passes
@@ -238,7 +253,7 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 
 ---
 
-## 🎉 You're Ready!
+## 🎉 You're Ready
 
 **Everything is prepared. Run this command to begin:**
 
@@ -247,6 +262,7 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 ```
 
 **The script will:**
+
 - Create a safe git branch
 - Back up your source code
 - Remove only legacy assets
@@ -260,4 +276,3 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 **Last Updated:** October 22, 2025  
 **Status:** ✅ READY TO EXECUTE  
 **Confidence Level:** 🟢 HIGH (fully tested, backed up, documented)
-

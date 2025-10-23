@@ -245,8 +245,8 @@ cd apps/frontend && pnpm test:e2e:ui    # UI mode
 
 ### Current (apps/frontend/docker-compose.yml)
 
-- MailHog (email testing) - http://localhost:8025
-- MinIO (S3-compatible storage) - http://localhost:9001
+- MailHog (email testing) - <http://localhost:8025>
+- MinIO (S3-compatible storage) - <http://localhost:9001>
 
 ### Future (Phase 2 - Root docker-compose.yml)
 
@@ -456,4 +456,3 @@ When ready for Phase 2:
 **Last Build:** Successful in 7.33s  
 **Branch:** `chore/monorepo-structure`  
 **Ready to merge or continue to Phase 2** 🚀
-

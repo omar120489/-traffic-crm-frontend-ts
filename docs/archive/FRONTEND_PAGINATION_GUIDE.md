@@ -81,6 +81,7 @@ import PaginationToolbar from '@/ui-component/PaginationToolbar';
 ```
 
 **Features:**
+
 - ✅ Search input with icon
 - ✅ Page size selector (5, 10, 25, 50, 100)
 - ✅ MUI Pagination with first/last buttons
@@ -168,6 +169,7 @@ const result = await listCompanies({ page: 1, size: 10, search: 'corp' });
 ```
 
 **Response format:**
+
 ```typescript
 {
   items: T[];       // Your entities
@@ -183,11 +185,13 @@ const result = await listCompanies({ page: 1, size: 10, search: 'corp' });
 ## 6️⃣ Migration Guide
 
 ### **Before (old hook):**
+
 ```typescript
 const { contacts, data, loading, query, updateQuery, refetch } = useContacts();
 ```
 
 ### **After (new hook):**
+
 ```typescript
 const { data, loading, page, size, search, setPage, setSize, setSearch, refetch } = 
   usePaginatedQuery({
@@ -232,6 +236,7 @@ const handlePageChange = (page: number) => {
 ### **Custom Search Fields**
 
 Backend already supports per-module search:
+
 - **Contacts**: `name`, `email`
 - **Leads**: `source`, `status`
 - **Deals**: `title`, `stage`
@@ -240,6 +245,7 @@ Backend already supports per-module search:
 ### **Add Sorting (Future)**
 
 Extend `PaginationQueryDto`:
+
 ```typescript
 export class PaginationQueryDto {
   @IsOptional() sortBy?: string;
@@ -249,6 +255,7 @@ export class PaginationQueryDto {
 ```
 
 Update service:
+
 ```typescript
 orderBy: { [query.sortBy || 'createdAt']: query.sortOrder || 'desc' }
 ```
@@ -256,6 +263,7 @@ orderBy: { [query.sortBy || 'createdAt']: query.sortOrder || 'desc' }
 ### **Add Filters (Future)**
 
 Create module-specific query DTOs:
+
 ```typescript
 export class LeadQueryDto extends PaginationQueryDto {
   @IsOptional() status?: LeadStatus;
@@ -297,13 +305,16 @@ pnpm --filter ./apps/frontend dev
 ## 📚 Files Reference
 
 **Hooks:**
+
 - `apps/frontend/src/hooks/usePagination.ts` - State management
 - `apps/frontend/src/hooks/usePaginatedQuery.ts` - Data fetching
 
 **Components:**
+
 - `apps/frontend/src/ui-component/PaginationToolbar.tsx` - UI toolbar
 
 **Backend:**
+
 - `apps/core-api/src/common/dto/pagination.dto.ts` - DTOs
 - All `*.controller.ts` - Updated endpoints
 - All `*.service.ts` - Pagination logic
@@ -311,4 +322,3 @@ pnpm --filter ./apps/frontend dev
 ---
 
 **Ready to use!** 🚀 Just regenerate SDK and start using the new hooks.
-

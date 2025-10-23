@@ -1,6 +1,6 @@
 # Step 2: Financial Guardrails - Verification Guide
 
-## ✅ Implementation Complete!
+## ✅ Implementation Complete
 
 All components of the **Closed Won financial validation** system have been successfully implemented and tested.
 
@@ -91,6 +91,7 @@ Coverage:    100% of ClosedWonModal component
 ## 📋 Manual Verification Steps
 
 ### **Prerequisites:**
+
 1. **Backend running:** `dev-backend` should be running on port 8787
 2. **Frontend running:** `npm start` on port 3002
 3. **Logged in:** Use `info@codedthemes.com` / `123456`
@@ -137,19 +138,23 @@ Coverage:    100% of ClosedWonModal component
 ### **Test 4: Validate Form Validation**
 
 #### **Test 4a: Empty values**
+
 - **Confirm button should be disabled**
 
 #### **Test 4b: Enter Gross Revenue only**
+
 1. Type `1200` in **Gross Revenue**
 2. **Confirm button should still be disabled** (direct cost required)
 
 #### **Test 4c: Zero values**
+
 1. Type `0` in **Gross Revenue**
 2. Type `0` in **Direct Cost**
 3. **Confirm button should be disabled** (values must be > 0)
 4. Input fields should show **error state** (red border)
 
 #### **Test 4d: Negative values**
+
 1. Type `-100` in **Gross Revenue**
 2. **Confirm button should be disabled**
 3. Input field should show **error state**
@@ -231,6 +236,7 @@ curl -i -X PATCH http://localhost:8787/api/deals/$DEAL_ID \
 ```
 
 **Expected Response:**
+
 ```
 HTTP/1.1 400 Bad Request
 {
@@ -251,6 +257,7 @@ curl -i -X PATCH http://localhost:8787/api/deals/$DEAL_ID \
 ```
 
 **Expected Response:**
+
 ```
 HTTP/1.1 200 OK
 {
@@ -264,6 +271,7 @@ HTTP/1.1 200 OK
 ```
 
 **Backend log should show:**
+
 ```
 💰 Deal marked Closed Won {
   dealId: '<deal-id>',
@@ -290,6 +298,7 @@ HTTP/1.1 200 OK
 ## 🎨 UI/UX Verification
 
 ### **Berry Theme Compliance:**
+
 - ✅ Modal uses MUI Dialog with `fullWidth` and `maxWidth="sm"`
 - ✅ DialogTitle, DialogContent, DialogActions structure
 - ✅ Stack layout with consistent spacing (`spacing={2}`)
@@ -298,12 +307,14 @@ HTTP/1.1 200 OK
 - ✅ Input sizes use `size="small"` for consistency
 
 ### **Color Coding:**
+
 - ✅ Positive net profit: `success.main` (green)
 - ✅ Negative net profit: `error.main` (red)
 - ✅ Error state on inputs: red border
 - ✅ Disabled button: proper MUI disabled state
 
 ### **Responsiveness:**
+
 - ✅ Modal is responsive (`fullWidth`)
 - ✅ Financial details section uses Grid with `xs={12} md={4}` for mobile/desktop
 
@@ -312,16 +323,19 @@ HTTP/1.1 200 OK
 ## 🔧 Technical Implementation Details
 
 ### **P&L Calculation:**
+
 ```typescript
 netProfit = grossRevenue - directCost
 ```
 
 ### **Status Values Supported:**
+
 - Frontend sends: `"Closed Won"`
 - Backend accepts: `"Closed Won"` or `"Won"`
 - Validation triggers on transition FROM any non-won status TO won status
 
 ### **Data Flow:**
+
 1. User clicks "Mark Won" → Modal opens
 2. User enters financials → Net profit calculates in real-time
 3. User clicks "Confirm" → Frontend calls `updateDeal(id, { status, grossRevenue, directCost })`
@@ -360,6 +374,7 @@ netProfit = grossRevenue - directCost
 After verifying Step 2, we can proceed to:
 
 **Step 3: P&L API Stub + UI Scaffold**
+
 - Backend: `GET /api/v1/pnl` returning aggregated P&L data
 - Frontend: New route `/analytics/pnl`
 - KPI cards: Net Profit, ROAS, CPA
@@ -394,5 +409,3 @@ open http://localhost:3002
 ---
 
 **✅ Step 2 Complete! All tests passing, backend validation working, UI polished!** 🎉
-
-

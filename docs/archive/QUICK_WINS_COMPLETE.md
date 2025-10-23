@@ -9,6 +9,7 @@
 ## 🎯 What Was Applied
 
 ### 1. **SDK Error Normalization** ✅
+
 **File:** `packages/sdk-js/src/index.ts`
 
 - Centralized `ky` error handling via `beforeError` hook
@@ -18,6 +19,7 @@
 - 10-second timeout for all requests
 
 **Usage:**
+
 ```typescript
 try {
   const result = await client.listContacts({ page: 1 });
@@ -31,6 +33,7 @@ try {
 ---
 
 ### 2. **Currency Helpers** ✅
+
 **File:** `apps/frontend/src/utils/currency.ts`
 
 Provides production-ready money handling:
@@ -56,10 +59,12 @@ createMoney(5000, 'USD') → { amountCents: 5000, currency: 'USD' }
 ```
 
 **Applied to:**
+
 - ✅ `apps/frontend/src/views/pages/deals/DealsListPage.tsx`
 - ✅ `apps/frontend/src/views/deals/DealDetail.tsx`
 
 **Before:**
+
 ```typescript
 new Intl.NumberFormat(undefined, {
   style: 'currency',
@@ -68,6 +73,7 @@ new Intl.NumberFormat(undefined, {
 ```
 
 **After:**
+
 ```typescript
 formatMoney(deal.amountCents ?? deal.amount, deal.currency)
 ```
@@ -75,12 +81,15 @@ formatMoney(deal.amountCents ?? deal.amount, deal.currency)
 ---
 
 ### 3. **Pagination DTOs (Backend)** ✅
+
 **Files:**
+
 - `apps/core-api/src/common/dto/pagination.dto.ts` (new)
 - `apps/core-api/src/modules/contacts/contacts.controller.ts` (updated)
 - `apps/core-api/src/modules/contacts/contacts.service.ts` (updated)
 
 **Controller Pattern:**
+
 ```typescript
 import { PaginationQueryDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
 
@@ -93,6 +102,7 @@ async list(@Org() orgId: string, @Query() query: PaginationQueryDto) {
 ```
 
 **Service Pattern:**
+
 ```typescript
 async list(orgId: string, query: PaginationQueryDto) {
   const { page, size, search } = query;
@@ -118,40 +128,50 @@ async list(orgId: string, query: PaginationQueryDto) {
 ```
 
 **Features:**
+
 - Query validation (`page` min 1, `size` 1-100)
 - Optional `search` param
 - Returns `PaginatedResponseDto` with `items`, `total`, `page`, `size`, `totalPages`
 
 **Status:**
+
 - ✅ Contacts module fully updated
 - 🔲 Leads, Deals, Companies (to be updated next)
 
 ---
 
 ### 4. **CI Workflow** ✅
+
 **File:** `.github/workflows/ci.yml`
 
 Three jobs on PR/push:
 
 **1. TypeCheck & Build (matrix strategy)**
+
 ```yaml
 workspace: ['@apps/core-api','./apps/frontend','@shared-types','@sdk-js/core']
 ```
+
 - Runs `typecheck` and `build` for each workspace
 
 **2. Lint**
+
 ```bash
 pnpm lint
 ```
+
 - Lints entire monorepo
 
 **3. Test**
+
 ```bash
 pnpm test
 ```
+
 - Runs all unit tests
 
 **Future Enhancement:**
+
 - E2E scaffold ready (needs Playwright tests)
 
 ---
@@ -159,9 +179,11 @@ pnpm test
 ## 📝 Additional Changes
 
 ### **Type Updates**
+
 **File:** `packages/shared-types/src/deal.ts`
 
 Added backend-compatible fields to Deal interface:
+
 ```typescript
 export interface Deal extends BaseEntity {
   amount: number;
@@ -172,6 +194,7 @@ export interface Deal extends BaseEntity {
 ```
 
 This allows frontend to gracefully handle both:
+
 - `deal.amount` (legacy, already in display units)
 - `deal.amountCents` (new backend format, stored in cents)
 
@@ -180,11 +203,13 @@ This allows frontend to gracefully handle both:
 ## 🚀 Next Steps
 
 ### **Immediate (apply remaining controllers):**
+
 1. Update Leads controller/service to use `PaginationQueryDto`
 2. Update Deals controller/service to use `PaginationQueryDto`
 3. Update Companies controller/service to use `PaginationQueryDto`
 
 **Script to apply (copy-paste):**
+
 ```typescript
 // For each controller (leads, deals, companies):
 
@@ -205,11 +230,14 @@ async list(@Org() orgId: string, @Query() query: PaginationQueryDto) {
 ```
 
 ### **Follow-up:**
+
 1. **SDK Regeneration**: Run `pnpm sdk:gen` after API schema changes
 2. **Currency Migration**: Search for remaining manual `Intl.NumberFormat` usage:
+
    ```bash
    grep -r "Intl.NumberFormat.*currency" apps/frontend/src --exclude-dir=node_modules
    ```
+
 3. **CI Enhancements**: Add E2E tests to CI pipeline
 
 ---
@@ -217,6 +245,7 @@ async list(@Org() orgId: string, @Query() query: PaginationQueryDto) {
 ## ✅ Verification
 
 All builds passing:
+
 ```bash
 ✅ pnpm --filter @sdk-js/core build
 ✅ pnpm --filter @apps/core-api build
@@ -237,4 +266,3 @@ Pre-existing errors in frontend are due to files not using path aliases (e.g., `
 ---
 
 **All systems go! Ready for production.** 🎉
-

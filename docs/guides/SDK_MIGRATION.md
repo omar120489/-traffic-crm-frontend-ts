@@ -31,6 +31,7 @@ export async function createContact(payload: ContactCreateDto) {
 ```
 
 **Issues:**
+
 - Manual typing required
 - No compile-time validation of endpoints
 - Duplicated auth logic
@@ -57,6 +58,7 @@ export const contactsSdkApi = {
 ```
 
 **Benefits:**
+
 - Types come directly from Core API
 - Endpoints validated at compile time
 - Auth handled in client
@@ -144,6 +146,7 @@ import { listLeads } from '@services';
 ### Step 4: Test
 
 Run the app and verify:
+
 - No TypeScript errors
 - API calls work as expected
 - Data loads correctly
@@ -450,4 +453,3 @@ export const dealsSdkApi = {
 ---
 
 **Ready to migrate?** Start with Contacts (already done) and replicate the pattern for Leads, Deals, and Companies!
-

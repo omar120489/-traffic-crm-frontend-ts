@@ -4,7 +4,7 @@
 
 **Version:** 1.6.0  
 **Last Updated:** October 24, 2025  
-**Repository:** https://github.com/omar120489/-traffic-crm-frontend-ts
+**Repository:** <https://github.com/omar120489/-traffic-crm-frontend-ts>
 
 ---
 
@@ -87,6 +87,7 @@ traffic-crm/
 ### 1. Frontend (`apps/frontend/`)
 
 **Technology Stack:**
+
 - **Framework:** React 19 (RC)
 - **Build Tool:** Vite 7
 - **UI Library:** Material-UI (MUI) 7
@@ -97,6 +98,7 @@ traffic-crm/
 - **Charts:** ApexCharts
 
 **Key Features:**
+
 - Responsive Material Design UI
 - Real-time data updates via SWR
 - Type-safe API calls via generated SDK
@@ -108,6 +110,7 @@ traffic-crm/
 - Export to CSV/XLSX/PDF
 
 **Directory Structure:**
+
 ```
 apps/frontend/src/
 ├── core/              # Core utilities (filters, export, RBAC)
@@ -128,6 +131,7 @@ apps/frontend/src/
 ### 2. Core API (`apps/core-api/`)
 
 **Technology Stack:**
+
 - **Framework:** NestJS 10
 - **HTTP Server:** Fastify 4
 - **ORM:** Prisma 5
@@ -138,6 +142,7 @@ apps/frontend/src/
 - **API Docs:** Swagger/OpenAPI
 
 **Key Features:**
+
 - RESTful API with OpenAPI documentation
 - JWT-based authentication
 - Multi-tenancy (organization-scoped)
@@ -148,6 +153,7 @@ apps/frontend/src/
 - File uploads (MinIO/S3)
 
 **Modules:**
+
 ```
 apps/core-api/src/
 ├── auth/              # Authentication & authorization
@@ -171,11 +177,13 @@ apps/core-api/src/
 ### 3. Workers (`apps/workers/`)
 
 **Technology Stack:**
+
 - **Queue:** BullMQ
 - **Storage:** Redis
 - **Language:** TypeScript
 
 **Job Queues:**
+
 1. **Lead Scoring**
    - Automatic lead qualification
    - Score calculation based on engagement
@@ -192,6 +200,7 @@ apps/core-api/src/
    - Trigger: User actions, scheduled
 
 **Usage:**
+
 ```typescript
 import { leadScoringQueue } from '@apps/workers';
 
@@ -206,10 +215,12 @@ await leadScoringQueue.add('score', {
 ### 4. Reporting (`apps/reporting/`)
 
 **Technology Stack:**
+
 - **Framework:** NestJS
 - **Purpose:** Analytics and reporting microservice
 
 **Features:**
+
 - Sales pipeline analytics
 - Revenue forecasting
 - Activity reports
@@ -226,12 +237,14 @@ await leadScoringQueue.add('score', {
 **Auto-generated TypeScript SDK** from Core API's OpenAPI spec.
 
 **Features:**
+
 - Type-safe API calls
 - Automatic request/response typing
 - Built-in error handling
 - Retry logic
 
 **Usage:**
+
 ```typescript
 import { api } from '@/data/clients/sdk';
 
@@ -241,6 +254,7 @@ const contact = await api.getContact('ct-123');
 ```
 
 **Generation:**
+
 ```bash
 pnpm sdk:gen
 ```
@@ -250,12 +264,14 @@ pnpm sdk:gen
 **Shared TypeScript types and Zod schemas.**
 
 **Contents:**
+
 - Domain models (Contact, Lead, Deal, etc.)
 - DTOs (Data Transfer Objects)
 - Zod validation schemas
 - Utility types
 
 **Usage:**
+
 ```typescript
 import type { Contact, Lead, Deal } from '@shared-types';
 import { ContactSchema } from '@shared-types/schemas';
@@ -292,6 +308,7 @@ import { ContactSchema } from '@shared-types/schemas';
 ```
 
 **Key Tables:**
+
 - `orgs` - Organizations (multi-tenancy)
 - `contacts` - Individual contacts
 - `companies` - Company records
@@ -303,6 +320,7 @@ import { ContactSchema } from '@shared-types/schemas';
 - `notifications` - User notifications
 
 **Relationships:**
+
 - Org has many Contacts, Companies, Leads, Deals
 - Contact belongs to Company
 - Lead belongs to Contact (optional)
@@ -413,11 +431,13 @@ Worker updates lead in database
 ### Authorization
 
 **Guards:**
+
 - `JwtAuthGuard` - Validates JWT token
 - `OrgGuard` - Ensures user belongs to organization
 - `RolesGuard` - Checks user roles (admin, manager, user)
 
 **Example:**
+
 ```typescript
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('admin')
@@ -510,11 +530,13 @@ MODE=pr ./scripts/premerge.sh
 ### Core API Routes
 
 **Authentication:**
+
 - `POST /api/auth/login` - User login
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/refresh` - Refresh token
 
 **Contacts:**
+
 - `GET /api/contacts` - List contacts (paginated)
 - `GET /api/contacts/:id` - Get contact
 - `POST /api/contacts` - Create contact
@@ -522,27 +544,32 @@ MODE=pr ./scripts/premerge.sh
 - `DELETE /api/contacts/:id` - Delete contact
 
 **Leads:**
+
 - `GET /api/leads` - List leads
 - `POST /api/leads` - Create lead
 - `PATCH /api/leads/:id` - Update lead
 - `POST /api/leads/:id/score` - Trigger scoring
 
 **Deals:**
+
 - `GET /api/deals` - List deals
 - `POST /api/deals` - Create deal
 - `PATCH /api/deals/:id` - Update deal
 - `PATCH /api/deals/:id/stage` - Move deal stage
 
 **Companies:**
+
 - `GET /api/companies` - List companies
 - `POST /api/companies` - Create company
 - `PATCH /api/companies/:id` - Update company
 
 **Activities:**
+
 - `GET /api/activities` - List activities
 - `POST /api/activities` - Log activity
 
 **OpenAPI Docs:**
+
 - `GET /api/docs` - Swagger UI
 - `GET /api/docs-json` - OpenAPI JSON spec
 
@@ -706,5 +733,3 @@ pnpm --filter @apps/core-api test:e2e
 **Version:** 1.6.0  
 **Maintained by:** Development Team  
 **Questions?** See [Documentation Index](./INDEX.md)
-
-

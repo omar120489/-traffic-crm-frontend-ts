@@ -16,9 +16,10 @@ fatal: repository 'https://github.com/omar120489/traffic-crm-frontend-ts.git/' n
 
 I **cannot** create GitHub repositories via command line. You must:
 
-### Go to: https://github.com/new
+### Go to: <https://github.com/new>
 
 Fill in:
+
 - **Repository name:** `traffic-crm-frontend-ts`
 - **Description:** (optional) "Traffic CRM - Full-stack TypeScript monorepo"
 - **Visibility:** Public or Private (your choice)
@@ -40,6 +41,7 @@ Tell me "repo created" or "go" and I'll immediately run:
 ```
 
 This will:
+
 1. ✅ Create backups
 2. ✅ Clean history (984MB → 100MB)
 3. ✅ Force push all branches + tags
@@ -55,4 +57,3 @@ This will:
 ---
 
 **I'm ready and waiting!** Just create the repo and let me know. 🚀
-

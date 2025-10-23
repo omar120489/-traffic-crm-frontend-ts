@@ -82,6 +82,7 @@ npx ts-node scripts/codemod_modernize.ts --apply
 ```
 
 **What it does:**
+
 1. **MUI Grid Import Normalization** - Standardizes Grid imports
 2. **MainCard → AppPage Transformation** - Migrates legacy card wrappers
 
@@ -100,6 +101,7 @@ npx ts-node scripts/fix_remaining.ts --write
 ```
 
 **What it fixes:**
+
 1. **Vitest imports** - Adds explicit imports to test files
 2. **Unused React imports** - Removes from test files (React 19 doesn't need them)
 3. **ID type coercions** - Wraps mixed number|string IDs with String()
@@ -207,7 +209,7 @@ After running the audit:
 ## 📚 More Information
 
 For questions or issues with the audit pack, refer to:
+
 - Project documentation in `docs/`
 - `.project_audit/REPORT.md` for detailed findings
 - `.project_audit/codemod_results.md` for transformation details
-

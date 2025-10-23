@@ -2,7 +2,7 @@
 
 Welcome to the Traffic CRM documentation! This index organizes all documentation by category for easy navigation.
 
-**Repository:** https://github.com/omar120489/-traffic-crm-frontend-ts  
+**Repository:** <https://github.com/omar120489/-traffic-crm-frontend-ts>  
 **Last Updated:** October 24, 2025
 
 ---
@@ -246,18 +246,18 @@ When documentation becomes outdated:
 
 ### Technology Documentation
 
-- **React:** https://react.dev/
-- **NestJS:** https://docs.nestjs.com/
-- **Vite:** https://vitejs.dev/
-- **Prisma:** https://www.prisma.io/docs
-- **Material-UI:** https://mui.com/
-- **BullMQ:** https://docs.bullmq.io/
+- **React:** <https://react.dev/>
+- **NestJS:** <https://docs.nestjs.com/>
+- **Vite:** <https://vitejs.dev/>
+- **Prisma:** <https://www.prisma.io/docs>
+- **Material-UI:** <https://mui.com/>
+- **BullMQ:** <https://docs.bullmq.io/>
 
 ### Tools
 
-- **pnpm:** https://pnpm.io/
-- **TypeScript:** https://www.typescriptlang.org/docs/
-- **Git:** https://git-scm.com/doc
+- **pnpm:** <https://pnpm.io/>
+- **TypeScript:** <https://www.typescriptlang.org/docs/>
+- **Git:** <https://git-scm.com/doc>
 
 ---
 
@@ -294,16 +294,19 @@ When documentation becomes outdated:
 ## 🎯 Next Steps After Reading
 
 **New Developer?**
+
 1. Set up your environment ([README.md](../README.md))
 2. Learn the workflow ([LOCAL_WORKFLOW.md](./LOCAL_WORKFLOW.md))
 3. Start coding!
 
 **Setting up GitHub?**
+
 1. Follow [POST_SYNC_VALIDATION_CHECKLIST.md](./POST_SYNC_VALIDATION_CHECKLIST.md)
 2. Enable branch protection
 3. Configure CI/CD
 
 **Deploying to Production?**
+
 1. Review [POST_SYNC_VALIDATION_CHECKLIST.md](./POST_SYNC_VALIDATION_CHECKLIST.md) → Production Deployment
 2. Configure environment variables
 3. Set up monitoring
@@ -312,6 +315,4 @@ When documentation becomes outdated:
 
 **📍 You are here:** Documentation Index  
 **🏠 Return to:** [Project README](../README.md)  
-**🚀 Repository:** https://github.com/omar120489/-traffic-crm-frontend-ts
-
-
+**🚀 Repository:** <https://github.com/omar120489/-traffic-crm-frontend-ts>

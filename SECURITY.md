@@ -7,10 +7,12 @@ We take the security of Traffic CRM seriously. If you discover a security vulner
 ### How to Report
 
 **Preferred Method:**
+
 - Use [GitHub Security Advisories](https://github.com/omar120489/-traffic-crm-frontend-ts/security/advisories/new)
 - This allows for private disclosure and coordinated patching
 
 **Alternative Methods:**
+
 - Email: [security@yourdomain.com] (if applicable)
 - For urgent issues: Direct message via GitHub to @omar120489
 
@@ -23,7 +25,7 @@ Please include the following information in your report:
 3. **Steps to Reproduce**: Detailed steps to reproduce the issue
 4. **Proof of Concept**: Code, screenshots, or other evidence
 5. **Suggested Fix**: If you have ideas on how to fix it (optional)
-6. **Environment**: 
+6. **Environment**:
    - Affected versions
    - Operating system
    - Browser (if applicable)
@@ -80,18 +82,21 @@ Please include the following information in your report:
 ## 🚨 Known Security Considerations
 
 ### Authentication
+
 - JWT tokens used for authentication
 - Tokens expire after configured time
 - Refresh token rotation implemented
 - Multi-tenancy with org-scoped data
 
 ### Data Protection
+
 - PostgreSQL with Prisma ORM (parameterized queries)
 - Input validation with class-validator
 - XSS protection via React
 - CSRF protection (configure for production)
 
 ### Dependencies
+
 - Automated security scanning with Dependabot
 - Regular dependency updates
 - Audit logs: `pnpm audit`
@@ -124,10 +129,10 @@ Before deploying to production, ensure:
 ## 📞 Contact
 
 For non-security issues, please use:
+
 - [GitHub Issues](https://github.com/omar120489/-traffic-crm-frontend-ts/issues)
 - [GitHub Discussions](https://github.com/omar120489/-traffic-crm-frontend-ts/discussions)
 
 ---
 
 **Thank you for helping keep Traffic CRM secure!** 🙏
-

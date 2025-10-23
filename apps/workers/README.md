@@ -43,8 +43,8 @@ Environment variables:
 ## Production
 
 For production deployment:
+
 1. Run multiple worker instances for horizontal scaling
 2. Use Redis Cluster or Sentinel for HA
 3. Monitor queue metrics via BullMQ Dashboard or custom metrics
 4. Configure retry strategies and failure handling
-

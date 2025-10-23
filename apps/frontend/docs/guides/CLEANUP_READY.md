@@ -18,16 +18,19 @@ Your repository now has **safe, production-ready cleanup automation** for standa
 ## 📁 New Files Added
 
 ### Scripts (Ready to Execute)
+
 ✅ `scripts/vite_berry_cleanup.sh` - Main cleanup automation  
 ✅ `scripts/find_berry_leftovers.sh` - Audit tool  
 ✅ `scripts/check-ports.sh` - (Already existing)
 
 ### Documentation
+
 ✅ `VITE_BERRY_STANDARDIZATION.md` - Complete migration guide (40+ sections)  
 ✅ `QUICK_START_CLEANUP.md` - 3-minute quick start  
 ✅ `CLEANUP_READY.md` - This file  
 
 ### GitHub Standards
+
 ✅ `.github/PULL_REQUEST_TEMPLATE.md` - PR checklist enforcing standards
 
 ---
@@ -57,6 +60,7 @@ That's it! ⚡
 ## 📊 What Gets Removed
 
 **Only removes:**
+
 - ❌ `src/**/__old*` - Old/renamed files
 - ❌ `src/**/legacy` - Legacy code
 - ❌ `src/**/demo` - Demo/example files
@@ -66,6 +70,7 @@ That's it! ⚡
 - ❌ Node caches (`.vite`, `.cache`)
 
 **Keeps everything else:**
+
 - ✅ All working pages in `src/views/`
 - ✅ MainLayout in `src/layout/`
 - ✅ Themes in `src/themes/`
@@ -79,6 +84,7 @@ That's it! ⚡
 ## 📋 After Cleanup: Next Steps
 
 ### Phase 1: Verify (5 minutes)
+
 ```bash
 npm start                    # Should start normally
 npm run typecheck            # Should pass
@@ -86,6 +92,7 @@ npm run lint                 # Should pass
 ```
 
 ### Phase 2: Standardize (Week 1-2)
+
 1. Create `core/` modules structure
 2. Build `AppPage` component
 3. Add `useUrlQuery` hook
@@ -93,6 +100,7 @@ npm run lint                 # Should pass
 5. Add RBAC system
 
 ### Phase 3: Migrate Pages (Week 2-4)
+
 1. Start with Contacts page
 2. Wrap in `<AppPage>`
 3. Move filters to toolbar
@@ -117,6 +125,7 @@ npm run lint                 # Should pass
 ## 🎯 Expected Outcome
 
 After running cleanup:
+
 - ✅ Cleaner codebase (fewer legacy files)
 - ✅ Faster builds (less code to process)
 - ✅ Clear migration path forward
@@ -128,6 +137,7 @@ After running cleanup:
 ## 🆘 If Something Goes Wrong
 
 ### Option A: Restore from Backup
+
 ```bash
 rm -rf src
 cp -R backup_src_<timestamp>/src .
@@ -135,12 +145,14 @@ npm start
 ```
 
 ### Option B: Git Revert
+
 ```bash
 git checkout <previous-branch>
 git branch -D <cleanup-branch>
 ```
 
 ### Option C: Full Restore from Archive
+
 ```bash
 cd /Users/kguermene/Desktop
 tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
@@ -148,7 +160,7 @@ tar -xzf traffic-crm-frontend-ts_backup_20251022_231037.tar.gz
 
 ---
 
-## ✨ You're Ready!
+## ✨ You're Ready
 
 Everything is prepared. When you're ready to proceed:
 

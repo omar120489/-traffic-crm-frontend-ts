@@ -21,7 +21,7 @@
 
 ### Step 1: Create GitHub Repo (if not exists)
 
-1. Go to: https://github.com/new
+1. Go to: <https://github.com/new>
 2. Repository name: `traffic-crm-frontend-ts`
 3. **Leave it empty** (no README, .gitignore, or license)
 4. Click "Create repository"
@@ -37,15 +37,19 @@
 You'll be asked twice:
 
 **Prompt 1: Run cleanup?**
+
 ```
 Run cleanup-history.sh to shrink repo (recommended)? [y/N]: y
 ```
+
 → Type `y` and press Enter
 
 **Prompt 2: Final confirmation**
+
 ```
 Are you ABSOLUTELY sure you want to force-push? [y/N]: y
 ```
+
 → Type `y` and press Enter
 
 ---
@@ -103,6 +107,7 @@ open https://github.com/omar120489/traffic-crm-frontend-ts
 ```
 
 Verify you see:
+
 - ✅ `apps/`, `packages/`, `scripts/`, `docs/` directories
 - ✅ Latest commit: "chore: update frontend build artifacts..."
 - ✅ All branches and tags
@@ -158,6 +163,7 @@ The script prints the exact backup names when it creates them.
 ## 📊 What This Achieves
 
 ### Before Sync
+
 - ❌ Can't push to GitHub (large files block it)
 - ❌ PR workflow blocked
 - ❌ No remote backup
@@ -165,6 +171,7 @@ The script prints the exact backup names when it creates them.
 - ❌ 42 commits stuck locally
 
 ### After Sync
+
 - ✅ Can push to GitHub normally
 - ✅ `MODE=pr ./scripts/premerge.sh` works
 - ✅ Remote backup enabled
@@ -176,6 +183,7 @@ The script prints the exact backup names when it creates them.
 ## 🎯 Next Steps After Sync
 
 1. **Resume normal workflow:**
+
    ```bash
    git checkout -b feature/my-feature
    git add .
@@ -188,6 +196,7 @@ The script prints the exact backup names when it creates them.
    - Update `LOCAL_WORKFLOW.md` to mark as "completed"
 
 3. **Clean up backups (after a few days):**
+
    ```bash
    git branch -d backup/before-sync-YYYYMMDD-HHMMSS
    rm -rf .git.backup.YYYYMMDD-HHMMSS
@@ -213,7 +222,7 @@ The script prints the exact backup names when it creates them.
 
 ---
 
-## 🚀 You're Ready!
+## 🚀 You're Ready
 
 Everything is prepared. Just run:
 
@@ -228,4 +237,3 @@ Answer the two prompts, wait 5-10 minutes, and you're synced!
 ---
 
 **Good luck!** 🎯
-

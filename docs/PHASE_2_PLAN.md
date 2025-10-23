@@ -48,12 +48,14 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Branch:** `chore/phase2-shared-types`
 
 **Acceptance Criteria:**
+
 - ✅ `pnpm --filter @shared-types typecheck` passes
 - ✅ Contacts feature uses `@shared-types/contact`
 - ✅ All path aliases work in VS Code & build
 - ✅ Zero TypeScript errors in production code
 
 **Files Changed:**
+
 - `packages/shared-types/src/` (new types)
 - `tsconfig.base.json` (path aliases)
 - `apps/frontend/vite.config.mjs` (path aliases)
@@ -67,6 +69,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Goal:** Stable contracts between frontend & backends
 
 **Decision Point:** Choose source of truth:
+
 - **Option 1 (Recommended):** OpenAPI in `apps/api-dev` & `apps/reporting`
 - **Option 2:** Zod schemas in `packages/api-contracts`
 
@@ -75,6 +78,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Tasks:**
 
 1. Create `packages/api-clients/`:
+
    ```
    packages/api-clients/
    ├─ src/
@@ -100,6 +104,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
    - `DELETE /contacts/:id` (delete)
 
 4. Generate typed client:
+
    ```bash
    pnpm --filter @api-clients run generate
    ```
@@ -109,6 +114,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Branch:** `chore/phase2-contracts-contacts`
 
 **Acceptance Criteria:**
+
 - ✅ OpenAPI spec validates
 - ✅ Typed client generated successfully
 - ✅ Contacts service uses typed client
@@ -116,6 +122,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 - ✅ Build passes, no type errors
 
 **Files Changed:**
+
 - `packages/api-clients/` (new package)
 - `apps/frontend/src/services/contacts.ts` (use typed client)
 - `apps/frontend/src/hooks/useContacts.ts` (updated types)
@@ -149,6 +156,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Tasks:**
 
 1. Create `useUrlQuery` hook in `core/filters/`:
+
    ```typescript
    useUrlQuery<T extends Record<string, any>>({
      page: number,
@@ -183,6 +191,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Tasks:**
 
 1. Define permissions in `core/rbac/permissions.ts`:
+
    ```typescript
    export const PERMISSIONS = {
      CONTACTS_VIEW: 'contacts:view',
@@ -194,6 +203,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
    ```
 
 2. Create `usePermissions()` hook:
+
    ```typescript
    const { can, cannot } = usePermissions();
    if (!can(PERMISSIONS.CONTACTS_DELETE)) return null;
@@ -218,6 +228,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Branch:** `chore/phase2-frontend-standardization`
 
 **Acceptance Criteria:**
+
 - ✅ All list pages use `AppPage` wrapper
 - ✅ URL filters work (bookmarkable URLs)
 - ✅ CSV & XLSX exports functional
@@ -226,6 +237,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 - ✅ ESLint blocks direct `MainCard` imports
 
 **Files Changed:**
+
 - `apps/frontend/src/core/app-page/AppPage.tsx` (enhancements)
 - `apps/frontend/src/core/filters/useUrlQuery.ts` (new)
 - `apps/frontend/src/core/export/` (implementations)
@@ -247,11 +259,13 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Tasks:**
 
 1. Install `simple-git-hooks` + `lint-staged`:
+
    ```bash
    pnpm add -D simple-git-hooks lint-staged
    ```
 
 2. Configure `.simple-git-hooks.js`:
+
    ```javascript
    module.exports = {
      'pre-commit': 'npx lint-staged'
@@ -259,6 +273,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
    ```
 
 3. Configure `lint-staged` in `package.json`:
+
    ```json
    {
      "lint-staged": {
@@ -271,6 +286,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
    ```
 
 4. Run setup:
+
    ```bash
    npx simple-git-hooks
    ```
@@ -280,6 +296,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Tasks:**
 
 1. Create `.github/workflows/ci.yml`:
+
    ```yaml
    name: CI
    
@@ -314,6 +331,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Tasks:**
 
 1. Add `eslint-plugin-import` rules:
+
    ```javascript
    {
      'import/no-restricted-paths': [
@@ -344,6 +362,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Branch:** `chore/phase2-guardrails-ci`
 
 **Acceptance Criteria:**
+
 - ✅ Pre-commit hook formats & lints changed files
 - ✅ CI matrix tests all workspaces
 - ✅ PRs blocked on failing typecheck/lint/test/build
@@ -351,6 +370,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 - ✅ Playwright smoke tests run on PR
 
 **Files Changed:**
+
 - `package.json` (simple-git-hooks, lint-staged)
 - `.simple-git-hooks.js` (new)
 - `.github/workflows/ci.yml` (new)
@@ -386,12 +406,14 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Branch:** `chore/phase2-infra` (optional)
 
 **Acceptance Criteria:**
+
 - ✅ `pnpm dev:all` starts full stack
 - ✅ All services communicate correctly
 - ✅ Environment variables centralized
 - ✅ Seed data loads on first run
 
 **Files Changed:**
+
 - `infra/docker-compose.yml` (moved & enhanced)
 - `.env.example` (centralized)
 - `package.json` (dev:all script)
@@ -423,6 +445,7 @@ Transform the monorepo from structure-only to a fully-integrated, type-safe, sta
 **Branch:** `chore/phase2-observability` (optional)
 
 **Acceptance Criteria:**
+
 - ✅ Backend logs structured JSON
 - ✅ Frontend shows user-friendly error toasts
 - ✅ Error boundary catches crashes
@@ -510,6 +533,7 @@ Each feature branch should be:
 4. **Mergeable:** Can merge independently without breaking others
 
 **Merge Order:**
+
 1. Merge `chore/phase2-shared-types` → `chore/monorepo-structure`
 2. Merge `chore/phase2-contracts-contacts` → `chore/monorepo-structure`
 3. Merge `chore/phase2-frontend-standardization` → `chore/monorepo-structure`
@@ -559,4 +583,3 @@ Each feature branch should be:
 **Owner:** Development Team  
 **Started:** October 23, 2025  
 **Target Completion:** November 5, 2025
-
