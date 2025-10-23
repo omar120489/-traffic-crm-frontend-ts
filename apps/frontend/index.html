@@ -2,41 +2,26 @@
 <html lang="en">
 
 <head>
-    <title>RIO Travels CRM - Your Trusted Travel Partner</title>
-    <link rel="icon" type="image/png" href="/rio-travels.png" />
-    <link rel="apple-touch-icon" href="/rio-travels.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    
-    <!-- Meta Tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-    <!-- Theme colors with media queries for light/dark mode -->
-    <meta name="theme-color" content="#2B5F8C" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
-    <meta name="color-scheme" content="light dark" />
-    
-    <meta name="title" content="RIO Travels CRM - Your Trusted Travel Partner" />
-    <meta name="description"
-        content="RIO Travels CRM platform for managing sales, marketing, leads, deals, and customer relationships in the travel industry." />
-    <meta name="keywords"
-        content="travel crm, rio travels, travel management, sales crm, travel booking, customer management" />
-    <meta name="author" content="RIO Travels" />
-    
-    <!-- iOS/Safari PWA -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    
-    <!-- Windows tiles -->
-    <meta name="msapplication-TileColor" content="#2B5F8C" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-    <!-- Performance hints for Vite -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Progressive theme color: supported on Chromium & Android; ignored elsewhere -->
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)">
+  <!-- Fallback for user agents without media support (last one wins in Chromium). Keep the light color as safe default. -->
+  <meta name="theme-color" content="#ffffff">
 
-    <!-- DNS prefetch for external resources -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+  <!-- Hint UA color scheme; older Safari iOS (<12.2) ignores this safely -->
+  <meta name="color-scheme" content="light dark">
+
+  <!-- iOS PWA/status bar fallbacks (Safari < 15 ignores theme-color) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <title>Traffic CRM</title>
+  <!-- End progressive head -->
 </head>
 
 <body>

@@ -1,0 +1,18 @@
+{
+  "name": "Traffic CRM",
+  "short_name": "TrafficCRM",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111827",
+  "description": "Traffic CRM platform for managing sales, marketing, leads, deals, and customer relationships",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
