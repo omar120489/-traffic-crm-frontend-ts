@@ -13,10 +13,10 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // CORS for Vite dev + future hosts
-  await app.register(import('@fastify/cors'), {
+  app.enableCors({
     origin: [/^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/],
     credentials: true
-  } as any);
+  });
 
   // Validation
   app.useGlobalPipes(

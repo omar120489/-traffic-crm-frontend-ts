@@ -6,16 +6,29 @@
     <link rel="icon" type="image/png" href="/rio-travels.png" />
     <link rel="apple-touch-icon" href="/rio-travels.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <!-- Meta Tags-->
+    
+    <!-- Meta Tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#2B5F8C" />
+    
+    <!-- Theme colors with media queries for light/dark mode -->
+    <meta name="theme-color" content="#2B5F8C" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    
     <meta name="title" content="RIO Travels CRM - Your Trusted Travel Partner" />
     <meta name="description"
         content="RIO Travels CRM platform for managing sales, marketing, leads, deals, and customer relationships in the travel industry." />
     <meta name="keywords"
         content="travel crm, rio travels, travel management, sales crm, travel booking, customer management" />
     <meta name="author" content="RIO Travels" />
+    
+    <!-- iOS/Safari PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    
+    <!-- Windows tiles -->
+    <meta name="msapplication-TileColor" content="#2B5F8C" />
 
     <!-- Performance hints for Vite -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

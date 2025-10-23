@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "CommonJS",
+    "moduleResolution": "Node",
     "target": "ES2022",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -11,9 +12,11 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "sourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma", "scripts"],
   "exclude": ["node_modules", "dist"]
 }
 

@@ -22,8 +22,7 @@ async function main() {
       id: 'cmp-acme',
       orgId: org.id,
       name: 'Acme Inc.',
-      website: 'https://acme.com',
-      industry: 'Technology',
+      domain: 'acme.com',
     },
   });
   console.log(`✅ Company: ${acme.name}`);
@@ -34,14 +33,13 @@ async function main() {
     create: {
       id: 'ct-john',
       orgId: org.id,
-      firstName: 'John',
-      lastName: 'Doe',
+      name: 'John Doe',
       email: 'john.doe@acme.com',
       phone: '+1-555-0100',
       companyId: acme.id,
     },
   });
-  console.log(`✅ Contact: ${john.firstName} ${john.lastName} (${john.email})`);
+  console.log(`✅ Contact: ${john.name} (${john.email})`);
 
   const jane = await prisma.contact.upsert({
     where: { id: 'ct-jane' },
@@ -49,14 +47,13 @@ async function main() {
     create: {
       id: 'ct-jane',
       orgId: org.id,
-      firstName: 'Jane',
-      lastName: 'Smith',
+      name: 'Jane Smith',
       email: 'jane.smith@acme.com',
       phone: '+1-555-0101',
       companyId: acme.id,
     },
   });
-  console.log(`✅ Contact: ${jane.firstName} ${jane.lastName} (${jane.email})`);
+  console.log(`✅ Contact: ${jane.name} (${jane.email})`);
 
   const lead1 = await prisma.lead.upsert({
     where: { id: 'ld-001' },
@@ -64,14 +61,13 @@ async function main() {
     create: {
       id: 'ld-001',
       orgId: org.id,
-      title: 'Website Inquiry',
       contactId: john.id,
-      status: 'NEW',
+      status: 'new',
       source: 'website',
       score: 75,
     },
   });
-  console.log(`✅ Lead: ${lead1.title} (${lead1.status})`);
+  console.log(`✅ Lead: From ${john.name} (${lead1.status})`);
 
   const lead2 = await prisma.lead.upsert({
     where: { id: 'ld-002' },
@@ -79,14 +75,13 @@ async function main() {
     create: {
       id: 'ld-002',
       orgId: org.id,
-      title: 'Referral from Partner',
       contactId: jane.id,
-      status: 'QUALIFIED',
+      status: 'new',
       source: 'referral',
       score: 85,
     },
   });
-  console.log(`✅ Lead: ${lead2.title} (${lead2.status})`);
+  console.log(`✅ Lead: From ${jane.name} (${lead2.status})`);
 
   const deal1 = await prisma.deal.upsert({
     where: { id: 'dl-001' },
@@ -94,15 +89,14 @@ async function main() {
     create: {
       id: 'dl-001',
       orgId: org.id,
-      name: 'Acme Pilot Project',
-      value: 12000,
+      title: 'Acme Pilot Project',
+      amountCents: 1200000,
       currency: 'USD',
       companyId: acme.id,
-      stage: 'Prospecting',
-      status: 'OPEN',
+      stage: 'new',
     },
   });
-  console.log(`✅ Deal: ${deal1.name} ($${deal1.value})`);
+  console.log(`✅ Deal: ${deal1.title} ($${deal1.amountCents / 100})`);
 
   const deal2 = await prisma.deal.upsert({
     where: { id: 'dl-002' },
@@ -110,15 +104,14 @@ async function main() {
     create: {
       id: 'dl-002',
       orgId: org.id,
-      name: 'Enterprise Package',
-      value: 50000,
+      title: 'Enterprise Package',
+      amountCents: 5000000,
       currency: 'USD',
       companyId: acme.id,
-      stage: 'Negotiation',
-      status: 'OPEN',
+      stage: 'new',
     },
   });
-  console.log(`✅ Deal: ${deal2.name} ($${deal2.value})`);
+  console.log(`✅ Deal: ${deal2.title} ($${deal2.amountCents / 100})`);
 
   console.log('\n✅ Seed complete for org:', org.id);
   console.log('\n📊 Summary:');
