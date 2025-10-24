@@ -417,6 +417,7 @@ Proprietary - All rights reserved
 
 ### 🏗️ Architecture & Guides
 
+- **Architecture Diagrams:** [Visual Maps & Flows](./docs/ARCHITECTURE_DIAGRAMS.md) - Mermaid diagrams
 - **Fastify Ecosystem:** [Dependency Analysis & v5 Migration](./docs/FASTIFY_DEPENDENCY_ANALYSIS.md)
 - **Branch Protection:** [Setup Guide](./docs/BRANCH_PROTECTION_SETUP.md)
 - **Infrastructure:** [Complete Setup Documentation](./docs/INFRASTRUCTURE_COMPLETE.md)

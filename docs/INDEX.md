@@ -86,6 +86,7 @@ Welcome to the Traffic CRM documentation! This index organizes all documentation
 | [guides/BRANDING_SETUP.md](./guides/BRANDING_SETUP.md) | Logo & branding setup |
 | [FRONTEND_PAGINATION_GUIDE.md](../FRONTEND_PAGINATION_GUIDE.md) | Implementing pagination in frontend |
 | [FASTIFY_DEPENDENCY_ANALYSIS.md](./FASTIFY_DEPENDENCY_ANALYSIS.md) | Fastify plugin compatibility and v5 migration strategy |
+| [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) | Visual architecture maps (Mermaid diagrams) |
 
 ---
 
