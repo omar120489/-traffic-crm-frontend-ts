@@ -4,8 +4,11 @@
     "outDir": "dist",
     "rootDir": "src",
     "composite": false,
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
     "module": "ESNext",
-    "moduleResolution": "Node"
+    "moduleResolution": "Bundler"
   },
   "include": ["src"]
 }
