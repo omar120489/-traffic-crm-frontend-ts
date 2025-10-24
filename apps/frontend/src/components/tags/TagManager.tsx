@@ -170,7 +170,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
             onChange={(e) => setNewTagName(e.target.value)}
             sx={{ mt: 2, mb: 2 }}
             onKeyDown={(e) => {
-              if ((e as React.KeyboardEvent).isComposing) return;
+              if (e.nativeEvent.isComposing) return;
               if (e.key === 'Enter') {
                 e.preventDefault();
                 handleCreateTag();

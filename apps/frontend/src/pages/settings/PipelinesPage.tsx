@@ -323,7 +323,7 @@ function PipelineDialog({
           onChange={(e) => setName(e.target.value)}
           sx={{ mt: 2 }}
           onKeyDown={(e) => {
-            if ((e as React.KeyboardEvent).isComposing) return;
+            if (e.nativeEvent.isComposing) return;
             if (e.key === 'Enter') {
               e.preventDefault();
               handleSubmit();
@@ -383,7 +383,7 @@ function StageDialog({
           onChange={(e) => setName(e.target.value)}
           sx={{ mt: 2, mb: 2 }}
           onKeyDown={(e) => {
-            if ((e as React.KeyboardEvent).isComposing) return;
+            if (e.nativeEvent.isComposing) return;
             if (e.key === 'Enter') {
               e.preventDefault();
               handleSubmit();
