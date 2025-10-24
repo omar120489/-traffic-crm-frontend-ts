@@ -11,6 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@shared-types/*": ["packages/shared-types/src/*"],
+      "@ui-kit/*": ["packages/ui-kit/src/*"],
+      "@rbac/*": ["packages/rbac/src/*"],
       "@/*": ["apps/frontend/src/*"],
       "@core/*": ["apps/frontend/src/core/*"],
       "@data/*": ["apps/frontend/src/data/*"],

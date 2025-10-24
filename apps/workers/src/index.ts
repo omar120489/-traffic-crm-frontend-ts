@@ -1,4 +1,4 @@
-import { Worker, Queue, QueueScheduler } from 'bullmq';
+import { Worker, Queue } from 'bullmq';
 import IORedis from 'ioredis';
 
 const connection = new IORedis(process.env.REDIS_URL || 'redis://localhost:6379');
@@ -7,9 +7,8 @@ const connection = new IORedis(process.env.REDIS_URL || 'redis://localhost:6379'
 export const leadScoringQueue = new Queue('lead-scoring', { connection });
 export const enrichmentQueue = new Queue('enrichment', { connection });
 
-// Schedulers
-new QueueScheduler('lead-scoring', { connection });
-new QueueScheduler('enrichment', { connection });
+// Note: QueueScheduler was removed in BullMQ v5
+// Delayed jobs are now handled automatically by the Queue itself
 
 // Workers
 new Worker(

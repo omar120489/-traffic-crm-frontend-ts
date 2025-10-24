@@ -5,7 +5,7 @@ import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class ContactsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async list(orgId: string, query: PaginationQueryDto) {
     const { page, size, search } = query;
@@ -27,7 +27,7 @@ export class ContactsService {
         skip,
         take: size,
         orderBy: { createdAt: 'desc' },
-        include: { company: true },
+        include: { Company: true },
       }),
       this.prisma.contact.count({ where }),
     ]);
@@ -46,7 +46,18 @@ export class ContactsService {
   }
 
   create(data: CreateContactDto) {
-    return this.prisma.contact.create({ data });
+    return this.prisma.contact.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        title: data.title,
+        source: data.source,
+        Org: { connect: { id: data.orgId } },
+        ...(data.companyId ? { Company: { connect: { id: data.companyId } } } : {}),
+        ...(data.ownerId ? { User: { connect: { id: data.ownerId } } } : {}),
+      },
+    });
   }
 
   async update(orgId: string, id: string, data: UpdateContactDto) {

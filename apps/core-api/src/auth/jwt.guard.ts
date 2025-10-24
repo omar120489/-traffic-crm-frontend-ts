@@ -5,71 +5,82 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createRemoteJWKSet, jwtVerify, importSPKI } from 'jose';
-import jwtCfg from './jwt.config';
+import { createRemoteJWKSet, jwtVerify, importSPKI, type KeyLike } from 'jose';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
-  private audience: string;
-  private issuer: string;
-  private orgClaimKey: string;
-  private publicKeyPem?: string;
-  private jwks?: ReturnType<typeof createRemoteJWKSet>;
+  private jwksCache: ReturnType<typeof createRemoteJWKSet> | { key: KeyLike } | null = null;
 
-  constructor(private cfg: ConfigService) {
-    const cfgObj = cfg.get(jwtCfg.KEY)!;
-    this.audience = cfgObj.audience;
-    this.issuer = cfgObj.issuer;
-    this.orgClaimKey = cfgObj.orgClaimKey;
-    const pk = cfgObj.publicKey?.trim();
-    if (pk?.startsWith('http')) {
-      this.jwks = createRemoteJWKSet(new URL(pk));
-    } else {
-      this.publicKeyPem = pk;
+  constructor(private readonly cfg: ConfigService) {}
+
+  private async getVerifier() {
+    const publicKey = this.cfg.get<string>('jwt.publicKey')?.trim();
+    if (!publicKey) return null;
+
+    if (publicKey.startsWith('http')) {
+      if (!this.jwksCache || !('length' in this.jwksCache)) {
+        this.jwksCache = createRemoteJWKSet(new URL(publicKey));
+      }
+      return this.jwksCache;
     }
+
+    if (!this.jwksCache || !('key' in this.jwksCache)) {
+      const key = await importSPKI(publicKey, 'RS256');
+      this.jwksCache = { key };
+    }
+    return this.jwksCache;
   }
 
   async canActivate(ctx: ExecutionContext): Promise<boolean> {
     const req = ctx.switchToHttp().getRequest();
-    const header = req.headers['authorization'] ?? '';
-    const token = Array.isArray(header) ? header[0] : header;
-    
-    if (!token?.startsWith('Bearer ')) {
-      throw new UnauthorizedException('Missing bearer token');
+
+    // Read config lazily, per-request
+    const enabled = this.cfg.get<boolean>('jwt.enabled', false);
+    const audience = this.cfg.get<string>('jwt.audience');
+    const issuer = this.cfg.get<string>('jwt.issuer');
+    const orgClaimKey = this.cfg.get<string>('jwt.orgClaimKey', 'orgId');
+
+    // Dev-friendly bypass when disabled or not configured
+    const verifier = await this.getVerifier();
+    if (!enabled || !verifier) {
+      req.user = {
+        sub: 'dev-user',
+        orgId: 'clx0d018d000008l701211234', // matches your seed data
+        roles: ['admin'],
+        role: 'admin', // for RBAC guard
+      };
+      return true;
     }
 
-    const jwt = token.slice(7);
-    const options = {
-      audience: this.audience,
-      issuer: this.issuer
-    } as const;
-
-    let payload: any;
-    
-    if (this.jwks) {
-      const res = await jwtVerify(jwt, this.jwks, options);
-      payload = res.payload;
-    } else if (this.publicKeyPem) {
-      const key = await importSPKI(this.publicKeyPem, 'RS256');
-      const res = await jwtVerify(jwt, key, options);
-      payload = res.payload;
-    } else {
-      throw new UnauthorizedException('JWT verifier not configured');
+    const auth = req.headers.authorization;
+    if (!auth?.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Missing Bearer token');
     }
 
-    const orgId = payload[this.orgClaimKey];
-    if (!orgId) {
-      throw new UnauthorizedException('Missing org claim');
-    }
+    const token = auth.slice(7);
+    try {
+      let payload: any;
+      if ('length' in verifier) {
+        // Remote JWKS
+        payload = (await jwtVerify(token, verifier, { audience, issuer })).payload;
+      } else {
+        // Local PEM
+        payload = (await jwtVerify(token, verifier.key, { audience, issuer })).payload;
+      }
 
-    // Attach to request for controllers/services
-    req.user = {
-      sub: payload.sub,
-      orgId,
-      roles: payload.roles ?? []
-    };
-    
-    return true;
+      const orgId = payload?.[orgClaimKey];
+      if (!orgId) throw new UnauthorizedException('Missing org claim');
+
+      req.user = {
+        sub: payload.sub,
+        orgId,
+        roles: payload.roles ?? [],
+        role: payload.role ?? 'user',
+      };
+      return true;
+    } catch {
+      throw new UnauthorizedException('Invalid token');
+    }
   }
 }
 

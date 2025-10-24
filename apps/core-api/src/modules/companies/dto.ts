@@ -10,6 +10,21 @@ export class CreateCompanyDto {
   @IsOptional()
   @IsString()
   domain?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  website?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  industry?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  size?: string;
 }
 
 export class UpdateCompanyDto {

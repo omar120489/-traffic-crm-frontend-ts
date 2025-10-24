@@ -5,7 +5,7 @@ import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class DealsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async list(orgId: string, query: PaginationQueryDto) {
     const { page, size, search } = query;
@@ -27,7 +27,7 @@ export class DealsService {
         skip,
         take: size,
         orderBy: { createdAt: 'desc' },
-        include: { contact: true, company: true },
+        include: { Contact: true, Company: true },
       }),
       this.prisma.deal.count({ where }),
     ]);
@@ -38,7 +38,7 @@ export class DealsService {
   async get(orgId: string, id: string) {
     const deal = await this.prisma.deal.findFirst({
       where: { id, orgId },
-      include: { contact: true, company: true }
+      include: { Contact: true, Company: true }
     });
     if (!deal) {
       throw new NotFoundException('Deal not found');
@@ -47,7 +47,20 @@ export class DealsService {
   }
 
   create(orgId: string, dto: CreateDealDto) {
-    return this.prisma.deal.create({ data: { ...dto, orgId } });
+    return this.prisma.deal.create({
+      data: {
+        title: dto.title,
+        amountCents: dto.amountCents ?? 0,
+        currency: dto.currency ?? 'USD',
+        closeDate: dto.closeDate,
+        status: dto.status ?? 'open',
+        Org: { connect: { id: orgId } },
+        Stage: { connect: { id: dto.stageId } },
+        ...(dto.ownerId ? { User: { connect: { id: dto.ownerId } } } : {}),
+        ...(dto.contactId ? { Contact: { connect: { id: dto.contactId } } } : {}),
+        ...(dto.companyId ? { Company: { connect: { id: dto.companyId } } } : {}),
+      },
+    });
   }
 
   async update(orgId: string, id: string, dto: UpdateDealDto) {

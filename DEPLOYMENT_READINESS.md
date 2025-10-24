@@ -32,7 +32,7 @@
 
 - [ ] Rule for `main` with required checks:
   `ci-complete`, `pr-title-check`, `typecheck-and-build`, `lint`, `test`, `security-audit`, `markdownlint`  
-  + Require 1 review, resolve conversations, linear history
+  - Require 1 review, resolve conversations, linear history
 
 ### 4) Dependabot (Recommended)
 
@@ -173,4 +173,3 @@ cd apps/frontend && pnpm test:e2e
 ---
 
 **Next Action**: Add NPM_TOKEN secret and enable branch protection, then you're 100% production-ready! 🚀
-

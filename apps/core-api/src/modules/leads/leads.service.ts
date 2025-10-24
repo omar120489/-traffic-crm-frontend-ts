@@ -5,7 +5,7 @@ import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class LeadsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async list(orgId: string, query: PaginationQueryDto) {
     const { page, size, search } = query;
@@ -27,7 +27,7 @@ export class LeadsService {
         skip,
         take: size,
         orderBy: { createdAt: 'desc' },
-        include: { contact: true },
+        include: { Contact: true },
       }),
       this.prisma.lead.count({ where }),
     ]);
@@ -38,7 +38,7 @@ export class LeadsService {
   async get(orgId: string, id: string) {
     const lead = await this.prisma.lead.findFirst({
       where: { id, orgId },
-      include: { contact: true }
+      include: { Contact: true }
     });
     if (!lead) {
       throw new NotFoundException('Lead not found');
@@ -47,7 +47,17 @@ export class LeadsService {
   }
 
   create(orgId: string, dto: CreateLeadDto) {
-    return this.prisma.lead.create({ data: { ...dto, orgId } });
+    return this.prisma.lead.create({
+      data: {
+        status: dto.status ?? 'new',
+        score: dto.score ?? 0,
+        notes: dto.notes,
+        Org: { connect: { id: orgId } },
+        ...(dto.contactId ? { Contact: { connect: { id: dto.contactId } } } : {}),
+        ...(dto.sourceId ? { LeadSource: { connect: { id: dto.sourceId } } } : {}),
+        ...(dto.ownerId ? { User: { connect: { id: dto.ownerId } } } : {}),
+      },
+    });
   }
 
   async update(orgId: string, id: string, dto: UpdateLeadDto) {

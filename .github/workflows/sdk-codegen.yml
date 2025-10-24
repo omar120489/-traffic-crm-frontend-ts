@@ -1,0 +1,119 @@
+name: SDK Codegen
+
+on:
+    pull_request:
+        paths:
+            - "apps/core-api/src/**"
+            - "apps/core-api/prisma/**"
+    push:
+        branches: [main]
+        paths:
+            - "apps/core-api/src/**"
+            - "apps/core-api/prisma/**"
+
+permissions:
+    contents: read
+    pull-requests: write
+
+jobs:
+    codegen:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "pnpm"
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Generate Prisma Client
+              run: pnpm --filter @apps/core-api prisma:generate
+
+            - name: Build Core API
+              run: pnpm --filter @apps/core-api build
+
+            - name: Start Core API (background)
+              run: |
+                  pnpm --filter @apps/core-api start &
+                  sleep 10
+              env:
+                  DATABASE_URL: postgresql://test:test@localhost:5432/test
+                  NODE_ENV: test
+
+            - name: Emit OpenAPI Spec
+              run: pnpm --filter @apps/core-api openapi:emit
+
+            - name: Generate SDK Types
+              run: pnpm --filter @traffic-crm/sdk-js codegen
+
+            - name: Build SDK
+              run: pnpm --filter @traffic-crm/sdk-js build
+
+            - name: Check for SDK drift
+              id: sdk-drift
+              run: |
+                  if git diff --exit-code packages/sdk-js/src/types.gen.ts packages/sdk-js/dist; then
+                    echo "drift=false" >> $GITHUB_OUTPUT
+                    echo "✅ SDK is in sync with OpenAPI spec"
+                  else
+                    echo "drift=true" >> $GITHUB_OUTPUT
+                    echo "❌ SDK drift detected!"
+                    echo ""
+                    echo "Changed files:"
+                    git diff --name-only packages/sdk-js
+                    echo ""
+                    echo "Run locally:"
+                    echo "  pnpm dev:sdk"
+                    echo "  git add packages/sdk-js"
+                    echo "  git commit -m 'chore: regenerate SDK types'"
+                  fi
+
+            - name: Comment on PR if SDK drifted
+              if: steps.sdk-drift.outputs.drift == 'true' && github.event_name == 'pull_request'
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      github.rest.issues.createComment({
+                        issue_number: context.issue.number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: `## ⚠️ SDK Drift Detected
+
+                      The OpenAPI spec has changed, but the SDK types are out of sync.
+
+                      **To fix:**
+                      \`\`\`bash
+                      pnpm dev:sdk
+                      git add packages/sdk-js
+                      git commit -m "chore: regenerate SDK types"
+                      git push
+                      \`\`\`
+
+                      **Changed files:**
+                      \`\`\`
+                      ${await exec.getExecOutput('git', ['diff', '--name-only', 'packages/sdk-js']).then(r => r.stdout)}
+                      \`\`\`
+
+                      This check will fail until the SDK is regenerated and committed.`
+                      })
+
+            - name: Fail if SDK drifted
+              if: steps.sdk-drift.outputs.drift == 'true'
+              run: |
+                  echo "::error::SDK drift detected. Run 'pnpm dev:sdk' and commit the changes."
+                  exit 1
+
+            - name: Upload OpenAPI Spec
+              uses: actions/upload-artifact@v4
+              with:
+                  name: openapi-spec
+                  path: apps/core-api/openapi.json
+                  retention-days: 7

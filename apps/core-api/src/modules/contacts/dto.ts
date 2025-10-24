@@ -6,10 +6,9 @@ export class CreateContactDto {
   @IsString()
   name!: string;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
+  @ApiProperty()
   @IsEmail()
-  email?: string;
+  email!: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
@@ -19,7 +18,22 @@ export class CreateContactDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
+  title?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
   companyId?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  ownerId?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  source?: string;
 
   @ApiProperty()
   @IsString()

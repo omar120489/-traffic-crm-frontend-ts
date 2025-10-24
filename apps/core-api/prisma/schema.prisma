@@ -1,85 +1,290 @@
+// ------------------------------------------------------------
+// Prisma schema for Traffic CRM — Full Domain (Sprint 2)
+// Matches service includes: Company, Contact, Stage, User, Tag, LeadSource
+// Uses cuid() IDs, createdAt, updatedAt
+// ------------------------------------------------------------
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model Org {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
+  slug      String   @unique
   name      String
-  users     User[]
-  contacts  Contact[]
-  companies Company[]
-  leads     Lead[]
-  deals     Deal[]
-  createdAt DateTime  @default(now())
+  plan      String   @default("free")
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Users          User[]
+  Companies      Company[]
+  Contacts       Contact[]
+  Deals          Deal[]
+  Pipelines      Pipeline[]
+  Stages         Stage[]
+  Leads          Lead[]
+  LeadSources    LeadSource[]
+  Activities     Activity[]
+  Tags           Tag[]
+  TagAssignments TagAssignment[]
+
+  @@index([slug])
 }
 
 model User {
-  id        String   @id @default(cuid())
-  orgId     String
-  org       Org      @relation(fields: [orgId], references: [id])
-  email     String   @unique
-  name      String
-  role      String
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  email  String @unique
+  name   String
+  role   String @default("user") // admin|manager|user|viewer
+  status String @default("active")
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // reverse relations
+  OwnedContacts      Contact[]
+  OwnedLeads         Lead[]
+  OwnedDeals         Deal[]
+  AuthoredActivities Activity[]
 }
 
 model Company {
-  id        String    @id @default(cuid())
-  orgId     String
-  org       Org       @relation(fields: [orgId], references: [id])
-  name      String
-  domain    String?
-  contacts  Contact[]
-  deals     Deal[]
-  createdAt DateTime  @default(now())
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  name     String
+  domain   String?
+  size     String? // "1-10", etc.
+  industry String?
+  website  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Contacts Contact[]
+  Deals    Deal[]
+
+  @@index([orgId])
+  @@index([domain])
 }
 
 model Contact {
-  id        String   @id @default(cuid())
-  orgId     String
-  org       Org      @relation(fields: [orgId], references: [id])
-  name      String
-  email     String?
-  phone     String?
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  name  String
+  email String  @unique
+  phone String?
+  title String?
+
   companyId String?
-  company   Company? @relation(fields: [companyId], references: [id])
-  leads     Lead[]
-  deals     Deal[]
+  Company   Company? @relation(fields: [companyId], references: [id])
+
+  ownerId String?
+  User    User?   @relation(fields: [ownerId], references: [id]) // owner
+
+  source String? // simple source on contact; leads have LeadSource
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Deals Deal[]
+  Leads Lead[]
+
+  @@index([orgId])
+  @@index([companyId])
+  @@index([ownerId])
+}
+
+model LeadSource {
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  name String
+  type String // "web", "ad", "event", ...
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Leads Lead[]
+
+  @@unique([orgId, name])
+  @@index([orgId])
 }
 
 model Lead {
-  id        String   @id @default(cuid())
-  orgId     String
-  org       Org      @relation(fields: [orgId], references: [id])
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
   contactId String?
-  contact   Contact? @relation(fields: [contactId], references: [id])
-  source    String?
-  status    String   @default("new")
-  score     Int      @default(0)
-  ownerId   String?
+  Contact   Contact? @relation(fields: [contactId], references: [id])
+
+  sourceId   String?
+  LeadSource LeadSource? @relation(fields: [sourceId], references: [id])
+
+  status String @default("new") // new|qualified|disqualified|converted
+  score  Int    @default(0)
+
+  ownerId String?
+  User    User?   @relation(fields: [ownerId], references: [id])
+
+  notes String?
+
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([contactId])
+  @@index([sourceId])
+  @@index([ownerId])
+}
+
+model Pipeline {
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  name      String
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Stage Stage[] // capitalized so include: { Stage: true } works
+
+  @@unique([orgId, name])
+  @@index([orgId])
+}
+
+model Stage {
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  pipelineId String
+  Pipeline   Pipeline @relation(fields: [pipelineId], references: [id])
+
+  name        String
+  order       Int
+  probability Int    @default(0) // 0..100
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Deals Deal[]
+
+  @@unique([pipelineId, name])
+  @@index([orgId])
+  @@index([pipelineId])
 }
 
 model Deal {
-  id          String   @id @default(cuid())
-  orgId       String
-  org         Org      @relation(fields: [orgId], references: [id])
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
   title       String
-  amountCents Int      @default(0)
-  currency    String   @default("USD")
-  stage       String   @default("new")
-  ownerId     String?
-  contactId   String?
-  contact     Contact? @relation(fields: [contactId], references: [id])
-  companyId   String?
-  company     Company? @relation(fields: [companyId], references: [id])
-  closeDate   DateTime?
-  createdAt   DateTime @default(now())
+  amountCents Int    @default(0)
+  currency    String @default("USD")
+
+  stageId String
+  Stage   Stage  @relation(fields: [stageId], references: [id])
+
+  ownerId String?
+  User    User?   @relation(fields: [ownerId], references: [id])
+
+  contactId String?
+  Contact   Contact? @relation(fields: [contactId], references: [id])
+
+  companyId String?
+  Company   Company? @relation(fields: [companyId], references: [id])
+
+  status    String    @default("open")
+  closeDate DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([stageId])
+  @@index([ownerId])
+  @@index([contactId])
+  @@index([companyId])
 }
 
+model Activity {
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  type       String // note|call|email|meeting|task
+  entityType String // "lead" | "deal" | "contact" | "company"
+  entityId   String
+
+  authorId String
+  User     User   @relation(fields: [authorId], references: [id])
+
+  subject     String?
+  body        String?
+  dataJson    Json?
+  dueAt       DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orgId])
+  @@index([entityType, entityId])
+  @@index([authorId])
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  name  String
+  color String? // hex
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  TagAssignments TagAssignment[]
+
+  @@unique([orgId, name])
+  @@index([orgId])
+}
+
+model TagAssignment {
+  id    String @id @default(cuid())
+  orgId String
+  Org   Org    @relation(fields: [orgId], references: [id])
+
+  tagId String
+  Tag   Tag    @relation(fields: [tagId], references: [id])
+
+  // polymorphic reference
+  entityType String // "contact" | "company" | "deal" | "lead"
+  entityId   String
+
+  // Optional explicit FK some codepaths may expect (seen in typings)
+  contactId String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([tagId, entityType, entityId])
+  @@index([orgId])
+  @@index([entityType, entityId])
+}

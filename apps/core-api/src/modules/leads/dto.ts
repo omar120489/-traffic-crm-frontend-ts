@@ -10,7 +10,7 @@ export class CreateLeadDto {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  source?: string;
+  sourceId?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
@@ -26,6 +26,11 @@ export class CreateLeadDto {
   @IsOptional()
   @IsString()
   ownerId?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  notes?: string;
 }
 
 export class UpdateLeadDto extends CreateLeadDto {}

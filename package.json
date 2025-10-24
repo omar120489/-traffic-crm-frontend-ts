@@ -2,6 +2,10 @@
   "name": "traffic-crm",
   "private": true,
   "packageManager": "pnpm@10.18.2",
+  "engines": {
+    "node": ">=20.0.0 <21.0.0",
+    "pnpm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "pnpm -r --parallel --filter ./apps/* run dev",
     "build": "pnpm -r --filter ./apps/* run build",
@@ -15,10 +19,12 @@
     "lint:md": "markdownlint-cli2",
     "lint:md:fix": "markdownlint-cli2 --fix",
     "db:up": "docker compose -f infra/docker/docker-compose.yml up -d postgres",
-    "db:migrate": "pnpm --filter @apps/core-api prisma:migrate",
+    "db:migrate": "pnpm --filter @apps/core-api prisma:push",
     "db:seed": "pnpm --filter @apps/core-api db:seed",
     "dev:jwt": "node apps/core-api/scripts/make-dev-jwt.mjs",
     "sdk:gen": "pnpm --filter @sdk-js/core gen",
+    "dev:sdk": "pnpm --filter @apps/core-api openapi:emit && pnpm --filter @traffic-crm/sdk-js codegen && pnpm --filter @traffic-crm/sdk-js build",
+    "greenlight": "bash scripts/sprint2-greenlight.sh",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -27,6 +33,7 @@
     "glob": "^11.0.3",
     "husky": "^9.1.7",
     "markdownlint-cli2": "^0.18.1",
-    "markdownlint-rule-search-replace": "^1.2.0"
+    "markdownlint-rule-search-replace": "^1.2.0",
+    "tsx": "^4.20.6"
   }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=18 <21",
+    "node": ">=20.0.0 <21.0.0",
     "npm": ">=9"
   },
   "scripts": {
@@ -36,7 +36,7 @@
     "verify:all": "pnpm run lint && pnpm typecheck && pnpm test --run && pnpm build"
   },
   "dependencies": {
-    "@sdk-js/core": "workspace:*",
+    "@traffic-crm/sdk-js": "workspace:*",
     "@shared-types": "workspace:*",
     "@auth0/auth0-react": "2.5.0",
     "@emotion/cache": "11.14.0",

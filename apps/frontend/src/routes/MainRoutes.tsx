@@ -19,6 +19,11 @@ const PnLAnalyticsPage = Loadable(lazy(() => import('@/views/analytics/PnLAnalyt
 const NotificationsPage = Loadable(lazy(() => import('@/views/notifications/Notifications')));
 const ChatPage = Loadable(lazy(() => import('@/views/apps/chat/ChatPage')));
 
+// Sprint 2 pages
+const ContactsListPageNew = Loadable(lazy(() => import('@/pages/contacts/ContactsListPage')));
+const ContactDetailPage = Loadable(lazy(() => import('@/pages/contacts/ContactDetailPage')));
+const PipelinesPage = Loadable(lazy(() => import('@/pages/settings/PipelinesPage')));
+
 const MainRoutes: RouteObject = {
   path: '/',
   element: (
@@ -57,11 +62,19 @@ const MainRoutes: RouteObject = {
     },
     {
       path: '/contacts',
-      element: <ContactsListPage />,
+      element: <ContactsListPageNew />,
+    },
+    {
+      path: '/contacts/:id',
+      element: <ContactDetailPage />,
     },
     {
       path: '/companies',
       element: <CompaniesListPage />,
+    },
+    {
+      path: '/settings/pipelines',
+      element: <PipelinesPage />,
     },
     {
       path: '/analytics',

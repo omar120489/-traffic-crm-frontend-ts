@@ -64,5 +64,38 @@ export function createClient(opts:{
     createCompany:(b:any)=>http.post('companies',{json:b}).json<any>(),
     updateCompany:(id:string,b:any)=>http.patch(`companies/${id}`,{json:b}).json<any>(),
     deleteCompany:(id:string)=>http.delete(`companies/${id}`).json<any>(),
+
+    // Pipelines
+    listPipelines:(orgId:string)=>http.get('pipelines',{searchParams:{orgId}}).json<any>(),
+    getPipeline:(id:string)=>http.get(`pipelines/${id}`).json<any>(),
+    createPipeline:(b:any)=>http.post('pipelines',{json:b}).json<any>(),
+    updatePipeline:(id:string,b:any)=>http.patch(`pipelines/${id}`,{json:b}).json<any>(),
+    deletePipeline:(id:string)=>http.delete(`pipelines/${id}`).json<any>(),
+
+    // Stages
+    listStages:(pipelineId:string)=>http.get('stages',{searchParams:{pipelineId}}).json<any>(),
+    createStage:(b:any)=>http.post('stages',{json:b}).json<any>(),
+    updateStage:(id:string,b:any)=>http.patch(`stages/${id}`,{json:b}).json<any>(),
+    deleteStage:(id:string)=>http.delete(`stages/${id}`).json<any>(),
+    reorderStages:(pipelineId:string,stageIds:string[])=>http.put('stages/reorder',{json:{pipelineId,stageIds}}).json<any>(),
+
+    // Activities
+    listActivities:(entityType:string,entityId:string)=>http.get('activities',{searchParams:{entityType,entityId}}).json<any>(),
+    getActivity:(id:string)=>http.get(`activities/${id}`).json<any>(),
+    createActivity:(b:any)=>http.post('activities',{json:b}).json<any>(),
+    updateActivity:(id:string,b:any)=>http.patch(`activities/${id}`,{json:b}).json<any>(),
+    deleteActivity:(id:string)=>http.delete(`activities/${id}`).json<any>(),
+
+    // Tags
+    listTags:(orgId:string)=>http.get('tags',{searchParams:{orgId}}).json<any>(),
+    createTag:(b:any)=>http.post('tags',{json:b}).json<any>(),
+    updateTag:(id:string,b:any)=>http.patch(`tags/${id}`,{json:b}).json<any>(),
+    deleteTag:(id:string)=>http.delete(`tags/${id}`).json<any>(),
+    assignTag:(b:{tagId:string;entityType:string;entityId:string})=>http.post('tags/assign',{json:b}).json<any>(),
+    unassignTag:(assignmentId:string)=>http.delete(`tags/assign/${assignmentId}`).json<any>(),
+    getEntityTags:(entityType:string,entityId:string)=>http.get('tags/entity',{searchParams:{entityType,entityId}}).json<any>(),
   };
 }
+
+// Re-export types if generated
+export type * from './types.gen';

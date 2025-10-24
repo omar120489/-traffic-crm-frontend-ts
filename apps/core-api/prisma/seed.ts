@@ -2,132 +2,194 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// org claim your JWT will use in dev
-const ORG_ID = process.env.SEED_ORG_ID ?? 'demo-org';
-
 async function main() {
   console.log('🌱 Seeding database...');
 
+  // 1. Create org
   const org = await prisma.org.upsert({
-    where: { id: ORG_ID },
-    update: {},
-    create: { id: ORG_ID, name: 'Demo Org' },
-  });
-  console.log(`✅ Org: ${org.name} (${org.id})`);
-
-  const acme = await prisma.company.upsert({
-    where: { id: 'cmp-acme' },
+    where: { slug: 'acme' },
     update: {},
     create: {
-      id: 'cmp-acme',
-      orgId: org.id,
+      slug: 'acme',
       name: 'Acme Inc.',
-      domain: 'acme.com',
+      plan: 'pro',
+      status: 'active',
     },
   });
-  console.log(`✅ Company: ${acme.name}`);
+  console.log('✅ Org:', org.name);
 
-  const john = await prisma.contact.upsert({
-    where: { id: 'ct-john' },
+  // 2. Create admin user
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@acme.io' },
     update: {},
     create: {
-      id: 'ct-john',
-      orgId: org.id,
-      name: 'John Doe',
-      email: 'john.doe@acme.com',
-      phone: '+1-555-0100',
-      companyId: acme.id,
+      email: 'admin@acme.io',
+      name: 'Admin User',
+      Org: { connect: { id: org.id } },
+      role: 'admin',
+      status: 'active',
     },
   });
-  console.log(`✅ Contact: ${john.name} (${john.email})`);
+  console.log('✅ User:', admin.email);
 
-  const jane = await prisma.contact.upsert({
-    where: { id: 'ct-jane' },
-    update: {},
-    create: {
-      id: 'ct-jane',
-      orgId: org.id,
-      name: 'Jane Smith',
-      email: 'jane.smith@acme.com',
-      phone: '+1-555-0101',
-      companyId: acme.id,
+  // 3. Create sales pipeline with stages
+  const pipeline = await prisma.pipeline.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      name: 'Sales Pipeline',
+      isDefault: true,
     },
   });
-  console.log(`✅ Contact: ${jane.name} (${jane.email})`);
 
-  const lead1 = await prisma.lead.upsert({
-    where: { id: 'ld-001' },
-    update: {},
-    create: {
-      id: 'ld-001',
-      orgId: org.id,
-      contactId: john.id,
-      status: 'new',
-      source: 'website',
-      score: 75,
+  const [prospecting] = await Promise.all([
+    prisma.stage.create({
+      data: {
+        Org: { connect: { id: org.id } },
+        Pipeline: { connect: { id: pipeline.id } },
+        name: 'Prospecting',
+        order: 1,
+        probability: 10,
+      },
+    }),
+    prisma.stage.create({
+      data: {
+        Org: { connect: { id: org.id } },
+        Pipeline: { connect: { id: pipeline.id } },
+        name: 'Proposal',
+        order: 2,
+        probability: 40,
+      },
+    }),
+    prisma.stage.create({
+      data: {
+        Org: { connect: { id: org.id } },
+        Pipeline: { connect: { id: pipeline.id } },
+        name: 'Negotiation',
+        order: 3,
+        probability: 70,
+      },
+    }),
+    prisma.stage.create({
+      data: {
+        Org: { connect: { id: org.id } },
+        Pipeline: { connect: { id: pipeline.id } },
+        name: 'Closed Won',
+        order: 4,
+        probability: 100,
+      },
+    }),
+  ]);
+  console.log('✅ Pipeline:', pipeline.name, 'with', 4, 'stages');
+
+  // 4. Create lead source
+  const webSource = await prisma.leadSource.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      name: 'Website Form',
+      type: 'web',
     },
   });
-  console.log(`✅ Lead: From ${john.name} (${lead1.status})`);
+  console.log('✅ Lead Source:', webSource.name);
 
-  const lead2 = await prisma.lead.upsert({
-    where: { id: 'ld-002' },
-    update: {},
-    create: {
-      id: 'ld-002',
-      orgId: org.id,
-      contactId: jane.id,
-      status: 'new',
-      source: 'referral',
+  // 5. Create company
+  const company = await prisma.company.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      name: 'Globex Corporation',
+      domain: 'globex.com',
+      size: '51-200',
+      industry: 'Technology',
+      website: 'https://globex.com',
+    },
+  });
+  console.log('✅ Company:', company.name);
+
+  // 6. Create contact
+  const contact = await prisma.contact.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      name: 'Hannah Lee',
+      email: 'hannah@globex.com',
+      phone: '+1-555-0123',
+      title: 'VP of Sales',
+      Company: { connect: { id: company.id } },
+      User: { connect: { id: admin.id } },
+      source: 'web',
+    },
+  });
+  console.log('✅ Contact:', contact.name);
+
+  // 7. Create lead
+  const lead = await prisma.lead.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      Contact: { connect: { id: contact.id } },
+      LeadSource: { connect: { id: webSource.id } },
+      status: 'qualified',
       score: 85,
+      User: { connect: { id: admin.id } },
+      notes: 'High-value prospect, interested in enterprise plan',
     },
   });
-  console.log(`✅ Lead: From ${jane.name} (${lead2.status})`);
+  console.log('✅ Lead:', lead.id, '(score:', lead.score + ')');
 
-  const deal1 = await prisma.deal.upsert({
-    where: { id: 'dl-001' },
-    update: {},
-    create: {
-      id: 'dl-001',
-      orgId: org.id,
-      title: 'Acme Pilot Project',
-      amountCents: 1200000,
+  // 8. Create deal
+  const deal = await prisma.deal.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      title: 'Globex Annual Subscription',
+      amountCents: 1200000, // $12,000
       currency: 'USD',
-      companyId: acme.id,
-      stage: 'new',
+      Stage: { connect: { id: prospecting.id } },
+      User: { connect: { id: admin.id } },
+      Contact: { connect: { id: contact.id } },
+      Company: { connect: { id: company.id } },
+      status: 'open',
     },
   });
-  console.log(`✅ Deal: ${deal1.title} ($${deal1.amountCents / 100})`);
+  console.log('✅ Deal:', deal.title, '($' + deal.amountCents! / 100 + ')');
 
-  const deal2 = await prisma.deal.upsert({
-    where: { id: 'dl-002' },
-    update: {},
-    create: {
-      id: 'dl-002',
-      orgId: org.id,
-      title: 'Enterprise Package',
-      amountCents: 5000000,
-      currency: 'USD',
-      companyId: acme.id,
-      stage: 'new',
+  // 9. Create activity
+  await prisma.activity.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      type: 'note',
+      entityType: 'deal',
+      entityId: deal.id,
+      User: { connect: { id: admin.id } },
+      subject: 'Initial contact',
+      body: 'Had a great intro call. They are very interested in our enterprise features.',
     },
   });
-  console.log(`✅ Deal: ${deal2.title} ($${deal2.amountCents / 100})`);
+  console.log('✅ Activity created');
 
-  console.log('\n✅ Seed complete for org:', org.id);
-  console.log('\n📊 Summary:');
-  console.log(`   - 1 Org`);
-  console.log(`   - 1 Company`);
-  console.log(`   - 2 Contacts`);
-  console.log(`   - 2 Leads`);
-  console.log(`   - 2 Deals`);
+  // 10. Create tags
+  const hotTag = await prisma.tag.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      name: 'Hot Lead',
+      color: '#f44336',
+    },
+  });
+
+  await prisma.tagAssignment.create({
+    data: {
+      Org: { connect: { id: org.id } },
+      Tag: { connect: { id: hotTag.id } },
+      entityType: 'contact',
+      entityId: contact.id,
+    },
+  });
+  console.log('✅ Tag:', hotTag.name);
+
+  console.log('\n🎉 Seed complete!');
 }
 
 main()
   .catch((e) => {
     console.error('❌ Seed failed:', e);
-    process.exit(1);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await prisma.$disconnect();
   });
-

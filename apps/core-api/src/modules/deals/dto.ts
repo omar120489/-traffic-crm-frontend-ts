@@ -17,10 +17,14 @@ export class CreateDealDto {
   @IsString()
   currency?: string;
 
+  @ApiProperty()
+  @IsString()
+  stageId!: string;
+
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  stage?: string;
+  status?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()

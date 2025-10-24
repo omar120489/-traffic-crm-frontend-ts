@@ -15,6 +15,10 @@ const contacts_module_1 = require("./modules/contacts/contacts.module");
 const companies_module_1 = require("./modules/companies/companies.module");
 const leads_module_1 = require("./modules/leads/leads.module");
 const deals_module_1 = require("./modules/deals/deals.module");
+const pipelines_module_1 = require("./modules/pipelines/pipelines.module");
+const stages_module_1 = require("./modules/stages/stages.module");
+const activities_module_1 = require("./modules/activities/activities.module");
+const tags_module_1 = require("./modules/tags/tags.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -27,7 +31,11 @@ exports.AppModule = AppModule = __decorate([
             contacts_module_1.ContactsModule,
             companies_module_1.CompaniesModule,
             leads_module_1.LeadsModule,
-            deals_module_1.DealsModule
+            deals_module_1.DealsModule,
+            pipelines_module_1.PipelinesModule,
+            stages_module_1.StagesModule,
+            activities_module_1.ActivitiesModule,
+            tags_module_1.TagsModule,
         ]
     })
 ], AppModule);
