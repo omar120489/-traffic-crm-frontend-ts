@@ -143,7 +143,9 @@ export default [
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true
-        }
+        },
+        // Use Sprint 2 tsconfig for faster linting (only checks typed code)
+        project: ['./tsconfig.sprint2.json']
       }
     },
     plugins: {
