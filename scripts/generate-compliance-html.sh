@@ -1,6 +1,7 @@
 #!/bin/bash
-# Generate PDF Compliance Bundle
-# Combines all security documentation into a single audit-ready PDF
+# Generate HTML Compliance Bundle
+# Combines all security documentation into a single audit-ready HTML file
+# Can be printed to PDF from any browser (File → Print → Save as PDF)
 
 set -euo pipefail
 
@@ -14,7 +15,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${BLUE}📄 Traffic CRM - Compliance Bundle PDF Generator${NC}"
+echo -e "${BLUE}📄 Traffic CRM - Compliance Bundle HTML Generator${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
@@ -38,7 +39,7 @@ echo -e "${GREEN}✅ Pandoc found: $(pandoc --version | head -n1)${NC}"
 echo ""
 
 # Define output file
-OUTPUT_FILE="Traffic_CRM_Security_Compliance_Bundle_$(date +%Y-%m-%d).pdf"
+OUTPUT_FILE="Traffic_CRM_Security_Compliance_Bundle_$(date +%Y-%m-%d).html"
 
 # Define source files
 SOURCES=(
@@ -66,35 +67,127 @@ done
 
 if [ $MISSING -gt 0 ]; then
     echo ""
-    echo -e "${YELLOW}❌ Missing $MISSING file(s). Cannot generate PDF.${NC}"
+    echo -e "${YELLOW}❌ Missing $MISSING file(s). Cannot generate HTML.${NC}"
     exit 1
 fi
 
 echo ""
-echo -e "${BLUE}📦 Generating PDF bundle...${NC}"
+echo -e "${BLUE}📦 Generating HTML bundle...${NC}"
 
-# Generate PDF with pandoc (using wkhtmltopdf for simpler setup)
+# Generate HTML with pandoc
 pandoc \
     "${SOURCES[@]}" \
     -o "$OUTPUT_FILE" \
     --toc \
     --toc-depth=3 \
     --number-sections \
-    -V geometry:margin=1in \
-    -V linkcolor:blue \
-    -V urlcolor:blue \
-    -V toccolor:blue \
-    -V papersize:letter \
-    -V fontsize:11pt \
+    --standalone \
+    --self-contained \
+    --css=<(cat <<'EOF'
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #2c3e50;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+h1 { font-size: 2em; border-bottom: 2px solid #eaecef; padding-bottom: 0.3em; }
+h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+code {
+    background-color: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 85%;
+}
+pre {
+    background-color: #f6f8fa;
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+}
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+}
+th, td {
+    border: 1px solid #dfe2e5;
+    padding: 8px 12px;
+    text-align: left;
+}
+th {
+    background-color: #f6f8fa;
+    font-weight: 600;
+}
+tr:nth-child(even) {
+    background-color: #f6f8fa;
+}
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding-left: 16px;
+    color: #6a737d;
+    margin: 16px 0;
+}
+#TOC {
+    background-color: #f6f8fa;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+#TOC ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+#TOC > ul {
+    padding-left: 0;
+}
+#TOC a {
+    color: #0366d6;
+}
+@media print {
+    body {
+        max-width: 100%;
+        padding: 0;
+    }
+    #TOC {
+        page-break-after: always;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+    pre, table {
+        page-break-inside: avoid;
+    }
+}
+EOF
+) \
     --metadata title="Traffic CRM - Security & Compliance Bundle" \
     --metadata author="Engineering Team" \
     --metadata date="$(date +%Y-%m-%d)" \
-    --metadata subject="Security Audit & Compliance Documentation" \
-    --metadata keywords="security,compliance,audit,openssf,github,owasp"
+    --metadata description="Security Audit & Compliance Documentation"
 
 if [ $? -eq 0 ]; then
     echo ""
-    echo -e "${GREEN}✅ PDF generated successfully!${NC}"
+    echo -e "${GREEN}✅ HTML generated successfully!${NC}"
     echo ""
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${GREEN}📄 Compliance Bundle Details${NC}"
@@ -102,7 +195,6 @@ if [ $? -eq 0 ]; then
     echo ""
     echo -e "  ${BLUE}File:${NC} $OUTPUT_FILE"
     echo -e "  ${BLUE}Size:${NC} $(du -h "$OUTPUT_FILE" | cut -f1)"
-    echo -e "  ${BLUE}Pages:${NC} ~$(pdfinfo "$OUTPUT_FILE" 2>/dev/null | grep Pages | awk '{print $2}' || echo 'N/A')"
     echo -e "  ${BLUE}Date:${NC} $(date +"%Y-%m-%d %H:%M:%S")"
     echo ""
     echo -e "${BLUE}📚 Included Documents:${NC}"
@@ -114,15 +206,17 @@ if [ $? -eq 0 ]; then
     echo -e "${GREEN}🎉 Ready for distribution!${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo -e "${YELLOW}📤 Next Steps:${NC}"
-    echo "  1. Review the PDF: open $OUTPUT_FILE"
-    echo "  2. Distribute to stakeholders (Engineering, Security, Compliance)"
-    echo "  3. Archive for audit purposes"
-    echo "  4. Schedule next quarterly review"
+    echo -e "${YELLOW}📤 To convert to PDF:${NC}"
+    echo "  1. Open in browser: open $OUTPUT_FILE"
+    echo "  2. Print (Cmd+P or Ctrl+P)"
+    echo "  3. Save as PDF"
+    echo ""
+    echo -e "${YELLOW}   Or use this command (if wkhtmltopdf installed):${NC}"
+    echo "     wkhtmltopdf $OUTPUT_FILE ${OUTPUT_FILE%.html}.pdf"
     echo ""
 else
     echo ""
-    echo -e "${YELLOW}❌ PDF generation failed. Check errors above.${NC}"
+    echo -e "${YELLOW}❌ HTML generation failed. Check errors above.${NC}"
     exit 1
 fi
 
