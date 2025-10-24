@@ -10,11 +10,11 @@ import {
 } from '@mui/material';
 
 export interface ActivityDialogProps {
-  open: boolean;
-  onClose: () => void;
-  onSave: (data: ActivityFormData) => Promise<void>;
-  entityType: 'contact' | 'company' | 'lead' | 'deal';
-  entityId: string;
+  readonly open: boolean;
+  readonly onClose: () => void;
+  readonly onSave: (data: ActivityFormData) => Promise<void>;
+  readonly entityType: 'contact' | 'company' | 'lead' | 'deal';
+  readonly entityId: string;
 }
 
 export interface ActivityFormData {

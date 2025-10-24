@@ -3,8 +3,8 @@
  * Emit OpenAPI spec from running NestJS app
  * Usage: node scripts/emit-openapi.mjs
  */
-import { writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const API_URL = process.env.API_URL || 'http://localhost:3000';
 const OUTPUT = resolve(process.cwd(), 'openapi.json');

@@ -4,7 +4,8 @@
  */
 
 export function authHeader(): Record<string, string> {
-  const token = localStorage.getItem('access_token');
+  if (typeof globalThis.window === 'undefined') return {};
+  const token = globalThis.localStorage.getItem('access_token');
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
@@ -27,7 +28,9 @@ export async function http<T>(url: string, init: RequestInit = {}): Promise<T> {
 }
 
 export function logout() {
-  localStorage.removeItem('access_token');
-  window.location.assign('/login');
+  if (typeof globalThis.window !== 'undefined') {
+    globalThis.localStorage.removeItem('access_token');
+    globalThis.window.location.assign('/login');
+  }
 }
 

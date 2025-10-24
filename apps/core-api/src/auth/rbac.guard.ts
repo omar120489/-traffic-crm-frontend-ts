@@ -16,7 +16,7 @@ export const RequirePermission = (permission: Permission) => SetMetadata(PERMISS
  */
 @Injectable()
 export class RbacGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
     const requiredPermission = this.reflector.get<Permission>(PERMISSION_KEY, context.getHandler());

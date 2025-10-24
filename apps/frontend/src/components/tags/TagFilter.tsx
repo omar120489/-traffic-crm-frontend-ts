@@ -10,9 +10,9 @@ interface Tag {
 }
 
 export interface TagFilterProps {
-  selectedTags: string[];
-  onTagsChange: (tagIds: string[]) => void;
-  orgId: string;
+  readonly selectedTags: string[];
+  readonly onTagsChange: (tagIds: string[]) => void;
+  readonly orgId: string;
 }
 
 export function TagFilter({ selectedTags, onTagsChange, orgId }: TagFilterProps) {

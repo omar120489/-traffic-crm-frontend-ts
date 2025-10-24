@@ -147,7 +147,7 @@ async function main() {
       status: 'open',
     },
   });
-  console.log('✅ Deal:', deal.title, '($' + deal.amountCents! / 100 + ')');
+  console.log('✅ Deal:', deal.title, '($' + (deal.amountCents ?? 0) / 100 + ')');
 
   // 9. Create activity
   await prisma.activity.create({

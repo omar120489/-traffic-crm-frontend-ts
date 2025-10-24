@@ -39,11 +39,12 @@ jobs:
               working-directory: packages/sdk-js
               run: pnpm build
 
+            - name: Configure npm auth
+              run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
             - name: Publish to npm
               run: npm publish --provenance --access public
               working-directory: packages/sdk-js
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Comment on release
               uses: actions/github-script@v7
