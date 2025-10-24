@@ -1,0 +1,43 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^fastify$", "^@fastify/"],
+      "groupName": "fastify-core-and-plugins",
+      "stabilityDays": 2,
+      "automerge": false,
+      "labels": ["dependencies", "fastify"],
+      "reviewers": ["@omar120489"]
+    },
+    {
+      "matchPackagePatterns": ["^@nestjs/"],
+      "groupName": "nestjs-core-and-modules",
+      "stabilityDays": 2,
+      "automerge": false,
+      "labels": ["dependencies", "nestjs"]
+    },
+    {
+      "matchPackagePatterns": ["^@mui/", "^@emotion/"],
+      "groupName": "mui-and-emotion",
+      "stabilityDays": 1,
+      "automerge": false,
+      "labels": ["dependencies", "ui"]
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true,
+      "automergeType": "pr",
+      "labels": ["dependencies", "automerge"]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "assignees": ["@omar120489"]
+  },
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "timezone": "America/New_York"
+}
+

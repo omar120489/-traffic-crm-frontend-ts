@@ -34,7 +34,10 @@
       "bash -c 'cd apps/frontend && pnpm tsc --noEmit -p tsconfig.sprint2.json'"
     ],
     "*.md": [
-      "markdownlint-cli2 --fix"
+      "markdownlint-cli2 --fix --config .markdownlint.json"
+    ],
+    "package.json": [
+      "prettier --write"
     ]
   },
   "devDependencies": {

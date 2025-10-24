@@ -415,6 +415,13 @@ Proprietary - All rights reserved
 - **🤝 Contributing:** [Contributing Guide](./CONTRIBUTING.md) - How to contribute
 - **📝 Changelog:** [Changelog](./CHANGELOG.md) - Version history
 
+### 🏗️ Architecture & Guides
+
+- **Fastify Ecosystem:** [Dependency Analysis & v5 Migration](./docs/FASTIFY_DEPENDENCY_ANALYSIS.md)
+- **Branch Protection:** [Setup Guide](./docs/BRANCH_PROTECTION_SETUP.md)
+- **Infrastructure:** [Complete Setup Documentation](./docs/INFRASTRUCTURE_COMPLETE.md)
+- **ADRs:** [Architecture Decision Records](./docs/adr/) - Key technical decisions
+
 ### 🔧 Troubleshooting
 
 - **SDK Issues:** See [docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)
