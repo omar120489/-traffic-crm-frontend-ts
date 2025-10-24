@@ -1,167 +1,131 @@
-# Dependabot configuration for automated dependency updates
-# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+# Dependabot Configuration
+# Automated dependency and security updates
 
 version: 2
+
 updates:
-  # Root workspace
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "area:root"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-    groups:
-      # Group dev dependencies together
-      dev-dependencies:
-        dependency-type: "development"
-        update-types:
-          - "minor"
-          - "patch"
-      # Group production dependencies by type
-      production-dependencies:
-        dependency-type: "production"
-        update-types:
-          - "patch"
-
-  # Frontend
-  - package-ecosystem: "npm"
-    directory: "/apps/frontend"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "area:frontend"
-    commit-message:
-      prefix: "chore(deps)"
-      prefix-development: "chore(deps-dev)"
-      include: "scope"
-    groups:
-      react-ecosystem:
-        patterns:
-          - "react*"
-          - "@types/react*"
-        update-types:
-          - "minor"
-          - "patch"
-      vite-ecosystem:
-        patterns:
-          - "vite*"
-          - "@vitejs/*"
-        update-types:
-          - "minor"
-          - "patch"
-      mui-ecosystem:
-        patterns:
-          - "@mui/*"
-          - "@emotion/*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # Core API
-  - package-ecosystem: "npm"
-    directory: "/apps/core-api"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "area:backend"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-    groups:
-      nestjs-ecosystem:
-        patterns:
-          - "@nestjs/*"
-        update-types:
-          - "minor"
-          - "patch"
-      prisma-ecosystem:
-        patterns:
-          - "prisma"
-          - "@prisma/*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # Workers
-  - package-ecosystem: "npm"
-    directory: "/apps/workers"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "area:workers"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-    groups:
-      bullmq-ecosystem:
-        patterns:
-          - "bullmq"
-          - "ioredis"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # SDK
-  - package-ecosystem: "npm"
-    directory: "/packages/sdk-js"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "area:sdk"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-
-  # Shared Types
-  - package-ecosystem: "npm"
-    directory: "/packages/shared-types"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "area:sdk"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-
-  # GitHub Actions
+  # Monitor GitHub Actions for security updates
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 3
+      timezone: "America/New_York"
+    commit-message:
+      prefix: "ci"
+      prefix-development: "ci"
+      include: "scope"
+    reviewers:
+      - "omar120489"
+    assignees:
+      - "omar120489"
     labels:
       - "dependencies"
-      - "area:ci"
-    commit-message:
-      prefix: "chore(ci)"
-      include: "scope"
+      - "github-actions"
+      - "security"
+    # Group updates by action owner
+    groups:
+      actions-core:
+        patterns:
+          - "actions/*"
+      pnpm:
+        patterns:
+          - "pnpm/*"
+      security:
+        patterns:
+          - "step-security/*"
+          - "aquasecurity/*"
+          - "snyk/*"
+    # Security updates get priority
+    open-pull-requests-limit: 10
+    # Auto-merge patch updates (optional - enable after testing)
+    # auto-merge: true
+    # pull-request-branch-name:
+    #   separator: "-"
 
+  # Monitor npm dependencies (frontend)
+  - package-ecosystem: "npm"
+    directory: "/apps/frontend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps"
+      include: "scope"
+    reviewers:
+      - "omar120489"
+    labels:
+      - "dependencies"
+      - "frontend"
+    groups:
+      mui:
+        patterns:
+          - "@mui/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
+      testing:
+        patterns:
+          - "@testing-library/*"
+          - "vitest"
+          - "playwright"
+    open-pull-requests-limit: 5
+    # Ignore major version updates for stable dependencies
+    ignore:
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  # Monitor npm dependencies (backend)
+  - package-ecosystem: "npm"
+    directory: "/apps/core-api"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "09:00"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps"
+      include: "scope"
+    reviewers:
+      - "omar120489"
+    labels:
+      - "dependencies"
+      - "backend"
+    groups:
+      nestjs:
+        patterns:
+          - "@nestjs/*"
+      prisma:
+        patterns:
+          - "prisma"
+          - "@prisma/*"
+      fastify:
+        patterns:
+          - "fastify"
+          - "@fastify/*"
+    open-pull-requests-limit: 5
+    # Ignore major version updates for stable dependencies
+    ignore:
+      - dependency-name: "@nestjs/*"
+        update-types: ["version-update:semver-major"]
+
+  # Monitor Docker dependencies (if using)
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "thursday"
+  #   commit-message:
+  #     prefix: "docker"
+  #   reviewers:
+  #     - "omar120489"
+  #   labels:
+  #     - "dependencies"
+  #     - "docker"
