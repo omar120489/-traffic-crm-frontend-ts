@@ -25,13 +25,24 @@
     "sdk:gen": "pnpm --filter @sdk-js/core gen",
     "dev:sdk": "pnpm --filter @apps/core-api openapi:emit && pnpm --filter @traffic-crm/sdk-js codegen && pnpm --filter @traffic-crm/sdk-js build",
     "greenlight": "bash scripts/sprint2-greenlight.sh",
+    "preflight": "pnpm -r install --frozen-lockfile && pnpm --filter ./apps/frontend run typecheck:sprint2 && pnpm --filter ./apps/frontend run lint",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "apps/frontend/src/**/*.{ts,tsx}": [
+      "eslint --max-warnings=0 --fix",
+      "bash -c 'cd apps/frontend && pnpm tsc --noEmit -p tsconfig.sprint2.json'"
+    ],
+    "*.md": [
+      "markdownlint-cli2 --fix"
+    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "glob": "^11.0.3",
     "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "markdownlint-cli2": "^0.18.1",
     "markdownlint-rule-search-replace": "^1.2.0",
     "tsx": "^4.20.6"

@@ -14,19 +14,40 @@ Thank you for contributing! This guide will help you get started quickly.
 # Clone and install
 git clone <repo-url>
 cd traffic-crm-frontend-ts
-nvm use  # Switch to Node 20
-pnpm install
+nvm use 20              # Switch to Node 20
+corepack enable         # Enable pnpm via corepack (avoids version mismatch)
+pnpm -r install --frozen-lockfile  # Deterministic install (mirrors CI)
 
 # Start development
 pnpm --filter @apps/core-api start:dev  # Backend (port 3000)
 pnpm --filter ./apps/frontend dev        # Frontend (port 5173)
 ```
 
-## 📋 Pre-Push Gates
+### One-Liner Preflight Check
 
-Husky runs a **fast Sprint-2-only TypeScript check** before every push:
+Before pushing, run a quick sanity check:
+
+```bash
+pnpm run preflight
+# Runs: frozen install + typecheck:sprint2 + lint
+# Expected time: ~20-25s (cached), ~40-60s (cold)
+```
+
+## 📋 Git Hooks (Automated Quality Gates)
+
+### Pre-Commit Hook (Fast Lint)
+Runs **lint-staged** on changed files only:
+- ✅ ESLint with auto-fix on changed `.ts`/`.tsx` files
+- ✅ TypeScript check on Sprint 2 files
+- ✅ Markdownlint on changed `.md` files
+- ✅ Takes ~3-5 seconds (changed files only)
+- ❌ Blocks commit if linting/typecheck fails
+
+### Pre-Push Hook (Full Sprint 2 Check)
+Runs a **comprehensive Sprint-2-only TypeScript check**:
 - ✅ Validates all Sprint 2 code (`src/pages/{contacts,deals,companies,settings,auth}`, `src/components`, `src/lib`, `src/contexts`)
 - ✅ Ignores legacy code (shimmed in `src/legacy/ambient.d.ts`)
+- ✅ Enforces Node 20 (via `.nvmrc`)
 - ✅ Takes ~10 seconds
 - ❌ Blocks push if Sprint 2 code has TypeScript errors
 
@@ -200,7 +221,9 @@ pnpm --filter ./apps/frontend run test:smoke
 ### "Unsupported engine" warning
 You're on Node 24, but the project expects Node 20:
 ```bash
-nvm use 20  # or nvm install 20 && nvm use 20
+nvm install 20
+nvm use 20
+corepack enable  # Ensures pnpm version matches packageManager field
 ```
 
 ### Pre-push hook fails
@@ -217,8 +240,8 @@ pnpm tsc --noEmit -p tsconfig.sprint2.json
 # Rebuild all packages
 pnpm -r run build
 
-# Re-link workspaces
-pnpm install
+# Re-link workspaces (use frozen lockfile to match CI)
+pnpm -r install --frozen-lockfile
 ```
 
 ### Prisma client out of sync

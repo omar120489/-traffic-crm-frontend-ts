@@ -35,6 +35,16 @@ jobs:
       - name: TypeCheck Sprint 2
         run: pnpm --filter ./apps/frontend run typecheck:sprint2
 
+      - name: On failure, show changed TS files
+        if: failure()
+        run: |
+          echo "### ❌ TypeCheck Failed - Changed Files" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          git fetch origin ${{ github.base_ref || 'main' }} --depth=1 || true
+          git diff --name-only origin/${{ github.base_ref || 'main' }}... | grep -E '\.tsx?$' || echo "No TS files changed"
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
       - name: Track migration progress
         if: always()
         run: |

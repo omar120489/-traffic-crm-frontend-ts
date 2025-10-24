@@ -1,2 +1,11 @@
 #!/usr/bin/env sh
-pnpm test
+set -e
+
+# Husky v10: no sourcing needed, but keep for compatibility
+. "$(git rev-parse --show-toplevel)/.husky/_/husky.sh" 2>/dev/null || true
+
+echo "🔍 Running pre-commit checks (changed files only)..."
+
+pnpm lint-staged
+
+echo "✅ Pre-commit checks passed!"

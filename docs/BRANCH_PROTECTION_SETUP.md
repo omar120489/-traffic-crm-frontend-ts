@@ -29,7 +29,9 @@ Ensure all code merged to `main`:
 
 #### **B. Require Status Checks**
 - ☑️ **Require status checks to pass before merging**
-  - ☑️ **Require branches to be up to date before merging**
+  - ☑️ **Require branches to be up to date before merging** ⚠️ **IMPORTANT**
+    - This prevents green-but-stale PRs from merging after `main` moves
+    - Forces a rebase/merge from `main` before final merge
   - **Search for and add these checks:**
     - ✅ `typecheck` (from `sprint2-typecheck` workflow)
     - ✅ `lint` (if you have a lint CI job)
