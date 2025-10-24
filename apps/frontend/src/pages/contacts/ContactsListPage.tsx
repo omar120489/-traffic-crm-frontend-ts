@@ -12,7 +12,7 @@ import {
   Alert,
 } from '@mui/material';
 import { Add, Search, FilterList, Edit, Delete, Visibility } from '@mui/icons-material';
-import { AppPage, DataTable, FilterBar, type Column } from '@ui-kit/core';
+import { AppPage, DataTable, FilterBar, type Column } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
 
 const api = createClient({
@@ -97,7 +97,7 @@ export default function ContactsListPage() {
     {
       key: 'name',
       header: 'Name',
-      render: (row) => (
+      render: (row: Contact) => (
         <Box
           sx={{ cursor: 'pointer', color: 'primary.main', '&:hover': { textDecoration: 'underline' } }}
           onClick={() => navigate(`/contacts/${row.id}`)}
@@ -112,13 +112,13 @@ export default function ContactsListPage() {
     {
       key: 'Company',
       header: 'Company',
-      render: (row) => (row.Company ? <Chip label={row.Company.name} size="small" /> : null),
+      render: (row: Contact) => (row.Company ? <Chip label={row.Company.name} size="small" /> : null),
     },
     {
       key: 'id',
       header: 'Actions',
       width: 120,
-      render: (row) => (
+      render: (row: Contact) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <IconButton size="small" onClick={() => navigate(`/contacts/${row.id}`)}>
             <Visibility fontSize="small" />

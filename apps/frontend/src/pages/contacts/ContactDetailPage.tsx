@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   CardContent,
-  Grid,
   Typography,
   Chip,
   TextField,
@@ -16,6 +15,7 @@ import {
   Alert,
   Divider,
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
 import { AppPage, EntityTimeline, type TimelineEvent } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
