@@ -79,7 +79,7 @@ jobs:
                   compression-level: 9
 
             - name: Comment on PR
-              uses: actions/github-script@v7
+              uses: actions/github-script@v8
               with:
                   script: |
                       const buildSize = '${{ steps.build-size.outputs.size }}';
