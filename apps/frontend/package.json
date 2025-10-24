@@ -32,7 +32,11 @@
     "codemod:apply": "ts-node scripts/codemod_modernize.ts --apply",
     "fix:typescript": "tsx scripts/fix_remaining.ts --write",
     "fix:preview": "tsx scripts/fix_remaining.ts",
-    "verify:all": "pnpm run lint && pnpm typecheck && pnpm test --run && pnpm build"
+    "verify:all": "pnpm run lint && pnpm typecheck && pnpm test --run && pnpm build",
+    "typecheck": "tsc --noEmit -p tsconfig.sprint2.json",
+    "typecheck:sprint2": "tsc --noEmit -p tsconfig.sprint2.json",
+    "typecheck:legacy": "tsc --noEmit -p tsconfig.json",
+    "typecheck:all": "pnpm -s run typecheck:sprint2 && pnpm -s run typecheck:legacy"
   },
   "dependencies": {
     "@traffic-crm/sdk-js": "workspace:*",
