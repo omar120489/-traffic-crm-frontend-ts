@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { createClient } from '@traffic-crm/sdk-js';
+import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
@@ -42,8 +43,8 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
   const [newTagName, setNewTagName] = useState('');
   const [newTagColor, setNewTagColor] = useState('#3f51b5');
 
-  // NOTE: Auth context integration pending - using mock value for dev
-  const orgId = 'clx0d018d000008l701211234'; // From seed data
+  // Get auth from context
+  const { orgId } = useAuth();
 
   useEffect(() => {
     loadTags();

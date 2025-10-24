@@ -23,6 +23,7 @@ import type { SelectChangeEvent } from '@mui/material/Select';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
 import { AppPage, EntityTimeline, type TimelineEvent } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
+import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
@@ -69,9 +70,8 @@ export default function ContactDetailPage() {
     setActivityType(e.target.value);
   };
 
-  // NOTE: Auth context integration pending - using mock values for dev
-  const orgId = 'clx0d018d000008l701211234'; // From seed data
-  const userId = 'dev-user'; // Mock admin from JWT bypass
+  // Get auth from context
+  const { orgId, userId } = useAuth();
 
   useEffect(() => {
     if (id) {

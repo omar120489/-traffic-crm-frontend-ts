@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   Alert,
+  Autocomplete,
 } from '@mui/material';
 import { Add, Search, FilterList, Edit, Delete, Visibility } from '@mui/icons-material';
 import { AppPage, DataTable, FilterBar, type Column } from '@traffic-crm/ui-kit';
@@ -44,6 +45,7 @@ export default function ContactsListPage() {
   const query = searchParams.get('q') || '';
   const status = searchParams.get('status') || '';
   const companyFilter = searchParams.get('company') || '';
+  const tags = searchParams.getAll('tag');
   const pageSize = 20;
 
   // Filter menu
@@ -66,9 +68,17 @@ export default function ContactsListPage() {
     setSearchParams(params, { replace: true });
   };
 
+  const handleTagsChange = (_: any, values: string[]) => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('tag');
+    values.forEach((v) => params.append('tag', v));
+    params.set('page', '1');
+    setSearchParams(params, { replace: true });
+  };
+
   useEffect(() => {
     loadContacts();
-  }, [page, query, status, companyFilter]);
+  }, [page, query, status, companyFilter, tags.join(',')]);
 
   const loadContacts = async () => {
     try {
@@ -77,6 +87,7 @@ export default function ContactsListPage() {
       if (query) params.q = query;
       if (status) params.status = status;
       if (companyFilter) params.companyId = companyFilter;
+      if (tags.length) params.tags = tags;
       
       const result = await api.listContacts(params);
       setContacts(result.items || []);
@@ -229,7 +240,26 @@ export default function ContactsListPage() {
             >
               No Company
             </MenuItem>
-            {(status || companyFilter) && (
+            <MenuItem disabled sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary', mt: 1 }}>
+              TAGS
+            </MenuItem>
+            <Box sx={{ px: 2, py: 1 }}>
+              <Autocomplete
+                multiple
+                size="small"
+                options={['vip', 'prospect', 'customer', 'partner', 'lead']}
+                value={tags}
+                onChange={handleTagsChange}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip key={option} variant="outlined" label={option} size="small" {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => <TextField {...params} placeholder="Select tags" />}
+                sx={{ minWidth: 200 }}
+              />
+            </Box>
+            {(status || companyFilter || tags.length > 0) && (
               <>
                 <MenuItem divider />
                 <MenuItem onClick={() => { clearFilters(); setFilterAnchor(null); }}>

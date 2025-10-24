@@ -12,10 +12,12 @@ import {
   Alert,
   Card,
   CardContent,
+  Snackbar,
 } from '@mui/material';
 import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
 import { AppPage, DataTable, type Column } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   DndContext,
   PointerSensor,
@@ -55,6 +57,7 @@ export default function PipelinesPage() {
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
   
   // Dialog states
   const [pipelineDialog, setPipelineDialog] = useState(false);
@@ -67,7 +70,8 @@ export default function PipelinesPage() {
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
   );
 
-  const orgId = 'clx0d018d000008l701211234'; // From seed data
+  // Get auth from context
+  const { orgId } = useAuth();
 
   useEffect(() => {
     loadPipelines();
@@ -173,6 +177,7 @@ export default function PipelinesPage() {
 
     try {
       await api.reorderStages(selectedPipeline.id, reordered.map((s) => s.id));
+      setToast({ open: true, msg: 'Stages reordered successfully' });
     } catch (err: any) {
       setError(err.message || 'Failed to reorder stages');
       // Rollback on error
@@ -343,6 +348,18 @@ export default function PipelinesPage() {
         }}
         stage={editingStage}
       />
+
+      {/* Success Toast */}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={2500}
+        onClose={() => setToast({ open: false, msg: '' })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setToast({ open: false, msg: '' })} severity="success" variant="filled">
+          {toast.msg}
+        </Alert>
+      </Snackbar>
     </AppPage>
   );
 }
