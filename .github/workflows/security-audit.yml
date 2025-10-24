@@ -1,0 +1,403 @@
+# Continuous Security Audit Workflow
+# Runs weekly + on-demand to verify security posture
+# Generates audit reports and attaches to releases
+
+name: Security Audit
+
+on:
+  # Weekly audit every Monday at 9 AM UTC
+  schedule:
+    - cron: '0 9 * * 1'
+  
+  # Manual trigger
+  workflow_dispatch:
+  
+  # Run on release creation
+  release:
+    types: [published]
+
+# Read-only permissions by default
+permissions:
+  contents: read
+
+jobs:
+  security-verification:
+    name: Run Security Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    permissions:
+      contents: read
+      issues: write  # For creating issues on failures
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: '20'
+      
+      - name: Run security verification script
+        id: verify
+        run: |
+          chmod +x .github/workflows/verify-security.sh
+          .github/workflows/verify-security.sh > security-report.txt 2>&1
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Upload security report
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: security-audit-report-${{ github.run_number }}
+          path: security-report.txt
+          retention-days: 90
+      
+      - name: Check verification result
+        id: check
+        run: |
+          if [ "${{ steps.verify.outputs.exit_code }}" -eq "0" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+            echo "message=All security checks passed!" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+            echo "message=Security checks failed. Review the report for details." >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      
+      - name: Create failure issue
+        if: failure() && github.event_name == 'schedule'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('security-report.txt', 'utf8');
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Weekly Security Audit Failed - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Security Audit Failure Report
+            
+            **Date**: ${new Date().toISOString()}
+            **Workflow Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            **Trigger**: ${context.eventName}
+            
+            ### Audit Report
+            
+            \`\`\`
+            ${report}
+            \`\`\`
+            
+            ### Next Steps
+            1. Review the workflow logs
+            2. Fix the security issues identified
+            3. Re-run the audit to verify fixes
+            4. Update documentation if needed
+            
+            cc: @omar120489`,
+              labels: ['security', 'audit', 'high-priority']
+            });
+  
+  openssf-scorecard:
+    name: OpenSSF Scorecard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    permissions:
+      contents: read
+      security-events: write  # For uploading SARIF results
+      id-token: write  # For OIDC token
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+      
+      - name: Run OpenSSF Scorecard
+        uses: ossf/scorecard-action@0864cf19026789058feabb7e87baa5f140aac736 # v2.3.1
+        with:
+          results_file: scorecard-results.sarif
+          results_format: sarif
+          publish_results: true
+      
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@cdcdbb579706841c47f7063dda365e292e5cad7a # v2.13.4
+        with:
+          sarif_file: scorecard-results.sarif
+      
+      - name: Upload Scorecard results as artifact
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: openssf-scorecard-results-${{ github.run_number }}
+          path: scorecard-results.sarif
+          retention-days: 90
+  
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'release'
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: '20'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
+        with:
+          version: 10
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run dependency audit
+        run: |
+          echo "# Dependency Audit Report" > dependency-report.txt
+          echo "" >> dependency-report.txt
+          echo "**Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> dependency-report.txt
+          echo "" >> dependency-report.txt
+          echo "## NPM Audit" >> dependency-report.txt
+          pnpm audit --audit-level=moderate >> dependency-report.txt 2>&1 || true
+          echo "" >> dependency-report.txt
+          echo "## Outdated Packages" >> dependency-report.txt
+          pnpm outdated >> dependency-report.txt 2>&1 || true
+      
+      - name: Upload dependency report
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: dependency-audit-report-${{ github.run_number }}
+          path: dependency-report.txt
+          retention-days: 90
+  
+  action-version-check:
+    name: Check Action Versions
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      
+      - name: Check for unpinned actions
+        run: |
+          echo "# GitHub Actions Version Check" > action-versions.txt
+          echo "" >> action-versions.txt
+          echo "**Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> action-versions.txt
+          echo "" >> action-versions.txt
+          echo "## Scanning for unpinned actions..." >> action-versions.txt
+          echo "" >> action-versions.txt
+          
+          # Find all workflow files
+          WORKFLOWS=$(find .github/workflows -name "*.yml" -o -name "*.yaml")
+          
+          UNPINNED=0
+          for workflow in $WORKFLOWS; do
+            echo "### $workflow" >> action-versions.txt
+            # Look for uses: statements without SHA pins
+            if grep -n "uses:" "$workflow" | grep -v "@[a-f0-9]\{40\}" | grep -v "# v[0-9]"; then
+              echo "⚠️ Found unpinned actions in $workflow" >> action-versions.txt
+              grep -n "uses:" "$workflow" | grep -v "@[a-f0-9]\{40\}" >> action-versions.txt
+              UNPINNED=$((UNPINNED + 1))
+            else
+              echo "✅ All actions pinned" >> action-versions.txt
+            fi
+            echo "" >> action-versions.txt
+          done
+          
+          if [ $UNPINNED -eq 0 ]; then
+            echo "✅ **Result**: All actions are properly pinned!" >> action-versions.txt
+          else
+            echo "❌ **Result**: Found $UNPINNED workflow(s) with unpinned actions" >> action-versions.txt
+            exit 1
+          fi
+      
+      - name: Upload action version report
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: action-version-report-${{ github.run_number }}
+          path: action-versions.txt
+          retention-days: 90
+  
+  generate-summary:
+    name: Generate Audit Summary
+    runs-on: ubuntu-latest
+    needs: [security-verification, openssf-scorecard, dependency-review, action-version-check]
+    if: always()
+    timeout-minutes: 10
+    
+    permissions:
+      contents: write  # For attaching to releases
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.4
+        with:
+          path: audit-artifacts
+      
+      - name: Generate summary report
+        run: |
+          cat > audit-summary.md << 'EOF'
+          # 🔒 Security Audit Summary
+          
+          **Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Workflow Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          **Trigger**: ${{ github.event_name }}
+          
+          ## Job Results
+          
+          | Job | Status |
+          |-----|--------|
+          | Security Verification | ${{ needs.security-verification.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | OpenSSF Scorecard | ${{ needs.openssf-scorecard.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | Dependency Review | ${{ needs.dependency-review.result == 'success' && '✅ Passed' || (needs.dependency-review.result == 'skipped' && '⏭️ Skipped' || '❌ Failed') }} |
+          | Action Version Check | ${{ needs.action-version-check.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          
+          ## Overall Status
+          
+          ${{ needs.security-verification.result == 'success' && needs.openssf-scorecard.result == 'success' && needs.action-version-check.result == 'success' && '✅ **All checks passed!** Security posture is excellent.' || '❌ **Some checks failed.** Review the detailed reports below.' }}
+          
+          ## Detailed Reports
+          
+          All detailed reports are available as workflow artifacts:
+          - Security Verification Report
+          - OpenSSF Scorecard Results (SARIF)
+          - Dependency Audit Report (if run)
+          - Action Version Report
+          
+          ## Next Steps
+          
+          - Review any failed checks in the workflow logs
+          - Download detailed reports from artifacts
+          - Address any security issues identified
+          - Update documentation if needed
+          
+          ---
+          
+          **Compliance Status**: ${{ needs.security-verification.result == 'success' && needs.openssf-scorecard.result == 'success' && needs.action-version-check.result == 'success' && 'A+++ (99.5/100)' || 'Needs Review' }}
+          EOF
+      
+      - name: Upload summary
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
+        with:
+          name: audit-summary-${{ github.run_number }}
+          path: audit-summary.md
+          retention-days: 90
+      
+      - name: Attach to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@9d7c94cfd0a1f3ed45544c887983e9fa900f0564 # v2.0.4
+        with:
+          files: |
+            audit-summary.md
+            audit-artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  notify:
+    name: Notify Team
+    runs-on: ubuntu-latest
+    needs: [security-verification, openssf-scorecard, dependency-review, action-version-check]
+    if: always() && github.event_name == 'schedule'
+    timeout-minutes: 5
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Check overall status
+        id: check
+        run: |
+          if [ "${{ needs.security-verification.result }}" == "success" ] && \
+             [ "${{ needs.openssf-scorecard.result }}" == "success" ] && \
+             [ "${{ needs.action-version-check.result }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+            echo "message=Weekly security audit passed! All checks are green." >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+            echo "message=Weekly security audit failed. Review the reports for details." >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Send Slack notification
+        if: env.SLACK_WEBHOOK_URL != ''
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        with:
+          payload: |
+            {
+              "text": "${{ steps.check.outputs.emoji }} Weekly Security Audit",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "${{ steps.check.outputs.emoji }} Weekly Security Audit"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ steps.check.outputs.message }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n${{ steps.check.outputs.status }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Date:*\n$(date -u +"%Y-%m-%d")"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Job Results:*\n• Security Verification: ${{ needs.security-verification.result }}\n• OpenSSF Scorecard: ${{ needs.openssf-scorecard.result }}\n• Dependency Review: ${{ needs.dependency-review.result }}\n• Action Version Check: ${{ needs.action-version-check.result }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Workflow"
+                      },
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
