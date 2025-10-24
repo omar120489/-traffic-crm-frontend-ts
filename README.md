@@ -5,6 +5,7 @@
 [![Preview Build](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml)
 [![CodeQL](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml)
 [![Docs Lint](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/docs-lint.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/docs-lint.yml)
+[![Latest Release](https://img.shields.io/github/v/release/omar120489/-traffic-crm-frontend-ts)](https://github.com/omar120489/-traffic-crm-frontend-ts/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg)](https://pnpm.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)
@@ -13,6 +14,25 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
 Full-stack TypeScript CRM platform for travel/traffic businesses with React frontend, NestJS backend, and background workers.
+
+## 🚀 Quick Start
+
+**New to this project?** Start here:
+
+1. 📋 **[Deployment Readiness Checklist](./DEPLOYMENT_READINESS.md)** - Complete setup status
+2. 🤝 **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute
+3. 🔧 **[Workflow Scripts](./WORKFLOW_SCRIPTS.md)** - Automation helpers
+4. 📦 **[SDK Documentation](./packages/sdk-js/README.md)** - Using the SDK
+
+**Quick verification:**
+
+```bash
+# Verify deployment readiness
+./scripts/verify-deployment-ready.sh
+
+# Start working on an issue
+./workflow-helper.sh start 1
+```
 
 ## 🏗️ Architecture
 
