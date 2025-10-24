@@ -89,7 +89,7 @@ export default function ContactDetailPage() {
   const loadActivities = async () => {
     if (!id) return;
     try {
-      const data = await api.listActivities('contact', id);
+      const data = await api.activities.list('contact', id);
       setActivities(data);
     } catch (err: any) {
       console.error('Failed to load activities:', err);
@@ -123,7 +123,7 @@ export default function ContactDetailPage() {
 
     try {
       setSubmitting(true);
-      await api.createActivity({
+      await api.activities.create({
         orgId,
         type: activityType,
         entityType: 'contact',
