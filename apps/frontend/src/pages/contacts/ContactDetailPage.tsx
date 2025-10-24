@@ -287,7 +287,10 @@ export default function ContactDetailPage() {
             value={activityType}
             onChange={(e) => setActivityType(e.target.value)}
             sx={{ mt: 2, mb: 2 }}
-            SelectProps={{ native: true }}
+            SelectProps={{ 
+              native: true,
+              inputProps: { 'aria-label': 'Activity type' }
+            }}
           >
             <option value="note">Note</option>
             <option value="call">Call</option>
