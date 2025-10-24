@@ -1,15 +1,15 @@
 /**
  * Deals Kanban Board Page
- * Sprint 3: FE-KANBAN-01 (UI Skeleton)
+ * Sprint 3: FE-KANBAN-02 (Drag & Drop)
  * 
  * Features:
  * - Pipeline selection
  * - Column rendering by stage
  * - Deal cards grouped by stage
+ * - Drag & drop with optimistic updates
  * - Loading states
  * - Empty states
  * 
- * TODO (FE-KANBAN-02): Add drag & drop functionality
  * TODO (FE-KANBAN-03): Add filters (owner, tags, search)
  */
 
@@ -21,17 +21,30 @@ import {
   Typography,
   CircularProgress,
   Alert,
+  Snackbar,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   type SelectChangeEvent,
 } from '@mui/material';
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCorners,
+  type DragStartEvent,
+} from '@dnd-kit/core';
+// import { arrayMove } from '@dnd-kit/sortable'; // Not needed for simple cross-column moves
 import { AppPage } from '@traffic-crm/ui-kit';
 import { useAuth } from '@/contexts/AuthContext';
-import { getPipelines, getDealsByPipeline } from '@/services/deals.service';
+import { getPipelines, getDealsByPipeline, moveDeal } from '@/services/deals.service';
 import type { Deal, Pipeline, Stage } from '@/types/deals';
 import { KanbanColumn } from './components/KanbanColumn';
+import { KanbanCard } from './components/KanbanCard';
 
 type StageMap = Record<string, Deal[]>;
 
@@ -45,6 +58,21 @@ export default function DealsKanbanPage() {
   const [deals, setDeals] = useState<readonly Deal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeDeal, setActiveDeal] = useState<Deal | null>(null);
+  const [toast, setToast] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
+  // Drag & drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px movement required to start drag
+      },
+    })
+  );
 
   // Computed: selected pipeline
   const selectedPipeline = useMemo(
@@ -136,6 +164,103 @@ export default function DealsKanbanPage() {
     navigate(`/deals/${dealId}`);
   };
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    const deal = deals.find((d) => d.id === active.id);
+    if (deal) {
+      setActiveDeal(deal);
+    }
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    setActiveDeal(null);
+
+    if (!over) return;
+
+    const dealId = String(active.id);
+    const overId = String(over.id);
+
+    // Find source stage
+    const sourceStageId = Object.keys(dealsByStage).find((stageId) =>
+      dealsByStage[stageId].some((d) => d.id === dealId)
+    );
+
+    if (!sourceStageId) return;
+
+    // Determine target stage (could be a stage ID or another deal ID)
+    let targetStageId = overId;
+    const targetDeal = deals.find((d) => d.id === overId);
+    if (targetDeal) {
+      targetStageId = targetDeal.stageId;
+    }
+
+    // No change if dropped in same position
+    if (sourceStageId === targetStageId) {
+      const sourceDeals = dealsByStage[sourceStageId];
+      const oldIndex = sourceDeals.findIndex((d) => d.id === dealId);
+      const newIndex = targetDeal ? sourceDeals.findIndex((d) => d.id === overId) : oldIndex;
+      
+      if (oldIndex === newIndex) return;
+    }
+
+    // Snapshot for rollback
+    const previousDeals = [...deals];
+
+    // Optimistic update
+    setDeals((currentDeals) => {
+      const sourceDeals = dealsByStage[sourceStageId];
+      const oldIndex = sourceDeals.findIndex((d) => d.id === dealId);
+      const movingDeal = sourceDeals[oldIndex];
+
+      if (!movingDeal) return currentDeals;
+
+      // Rebuild full deals array with updated stageId
+      const updatedDeals = currentDeals.map((deal) => {
+        if (deal.id === dealId) {
+          return { ...deal, stageId: targetStageId };
+        }
+        return deal;
+      });
+
+      return updatedDeals;
+    });
+
+    // Persist to backend
+    try {
+      const targetDeals = dealsByStage[targetStageId] || [];
+      const newPosition = targetDeal 
+        ? targetDeals.findIndex((d) => d.id === overId)
+        : targetDeals.length;
+
+      await moveDeal(dealId, {
+        stageId: targetStageId,
+        position: Math.max(0, newPosition),
+      });
+
+      setToast({
+        open: true,
+        message: 'Deal moved successfully',
+        severity: 'success',
+      });
+
+      // Refresh deals to get accurate positions from backend
+      const refreshedDeals = await getDealsByPipeline(selectedPipelineId);
+      setDeals(refreshedDeals);
+    } catch (err) {
+      console.error('Failed to move deal:', err);
+      
+      // Rollback on error
+      setDeals(previousDeals);
+      
+      setToast({
+        open: true,
+        message: 'Failed to move deal. Please try again.',
+        severity: 'error',
+      });
+    }
+  };
+
   // Render loading state
   if (loading && pipelines.length === 0) {
     return (
@@ -203,32 +328,48 @@ export default function DealsKanbanPage() {
         </Box>
       )}
 
-      {/* Kanban board */}
+      {/* Kanban board with drag & drop */}
       {!loading && stages.length > 0 && (
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            overflowX: 'auto',
-            pb: 2,
-            '&::-webkit-scrollbar': {
-              height: 8,
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(0,0,0,0.2)',
-              borderRadius: 4,
-            },
-          }}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
         >
-          {stages.map((stage) => (
-            <KanbanColumn
-              key={stage.id}
-              stage={stage}
-              deals={dealsByStage[stage.id] || []}
-              onDealClick={handleDealClick}
-            />
-          ))}
-        </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              overflowX: 'auto',
+              pb: 2,
+              '&::-webkit-scrollbar': {
+                height: 8,
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0,0,0,0.2)',
+                borderRadius: 4,
+              },
+            }}
+          >
+            {stages.map((stage) => (
+              <KanbanColumn
+                key={stage.id}
+                stage={stage}
+                deals={dealsByStage[stage.id] || []}
+                onDealClick={handleDealClick}
+              />
+            ))}
+          </Box>
+
+          {/* Drag overlay for visual feedback */}
+          <DragOverlay>
+            {activeDeal ? (
+              <Box sx={{ opacity: 0.8, transform: 'rotate(5deg)' }}>
+                <KanbanCard deal={activeDeal} />
+              </Box>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
       )}
 
       {/* Empty stages state */}
@@ -237,6 +378,23 @@ export default function DealsKanbanPage() {
           This pipeline has no stages. Please add stages in <strong>Settings → Pipelines</strong>.
         </Alert>
       )}
+
+      {/* Toast notifications */}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={3000}
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setToast({ ...toast, open: false })}
+          severity={toast.severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {toast.message}
+        </Alert>
+      </Snackbar>
     </AppPage>
   );
 }

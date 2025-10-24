@@ -1,11 +1,13 @@
 /**
  * Kanban Card Component
- * Sprint 3: FE-KANBAN-01
- * Displays a single deal card in the Kanban board
+ * Sprint 3: FE-KANBAN-02
+ * Displays a single deal card in the Kanban board with drag & drop support
  */
 
 import { Card, CardContent, Stack, Typography, Chip, Box } from '@mui/material';
 import { AttachMoney, Person, Business } from '@mui/icons-material';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import type { Deal } from '@/types/deals';
 
 export interface KanbanCardProps {
@@ -14,8 +16,26 @@ export interface KanbanCardProps {
 }
 
 export function KanbanCard({ deal, onClick }: Readonly<KanbanCardProps>) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: deal.id,
+    data: { type: 'deal', deal },
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition || undefined,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
   const handleClick = () => {
-    if (onClick) {
+    if (onClick && !isDragging) {
       onClick(deal.id);
     }
   };
@@ -31,18 +51,19 @@ export function KanbanCard({ deal, onClick }: Readonly<KanbanCardProps>) {
 
   return (
     <Card
+      ref={setNodeRef}
       variant="outlined"
       sx={{
-        cursor: onClick ? 'pointer' : 'default',
-        '&:hover': onClick
-          ? {
-              boxShadow: 2,
-              borderColor: 'primary.main',
-            }
-          : undefined,
-        transition: 'all 0.2s',
+        cursor: isDragging ? 'grabbing' : 'grab',
+        '&:hover': {
+          boxShadow: 2,
+          borderColor: 'primary.main',
+        },
+        ...style,
       }}
       onClick={handleClick}
+      {...attributes}
+      {...listeners}
     >
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
         <Stack spacing={1.5}>
