@@ -1,135 +1,112 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Button,
-  Typography,
-  Alert,
-  Link,
-} from '@mui/material';
-import { Login as LoginIcon } from '@mui/icons-material';
+/**
+ * Login page
+ * Sprint 3: FE-AUTH-01, FE-AUTH-04
+ * 
+ * Features:
+ * - Email/password form
+ * - Error handling
+ * - Redirect to intended destination after login
+ * - Loading state during submission
+ */
+
+import { useState, type FormEvent } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Button, TextField, Typography, Paper, Stack, Alert } from '@mui/material';
+
+interface LocationState {
+  from?: {
+    pathname: string;
+  };
+}
 
 export default function LoginPage() {
-  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation() as { state: LocationState | null };
+  
+  // Redirect to the page they tried to visit, or /deals by default
+  const from = location.state?.from?.pathname ?? '/deals';
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     setError(null);
-    setLoading(true);
-
+    
     try {
-      // TODO: Replace with real auth endpoint
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Invalid credentials');
-      }
-
-      const { access_token } = await res.json();
-      localStorage.setItem('access_token', access_token);
-
-      // Redirect to home
-      navigate('/');
-      window.location.reload(); // Force AuthContext to hydrate
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+      await login({ email, password });
+      navigate(from, { replace: true });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Invalid credentials';
+      setError(message);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
-  };
-
-  const handleDevLogin = () => {
-    // Dev bypass: no token = mock admin
-    localStorage.removeItem('access_token');
-    navigate('/');
-    window.location.reload();
   };
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        bgcolor: 'grey.100',
+        display: 'grid',
+        placeItems: 'center',
+        p: 2,
+        bgcolor: 'background.default',
       }}
     >
-      <Card sx={{ maxWidth: 400, width: '100%', mx: 2 }}>
-        <CardContent sx={{ p: 4 }}>
-          <Box sx={{ textAlign: 'center', mb: 3 }}>
-            <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
-              Traffic CRM
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Sign in to your account
-            </Typography>
-          </Box>
-
+      <Paper elevation={3} sx={{ p: 4, width: 360, maxWidth: '95vw' }}>
+        <Stack component="form" onSubmit={onSubmit} spacing={2}>
+          <Typography variant="h5" fontWeight={700} textAlign="center">
+            Sign in to Traffic CRM
+          </Typography>
+          
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            autoComplete="email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+            disabled={submitting}
+          />
+          
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+            disabled={submitting}
+          />
+          
           {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
+            <Alert severity="error" onClose={() => setError(null)}>
               {error}
             </Alert>
           )}
-
-          <form onSubmit={handleLogin}>
-            <TextField
-              fullWidth
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              fullWidth
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              sx={{ mb: 3 }}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              type="submit"
-              disabled={loading}
-              startIcon={<LoginIcon />}
-              sx={{ mb: 2 }}
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </form>
-
-          <Box sx={{ textAlign: 'center', mt: 2, pt: 2, borderTop: 1, borderColor: 'divider' }}>
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
-              Development Mode
-            </Typography>
-            <Link
-              component="button"
-              variant="body2"
-              onClick={handleDevLogin}
-              sx={{ cursor: 'pointer' }}
-            >
-              Continue as Mock Admin (no auth)
-            </Link>
-          </Box>
-        </CardContent>
-      </Card>
+          
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            disabled={submitting}
+            fullWidth
+          >
+            {submitting ? 'Signing in…' : 'Sign in'}
+          </Button>
+          
+          <Typography variant="caption" color="text.secondary" textAlign="center">
+            Dev credentials: admin@acme.io / test
+          </Typography>
+        </Stack>
+      </Paper>
     </Box>
   );
 }
-

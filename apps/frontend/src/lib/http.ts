@@ -1,35 +1,50 @@
 /**
- * Lightweight HTTP client with auth header injection
- * Used by SDK and direct API calls
+ * HTTP client with auth header injection
+ * Sprint 3: Enhanced with axios and auth token interceptor
  */
 
-export function authHeader(): Record<string, string> {
-  if (typeof globalThis.window === 'undefined') return {};
-  const token = globalThis.localStorage.getItem('access_token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
+import axios from 'axios';
 
-export async function http<T>(url: string, init: RequestInit = {}): Promise<T> {
-  const res = await fetch(url, {
-    ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...authHeader(),
-      ...(init.headers || {}),
-    },
-  });
+export const http = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || `HTTP ${res.status}: ${res.statusText}`);
+// Request interceptor: Add auth token to all requests
+http.interceptors.request.use((config) => {
+  if (typeof globalThis.window === 'undefined') return config;
+  
+  const token = globalThis.localStorage.getItem('auth.token');
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  
+  return config;
+});
 
-  return res.json();
-}
+// Response interceptor: Handle 401 errors
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expired or invalid, redirect to login
+      if (typeof globalThis.window !== 'undefined') {
+        globalThis.localStorage.removeItem('auth.token');
+        globalThis.localStorage.removeItem('auth.email');
+        globalThis.window.location.assign('/login');
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export function logout() {
   if (typeof globalThis.window !== 'undefined') {
-    globalThis.localStorage.removeItem('access_token');
+    globalThis.localStorage.removeItem('auth.token');
+    globalThis.localStorage.removeItem('auth.email');
     globalThis.window.location.assign('/login');
   }
 }
