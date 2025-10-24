@@ -66,12 +66,20 @@ export async function getDealById(dealId: string): Promise<Deal> {
   return http<Deal>(`${API_BASE}/api/deals/${dealId}`);
 }
 
+export interface CreateDealPayload {
+  readonly name: string;
+  readonly amountCents: number;
+  readonly stageId: string;
+  readonly pipelineId?: string;
+  readonly companyId?: string;
+  readonly contactId?: string;
+  readonly ownerId?: string;
+}
+
 /**
  * Create a new deal
  */
-export async function createDeal(
-  payload: Partial<Pick<Deal, 'name' | 'amountCents' | 'stageId' | 'companyId' | 'contactId' | 'ownerId'>>
-): Promise<Deal> {
+export async function createDeal(payload: CreateDealPayload): Promise<Deal> {
   return http<Deal>(`${API_BASE}/api/deals`, {
     method: 'POST',
     body: JSON.stringify(payload),

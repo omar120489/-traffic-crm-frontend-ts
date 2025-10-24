@@ -18,16 +18,16 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box,
   Stack,
-  Typography,
-  CircularProgress,
   Alert,
   Snackbar,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
+  Button,
   type SelectChangeEvent,
 } from '@mui/material';
+import { Add as AddIcon } from '@mui/icons-material';
 import {
   DndContext,
   DragEndEvent,
@@ -41,11 +41,14 @@ import {
 // import { arrayMove } from '@dnd-kit/sortable'; // Not needed for simple cross-column moves
 import { AppPage } from '@traffic-crm/ui-kit';
 import { useAuth } from '@/contexts/AuthContext';
-import { getPipelines, getDealsByPipeline, moveDeal } from '@/services/deals.service';
+import { getPipelines, getDealsByPipeline, moveDeal, createDeal } from '@/services/deals.service';
 import type { Deal, Pipeline, Stage, DealFilters, FilterOption } from '@/types/deals';
 import { KanbanColumn } from './components/KanbanColumn';
 import { KanbanCard } from './components/KanbanCard';
 import { KanbanFilters } from './components/KanbanFilters';
+import { CreateDealDialog, type CreateDealInput } from './components/CreateDealDialog';
+import { BoardSkeleton } from './components/BoardSkeleton';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 type StageMap = Record<string, Deal[]>;
 
@@ -92,6 +95,7 @@ export default function DealsKanbanPage() {
   );
 
   const [filters, setFilters] = useState<DealFilters>(filtersFromURL);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   // Drag & drop sensors
   const sensors = useSensors(
@@ -211,6 +215,37 @@ export default function DealsKanbanPage() {
     setFilters({ ownerIds: [], tagIds: [], q: '' });
   };
 
+  const handleCreateDeal = async (input: CreateDealInput): Promise<Deal> => {
+    try {
+      const newDeal = await createDeal({
+        name: input.name,
+        amountCents: input.amountCents,
+        stageId: input.stageId,
+        pipelineId: selectedPipelineId,
+      });
+
+      // Refresh deals to show the new deal
+      const refreshedDeals = await getDealsByPipeline(selectedPipelineId, filters);
+      setDeals(refreshedDeals);
+
+      setToast({
+        open: true,
+        message: 'Deal created successfully',
+        severity: 'success',
+      });
+
+      return newDeal;
+    } catch (err) {
+      console.error('Failed to create deal:', err);
+      setToast({
+        open: true,
+        message: 'Failed to create deal. Please try again.',
+        severity: 'error',
+      });
+      throw err;
+    }
+  };
+
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
     const deal = deals.find((d) => d.id === active.id);
@@ -308,16 +343,11 @@ export default function DealsKanbanPage() {
     }
   };
 
-  // Render loading state
+  // Render loading state (initial load)
   if (loading && pipelines.length === 0) {
     return (
       <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
-        <Stack alignItems="center" justifyContent="center" sx={{ py: 8 }}>
-          <CircularProgress />
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-            Loading pipelines...
-          </Typography>
-        </Stack>
+        <BoardSkeleton />
       </AppPage>
     );
   }
@@ -350,22 +380,32 @@ export default function DealsKanbanPage() {
       title="Deals Board"
       breadcrumbs={[{ label: 'Deals', href: '/deals' }]}
       actions={
-        <FormControl sx={{ minWidth: 240 }} size="small">
-          <InputLabel id="pipeline-select-label">Pipeline</InputLabel>
-          <Select
-            labelId="pipeline-select-label"
-            id="pipeline-select"
-            value={selectedPipelineId}
-            label="Pipeline"
-            onChange={handlePipelineChange}
+        <Stack direction="row" spacing={2} alignItems="center">
+          <FormControl sx={{ minWidth: 240 }} size="small">
+            <InputLabel id="pipeline-select-label">Pipeline</InputLabel>
+            <Select
+              labelId="pipeline-select-label"
+              id="pipeline-select"
+              value={selectedPipelineId}
+              label="Pipeline"
+              onChange={handlePipelineChange}
+            >
+              {pipelines.map((pipeline) => (
+                <MenuItem key={pipeline.id} value={pipeline.id}>
+                  {pipeline.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setCreateDialogOpen(true)}
+            disabled={loading || !selectedPipelineId || stages.length === 0}
           >
-            {pipelines.map((pipeline) => (
-              <MenuItem key={pipeline.id} value={pipeline.id}>
-                {pipeline.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            New Deal
+          </Button>
+        </Stack>
       }
     >
       {/* Filters */}
@@ -385,54 +425,58 @@ export default function DealsKanbanPage() {
       )}
 
       {/* Loading deals indicator */}
-      {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-          <CircularProgress size={24} />
-        </Box>
-      )}
+      {loading && <BoardSkeleton />}
 
       {/* Kanban board with drag & drop */}
       {!loading && stages.length > 0 && (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCorners}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
+        <ErrorBoundary
+          fallback={
+            <Alert severity="error" sx={{ mb: 2 }}>
+              Board failed to render. Please refresh the page.
+            </Alert>
+          }
         >
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              overflowX: 'auto',
-              pb: 2,
-              '&::-webkit-scrollbar': {
-                height: 8,
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: 'rgba(0,0,0,0.2)',
-                borderRadius: 4,
-              },
-            }}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
           >
-            {stages.map((stage) => (
-              <KanbanColumn
-                key={stage.id}
-                stage={stage}
-                deals={dealsByStage[stage.id] || []}
-                onDealClick={handleDealClick}
-              />
-            ))}
-          </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                overflowX: 'auto',
+                pb: 2,
+                '&::-webkit-scrollbar': {
+                  height: 8,
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'rgba(0,0,0,0.2)',
+                  borderRadius: 4,
+                },
+              }}
+            >
+              {stages.map((stage) => (
+                <KanbanColumn
+                  key={stage.id}
+                  stage={stage}
+                  deals={dealsByStage[stage.id] || []}
+                  onDealClick={handleDealClick}
+                />
+              ))}
+            </Box>
 
-          {/* Drag overlay for visual feedback */}
-          <DragOverlay>
-            {activeDeal ? (
-              <Box sx={{ opacity: 0.8, transform: 'rotate(5deg)' }}>
-                <KanbanCard deal={activeDeal} />
-              </Box>
-            ) : null}
-          </DragOverlay>
-        </DndContext>
+            {/* Drag overlay for visual feedback */}
+            <DragOverlay>
+              {activeDeal ? (
+                <Box sx={{ opacity: 0.8, transform: 'rotate(5deg)' }}>
+                  <KanbanCard deal={activeDeal} />
+                </Box>
+              ) : null}
+            </DragOverlay>
+          </DndContext>
+        </ErrorBoundary>
       )}
 
       {/* Empty stages state */}
@@ -458,6 +502,15 @@ export default function DealsKanbanPage() {
           {toast.message}
         </Alert>
       </Snackbar>
+
+      {/* Create Deal Dialog */}
+      <CreateDealDialog
+        open={createDialogOpen}
+        stages={stages}
+        defaultStageId={stages[0]?.id}
+        onClose={() => setCreateDialogOpen(false)}
+        onCreate={handleCreateDeal}
+      />
     </AppPage>
   );
 }
