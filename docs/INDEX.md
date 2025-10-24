@@ -17,6 +17,15 @@ Welcome to the Traffic CRM documentation! This index organizes all documentation
 
 ---
 
+## 🗺️ Product Roadmap
+
+| Document | Description |
+|----------|-------------|
+| [PRODUCT_ROADMAP.md](./PRODUCT_ROADMAP.md) | 12-week product roadmap, module progress matrix, sprint breakdown |
+| [PHASE_2_PLAN.md](./PHASE_2_PLAN.md) | Future enhancements and features |
+
+---
+
 ## 🚀 Getting Started
 
 ### New Developers

@@ -34,6 +34,10 @@ Full-stack TypeScript CRM platform for travel/traffic businesses with React fron
 ./workflow-helper.sh start 1
 ```
 
+## 🗺️ Roadmap
+
+See [docs/PRODUCT_ROADMAP.md](./docs/PRODUCT_ROADMAP.md) for the complete 12-week sprint plan and module progress tracking.
+
 ## 🏗️ Architecture
 
 ```
