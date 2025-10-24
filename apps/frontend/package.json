@@ -12,6 +12,7 @@
     "build:staging": "env-cmd -f .env.qa vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
+    "typecheck:sprint2": "tsc --noEmit -p tsconfig.sprint2.json",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:ts": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",

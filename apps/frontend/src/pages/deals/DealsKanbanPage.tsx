@@ -8,11 +8,10 @@ import {
   Chip,
   IconButton,
   Button,
-  TextField,
-  MenuItem,
   Select,
   FormControl,
   InputLabel,
+  MenuItem,
 } from '@mui/material';
 import { Add, FilterList, MoreVert } from '@mui/icons-material';
 import {
@@ -64,7 +63,7 @@ interface Pipeline {
 
 export default function DealsKanbanPage() {
   const { orgId } = useAuth();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [_searchParams, _setSearchParams] = useSearchParams();
 
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);

@@ -278,7 +278,7 @@ export default function ContactsListPage() {
                 onChange={handleTagsChange}
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
-                    <Chip key={option} variant="outlined" label={option} size="small" {...getTagProps({ index })} />
+                    <Chip variant="outlined" label={option} size="small" {...getTagProps({ index })} />
                   ))
                 }
                 renderInput={(params) => <TextField {...params} label="Tags" placeholder="Select tags" />}
