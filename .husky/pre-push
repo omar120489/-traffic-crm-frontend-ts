@@ -1,11 +1,26 @@
 #!/usr/bin/env sh
-set -e
+set -euo pipefail
 
 echo "🔍 Running pre-push checks (Sprint 2 only)..."
-echo ""
 
-cd apps/frontend
+# Always run from repo root (works even when hook runs from .husky/)
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT/apps/frontend"
+
+# Optional: Node 20 guard (honors .nvmrc if present)
+if [ -f "$REPO_ROOT/.nvmrc" ]; then
+  REQUIRED_NODE="$(cat "$REPO_ROOT/.nvmrc" | tr -d '[:space:]')"
+  CURRENT_NODE="$(node -v | sed 's/^v//')"
+  case "$CURRENT_NODE" in
+    20.*) : ;; # ok
+    *)
+      echo "❌ Node $CURRENT_NODE detected; Node $REQUIRED_NODE required. Run: nvm use $REQUIRED_NODE"
+      exit 1
+      ;;
+  esac
+fi
+
+# Fast, focused check
 pnpm tsc --noEmit -p tsconfig.sprint2.json
 
-echo ""
 echo "✅ Sprint 2 TypeScript clean! Pushing..."

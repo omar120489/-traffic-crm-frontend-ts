@@ -1,508 +1,239 @@
 # Contributing to Traffic CRM
 
-Thank you for your interest in contributing to Traffic CRM! This guide will help you get started with our development workflow.
+Thank you for contributing! This guide will help you get started quickly.
 
-## 📋 Table of Contents
+## 🛠 Tooling Requirements
 
-- [Getting Started](#getting-started)
-- [Development Workflow](#development-workflow)
-- [Code Standards](#code-standards)
-- [Testing Requirements](#testing-requirements)
-- [Pull Request Process](#pull-request-process)
-- [Issue Management](#issue-management)
-- [Commit Convention](#commit-convention)
-- [Branch Naming](#branch-naming)
+- **Node**: Node 20 LTS (use `nvm use` to switch)
+- **Package manager**: pnpm 10+
+- **Git hooks**: Husky v10 (auto-installed on `pnpm install`)
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js**: >=18 <21
-- **pnpm**: 10.18.2 (managed via packageManager field)
-- **GitHub CLI**: For workflow automation (`gh auth login`)
-- **Git**: Latest stable version
-
-### Initial Setup
+## 🚀 Quick Start
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/omar120489/-traffic-crm-frontend-ts.git
-cd -traffic-crm-frontend-ts
-
-# 2. Install dependencies
+# Clone and install
+git clone <repo-url>
+cd traffic-crm-frontend-ts
+nvm use  # Switch to Node 20
 pnpm install
 
-# 3. Setup environment
-cp apps/frontend/.env.example apps/frontend/.env
-cp apps/core-api/.env.example apps/core-api/.env
-
-# 4. Start infrastructure
-pnpm docker:up
-
-# 5. Run database migrations
-pnpm db:migrate
-pnpm db:seed
-
-# 6. Verify setup
-pnpm -r typecheck
-pnpm -r lint
-pnpm -r test
+# Start development
+pnpm --filter @apps/core-api start:dev  # Backend (port 3000)
+pnpm --filter ./apps/frontend dev        # Frontend (port 5173)
 ```
 
----
+## 📋 Pre-Push Gates
 
-## 🔄 Development Workflow
+Husky runs a **fast Sprint-2-only TypeScript check** before every push:
+- ✅ Validates all Sprint 2 code (`src/pages/{contacts,deals,companies,settings,auth}`, `src/components`, `src/lib`, `src/contexts`)
+- ✅ Ignores legacy code (shimmed in `src/legacy/ambient.d.ts`)
+- ✅ Takes ~10 seconds
+- ❌ Blocks push if Sprint 2 code has TypeScript errors
 
-We use an automated workflow system with helper scripts. Here's how to work on an issue:
-
-### Quick Start (Automated)
+## 🧪 TypeScript Commands
 
 ```bash
-# 1. Start working on an issue (e.g., issue #1)
-./workflow-helper.sh start 1
+# Fast Sprint 2 check (same as pre-push)
+pnpm --filter ./apps/frontend run typecheck
 
-# 2. Make your changes
-# ... edit code ...
+# Explicit Sprint 2 check
+pnpm --filter ./apps/frontend run typecheck:sprint2
 
-# 3. Commit with conventional format
-git add -A
-git commit -m "feat(frontend): migrate ui-component imports"
+# Full repo check (with legacy shims)
+pnpm --filter ./apps/frontend run typecheck:legacy
 
-# 4. Push your branch
-git push -u origin feat/frontend-migrate-components
-
-# 5. Create a draft PR (auto-labeled with templates)
-./workflow-helper.sh pr 1
-
-# 6. Mark PR as ready when done
-gh pr ready
+# Both checks (comprehensive)
+pnpm --filter ./apps/frontend run typecheck:all
 ```
 
-### Manual Workflow
+## 📦 Monorepo Structure
 
-If you prefer manual control:
+```
+traffic-crm-frontend-ts/
+├── apps/
+│   ├── core-api/          # NestJS backend
+│   └── frontend/          # React + Vite frontend
+├── packages/
+│   ├── ui-kit/            # Shared UI components
+│   ├── rbac/              # Role-based access control
+│   └── sdk-js/            # Generated TypeScript SDK
+└── workers/               # BullMQ background jobs
+```
+
+## 🎯 Development Workflow
+
+### 1. Create a Feature Branch
 
 ```bash
-# 1. Create a feature branch
 git checkout -b feat/your-feature-name
-
-# 2. Make changes and commit
-git add -A
-git commit -m "feat(scope): description"
-
-# 3. Push and create PR
-git push -u origin feat/your-feature-name
-gh pr create --draft --assignee @me
 ```
 
-### Workflow Helper Commands
+### 2. Make Your Changes
+
+- **Sprint 2 code** (new features): Write fully-typed TypeScript
+- **Legacy code** (existing files): Gradual migration (see below)
+
+### 3. Run Checks Locally
 
 ```bash
-./workflow-helper.sh start <N>   # Start work on issue #N
-./workflow-helper.sh pr <N>      # Create PR for issue #N
-./workflow-helper.sh list        # List all issue branches
-./workflow-helper.sh status      # Show current issue
+# TypeScript
+pnpm --filter ./apps/frontend run typecheck:sprint2
+
+# Linting
+pnpm --filter ./apps/frontend run lint
+
+# Tests
+pnpm --filter ./apps/frontend run test:unit
+pnpm --filter ./apps/frontend run test:e2e
 ```
 
----
-
-## 📝 Code Standards
-
-### TypeScript
-
-- **Strict mode**: Enabled across all packages
-- **No `any`**: Use proper types or `unknown`
-- **Prefer interfaces**: Over type aliases for object shapes
-- **Export types**: Always export types used in public APIs
-
-### Code Style
-
-We use ESLint and Prettier for consistent formatting:
+### 4. Commit with Conventional Commits
 
 ```bash
-# Auto-fix linting issues
-pnpm -r lint:fix
-
-# Format code
-pnpm -r prettier
+git commit -m "feat(contacts): add tag multiselect filter"
+git commit -m "fix(api): handle null company in contacts service"
+git commit -m "chore(deps): upgrade @mui/material to 7.0"
 ```
 
-### Path Aliases
-
-Use path aliases for cleaner imports:
-
-```typescript
-// ✅ Good
-import { Button } from '@shared/components';
-import { useAuth } from '@shared/hooks';
-import { Deal } from '@features/deals';
-
-// ❌ Bad
-import { Button } from '../../../shared/components/Button';
-```
-
-**Available aliases:**
-
-- `@shared/*` - Shared components, hooks, utils
-- `@features/*` - Feature-specific code
-- `@data/*` - Data layer (API clients, hooks)
-- `@core/*` - Core utilities (RBAC, filters, export)
-
----
-
-## 🧪 Testing Requirements
-
-### Test Coverage Goals
-
-- **Hooks**: >60% coverage
-- **Core Components**: >40% coverage
-- **Business Logic**: >80% coverage
-- **API Endpoints**: 100% critical paths
-
-### Running Tests
-
-```bash
-# All tests
-pnpm -r test
-
-# Specific workspace
-pnpm --filter ./apps/frontend test:unit
-pnpm --filter @apps/core-api test:e2e
-
-# With coverage
-pnpm --filter ./apps/frontend test:unit -- --coverage
-
-# Watch mode
-pnpm --filter ./apps/frontend test:unit -- --watch
-```
-
-### Writing Tests
-
-**Frontend (Vitest + React Testing Library):**
-
-```typescript
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { MyComponent } from './MyComponent';
-
-describe('MyComponent', () => {
-  it('renders correctly', () => {
-    render(<MyComponent />);
-    expect(screen.getByText('Hello')).toBeInTheDocument();
-  });
-});
-```
-
-**Backend (NestJS Testing):**
-
-```typescript
-import { Test } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-
-describe('LeadsController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeAll(async () => {
-    const moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  it('/leads (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/leads')
-      .expect(200)
-      .expect((res) => {
-        expect(res.body.items).toBeDefined();
-      });
-  });
-});
-```
-
----
-
-## 🔀 Pull Request Process
-
-### Before Creating a PR
-
-- [ ] Code builds successfully (`pnpm build`)
-- [ ] All tests pass (`pnpm test`)
-- [ ] Linting passes (`pnpm lint`)
-- [ ] Type checking passes (`pnpm typecheck`)
-- [ ] No console.log statements (use proper logging)
-- [ ] Documentation updated (if needed)
-
-### PR Template
-
-Our workflow automatically uses PR templates based on the issue number. Templates include:
-
-- 🎯 Goal statement
-- 📋 Checklist of changes
-- ✅ Verification steps
-- 🔗 Auto-closes related issue
-
-### PR Review Process
-
-1. **Draft PR**: Create as draft while working
-2. **Self-review**: Review your own changes first
-3. **Mark ready**: When complete and passing CI
-4. **Code review**: At least one approval required
-5. **Address feedback**: Make requested changes
-6. **Merge**: Squash and merge (maintains clean history)
-
-### CI Checks
-
-All PRs must pass these checks:
-
-- ✅ `pr-title-check` - Conventional commit format
-- ✅ `typecheck-and-build` - Type safety and builds
-- ✅ `lint` - Code style
-- ✅ `test` - Test suite
-- ✅ `security-audit` - Dependency vulnerabilities
-- ✅ `ci-complete` - Overall status
-
----
-
-## 🏷️ Issue Management
-
-### Issue Labels
-
-We use a structured labeling system:
-
-**Area Labels:**
-
-- `area:frontend` - Frontend work
-- `area:backend` - Backend work
-- `area:workers` - Workers & queues
-- `area:ci` - CI/CD
-- `area:sdk` - SDK & packages
-- `area:docs` - Documentation
-
-**Priority Labels:**
-
-- `priority:high` - High priority
-- `priority:medium` - Medium priority (default)
-- `priority:low` - Low priority
-
-**Type Labels:**
-
-- `type:feat` - New feature
-- `type:fix` - Bug fix
-- `type:refactor` - Code refactoring
-- `type:test` - Testing
-- `type:docs` - Documentation
-- `type:perf` - Performance improvement
-
-### Creating Issues
-
-Use our issue templates when available. Include:
-
-- **Clear title**: Descriptive and specific
-- **Context**: Why is this needed?
-- **Acceptance criteria**: What defines "done"?
-- **Related issues**: Link to related work
-
----
-
-## 📝 Commit Convention
-
-We follow [Conventional Commits](https://www.conventionalcommits.org/) enforced by commitlint.
-
-### Format
-
-```
-<type>(<scope>): <subject>
-
-[optional body]
-
-[optional footer]
-```
-
-### Types
-
+**Commit types:**
 - `feat`: New feature
 - `fix`: Bug fix
+- `chore`: Maintenance (deps, config)
 - `docs`: Documentation only
-- `style`: Code style (formatting, missing semicolons, etc.)
-- `refactor`: Code refactoring
+- `refactor`: Code restructuring (no behavior change)
+- `test`: Adding/updating tests
 - `perf`: Performance improvement
-- `test`: Adding or updating tests
-- `build`: Build system or dependencies
-- `ci`: CI configuration
-- `chore`: Other changes (releases, etc.)
-- `revert`: Revert a previous commit
 
-### Scopes
-
-Common scopes by area:
-
-- **Frontend**: `frontend`, `ui`, `components`, `hooks`
-- **Backend**: `api`, `auth`, `leads`, `deals`, `companies`
-- **Workers**: `workers`, `queues`, `jobs`
-- **SDK**: `sdk`, `types`
-- **CI/CD**: `ci`, `build`, `deploy`
-
-### Examples
+### 5. Push and Create PR
 
 ```bash
-# Feature
-git commit -m "feat(frontend): add pagination to leads table"
-
-# Bug fix
-git commit -m "fix(api): handle null values in deal stage transitions"
-
-# Documentation
-git commit -m "docs: update API endpoint documentation"
-
-# Refactor
-git commit -m "refactor(hooks): extract pagination logic to custom hook"
-
-# Breaking change
-git commit -m "feat(api)!: change pagination response format
-
-BREAKING CHANGE: pagination now returns { items, total, page, size } instead of { data, total }"
+git push origin feat/your-feature-name
+# Create PR on GitHub
 ```
 
----
+## 🧹 Legacy Code Migration Policy
 
-## 🌿 Branch Naming
+### Current State
 
-### Convention
+Legacy code is **shimmed** in `apps/frontend/src/legacy/ambient.d.ts` to allow the full-repo typecheck to pass without blocking development.
 
+### Migration Process
+
+When you modernize a legacy area:
+
+1. **Update the file** with proper types
+2. **Delete the corresponding shim** from `src/legacy/ambient.d.ts`
+3. **Verify** with `pnpm run typecheck:legacy`
+4. **Commit** with a `refactor:` prefix
+
+Example:
+```bash
+# Migrate hooks/useNotifications.ts
+# 1. Add proper types to the file
+# 2. Remove this line from ambient.d.ts:
+#    declare module 'hooks/useNotifications' { ... }
+# 3. Verify
+pnpm --filter ./apps/frontend run typecheck:legacy
+# 4. Commit
+git commit -m "refactor(hooks): migrate useNotifications to TypeScript"
 ```
-<type>/<scope>-<description>
-```
 
-### Examples
+### Track Progress
 
 ```bash
-feat/frontend-migrate-components
-fix/backend-align-dtos-shared-types
-test/frontend-comprehensive-test-suite
-docs/update-project-structure-guides
-refactor/frontend-consolidate-layouts
+# Count remaining shims
+grep -c "declare module" apps/frontend/src/legacy/ambient.d.ts
+
+# List all shimmed modules
+grep "declare module" apps/frontend/src/legacy/ambient.d.ts
 ```
 
-### Branch Types
+**Goal:** When count reaches 0, delete `ambient.d.ts` entirely! 🎉
 
-- `feat/` - New features
-- `fix/` - Bug fixes
-- `refactor/` - Code refactoring
-- `test/` - Test additions/updates
-- `docs/` - Documentation
-- `chore/` - Maintenance tasks
-- `hotfix/` - Production hotfixes
+## 🔒 Code Quality Standards
 
----
+### TypeScript
+- ✅ Sprint 2 code: **Strict mode**, no `any`
+- ✅ Props: Use `Readonly<>` or `readonly` fields
+- ✅ Arrays: Use `ReadonlyArray<T>` for props
+- ✅ Avoid deprecated APIs (check Sonar warnings)
 
-## 🎯 Definition of Done
+### React
+- ✅ Functional components only
+- ✅ Hooks for state management
+- ✅ Proper accessibility (`aria-label`, `htmlFor`, etc.)
+- ✅ Use `onKeyDown` (not deprecated `onKeyPress`)
 
-A task is considered complete when:
+### Imports
+- ✅ Use workspace aliases: `@traffic-crm/ui-kit`, `@traffic-crm/sdk-js`
+- ✅ Group imports: external → internal → relative
 
-- [ ] Code is implemented and working
-- [ ] Tests are written and passing
-- [ ] Documentation is updated
-- [ ] Code is reviewed and approved
-- [ ] CI checks are green
-- [ ] No regression in existing functionality
-- [ ] Conventional commit message used
-- [ ] PR description is complete
-- [ ] Related issue is linked
+## 🧪 Testing
 
----
-
-## 🛠️ Common Tasks
-
-### Adding a New Feature
-
+### Unit Tests (Vitest)
 ```bash
-# 1. Start from main
-git checkout main
-git pull origin main
-
-# 2. Create feature branch
-git checkout -b feat/your-feature
-
-# 3. Implement feature with tests
-# ... code ...
-
-# 4. Verify locally
-pnpm --filter <workspace> typecheck
-pnpm --filter <workspace> test
-pnpm --filter <workspace> build
-
-# 5. Commit and push
-git add -A
-git commit -m "feat(scope): description"
-git push -u origin feat/your-feature
-
-# 6. Create PR
-gh pr create --draft --assignee @me
+pnpm --filter ./apps/frontend run test:unit
+pnpm --filter @apps/core-api run test
 ```
 
-### Fixing a Bug
-
+### E2E Tests (Playwright)
 ```bash
-# 1. Create fix branch
-git checkout -b fix/bug-description
-
-# 2. Write failing test (if applicable)
-# 3. Fix the bug
-# 4. Verify test passes
-# 5. Commit and create PR
-
-git commit -m "fix(scope): description"
+pnpm --filter ./apps/frontend run test:e2e
+pnpm --filter ./apps/frontend run test:e2e:ui  # Interactive mode
 ```
 
-### Updating Dependencies
-
+### Smoke Tests
 ```bash
-# Check for outdated packages
-pnpm outdated
-
-# Update specific package
-pnpm update <package-name>
-
-# Update all (carefully!)
-pnpm update --latest
-
-# Verify everything still works
-pnpm -r typecheck
-pnpm -r test
-pnpm -r build
+pnpm --filter ./apps/frontend run test:smoke
 ```
 
----
+## 📚 Key Documentation
 
-## 📚 Additional Resources
+- [Sprint 2 Handoff](./SPRINT_2_HANDOFF.md) - Sprint 2 features & architecture
+- [Sprint 2 Runbook](./SPRINT_2_RUNBOOK.md) - Deployment & operations
+- [Branch Protection](./docs/GITHUB_BRANCH_PROTECTION_SETTINGS.md) - Required checks
+- [Product Roadmap](./PRODUCT_ROADMAP.md) - Feature roadmap
+- [Release Playbook](./RELEASE_PLAYBOOK.md) - Release process
 
-- [Project Structure](./docs/PROJECT_STRUCTURE.md)
-- [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
-- [Local Workflow](./docs/LOCAL_WORKFLOW.md)
-- [Testing Guide](./docs/TESTING.md)
-- [Release Process](./docs/RELEASE_PLAYBOOK.md)
+## 🐛 Troubleshooting
 
----
+### "Unsupported engine" warning
+You're on Node 24, but the project expects Node 20:
+```bash
+nvm use 20  # or nvm install 20 && nvm use 20
+```
+
+### Pre-push hook fails
+```bash
+# Check what's failing
+cd apps/frontend
+pnpm tsc --noEmit -p tsconfig.sprint2.json
+
+# Fix errors, then retry push
+```
+
+### Workspace package not found
+```bash
+# Rebuild all packages
+pnpm -r run build
+
+# Re-link workspaces
+pnpm install
+```
+
+### Prisma client out of sync
+```bash
+cd apps/core-api
+pnpm prisma:generate
+pnpm build
+```
 
 ## 💬 Getting Help
 
-- **Questions**: Open a discussion on GitHub
-- **Bugs**: Create an issue with reproduction steps
-- **Features**: Propose in an issue first
-- **Security**: See [SECURITY.md](./SECURITY.md)
+- **Issues**: [GitHub Issues](https://github.com/omar120489/-traffic-crm-frontend-ts/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/omar120489/-traffic-crm-frontend-ts/discussions)
+- **Code Review**: Tag `@omar120489` in PRs
 
----
+## 📜 License
 
-## 🎉 Thank You
-
-Your contributions make Traffic CRM better for everyone. We appreciate your time and effort!
-
----
-
-**Happy Coding! 🚀**
+[MIT](./LICENSE)

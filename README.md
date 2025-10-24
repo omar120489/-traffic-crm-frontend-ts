@@ -1,6 +1,7 @@
 # Traffic CRM Monorepo
 
 [![CI](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml)
+[![Sprint 2 Typecheck](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/typecheck-sprint2.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/typecheck-sprint2.yml)
 [![Release Please](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml)
 [![Preview Build](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml)
 [![CodeQL](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml)

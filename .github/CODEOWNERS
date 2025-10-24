@@ -1,31 +1,25 @@
-# CODEOWNERS - Automatic reviewer assignment
-# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# Code ownership for automated review requests
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# Default owner for everything in the repo
-*                               @omar120489
+# Frontend Sprint 2 code
+/apps/frontend/src/pages/contacts/**   @omar120489
+/apps/frontend/src/pages/deals/**      @omar120489
+/apps/frontend/src/pages/companies/**  @omar120489
+/apps/frontend/src/pages/settings/**   @omar120489
+/apps/frontend/src/pages/auth/**       @omar120489
+/apps/frontend/src/components/**       @omar120489
+/apps/frontend/src/contexts/**         @omar120489
+/apps/frontend/src/lib/**              @omar120489
 
-# Frontend ownership
-/apps/frontend/                 @omar120489
-/packages/sdk-js/               @omar120489
+# Core API
+/apps/core-api/**                      @omar120489
 
-# Backend ownership
-/apps/core-api/                 @omar120489
-/apps/workers/                  @omar120489
-/apps/reporting/                @omar120489
-
-# Shared packages
-/packages/shared-types/         @omar120489
+# UI Kit & Packages
+/packages/ui-kit/**                    @omar120489
+/packages/rbac/**                      @omar120489
+/packages/sdk-js/**                    @omar120489
 
 # Infrastructure
-/infra/                         @omar120489
-/.github/                       @omar120489
-
-# Documentation
-/docs/                          @omar120489
-*.md                            @omar120489
-
-# Configuration files
-*.json                          @omar120489
-*.yaml                          @omar120489
-*.yml                           @omar120489
-
+/.github/**                            @omar120489
+/.husky/**                             @omar120489
+/prisma/**                             @omar120489
