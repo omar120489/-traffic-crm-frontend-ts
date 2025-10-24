@@ -1,260 +1,516 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+/**
+ * Deals Kanban Board Page
+ * Sprint 3: FE-KANBAN-02 (Drag & Drop)
+ * 
+ * Features:
+ * - Pipeline selection
+ * - Column rendering by stage
+ * - Deal cards grouped by stage
+ * - Drag & drop with optimistic updates
+ * - Loading states
+ * - Empty states
+ * 
+ * TODO (FE-KANBAN-03): Add filters (owner, tags, search)
+ */
+
+import { useEffect, useState, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box,
-  Card,
-  CardContent,
-  Typography,
-  Chip,
-  IconButton,
-  Button,
-  Select,
+  Stack,
+  Alert,
+  Snackbar,
   FormControl,
   InputLabel,
+  Select,
   MenuItem,
+  Button,
+  type SelectChangeEvent,
 } from '@mui/material';
-import { Add, FilterList, MoreVert } from '@mui/icons-material';
+import { Add as AddIcon } from '@mui/icons-material';
 import {
   DndContext,
+  DragEndEvent,
   DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
-  type DragEndEvent,
+  closestCorners,
   type DragStartEvent,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+// import { arrayMove } from '@dnd-kit/sortable'; // Not needed for simple cross-column moves
 import { AppPage } from '@traffic-crm/ui-kit';
-import { createClient } from '@traffic-crm/sdk-js';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { getPipelines, getDealsByPipeline, moveDeal, createDeal } from '@/services/deals.service';
+import type { Deal, Pipeline, Stage, DealFilters, FilterOption } from '@/types/deals';
+import { KanbanColumn } from './components/KanbanColumn';
+import { KanbanCard } from './components/KanbanCard';
+import { KanbanFilters } from './components/KanbanFilters';
+import { CreateDealDialog, type CreateDealInput } from './components/CreateDealDialog';
+import { BoardSkeleton } from './components/BoardSkeleton';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
-const api = createClient({
-  baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('access_token') ?? '',
-});
-
-interface Deal {
-  id: string;
-  title: string;
-  amountCents: number;
-  currency: string;
-  stageId: string;
-  ownerId?: string;
-  contactId?: string;
-  companyId?: string;
-  closeDate?: string;
-  Contact?: { id: string; name: string };
-  Company?: { id: string; name: string };
-  User?: { id: string; name: string };
-}
-
-interface Stage {
-  id: string;
-  name: string;
-  order: number;
-  probability: number;
-}
-
-interface Pipeline {
-  id: string;
-  name: string;
-  Stage: Stage[];
-}
+type StageMap = Record<string, Deal[]>;
 
 export default function DealsKanbanPage() {
   const { orgId } = useAuth();
-  const [_searchParams, _setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [pipelines, setPipelines] = useState<Pipeline[]>([]);
-  const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);
-  const [deals, setDeals] = useState<Deal[]>([]);
+  // State
+  const [pipelines, setPipelines] = useState<readonly Pipeline[]>([]);
+  const [selectedPipelineId, setSelectedPipelineId] = useState<string>('');
+  const [deals, setDeals] = useState<readonly Deal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [activeDeal, setActiveDeal] = useState<Deal | null>(null);
+  const [toast, setToast] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
 
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+  // Filter options (stub data for now - can be loaded from API)
+  const [ownerOptions] = useState<readonly FilterOption[]>([
+    { id: 'owner-1', name: 'John Doe' },
+    { id: 'owner-2', name: 'Jane Smith' },
+    { id: 'owner-3', name: 'Bob Johnson' },
+  ]);
 
-  useEffect(() => {
-    loadPipelines();
-  }, []);
+  const [tagOptions] = useState<readonly FilterOption[]>([
+    { id: 'tag-1', name: 'Hot Lead' },
+    { id: 'tag-2', name: 'VIP' },
+    { id: 'tag-3', name: 'Urgent' },
+    { id: 'tag-4', name: 'Follow-up' },
+  ]);
 
-  useEffect(() => {
-    if (selectedPipeline) {
-      loadDeals();
-    }
+  // Parse filters from URL
+  const filtersFromURL: DealFilters = useMemo(
+    () => ({
+      ownerIds: searchParams.getAll('owner'),
+      tagIds: searchParams.getAll('tag'),
+      q: searchParams.get('q') || '',
+    }),
+    [searchParams]
+  );
+
+  const [filters, setFilters] = useState<DealFilters>(filtersFromURL);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+  // Drag & drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px movement required to start drag
+      },
+    })
+  );
+
+  // Computed: selected pipeline
+  const selectedPipeline = useMemo(
+    () => pipelines.find((p) => p.id === selectedPipelineId),
+    [pipelines, selectedPipelineId]
+  );
+
+  // Computed: sorted stages
+  const stages = useMemo<readonly Stage[]>(() => {
+    if (!selectedPipeline) return [];
+    return [...selectedPipeline.stages].sort((a, b) => a.order - b.order);
   }, [selectedPipeline]);
 
-  const loadPipelines = async () => {
-    try {
-      const data = await api.listPipelines(orgId);
-      setPipelines(data);
-      if (data.length > 0) {
-        setSelectedPipeline(data[0]);
+  // Computed: deals grouped by stage
+  const dealsByStage = useMemo<StageMap>(() => {
+    const grouped: StageMap = {};
+    
+    // Initialize all stages with empty arrays
+    stages.forEach((stage) => {
+      grouped[stage.id] = [];
+    });
+
+    // Group deals by stageId
+    deals.forEach((deal) => {
+      if (grouped[deal.stageId]) {
+        grouped[deal.stageId].push(deal);
       }
-    } catch (err) {
-      console.error('Failed to load pipelines:', err);
-    }
+    });
+
+    // Sort deals within each stage by position
+    Object.keys(grouped).forEach((stageId) => {
+      grouped[stageId] = grouped[stageId].sort((a, b) => a.position - b.position);
+    });
+
+    return grouped;
+  }, [deals, stages]);
+
+  // Load pipelines on mount
+  useEffect(() => {
+    const loadPipelines = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getPipelines(orgId);
+        setPipelines(data);
+
+        // Auto-select first pipeline
+        if (data.length > 0) {
+          setSelectedPipelineId(data[0].id);
+        }
+      } catch (err) {
+        console.error('Failed to load pipelines:', err);
+        setError('Failed to load pipelines. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadPipelines();
+  }, [orgId]);
+
+  // Sync filters to URL
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    filters.ownerIds?.forEach((id) => params.append('owner', id));
+    filters.tagIds?.forEach((id) => params.append('tag', id));
+    if (filters.q) params.set('q', filters.q);
+    
+    setSearchParams(params, { replace: true });
+  }, [filters, setSearchParams]);
+
+  // Load deals when pipeline or filters change
+  useEffect(() => {
+    if (!selectedPipelineId) return;
+
+    const loadDeals = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getDealsByPipeline(selectedPipelineId, filters);
+        setDeals(data);
+      } catch (err) {
+        console.error('Failed to load deals:', err);
+        setError('Failed to load deals. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadDeals();
+  }, [selectedPipelineId, filters]);
+
+  // Handlers
+  const handlePipelineChange = (event: SelectChangeEvent<string>) => {
+    setSelectedPipelineId(event.target.value);
   };
 
-  const loadDeals = async () => {
-    if (!selectedPipeline) return;
+  const handleDealClick = (dealId: string) => {
+    navigate(`/deals/${dealId}`);
+  };
+
+  const handleFiltersChange = (newFilters: DealFilters) => {
+    setFilters(newFilters);
+  };
+
+  const handleClearFilters = () => {
+    setFilters({ ownerIds: [], tagIds: [], q: '' });
+  };
+
+  const handleCreateDeal = async (input: CreateDealInput): Promise<Deal> => {
     try {
-      setLoading(true);
-      const data = await api.listDeals({ orgId, pipelineId: selectedPipeline.id });
-      setDeals(data.items || []);
+      const newDeal = await createDeal({
+        name: input.name,
+        amountCents: input.amountCents,
+        stageId: input.stageId,
+        pipelineId: selectedPipelineId,
+      });
+
+      // Refresh deals to show the new deal
+      const refreshedDeals = await getDealsByPipeline(selectedPipelineId, filters);
+      setDeals(refreshedDeals);
+
+      setToast({
+        open: true,
+        message: 'Deal created successfully',
+        severity: 'success',
+      });
+
+      return newDeal;
     } catch (err) {
-      console.error('Failed to load deals:', err);
-    } finally {
-      setLoading(false);
+      console.error('Failed to create deal:', err);
+      setToast({
+        open: true,
+        message: 'Failed to create deal. Please try again.',
+        severity: 'error',
+      });
+      throw err;
     }
   };
 
   const handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id as string);
+    const { active } = event;
+    const deal = deals.find((d) => d.id === active.id);
+    if (deal) {
+      setActiveDeal(deal);
+    }
   };
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
-    setActiveId(null);
+    setActiveDeal(null);
 
-    if (!over || active.id === over.id) return;
+    if (!over) return;
 
-    const dealId = active.id as string;
-    const newStageId = over.id as string;
+    const dealId = String(active.id);
+    const overId = String(over.id);
 
-    // Optimistic update
-    setDeals((prev) =>
-      prev.map((d) => (d.id === dealId ? { ...d, stageId: newStageId } : d))
+    // Find source stage
+    const sourceStageId = Object.keys(dealsByStage).find((stageId) =>
+      dealsByStage[stageId].some((d) => d.id === dealId)
     );
 
+    if (!sourceStageId) return;
+
+    // Determine target stage (could be a stage ID or another deal ID)
+    let targetStageId = overId;
+    const targetDeal = deals.find((d) => d.id === overId);
+    if (targetDeal) {
+      targetStageId = targetDeal.stageId;
+    }
+
+    // No change if dropped in same position
+    if (sourceStageId === targetStageId) {
+      const sourceDeals = dealsByStage[sourceStageId];
+      const oldIndex = sourceDeals.findIndex((d) => d.id === dealId);
+      const newIndex = targetDeal ? sourceDeals.findIndex((d) => d.id === overId) : oldIndex;
+      
+      if (oldIndex === newIndex) return;
+    }
+
+    // Snapshot for rollback
+    const previousDeals = [...deals];
+
+    // Optimistic update
+    setDeals((currentDeals) => {
+      const sourceDeals = dealsByStage[sourceStageId];
+      const oldIndex = sourceDeals.findIndex((d) => d.id === dealId);
+      const movingDeal = sourceDeals[oldIndex];
+
+      if (!movingDeal) return currentDeals;
+
+      // Rebuild full deals array with updated stageId
+      const updatedDeals = currentDeals.map((deal) => {
+        if (deal.id === dealId) {
+          return { ...deal, stageId: targetStageId };
+        }
+        return deal;
+      });
+
+      return updatedDeals;
+    });
+
+    // Persist to backend
     try {
-      await api.updateDeal(dealId, { stageId: newStageId });
+      const targetDeals = dealsByStage[targetStageId] || [];
+      const newPosition = targetDeal 
+        ? targetDeals.findIndex((d) => d.id === overId)
+        : targetDeals.length;
+
+      await moveDeal(dealId, {
+        stageId: targetStageId,
+        position: Math.max(0, newPosition),
+      });
+
+      setToast({
+        open: true,
+        message: 'Deal moved successfully',
+        severity: 'success',
+      });
+
+      // Refresh deals to get accurate positions from backend
+      const refreshedDeals = await getDealsByPipeline(selectedPipelineId);
+      setDeals(refreshedDeals);
     } catch (err) {
       console.error('Failed to move deal:', err);
-      // Rollback
-      await loadDeals();
+      
+      // Rollback on error
+      setDeals(previousDeals);
+      
+      setToast({
+        open: true,
+        message: 'Failed to move deal. Please try again.',
+        severity: 'error',
+      });
     }
   };
 
-  const dealsByStage = (stageId: string) =>
-    deals.filter((d) => d.stageId === stageId);
+  // Render loading state (initial load)
+  if (loading && pipelines.length === 0) {
+    return (
+      <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
+        <BoardSkeleton />
+      </AppPage>
+    );
+  }
 
-  const activeDeal = deals.find((d) => d.id === activeId);
+  // Render error state
+  if (error) {
+    return (
+      <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      </AppPage>
+    );
+  }
+
+  // Render empty pipelines state
+  if (pipelines.length === 0) {
+    return (
+      <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
+        <Alert severity="info" sx={{ mb: 2 }}>
+          No pipelines found. Please create a pipeline first in{' '}
+          <strong>Settings → Pipelines</strong>.
+        </Alert>
+      </AppPage>
+    );
+  }
 
   return (
     <AppPage
       title="Deals Board"
+      breadcrumbs={[{ label: 'Deals', href: '/deals' }]}
       actions={
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          <FormControl size="small" sx={{ minWidth: 200 }}>
-            <InputLabel>Pipeline</InputLabel>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <FormControl sx={{ minWidth: 240 }} size="small">
+            <InputLabel id="pipeline-select-label">Pipeline</InputLabel>
             <Select
-              value={selectedPipeline?.id || ''}
-              onChange={(e) => {
-                const p = pipelines.find((x) => x.id === e.target.value);
-                if (p) setSelectedPipeline(p);
-              }}
+              labelId="pipeline-select-label"
+              id="pipeline-select"
+              value={selectedPipelineId}
               label="Pipeline"
+              onChange={handlePipelineChange}
             >
-              {pipelines.map((p) => (
-                <MenuItem key={p.id} value={p.id}>
-                  {p.name}
+              {pipelines.map((pipeline) => (
+                <MenuItem key={pipeline.id} value={pipeline.id}>
+                  {pipeline.name}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <IconButton size="small">
-            <FilterList />
-          </IconButton>
-          <Button variant="contained" startIcon={<Add />}>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setCreateDialogOpen(true)}
+            disabled={loading || !selectedPipelineId || stages.length === 0}
+          >
             New Deal
           </Button>
-        </Box>
+        </Stack>
       }
     >
-      {loading ? (
-        <Typography>Loading...</Typography>
-      ) : (
-        <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-          <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto', pb: 2 }}>
-            {selectedPipeline?.Stage.sort((a, b) => a.order - b.order).map((stage) => (
-              <Box
-                key={stage.id}
-                sx={{
-                  minWidth: 320,
-                  maxWidth: 320,
-                  bgcolor: 'grey.50',
-                  borderRadius: 1,
-                  p: 2,
-                }}
-              >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6" sx={{ fontSize: '0.95rem', fontWeight: 600 }}>
-                    {stage.name}
-                  </Typography>
-                  <Chip label={dealsByStage(stage.id).length} size="small" />
-                </Box>
-
-                <SortableContext items={dealsByStage(stage.id).map((d) => d.id)} strategy={verticalListSortingStrategy}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                    {dealsByStage(stage.id).map((deal) => (
-                      <DealCard key={deal.id} deal={deal} />
-                    ))}
-                  </Box>
-                </SortableContext>
-              </Box>
-            ))}
-          </Box>
-
-          <DragOverlay>
-            {activeDeal ? <DealCard deal={activeDeal} isDragging /> : null}
-          </DragOverlay>
-        </DndContext>
+      {/* Filters */}
+      {!loading && selectedPipelineId && (
+        <KanbanFilters
+          owners={ownerOptions}
+          tags={tagOptions}
+          value={{
+            ownerIds: filters.ownerIds || [],
+            tagIds: filters.tagIds || [],
+            q: filters.q || '',
+          }}
+          onChange={handleFiltersChange}
+          onClear={handleClearFilters}
+          loading={loading}
+        />
       )}
+
+      {/* Loading deals indicator */}
+      {loading && <BoardSkeleton />}
+
+      {/* Kanban board with drag & drop */}
+      {!loading && stages.length > 0 && (
+        <ErrorBoundary
+          fallback={
+            <Alert severity="error" sx={{ mb: 2 }}>
+              Board failed to render. Please refresh the page.
+            </Alert>
+          }
+        >
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                overflowX: 'auto',
+                pb: 2,
+                '&::-webkit-scrollbar': {
+                  height: 8,
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: 'rgba(0,0,0,0.2)',
+                  borderRadius: 4,
+                },
+              }}
+            >
+              {stages.map((stage) => (
+                <KanbanColumn
+                  key={stage.id}
+                  stage={stage}
+                  deals={dealsByStage[stage.id] || []}
+                  onDealClick={handleDealClick}
+                />
+              ))}
+            </Box>
+
+            {/* Drag overlay for visual feedback */}
+            <DragOverlay>
+              {activeDeal ? (
+                <Box sx={{ opacity: 0.8, transform: 'rotate(5deg)' }}>
+                  <KanbanCard deal={activeDeal} />
+                </Box>
+              ) : null}
+            </DragOverlay>
+          </DndContext>
+        </ErrorBoundary>
+      )}
+
+      {/* Empty stages state */}
+      {!loading && stages.length === 0 && (
+        <Alert severity="info">
+          This pipeline has no stages. Please add stages in <strong>Settings → Pipelines</strong>.
+        </Alert>
+      )}
+
+      {/* Toast notifications */}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={3000}
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setToast({ ...toast, open: false })}
+          severity={toast.severity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {toast.message}
+        </Alert>
+      </Snackbar>
+
+      {/* Create Deal Dialog */}
+      <CreateDealDialog
+        open={createDialogOpen}
+        stages={stages}
+        defaultStageId={stages[0]?.id}
+        onClose={() => setCreateDialogOpen(false)}
+        onCreate={handleCreateDeal}
+      />
     </AppPage>
   );
 }
-
-interface DealCardProps {
-  deal: Deal;
-  isDragging?: boolean;
-}
-
-function DealCard({ deal, isDragging }: DealCardProps) {
-  return (
-    <Card
-      sx={{
-        cursor: isDragging ? 'grabbing' : 'grab',
-        opacity: isDragging ? 0.5 : 1,
-        '&:hover': { boxShadow: 2 },
-      }}
-    >
-      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-            {deal.title}
-          </Typography>
-          <IconButton size="small">
-            <MoreVert fontSize="small" />
-          </IconButton>
-        </Box>
-
-        <Typography variant="h6" sx={{ mb: 1, color: 'primary.main' }}>
-          ${(deal.amountCents / 100).toLocaleString()}
-        </Typography>
-
-        {deal.Company && (
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-            {deal.Company.name}
-          </Typography>
-        )}
-
-        {deal.Contact && (
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
-            {deal.Contact.name}
-          </Typography>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-

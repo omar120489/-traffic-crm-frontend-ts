@@ -24,6 +24,10 @@ const ContactsListPageNew = Loadable(lazy(() => import('@/pages/contacts/Contact
 const ContactDetailPage = Loadable(lazy(() => import('@/pages/contacts/ContactDetailPage')));
 const PipelinesPage = Loadable(lazy(() => import('@/pages/settings/PipelinesPage')));
 
+// Sprint 3 pages
+const DealsKanbanPage = Loadable(lazy(() => import('@/pages/deals/DealsKanbanPage')));
+const Company360Page = Loadable(lazy(() => import('@/pages/companies/Company360Page')));
+
 const MainRoutes: RouteObject = {
   path: '/',
   element: (
@@ -39,6 +43,10 @@ const MainRoutes: RouteObject = {
     {
       path: '/deals',
       element: <DealsListPage />,
+    },
+    {
+      path: '/deals/board',
+      element: <DealsKanbanPage />,
     },
     {
       path: '/deals/:id',
@@ -71,6 +79,10 @@ const MainRoutes: RouteObject = {
     {
       path: '/companies',
       element: <CompaniesListPage />,
+    },
+    {
+      path: '/companies/:id',
+      element: <Company360Page />,
     },
     {
       path: '/settings/pipelines',
