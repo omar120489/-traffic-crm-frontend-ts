@@ -26,6 +26,9 @@ node_modules/
 /build
 dist/
 
+# TypeScript incremental build artifacts
+**/*.tsbuildinfo
+
 # documentation archive
 /docs-archive
 

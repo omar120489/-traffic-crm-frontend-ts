@@ -19,6 +19,7 @@
     "src/layout/**/*",
     "src/features/**/*",
     "src/services/**/*",
+    "src/legacy/ambient.d.ts",
     "../../packages/shared-types/**/*"
   ]
 }

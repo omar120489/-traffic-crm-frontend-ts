@@ -6,6 +6,11 @@ on:
   push:
     branches: [main]
 
+# Auto-cancel stale runs on same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   typecheck:
     runs-on: ubuntu-latest
@@ -15,11 +20,34 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'pnpm'
 
       - uses: pnpm/action-setup@v4
         with:
           version: 10
 
-      - run: pnpm -r install --frozen-lockfile
-      - run: pnpm --filter ./apps/frontend run typecheck:sprint2
+      - name: Configure pnpm store
+        run: pnpm config set store-dir ~/.pnpm-store
+
+      - name: Install dependencies
+        run: pnpm -r install --frozen-lockfile
+
+      - name: TypeCheck Sprint 2
+        run: pnpm --filter ./apps/frontend run typecheck:sprint2
+
+      - name: Track migration progress
+        if: always()
+        run: |
+          SHIM_COUNT=$(grep -c "declare module" apps/frontend/src/legacy/ambient.d.ts || echo "0")
+          echo "### 📊 Legacy Migration Progress" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Remaining shims:** \`$SHIM_COUNT\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Target:** \`0\` (100% typed)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "$SHIM_COUNT" -eq 0 ]; then
+            echo "🎉 **Migration complete!** All legacy code is now typed." >> $GITHUB_STEP_SUMMARY
+          else
+            PERCENT=$((100 - (SHIM_COUNT * 100 / 50)))  # Assuming ~50 initial shims
+            echo "**Progress:** ~${PERCENT}% complete" >> $GITHUB_STEP_SUMMARY
+          fi
 

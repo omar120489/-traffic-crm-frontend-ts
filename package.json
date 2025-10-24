@@ -3,8 +3,8 @@
   "private": true,
   "packageManager": "pnpm@10.18.2",
   "engines": {
-    "node": ">=20.0.0 <21.0.0",
-    "pnpm": ">=9.0.0"
+    "node": ">=20 <21",
+    "pnpm": ">=10 <11"
   },
   "scripts": {
     "dev": "pnpm -r --parallel --filter ./apps/* run dev",
