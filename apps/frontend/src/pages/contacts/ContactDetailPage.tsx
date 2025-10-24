@@ -15,7 +15,6 @@ import {
   Alert,
   Divider,
 } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
 import { AppPage, EntityTimeline, type TimelineEvent } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
@@ -194,9 +193,9 @@ export default function ContactDetailPage() {
         </Alert>
       )}
 
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
         {/* Contact Info Card */}
-        <Grid item xs={12} md={4}>
+        <Box sx={{ flex: { xs: '1 1 100%', md: '0 1 calc(33.333% - 16px)' } }}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -246,10 +245,10 @@ export default function ContactDetailPage() {
               </Box>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
 
         {/* Activity Timeline */}
-        <Grid item xs={12} md={8}>
+        <Box sx={{ flex: { xs: '1 1 100%', md: '1 1 calc(66.666% - 16px)' } }}>
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -274,8 +273,8 @@ export default function ContactDetailPage() {
               )}
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* Add Activity Dialog */}
       <Dialog open={activityDialog} onClose={() => setActivityDialog(false)} maxWidth="sm" fullWidth>
