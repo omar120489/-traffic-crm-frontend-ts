@@ -14,6 +14,6 @@ export const api = createClient({
 });
 
 // Re-export for convenience
-export type { ApiClient } from '@traffic-crm/sdk-js';
+// export type { ApiClient } from '@traffic-crm/sdk-js';
 
 

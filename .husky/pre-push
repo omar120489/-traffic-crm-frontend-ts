@@ -1,7 +1,11 @@
-echo "🔍 Running pre-push checks..."
-echo ""
-echo "📝 Skipping TypeScript check (legacy code has 327 errors)"
-echo "   Sprint 2 code is clean ✅"
-echo ""
-echo "✅ Pushing..."
+#!/usr/bin/env sh
+set -e
 
+echo "🔍 Running pre-push checks (Sprint 2 only)..."
+echo ""
+
+cd apps/frontend
+pnpm tsc --noEmit -p tsconfig.sprint2.json
+
+echo ""
+echo "✅ Sprint 2 TypeScript clean! Pushing..."

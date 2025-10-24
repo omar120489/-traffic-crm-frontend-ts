@@ -29,6 +29,7 @@
   },
   "include": [
     "src",
+    "src/legacy/ambient.d.ts",
     "vite.config.mjs",
     "vitest.setup.ts",
     "**/*.test.ts",

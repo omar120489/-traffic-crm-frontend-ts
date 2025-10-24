@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/pages/contacts/**/*",
+    "src/pages/settings/**/*",
+    "src/pages/deals/**/*",
+    "src/pages/companies/**/*",
+    "src/pages/auth/**/*",
+    "src/components/**/*",
+    "src/contexts/AuthContext.tsx",
+    "src/hooks/useToast.ts",
+    "src/lib/http.ts",
+    "src/lib/api.ts"
+  ],
+  "exclude": [
+    "src/views/**/*",
+    "src/routes/**/*",
+    "src/ui-component/**/*",
+    "src/layout/**/*",
+    "src/features/**/*",
+    "src/services/**/*",
+    "../../packages/shared-types/**/*"
+  ]
+}
+

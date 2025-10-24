@@ -6,13 +6,10 @@ import {
   Card,
   CardContent,
   Typography,
-  Chip,
-  Grid,
-  Divider,
   Alert,
 } from '@mui/material';
-import { Edit, Delete, Business, Language, People } from '@mui/icons-material';
-import { AppPage, EntityTimeline, type TimelineEvent } from '@traffic-crm/ui-kit';
+import { Edit, Delete } from '@mui/icons-material';
+import { AppPage } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -50,7 +47,7 @@ interface Deal {
 export default function CompanyDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { orgId } = useAuth();
+  const { orgId: _orgId } = useAuth();
 
   const [company, setCompany] = useState<Company | null>(null);
   const [contacts, setContacts] = useState<Contact[]>([]);
