@@ -11,6 +11,8 @@
 **Velocity**: 21 story points  
 **Team**: Frontend + Backend + QA
 
+> 📋 **Quick Reference**: Need a fast lookup? See [SPRINT_4_QUICK_REFERENCE.md](./SPRINT_4_QUICK_REFERENCE.md)
+
 ---
 
 ## 📋 Quick Start Checklist

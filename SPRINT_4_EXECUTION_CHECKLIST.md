@@ -4,6 +4,8 @@
 **Duration**: 7 days  
 **Velocity**: 21 story points
 
+> 📋 **Quick Reference**: For commands and quick lookups, see [SPRINT_4_QUICK_REFERENCE.md](./SPRINT_4_QUICK_REFERENCE.md)
+
 ---
 
 ## 📅 Day-by-Day Tracker

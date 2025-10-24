@@ -7,6 +7,8 @@
 **Start Date**: TBD  
 **End Date**: TBD
 
+> 📋 **Quick Reference**: For a one-page overview, see [SPRINT_4_QUICK_REFERENCE.md](./SPRINT_4_QUICK_REFERENCE.md)
+
 ---
 
 ## 🎯 Sprint Objectives
