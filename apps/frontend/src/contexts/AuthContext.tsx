@@ -25,6 +25,12 @@ function safeDecodeJwt(token: string): any | null {
   }
 }
 
+function isExpired(payload: any): boolean {
+  if (!payload?.exp) return false;
+  const nowSec = Math.floor(Date.now() / 1000);
+  return payload.exp <= nowSec;
+}
+
 export interface AuthProviderProps {
   children: ReactNode;
 }
@@ -36,7 +42,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const state = useMemo<AuthState>(() => {
     if (!token) return DEV_DEFAULT;
     const payload = safeDecodeJwt(token);
-    if (!payload) return { ...DEV_DEFAULT, token }; // fallback
+    
+    // Fallback if token is invalid or expired
+    if (!payload || isExpired(payload)) {
+      return DEV_DEFAULT;
+    }
 
     return {
       userId: payload.sub ?? DEV_DEFAULT.userId,
