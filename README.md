@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml)
 [![Sprint 2 Typecheck](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/typecheck-sprint2.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/typecheck-sprint2.yml)
+[![Security Audit](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/security-audit.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/security-audit.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/omar120489/-traffic-crm-frontend-ts/badge)](https://securityscorecards.dev/viewer/?uri=github.com/omar120489/-traffic-crm-frontend-ts)
 [![Release Please](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml)
 [![Preview Build](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml)
 [![CodeQL](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml)
