@@ -10,10 +10,27 @@ import {
   IconButton,
   Chip,
   Alert,
+  Card,
+  CardContent,
 } from '@mui/material';
 import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
 import { AppPage, DataTable, type Column } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
@@ -37,7 +54,6 @@ interface Stage {
 export default function PipelinesPage() {
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
   // Dialog states
@@ -46,7 +62,12 @@ export default function PipelinesPage() {
   const [editingPipeline, setEditingPipeline] = useState<Pipeline | null>(null);
   const [editingStage, setEditingStage] = useState<Stage | null>(null);
 
-  const orgId = 'acme'; // TODO: Get from auth context
+  // Drag and drop
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
+  );
+
+  const orgId = 'clx0d018d000008l701211234'; // From seed data
 
   useEffect(() => {
     loadPipelines();
@@ -130,13 +151,32 @@ export default function PipelinesPage() {
     }
   };
 
-  const handleReorderStages = async (stageIds: string[]) => {
-    if (!selectedPipeline) return;
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || !selectedPipeline || active.id === over.id) return;
+
+    const stages = selectedPipeline.Stage || [];
+    const oldIndex = stages.findIndex((s) => s.id === active.id);
+    const newIndex = stages.findIndex((s) => s.id === over.id);
+    
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const reordered = arrayMove(stages, oldIndex, newIndex);
+    
+    // Optimistic update
+    setSelectedPipeline({ ...selectedPipeline, Stage: reordered });
+    setPipelines(
+      pipelines.map((p) =>
+        p.id === selectedPipeline.id ? { ...p, Stage: reordered } : p
+      )
+    );
+
     try {
-      await api.reorderStages(selectedPipeline.id, stageIds);
-      await loadPipelines();
+      await api.reorderStages(selectedPipeline.id, reordered.map((s) => s.id));
     } catch (err: any) {
       setError(err.message || 'Failed to reorder stages');
+      // Rollback on error
+      await loadPipelines();
     }
   };
 
@@ -168,40 +208,54 @@ export default function PipelinesPage() {
     },
   ];
 
-  const stageColumns: Column<Stage>[] = [
-    {
-      key: 'order',
-      header: '',
-      width: 40,
-      render: () => <DragIndicator sx={{ cursor: 'move', color: 'text.disabled' }} />,
-    },
-    { key: 'name', header: 'Stage Name' },
-    {
-      key: 'probability',
-      header: 'Win Probability',
-      render: (row) => `${row.probability}%`,
-    },
-    {
-      key: 'id',
-      header: 'Actions',
-      render: (row) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <IconButton
-            size="small"
-            onClick={() => {
-              setEditingStage(row);
-              setStageDialog(true);
-            }}
-          >
-            <Edit fontSize="small" />
-          </IconButton>
-          <IconButton size="small" onClick={() => handleDeleteStage(row.id)}>
-            <Delete fontSize="small" />
-          </IconButton>
-        </Box>
-      ),
-    },
-  ];
+  // Sortable Stage Component
+  function SortableStageRow({ stage }: { stage: Stage }) {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+      id: stage.id,
+    });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+      opacity: isDragging ? 0.5 : 1,
+    };
+
+    return (
+      <Card
+        ref={setNodeRef}
+        style={style}
+        sx={{
+          mb: 1,
+          cursor: 'grab',
+          '&:active': { cursor: 'grabbing' },
+        }}
+      >
+        <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5, '&:last-child': { pb: 1.5 } }}>
+          <Box {...attributes} {...listeners} sx={{ display: 'flex', alignItems: 'center' }}>
+            <DragIndicator sx={{ color: 'text.disabled' }} />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <Box sx={{ fontWeight: 500 }}>{stage.name}</Box>
+          </Box>
+          <Chip label={`${stage.probability}% win`} size="small" />
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <IconButton
+              size="small"
+              onClick={() => {
+                setEditingStage(stage);
+                setStageDialog(true);
+              }}
+            >
+              <Edit fontSize="small" />
+            </IconButton>
+            <IconButton size="small" onClick={() => handleDeleteStage(stage.id)}>
+              <Delete fontSize="small" />
+            </IconButton>
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <AppPage
@@ -235,7 +289,7 @@ export default function PipelinesPage() {
             <Box>
               <Box sx={{ fontSize: '1.25rem', fontWeight: 600 }}>{selectedPipeline.name} — Stages</Box>
               <Box sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
-                Drag to reorder stages (coming soon)
+                Drag stages to reorder
               </Box>
             </Box>
             <Button variant="outlined" startIcon={<Add />} onClick={() => setStageDialog(true)}>
@@ -243,13 +297,22 @@ export default function PipelinesPage() {
             </Button>
           </Box>
 
-          <DataTable
-            rows={selectedPipeline.Stage || []}
-            columns={stageColumns}
-            page={1}
-            pageSize={selectedPipeline.Stage?.length || 0}
-            total={selectedPipeline.Stage?.length || 0}
-          />
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={(selectedPipeline.Stage || []).map((s) => s.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {(selectedPipeline.Stage || []).map((stage) => (
+                <SortableStageRow key={stage.id} stage={stage} />
+              ))}
+            </SortableContext>
+          </DndContext>
+
+          {(selectedPipeline.Stage || []).length === 0 && (
+            <Box sx={{ textAlign: 'center', py: 4, color: 'text.secondary' }}>
+              No stages yet. Add your first stage to get started.
+            </Box>
+          )}
         </Box>
       )}
 

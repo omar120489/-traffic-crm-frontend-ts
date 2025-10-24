@@ -42,19 +42,43 @@ export default function ContactsListPage() {
   // Filters from URL
   const page = Number(searchParams.get('page') || '1');
   const query = searchParams.get('q') || '';
+  const status = searchParams.get('status') || '';
+  const companyFilter = searchParams.get('company') || '';
   const pageSize = 20;
 
   // Filter menu
   const [filterAnchor, setFilterAnchor] = useState<null | HTMLElement>(null);
 
+  const setFilter = (key: string, value?: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (!value) {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+    params.set('page', '1');
+    setSearchParams(params, { replace: true });
+  };
+
+  const clearFilters = () => {
+    const params = new URLSearchParams();
+    params.set('page', '1');
+    setSearchParams(params, { replace: true });
+  };
+
   useEffect(() => {
     loadContacts();
-  }, [page, query]);
+  }, [page, query, status, companyFilter]);
 
   const loadContacts = async () => {
     try {
       setLoading(true);
-      const result = await api.listContacts({ page, size: pageSize, q: query || undefined });
+      const params: any = { page, size: pageSize };
+      if (query) params.q = query;
+      if (status) params.status = status;
+      if (companyFilter) params.companyId = companyFilter;
+      
+      const result = await api.listContacts(params);
       setContacts(result.items || []);
       setTotal(result.total || 0);
       setError(null);
@@ -175,9 +199,44 @@ export default function ContactsListPage() {
             open={Boolean(filterAnchor)}
             onClose={() => setFilterAnchor(null)}
           >
-            <MenuItem onClick={() => setFilterAnchor(null)}>Has Company</MenuItem>
-            <MenuItem onClick={() => setFilterAnchor(null)}>No Company</MenuItem>
-            <MenuItem onClick={() => setFilterAnchor(null)}>Recent (7 days)</MenuItem>
+            <MenuItem disabled sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary' }}>
+              STATUS
+            </MenuItem>
+            <MenuItem 
+              onClick={() => { setFilter('status', 'active'); setFilterAnchor(null); }}
+              selected={status === 'active'}
+            >
+              Active
+            </MenuItem>
+            <MenuItem 
+              onClick={() => { setFilter('status', 'archived'); setFilterAnchor(null); }}
+              selected={status === 'archived'}
+            >
+              Archived
+            </MenuItem>
+            <MenuItem disabled sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary', mt: 1 }}>
+              COMPANY
+            </MenuItem>
+            <MenuItem 
+              onClick={() => { setFilter('company', 'has'); setFilterAnchor(null); }}
+              selected={companyFilter === 'has'}
+            >
+              Has Company
+            </MenuItem>
+            <MenuItem 
+              onClick={() => { setFilter('company', 'none'); setFilterAnchor(null); }}
+              selected={companyFilter === 'none'}
+            >
+              No Company
+            </MenuItem>
+            {(status || companyFilter) && (
+              <>
+                <MenuItem divider />
+                <MenuItem onClick={() => { clearFilters(); setFilterAnchor(null); }}>
+                  Clear All Filters
+                </MenuItem>
+              </>
+            )}
           </Menu>
         </FilterBar>
       }
