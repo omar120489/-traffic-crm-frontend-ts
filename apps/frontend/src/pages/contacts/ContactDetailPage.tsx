@@ -14,7 +14,12 @@ import {
   DialogActions,
   Alert,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
 import { AppPage, EntityTimeline, type TimelineEvent } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
@@ -59,6 +64,10 @@ export default function ContactDetailPage() {
   const [activitySubject, setActivitySubject] = useState('');
   const [activityBody, setActivityBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  const handleTypeChange = (e: SelectChangeEvent<string>) => {
+    setActivityType(e.target.value);
+  };
 
   // NOTE: Auth context integration pending - using mock values for dev
   const orgId = 'clx0d018d000008l701211234'; // From seed data
@@ -280,24 +289,22 @@ export default function ContactDetailPage() {
       <Dialog open={activityDialog} onClose={() => setActivityDialog(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Add Activity</DialogTitle>
         <DialogContent>
-          <TextField
-            select
-            label="Type"
-            fullWidth
-            value={activityType}
-            onChange={(e) => setActivityType(e.target.value)}
-            sx={{ mt: 2, mb: 2 }}
-            SelectProps={{ 
-              native: true,
-              inputProps: { 'aria-label': 'Activity type' }
-            }}
-          >
-            <option value="note">Note</option>
-            <option value="call">Call</option>
-            <option value="email">Email</option>
-            <option value="meeting">Meeting</option>
-            <option value="task">Task</option>
-          </TextField>
+          <FormControl fullWidth variant="outlined" margin="normal">
+            <InputLabel id="activity-type-label">Activity type</InputLabel>
+            <Select
+              labelId="activity-type-label"
+              id="activity-type"
+              label="Activity type"
+              value={activityType}
+              onChange={handleTypeChange}
+            >
+              <MenuItem value="note">Note</MenuItem>
+              <MenuItem value="call">Call</MenuItem>
+              <MenuItem value="email">Email</MenuItem>
+              <MenuItem value="meeting">Meeting</MenuItem>
+              <MenuItem value="task">Task</MenuItem>
+            </Select>
+          </FormControl>
           
           <TextField
             label="Subject (optional)"

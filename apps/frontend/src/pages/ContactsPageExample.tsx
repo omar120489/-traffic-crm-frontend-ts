@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AppPage, DataTable, FilterBar, Column } from '@ui-kit/core';
+import { AppPage, DataTable, FilterBar, Column } from '@traffic-crm/ui-kit';
 import {
   TextField,
   Select,

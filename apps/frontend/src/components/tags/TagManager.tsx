@@ -28,12 +28,12 @@ interface Tag {
 }
 
 interface TagManagerProps {
-  entityType: 'contact' | 'company' | 'lead' | 'deal';
-  entityId: string;
-  onTagsChange?: () => void;
+  readonly entityType: 'contact' | 'company' | 'lead' | 'deal';
+  readonly entityId: string;
+  readonly onTagsChange?: () => void;
 }
 
-export function TagManager({ entityType, entityId, onTagsChange }: TagManagerProps) {
+export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagManagerProps>) {
   const [entityTags, setEntityTags] = useState<Tag[]>([]);
   const [allTags, setAllTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
@@ -169,7 +169,13 @@ export function TagManager({ entityType, entityId, onTagsChange }: TagManagerPro
             value={newTagName}
             onChange={(e) => setNewTagName(e.target.value)}
             sx={{ mt: 2, mb: 2 }}
-            onKeyPress={(e) => e.key === 'Enter' && handleCreateTag()}
+            onKeyDown={(e) => {
+              if ((e as React.KeyboardEvent).isComposing) return;
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleCreateTag();
+              }
+            }}
           />
           <TextField
             label="Color"

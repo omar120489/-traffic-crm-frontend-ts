@@ -12,7 +12,7 @@ import {
   Alert,
 } from '@mui/material';
 import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
-import { AppPage, DataTable, type Column } from '@ui-kit/core';
+import { AppPage, DataTable, type Column } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
 
 const api = createClient({
@@ -322,7 +322,13 @@ function PipelineDialog({
           value={name}
           onChange={(e) => setName(e.target.value)}
           sx={{ mt: 2 }}
-          onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+          onKeyDown={(e) => {
+            if ((e as React.KeyboardEvent).isComposing) return;
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleSubmit();
+            }
+          }}
         />
       </DialogContent>
       <DialogActions>
@@ -376,7 +382,13 @@ function StageDialog({
           value={name}
           onChange={(e) => setName(e.target.value)}
           sx={{ mt: 2, mb: 2 }}
-          onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+          onKeyDown={(e) => {
+            if ((e as React.KeyboardEvent).isComposing) return;
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleSubmit();
+            }
+          }}
         />
         <TextField
           label="Win Probability (%)"
