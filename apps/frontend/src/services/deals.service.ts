@@ -4,7 +4,7 @@
  */
 
 import { http } from '@/lib/http';
-import type { Deal, Pipeline, MoveDealPayload, MoveDealResponse } from '@/types/deals';
+import type { Deal, Pipeline, MoveDealPayload, MoveDealResponse, DealFilters } from '@/types/deals';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -18,27 +18,28 @@ export async function getPipelines(orgId: string): Promise<readonly Pipeline[]> 
 }
 
 /**
- * Get deals by pipeline ID
+ * Get deals by pipeline ID with optional filters
  */
 export async function getDealsByPipeline(
   pipelineId: string,
-  filters?: {
-    readonly ownerId?: string;
-    readonly tags?: readonly string[];
-    readonly search?: string;
-  }
+  filters?: DealFilters
 ): Promise<readonly Deal[]> {
   const url = new URL(`${API_BASE}/api/deals`);
   url.searchParams.set('pipelineId', pipelineId);
   
-  if (filters?.ownerId) {
-    url.searchParams.set('ownerId', filters.ownerId);
+  // Add owner filters
+  if (filters?.ownerIds && filters.ownerIds.length > 0) {
+    filters.ownerIds.forEach((id) => url.searchParams.append('owner', id));
   }
-  if (filters?.tags && filters.tags.length > 0) {
-    filters.tags.forEach((tag) => url.searchParams.append('tags', tag));
+  
+  // Add tag filters
+  if (filters?.tagIds && filters.tagIds.length > 0) {
+    filters.tagIds.forEach((id) => url.searchParams.append('tag', id));
   }
-  if (filters?.search) {
-    url.searchParams.set('search', filters.search);
+  
+  // Add search query
+  if (filters?.q && filters.q.trim()) {
+    url.searchParams.set('q', filters.q.trim());
   }
   
   return http<Deal[]>(url.toString());

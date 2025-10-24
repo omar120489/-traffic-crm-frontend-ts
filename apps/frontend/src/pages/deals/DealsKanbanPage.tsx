@@ -14,7 +14,7 @@
  */
 
 import { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box,
   Stack,
@@ -42,15 +42,17 @@ import {
 import { AppPage } from '@traffic-crm/ui-kit';
 import { useAuth } from '@/contexts/AuthContext';
 import { getPipelines, getDealsByPipeline, moveDeal } from '@/services/deals.service';
-import type { Deal, Pipeline, Stage } from '@/types/deals';
+import type { Deal, Pipeline, Stage, DealFilters, FilterOption } from '@/types/deals';
 import { KanbanColumn } from './components/KanbanColumn';
 import { KanbanCard } from './components/KanbanCard';
+import { KanbanFilters } from './components/KanbanFilters';
 
 type StageMap = Record<string, Deal[]>;
 
 export default function DealsKanbanPage() {
   const { orgId } = useAuth();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // State
   const [pipelines, setPipelines] = useState<readonly Pipeline[]>([]);
@@ -64,6 +66,32 @@ export default function DealsKanbanPage() {
     message: '',
     severity: 'success',
   });
+
+  // Filter options (stub data for now - can be loaded from API)
+  const [ownerOptions] = useState<readonly FilterOption[]>([
+    { id: 'owner-1', name: 'John Doe' },
+    { id: 'owner-2', name: 'Jane Smith' },
+    { id: 'owner-3', name: 'Bob Johnson' },
+  ]);
+
+  const [tagOptions] = useState<readonly FilterOption[]>([
+    { id: 'tag-1', name: 'Hot Lead' },
+    { id: 'tag-2', name: 'VIP' },
+    { id: 'tag-3', name: 'Urgent' },
+    { id: 'tag-4', name: 'Follow-up' },
+  ]);
+
+  // Parse filters from URL
+  const filtersFromURL: DealFilters = useMemo(
+    () => ({
+      ownerIds: searchParams.getAll('owner'),
+      tagIds: searchParams.getAll('tag'),
+      q: searchParams.get('q') || '',
+    }),
+    [searchParams]
+  );
+
+  const [filters, setFilters] = useState<DealFilters>(filtersFromURL);
 
   // Drag & drop sensors
   const sensors = useSensors(
@@ -134,7 +162,18 @@ export default function DealsKanbanPage() {
     void loadPipelines();
   }, [orgId]);
 
-  // Load deals when pipeline changes
+  // Sync filters to URL
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    filters.ownerIds?.forEach((id) => params.append('owner', id));
+    filters.tagIds?.forEach((id) => params.append('tag', id));
+    if (filters.q) params.set('q', filters.q);
+    
+    setSearchParams(params, { replace: true });
+  }, [filters, setSearchParams]);
+
+  // Load deals when pipeline or filters change
   useEffect(() => {
     if (!selectedPipelineId) return;
 
@@ -142,7 +181,7 @@ export default function DealsKanbanPage() {
       try {
         setLoading(true);
         setError(null);
-        const data = await getDealsByPipeline(selectedPipelineId);
+        const data = await getDealsByPipeline(selectedPipelineId, filters);
         setDeals(data);
       } catch (err) {
         console.error('Failed to load deals:', err);
@@ -153,7 +192,7 @@ export default function DealsKanbanPage() {
     };
 
     void loadDeals();
-  }, [selectedPipelineId]);
+  }, [selectedPipelineId, filters]);
 
   // Handlers
   const handlePipelineChange = (event: SelectChangeEvent<string>) => {
@@ -162,6 +201,14 @@ export default function DealsKanbanPage() {
 
   const handleDealClick = (dealId: string) => {
     navigate(`/deals/${dealId}`);
+  };
+
+  const handleFiltersChange = (newFilters: DealFilters) => {
+    setFilters(newFilters);
+  };
+
+  const handleClearFilters = () => {
+    setFilters({ ownerIds: [], tagIds: [], q: '' });
   };
 
   const handleDragStart = (event: DragStartEvent) => {
@@ -321,6 +368,22 @@ export default function DealsKanbanPage() {
         </FormControl>
       }
     >
+      {/* Filters */}
+      {!loading && selectedPipelineId && (
+        <KanbanFilters
+          owners={ownerOptions}
+          tags={tagOptions}
+          value={{
+            ownerIds: filters.ownerIds || [],
+            tagIds: filters.tagIds || [],
+            q: filters.q || '',
+          }}
+          onChange={handleFiltersChange}
+          onClear={handleClearFilters}
+          loading={loading}
+        />
+      )}
+
       {/* Loading deals indicator */}
       {loading && (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>

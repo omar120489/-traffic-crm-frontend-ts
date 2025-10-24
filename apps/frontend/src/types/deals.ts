@@ -43,3 +43,14 @@ export interface MoveDealPayload {
 }
 
 export interface MoveDealResponse extends Deal {}
+
+export interface DealFilters {
+  readonly ownerIds?: readonly string[];
+  readonly tagIds?: readonly string[];
+  readonly q?: string;
+}
+
+export interface FilterOption {
+  readonly id: string;
+  readonly name: string;
+}
