@@ -1,260 +1,242 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+/**
+ * Deals Kanban Board Page
+ * Sprint 3: FE-KANBAN-01 (UI Skeleton)
+ * 
+ * Features:
+ * - Pipeline selection
+ * - Column rendering by stage
+ * - Deal cards grouped by stage
+ * - Loading states
+ * - Empty states
+ * 
+ * TODO (FE-KANBAN-02): Add drag & drop functionality
+ * TODO (FE-KANBAN-03): Add filters (owner, tags, search)
+ */
+
+import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
-  Card,
-  CardContent,
+  Stack,
   Typography,
-  Chip,
-  IconButton,
-  Button,
-  Select,
+  CircularProgress,
+  Alert,
   FormControl,
   InputLabel,
+  Select,
   MenuItem,
+  type SelectChangeEvent,
 } from '@mui/material';
-import { Add, FilterList, MoreVert } from '@mui/icons-material';
-import {
-  DndContext,
-  DragOverlay,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-  type DragStartEvent,
-} from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { AppPage } from '@traffic-crm/ui-kit';
-import { createClient } from '@traffic-crm/sdk-js';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { getPipelines, getDealsByPipeline } from '@/services/deals.service';
+import type { Deal, Pipeline, Stage } from '@/types/deals';
+import { KanbanColumn } from './components/KanbanColumn';
 
-const api = createClient({
-  baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('access_token') ?? '',
-});
-
-interface Deal {
-  id: string;
-  title: string;
-  amountCents: number;
-  currency: string;
-  stageId: string;
-  ownerId?: string;
-  contactId?: string;
-  companyId?: string;
-  closeDate?: string;
-  Contact?: { id: string; name: string };
-  Company?: { id: string; name: string };
-  User?: { id: string; name: string };
-}
-
-interface Stage {
-  id: string;
-  name: string;
-  order: number;
-  probability: number;
-}
-
-interface Pipeline {
-  id: string;
-  name: string;
-  Stage: Stage[];
-}
+type StageMap = Record<string, Deal[]>;
 
 export default function DealsKanbanPage() {
   const { orgId } = useAuth();
-  const [_searchParams, _setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const [pipelines, setPipelines] = useState<Pipeline[]>([]);
-  const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);
-  const [deals, setDeals] = useState<Deal[]>([]);
+  // State
+  const [pipelines, setPipelines] = useState<readonly Pipeline[]>([]);
+  const [selectedPipelineId, setSelectedPipelineId] = useState<string>('');
+  const [deals, setDeals] = useState<readonly Deal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+  // Computed: selected pipeline
+  const selectedPipeline = useMemo(
+    () => pipelines.find((p) => p.id === selectedPipelineId),
+    [pipelines, selectedPipelineId]
+  );
 
-  useEffect(() => {
-    loadPipelines();
-  }, []);
-
-  useEffect(() => {
-    if (selectedPipeline) {
-      loadDeals();
-    }
+  // Computed: sorted stages
+  const stages = useMemo<readonly Stage[]>(() => {
+    if (!selectedPipeline) return [];
+    return [...selectedPipeline.stages].sort((a, b) => a.order - b.order);
   }, [selectedPipeline]);
 
-  const loadPipelines = async () => {
-    try {
-      const data = await api.listPipelines(orgId);
-      setPipelines(data);
-      if (data.length > 0) {
-        setSelectedPipeline(data[0]);
+  // Computed: deals grouped by stage
+  const dealsByStage = useMemo<StageMap>(() => {
+    const grouped: StageMap = {};
+    
+    // Initialize all stages with empty arrays
+    stages.forEach((stage) => {
+      grouped[stage.id] = [];
+    });
+
+    // Group deals by stageId
+    deals.forEach((deal) => {
+      if (grouped[deal.stageId]) {
+        grouped[deal.stageId].push(deal);
       }
-    } catch (err) {
-      console.error('Failed to load pipelines:', err);
-    }
+    });
+
+    // Sort deals within each stage by position
+    Object.keys(grouped).forEach((stageId) => {
+      grouped[stageId] = grouped[stageId].sort((a, b) => a.position - b.position);
+    });
+
+    return grouped;
+  }, [deals, stages]);
+
+  // Load pipelines on mount
+  useEffect(() => {
+    const loadPipelines = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getPipelines(orgId);
+        setPipelines(data);
+
+        // Auto-select first pipeline
+        if (data.length > 0) {
+          setSelectedPipelineId(data[0].id);
+        }
+      } catch (err) {
+        console.error('Failed to load pipelines:', err);
+        setError('Failed to load pipelines. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadPipelines();
+  }, [orgId]);
+
+  // Load deals when pipeline changes
+  useEffect(() => {
+    if (!selectedPipelineId) return;
+
+    const loadDeals = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await getDealsByPipeline(selectedPipelineId);
+        setDeals(data);
+      } catch (err) {
+        console.error('Failed to load deals:', err);
+        setError('Failed to load deals. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadDeals();
+  }, [selectedPipelineId]);
+
+  // Handlers
+  const handlePipelineChange = (event: SelectChangeEvent<string>) => {
+    setSelectedPipelineId(event.target.value);
   };
 
-  const loadDeals = async () => {
-    if (!selectedPipeline) return;
-    try {
-      setLoading(true);
-      const data = await api.listDeals({ orgId, pipelineId: selectedPipeline.id });
-      setDeals(data.items || []);
-    } catch (err) {
-      console.error('Failed to load deals:', err);
-    } finally {
-      setLoading(false);
-    }
+  const handleDealClick = (dealId: string) => {
+    navigate(`/deals/${dealId}`);
   };
 
-  const handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id as string);
-  };
-
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event;
-    setActiveId(null);
-
-    if (!over || active.id === over.id) return;
-
-    const dealId = active.id as string;
-    const newStageId = over.id as string;
-
-    // Optimistic update
-    setDeals((prev) =>
-      prev.map((d) => (d.id === dealId ? { ...d, stageId: newStageId } : d))
+  // Render loading state
+  if (loading && pipelines.length === 0) {
+    return (
+      <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
+        <Stack alignItems="center" justifyContent="center" sx={{ py: 8 }}>
+          <CircularProgress />
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            Loading pipelines...
+          </Typography>
+        </Stack>
+      </AppPage>
     );
+  }
 
-    try {
-      await api.updateDeal(dealId, { stageId: newStageId });
-    } catch (err) {
-      console.error('Failed to move deal:', err);
-      // Rollback
-      await loadDeals();
-    }
-  };
+  // Render error state
+  if (error) {
+    return (
+      <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      </AppPage>
+    );
+  }
 
-  const dealsByStage = (stageId: string) =>
-    deals.filter((d) => d.stageId === stageId);
-
-  const activeDeal = deals.find((d) => d.id === activeId);
+  // Render empty pipelines state
+  if (pipelines.length === 0) {
+    return (
+      <AppPage title="Deals Board" breadcrumbs={[{ label: 'Deals', href: '/deals' }]}>
+        <Alert severity="info" sx={{ mb: 2 }}>
+          No pipelines found. Please create a pipeline first in{' '}
+          <strong>Settings → Pipelines</strong>.
+        </Alert>
+      </AppPage>
+    );
+  }
 
   return (
     <AppPage
       title="Deals Board"
+      breadcrumbs={[{ label: 'Deals', href: '/deals' }]}
       actions={
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          <FormControl size="small" sx={{ minWidth: 200 }}>
-            <InputLabel>Pipeline</InputLabel>
-            <Select
-              value={selectedPipeline?.id || ''}
-              onChange={(e) => {
-                const p = pipelines.find((x) => x.id === e.target.value);
-                if (p) setSelectedPipeline(p);
-              }}
-              label="Pipeline"
-            >
-              {pipelines.map((p) => (
-                <MenuItem key={p.id} value={p.id}>
-                  {p.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <IconButton size="small">
-            <FilterList />
-          </IconButton>
-          <Button variant="contained" startIcon={<Add />}>
-            New Deal
-          </Button>
-        </Box>
+        <FormControl sx={{ minWidth: 240 }} size="small">
+          <InputLabel id="pipeline-select-label">Pipeline</InputLabel>
+          <Select
+            labelId="pipeline-select-label"
+            id="pipeline-select"
+            value={selectedPipelineId}
+            label="Pipeline"
+            onChange={handlePipelineChange}
+          >
+            {pipelines.map((pipeline) => (
+              <MenuItem key={pipeline.id} value={pipeline.id}>
+                {pipeline.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       }
     >
-      {loading ? (
-        <Typography>Loading...</Typography>
-      ) : (
-        <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-          <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto', pb: 2 }}>
-            {selectedPipeline?.Stage.sort((a, b) => a.order - b.order).map((stage) => (
-              <Box
-                key={stage.id}
-                sx={{
-                  minWidth: 320,
-                  maxWidth: 320,
-                  bgcolor: 'grey.50',
-                  borderRadius: 1,
-                  p: 2,
-                }}
-              >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6" sx={{ fontSize: '0.95rem', fontWeight: 600 }}>
-                    {stage.name}
-                  </Typography>
-                  <Chip label={dealsByStage(stage.id).length} size="small" />
-                </Box>
+      {/* Loading deals indicator */}
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
+          <CircularProgress size={24} />
+        </Box>
+      )}
 
-                <SortableContext items={dealsByStage(stage.id).map((d) => d.id)} strategy={verticalListSortingStrategy}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                    {dealsByStage(stage.id).map((deal) => (
-                      <DealCard key={deal.id} deal={deal} />
-                    ))}
-                  </Box>
-                </SortableContext>
-              </Box>
-            ))}
-          </Box>
+      {/* Kanban board */}
+      {!loading && stages.length > 0 && (
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            overflowX: 'auto',
+            pb: 2,
+            '&::-webkit-scrollbar': {
+              height: 8,
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              borderRadius: 4,
+            },
+          }}
+        >
+          {stages.map((stage) => (
+            <KanbanColumn
+              key={stage.id}
+              stage={stage}
+              deals={dealsByStage[stage.id] || []}
+              onDealClick={handleDealClick}
+            />
+          ))}
+        </Box>
+      )}
 
-          <DragOverlay>
-            {activeDeal ? <DealCard deal={activeDeal} isDragging /> : null}
-          </DragOverlay>
-        </DndContext>
+      {/* Empty stages state */}
+      {!loading && stages.length === 0 && (
+        <Alert severity="info">
+          This pipeline has no stages. Please add stages in <strong>Settings → Pipelines</strong>.
+        </Alert>
       )}
     </AppPage>
   );
 }
-
-interface DealCardProps {
-  deal: Deal;
-  isDragging?: boolean;
-}
-
-function DealCard({ deal, isDragging }: DealCardProps) {
-  return (
-    <Card
-      sx={{
-        cursor: isDragging ? 'grabbing' : 'grab',
-        opacity: isDragging ? 0.5 : 1,
-        '&:hover': { boxShadow: 2 },
-      }}
-    >
-      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-          <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-            {deal.title}
-          </Typography>
-          <IconButton size="small">
-            <MoreVert fontSize="small" />
-          </IconButton>
-        </Box>
-
-        <Typography variant="h6" sx={{ mb: 1, color: 'primary.main' }}>
-          ${(deal.amountCents / 100).toLocaleString()}
-        </Typography>
-
-        {deal.Company && (
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-            {deal.Company.name}
-          </Typography>
-        )}
-
-        {deal.Contact && (
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
-            {deal.Contact.name}
-          </Typography>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-

@@ -1,22 +1,23 @@
 /**
- * Deal types for Kanban board and deal management
- * Sprint 3: Auth-in, Kanban, Company 360
+ * Deal/Pipeline type definitions for Kanban board
+ * Sprint 3: FE-KANBAN-01
  */
-
-export type DealStatus = 'OPEN' | 'WON' | 'LOST';
 
 export interface Deal {
   readonly id: string;
   readonly name: string;
-  readonly amount: number;
+  readonly amountCents: number;
   readonly stageId: string;
-  readonly position: number; // 0-based within a stage
-  readonly status: DealStatus;
+  readonly position: number; // 0-based within stage
   readonly companyId?: string;
+  readonly companyName?: string;
+  readonly contactId?: string;
+  readonly contactName?: string;
   readonly ownerId?: string;
+  readonly ownerName?: string;
   readonly tags?: readonly string[];
-  readonly createdAt?: string;
-  readonly updatedAt?: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 export interface Stage {
@@ -30,8 +31,10 @@ export interface Stage {
 export interface Pipeline {
   readonly id: string;
   readonly name: string;
-  readonly isDefault: boolean;
   readonly stages: readonly Stage[];
+  readonly orgId: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
 }
 
 export interface MoveDealPayload {
@@ -39,3 +42,4 @@ export interface MoveDealPayload {
   readonly position: number;
 }
 
+export interface MoveDealResponse extends Deal {}
