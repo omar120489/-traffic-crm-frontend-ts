@@ -19,7 +19,16 @@
 /packages/rbac/**                      @omar120489
 /packages/sdk-js/**                    @omar120489
 
-# Infrastructure
+# Infrastructure & Workflows (High Sensitivity - Require Review)
+/.github/workflows/**                  @omar120489  # Critical: workflow changes require review
+/.github/CODEOWNERS                    @omar120489  # Critical: ownership changes require review
 /.github/**                            @omar120489
 /.husky/**                             @omar120489
 /prisma/**                             @omar120489
+
+# Security & Configuration
+/.npmrc                                @omar120489
+/package.json                          @omar120489  # Root package changes
+/pnpm-lock.yaml                        @omar120489  # Dependency changes
+/.nvmrc                                @omar120489
+/tsconfig*.json                        @omar120489
