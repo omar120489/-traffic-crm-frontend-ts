@@ -16,6 +16,21 @@
 
 Full-stack TypeScript CRM platform for travel/traffic businesses with React frontend, NestJS backend, and background workers.
 
+## 🎯 Latest Release: Sprint 3 Complete
+
+**Status**: 🟩 Production Ready | **Date**: October 24, 2025 | **Velocity**: 21/21 pts (100%)
+
+### What's New
+- ✅ **Deals Kanban Board** (9 pts) – Full drag & drop workflow with filters, search, and URL sync
+- ✅ **Company 360 View** (5 pts) – Comprehensive company overview with stats, contacts, and deals tables
+- ✅ **Auth Foundation** (7 pts) – JWT-hydrated auth context with protected routes and SSR safety
+
+**Metrics**: 19 files created | 12 components | ~1,900 LOC | 0 TypeScript errors
+
+[📄 View Release Notes](./RELEASE_NOTES_SPRINT_3.md) | [📊 Sprint 3 Details](./SPRINT_3_COMPLETE.md) | [🎯 Kanban Guide](./KANBAN_COMPLETE_SUMMARY.md)
+
+---
+
 ## 🚀 Quick Start
 
 **New to this project?** Start here:
