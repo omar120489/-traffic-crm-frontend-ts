@@ -333,7 +333,7 @@ export default function PnLAnalytics() {
         Filters
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <TextField
             fullWidth
             size="small"
@@ -344,7 +344,7 @@ export default function PnLAnalytics() {
             InputLabelProps={{ shrink: true }}
           />
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <TextField
             fullWidth
             size="small"
@@ -355,7 +355,7 @@ export default function PnLAnalytics() {
             InputLabelProps={{ shrink: true }}
           />
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <FormControl fullWidth size="small">
             <InputLabel>UTM Source</InputLabel>
             <Select
@@ -372,7 +372,7 @@ export default function PnLAnalytics() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <FormControl fullWidth size="small">
             <InputLabel>UTM Campaign</InputLabel>
             <Select
@@ -389,7 +389,7 @@ export default function PnLAnalytics() {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <FormControl fullWidth size="small">
             <InputLabel>Ad ID</InputLabel>
             <Select
@@ -529,7 +529,7 @@ export default function PnLAnalytics() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.rows.map((row, index) => (
+                {data.rows.map((row: Record<string, any>, index: number) => (
                   <TableRow
                     key={`${row.utm_source}-${row.utm_campaign}-${row.ad_id}-${index}`}
                     hover
