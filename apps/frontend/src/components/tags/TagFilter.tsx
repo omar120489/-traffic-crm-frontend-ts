@@ -27,7 +27,7 @@ export function TagFilter({ selectedTags, onTagsChange, orgId }: TagFilterProps)
   const loadTags = async () => {
     try {
       setLoading(true);
-      const data = await api.listTags(orgId);
+      const data = await api.tags.list(orgId);
       setTags(data);
     } catch (err) {
       console.error('Failed to load tags:', err);

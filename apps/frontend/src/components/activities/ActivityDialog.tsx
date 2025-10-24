@@ -32,7 +32,7 @@ const ACTIVITY_TYPES = [
   { value: 'task', label: 'Task' },
 ] as const;
 
-export function ActivityDialog({ open, onClose, onSave, entityType, entityId }: ActivityDialogProps) {
+export function ActivityDialog({ open, onClose, onSave }: ActivityDialogProps) {
   const [type, setType] = useState('note');
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');

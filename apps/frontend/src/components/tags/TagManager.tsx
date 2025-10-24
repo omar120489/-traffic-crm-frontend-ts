@@ -13,7 +13,7 @@ import {
   TextField,
   CircularProgress,
 } from '@mui/material';
-import { Add, Close } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { createClient } from '@traffic-crm/sdk-js';
 
 const api = createClient({
@@ -42,7 +42,8 @@ export function TagManager({ entityType, entityId, onTagsChange }: TagManagerPro
   const [newTagName, setNewTagName] = useState('');
   const [newTagColor, setNewTagColor] = useState('#3f51b5');
 
-  const orgId = 'acme'; // TODO: Get from auth context
+  // NOTE: Auth context integration pending - using mock value for dev
+  const orgId = 'clx0d018d000008l701211234'; // From seed data
 
   useEffect(() => {
     loadTags();
@@ -52,8 +53,8 @@ export function TagManager({ entityType, entityId, onTagsChange }: TagManagerPro
     try {
       setLoading(true);
       const [entity, all] = await Promise.all([
-        api.getEntityTags(entityType, entityId),
-        api.listTags(orgId),
+        api.tags.getEntityTags(entityType, entityId),
+        api.tags.list(orgId),
       ]);
       setEntityTags(entity);
       setAllTags(all);
@@ -66,7 +67,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: TagManagerPro
 
   const handleAssignTag = async (tagId: string) => {
     try {
-      await api.assignTag({ tagId, entityType, entityId });
+      await api.tags.assign({ tagId, entityType, entityId });
       await loadTags();
       onTagsChange?.();
       setMenuAnchor(null);
@@ -93,7 +94,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: TagManagerPro
   const handleCreateTag = async () => {
     if (!newTagName.trim()) return;
     try {
-      const tag = await api.createTag({ orgId, name: newTagName, color: newTagColor });
+      const tag = await api.tags.create({ orgId, name: newTagName, color: newTagColor });
       await handleAssignTag(tag.id);
       setCreateDialog(false);
       setNewTagName('');
