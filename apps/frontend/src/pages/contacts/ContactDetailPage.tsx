@@ -18,6 +18,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Snackbar,
 } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
@@ -65,6 +66,7 @@ export default function ContactDetailPage() {
   const [activitySubject, setActivitySubject] = useState('');
   const [activityBody, setActivityBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [actToast, setActToast] = useState(false);
 
   const handleTypeChange = (e: SelectChangeEvent<string>) => {
     setActivityType(e.target.value);
@@ -148,6 +150,9 @@ export default function ContactDetailPage() {
       setActivitySubject('');
       setActivityBody('');
       setActivityType('note');
+      
+      // Show success toast
+      setActToast(true);
     } catch (err: any) {
       setError(err.message || 'Failed to create activity');
       // Rollback optimistic update
@@ -335,6 +340,18 @@ export default function ContactDetailPage() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Activity Success Toast */}
+      <Snackbar
+        open={actToast}
+        autoHideDuration={2000}
+        onClose={() => setActToast(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setActToast(false)} severity="success" variant="filled">
+          Activity created
+        </Alert>
+      </Snackbar>
     </AppPage>
   );
 }

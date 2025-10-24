@@ -12,6 +12,8 @@ import {
   Button,
   TextField,
   CircularProgress,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { createClient } from '@traffic-crm/sdk-js';
@@ -42,9 +44,18 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
   const [createDialog, setCreateDialog] = useState(false);
   const [newTagName, setNewTagName] = useState('');
   const [newTagColor, setNewTagColor] = useState('#3f51b5');
+  const [toast, setToast] = useState<{ open: boolean; msg: string; sev: 'success' | 'error' }>({
+    open: false,
+    msg: '',
+    sev: 'success',
+  });
 
   // Get auth from context
   const { orgId } = useAuth();
+
+  const openToast = (msg: string, sev: 'success' | 'error' = 'success') => {
+    setToast({ open: true, msg, sev });
+  };
 
   useEffect(() => {
     loadTags();
@@ -72,8 +83,10 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
       await loadTags();
       onTagsChange?.();
       setMenuAnchor(null);
+      openToast('Tag added');
     } catch (err) {
       console.error('Failed to assign tag:', err);
+      openToast('Could not add tag', 'error');
     }
   };
 
@@ -87,8 +100,10 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
       // Note: This is a simplified version. In production, you'd want to store assignment IDs
       await loadTags();
       onTagsChange?.();
+      openToast('Tag removed');
     } catch (err) {
       console.error('Failed to remove tag:', err);
+      openToast('Could not remove tag', 'error');
     }
   };
 
@@ -193,6 +208,18 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Toast Notifications */}
+      <Snackbar
+        open={toast.open}
+        autoHideDuration={2500}
+        onClose={() => setToast({ ...toast, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setToast({ ...toast, open: false })} severity={toast.sev} variant="filled">
+          {toast.msg}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

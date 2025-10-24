@@ -15,6 +15,7 @@ import {
 import { Add, Search, FilterList, Edit, Delete, Visibility } from '@mui/icons-material';
 import { AppPage, DataTable, FilterBar, type Column } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
+import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
@@ -34,6 +35,7 @@ interface Contact {
 export default function ContactsListPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { orgId } = useAuth();
   
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [total, setTotal] = useState(0);
@@ -50,6 +52,10 @@ export default function ContactsListPage() {
 
   // Filter menu
   const [filterAnchor, setFilterAnchor] = useState<null | HTMLElement>(null);
+  
+  // Tag options from API
+  const [tagOptions, setTagOptions] = useState<string[]>([]);
+  const [tagsLoading, setTagsLoading] = useState(false);
 
   const setFilter = (key: string, value?: string) => {
     const params = new URLSearchParams(searchParams);
@@ -75,6 +81,25 @@ export default function ContactsListPage() {
     params.set('page', '1');
     setSearchParams(params, { replace: true });
   };
+
+  // Load tag options once
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      setTagsLoading(true);
+      try {
+        const res = await api.tags.list(orgId);
+        if (alive) setTagOptions(res.map((t: any) => t.name) ?? []);
+      } catch {
+        if (alive) setTagOptions([]);
+      } finally {
+        if (alive) setTagsLoading(false);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [orgId]);
 
   useEffect(() => {
     loadContacts();
@@ -247,7 +272,8 @@ export default function ContactsListPage() {
               <Autocomplete
                 multiple
                 size="small"
-                options={['vip', 'prospect', 'customer', 'partner', 'lead']}
+                options={tagOptions}
+                loading={tagsLoading}
                 value={tags}
                 onChange={handleTagsChange}
                 renderTags={(value, getTagProps) =>
@@ -255,7 +281,7 @@ export default function ContactsListPage() {
                     <Chip key={option} variant="outlined" label={option} size="small" {...getTagProps({ index })} />
                   ))
                 }
-                renderInput={(params) => <TextField {...params} placeholder="Select tags" />}
+                renderInput={(params) => <TextField {...params} label="Tags" placeholder="Select tags" />}
                 sx={{ minWidth: 200 }}
               />
             </Box>

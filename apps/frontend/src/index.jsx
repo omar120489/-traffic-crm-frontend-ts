@@ -9,6 +9,7 @@ import { store } from 'store';
 import * as serviceWorker from 'serviceWorker';
 import reportWebVitals from 'reportWebVitals';
 import { ConfigProvider } from 'contexts/ConfigContext';
+import { AuthProvider } from 'contexts/AuthContext';
 import { validateEnvironmentVariables } from './config/validateEnv';
 
 // style + assets
@@ -48,7 +49,9 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <ConfigProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </ConfigProvider>
   </Provider>
 );
