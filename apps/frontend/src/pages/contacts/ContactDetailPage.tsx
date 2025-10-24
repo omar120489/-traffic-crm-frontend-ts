@@ -17,7 +17,7 @@ import {
   Divider,
 } from '@mui/material';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
-import { AppPage, EntityTimeline, type TimelineEvent } from '@ui-kit/core';
+import { AppPage, EntityTimeline, type TimelineEvent } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
 
 const api = createClient({
@@ -61,8 +61,9 @@ export default function ContactDetailPage() {
   const [activityBody, setActivityBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const orgId = 'acme'; // TODO: Get from auth context
-  const userId = 'user-1'; // TODO: Get from auth context
+  // NOTE: Auth context integration pending - using mock values for dev
+  const orgId = 'clx0d018d000008l701211234'; // From seed data
+  const userId = 'dev-user'; // Mock admin from JWT bypass
 
   useEffect(() => {
     if (id) {

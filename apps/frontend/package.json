@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@traffic-crm/sdk-js": "workspace:*",
+    "@traffic-crm/ui-kit": "workspace:*",
     "@shared-types": "workspace:*",
     "@auth0/auth0-react": "2.5.0",
     "@emotion/cache": "11.14.0",

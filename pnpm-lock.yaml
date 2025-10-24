@@ -162,6 +162,9 @@ importers:
       '@traffic-crm/sdk-js':
         specifier: workspace:*
         version: link:../../packages/sdk-js
+      '@traffic-crm/ui-kit':
+        specifier: workspace:*
+        version: link:../../packages/ui-kit
       '@vitejs/plugin-react':
         specifier: 5.0.4
         version: 5.0.4(vite@7.1.11(@types/node@22.18.12)(jiti@2.6.1)(sass@1.93.2)(terser@5.44.0)(tsx@4.20.6))
