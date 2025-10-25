@@ -47,8 +47,17 @@ export interface CreateActivityInput {
 }
 
 export interface UpdateActivityInput {
+  readonly id: string;
   readonly content?: string;
+  readonly title?: string;
+  readonly notes?: string;
   readonly type?: ActivityType;
+  readonly dueAt?: string;
+  readonly participants?: readonly string[];
+}
+
+export interface DeleteActivityInput {
+  readonly id: string;
 }
 
 export interface ActivityFilters {

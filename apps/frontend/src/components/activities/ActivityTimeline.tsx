@@ -8,8 +8,10 @@ import {
   getActivities,
   getActivityTypeOptions,
   createActivity,
+  updateActivity,
+  deleteActivity,
 } from "@/services/activities.service";
-import type { Activity, ActivityFilters as Filters, CreateActivityInput } from "@/types/activity";
+import type { Activity, ActivityFilters as Filters, CreateActivityInput, UpdateActivityInput } from "@/types/activity";
 
 type Row = 
   | { readonly kind: "header"; readonly id: string; readonly label: string }
@@ -39,6 +41,8 @@ export default function ActivityTimeline({
   const [cursor, setCursor] = React.useState<string | undefined>(undefined);
   const parentRef = React.useRef<HTMLDivElement | null>(null);
   const [newOpen, setNewOpen] = React.useState(false);
+  const [editOpen, setEditOpen] = React.useState(false);
+  const [editing, setEditing] = React.useState<Activity | null>(null);
 
   // Group activities by day and flatten into rows with headers
   const rows = React.useMemo<Row[]>(() => {
@@ -108,6 +112,66 @@ export default function ActivityTimeline({
     () => [{ label: "All users", value: "" }], // plug real users later
     []
   );
+
+  // Handler for opening edit modal
+  function openEdit(activity: Activity) {
+    setEditing(activity);
+    setEditOpen(true);
+  }
+
+  // Handler for updating activity with optimistic update
+  async function handleUpdate(payload: UpdateActivityInput) {
+    // optimistic replace
+    const idx = data.findIndex((x) => x.id === payload.id);
+    if (idx === -1) return;
+
+    const snapshot = data[idx];
+    const provisional: Activity = { ...snapshot, ...payload };
+
+    setData((prev) => {
+      const copy = [...prev];
+      copy[idx] = provisional;
+      return copy;
+    });
+
+    try {
+      const saved = await updateActivity(payload);
+      setData((prev) => {
+        const copy = [...prev];
+        const j = copy.findIndex((x) => x.id === payload.id);
+        if (j !== -1) copy[j] = saved;
+        return copy;
+      });
+    } catch (e) {
+      // rollback
+      setData((prev) => {
+        const copy = [...prev];
+        const j = copy.findIndex((x) => x.id === payload.id);
+        if (j !== -1) copy[j] = snapshot;
+        return copy;
+      });
+      throw e;
+    }
+  }
+
+  // Handler for deleting activity with optimistic update
+  async function handleDelete(activity: Activity) {
+    if (!confirm("Delete this activity? This cannot be undone.")) return;
+
+    // optimistic remove
+    const snapshot = data;
+    setData((prev) => prev.filter((x) => x.id !== activity.id));
+    setTotal((prev) => Math.max(0, prev - 1));
+
+    try {
+      await deleteActivity({ id: activity.id });
+    } catch (e) {
+      // rollback
+      setData(snapshot);
+      setTotal((prev) => prev + 1);
+      throw e;
+    }
+  }
 
   // Handler for creating new activity with optimistic update
   async function handleCreate(payload: CreateActivityInput) {
@@ -203,7 +267,11 @@ export default function ActivityTimeline({
                     {row.label}
                   </div>
                 ) : row?.kind === "item" && row.activity ? (
-                  <ActivityItem activity={row.activity} />
+                  <ActivityItem 
+                    activity={row.activity} 
+                    onEdit={openEdit}
+                    onDelete={handleDelete}
+                  />
                 ) : (
                   <SkeletonRow />
                 )}
@@ -234,7 +302,26 @@ export default function ActivityTimeline({
       <NewActivityModal
         open={newOpen}
         onClose={() => setNewOpen(false)}
+        mode="create"
         onCreate={handleCreate}
+        entity={entityType ?? "company"}
+        entityId={entityId ?? "company-1"}
+      />
+
+      {/* Edit Activity Modal */}
+      <NewActivityModal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        mode="edit"
+        activityId={editing?.id}
+        initial={{
+          type: editing?.type,
+          title: editing?.title,
+          notes: editing?.notes,
+          dueAt: editing?.dueAt,
+          participants: editing?.participants?.map((p) => p.email ?? p.name) ?? [],
+        }}
+        onUpdate={handleUpdate}
         entity={entityType ?? "company"}
         entityId={entityId ?? "company-1"}
       />

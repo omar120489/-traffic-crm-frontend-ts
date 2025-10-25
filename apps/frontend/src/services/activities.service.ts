@@ -6,6 +6,7 @@ import type {
   Activity,
   CreateActivityInput,
   UpdateActivityInput,
+  DeleteActivityInput,
   ActivityFilters,
   ActivityListResponse,
 } from '@/types/activity';
@@ -124,40 +125,59 @@ export async function createActivity(
  * Update an existing activity
  */
 export async function updateActivity(
-  id: string,
   input: UpdateActivityInput
 ): Promise<Activity> {
   // Mock implementation
   if (USE_MOCK_DATA) {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 350));
     
-    const activity = mockData.activities.find((act) => act.id === id);
-    if (!activity) {
-      throw new Error('Activity not found');
-    }
-    
+    // Return merged object
     return {
-      ...activity,
-      ...input,
-      updatedAt: new Date().toISOString(),
-    } as Activity;
+      id: input.id,
+      type: input.type ?? 'note',
+      title: input.title ?? 'Updated activity',
+      content: input.content,
+      notes: input.notes,
+      dueAt: input.dueAt,
+      entityType: 'company',
+      entityId: 'company-1',
+      createdAt: new Date().toISOString(),
+      createdBy: { id: 'me', name: 'You' },
+      participants: (input.participants || []).map((p, i) => ({
+        id: `${i}_${p}`,
+        name: p,
+        email: p.includes('@') ? p : undefined,
+      })),
+      entity: 'company',
+    };
   }
   
-  const { data } = await http.patch<Activity>(`/api/activities/${id}`, input);
-  return data;
+  const res = await fetch(`/api/activities/${encodeURIComponent(input.id)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error('Failed to update activity');
+  return (await res.json()) as Activity;
 }
 
 /**
  * Delete an activity
  */
-export async function deleteActivity(id: string): Promise<void> {
+export async function deleteActivity(
+  input: DeleteActivityInput
+): Promise<{ readonly ok: true }> {
   // Mock implementation
   if (USE_MOCK_DATA) {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    return;
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    return { ok: true };
   }
   
-  await http.delete(`/api/activities/${id}`);
+  const res = await fetch(`/api/activities/${encodeURIComponent(input.id)}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete activity');
+  return { ok: true };
 }
 
 /**

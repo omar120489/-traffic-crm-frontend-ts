@@ -4,6 +4,8 @@ import type { Activity } from "@/types/activity";
 
 type Props = {
   readonly activity: Activity;
+  readonly onEdit?: (activity: Activity) => void;
+  readonly onDelete?: (activity: Activity) => void;
 };
 
 const typeEmoji: Record<Activity["type"], string> = {
@@ -14,7 +16,7 @@ const typeEmoji: Record<Activity["type"], string> = {
   task: "✅",
 };
 
-export default function ActivityItem({ activity }: Props) {
+export default function ActivityItem({ activity, onEdit, onDelete }: Props) {
   const createdAt = new Date(activity.createdAt);
 
   return (
@@ -25,18 +27,44 @@ export default function ActivityItem({ activity }: Props) {
       <div className="mt-1 text-xl">{typeEmoji[activity.type] ?? "📝"}</div>
 
       <div className="min-w-0 flex-1">
-        {/* Header: title + relative time */}
+        {/* Header: title + relative time + actions */}
         <div className="flex items-start justify-between gap-3">
           <h3 className="truncate text-sm font-semibold text-gray-900">
             {activity.title ?? activity.content?.split('\n')[0] ?? activity.type.toUpperCase()}
           </h3>
-          <time
-            className="shrink-0 whitespace-nowrap text-xs text-gray-500"
-            title={format(createdAt, "PPpp")}
-            dateTime={createdAt.toISOString()}
-          >
-            {formatDistanceToNow(createdAt, { addSuffix: true })}
-          </time>
+          <div className="flex items-center gap-2 shrink-0">
+            <time
+              className="whitespace-nowrap text-xs text-gray-500"
+              title={format(createdAt, "PPpp")}
+              dateTime={createdAt.toISOString()}
+            >
+              {formatDistanceToNow(createdAt, { addSuffix: true })}
+            </time>
+            {(onEdit || onDelete) && (
+              <div className="flex items-center gap-1">
+                {onEdit && (
+                  <button
+                    type="button"
+                    className="rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-700 hover:bg-gray-50"
+                    onClick={() => onEdit(activity)}
+                    aria-label="Edit activity"
+                  >
+                    Edit
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    type="button"
+                    className="rounded-md border border-red-300 px-2 py-1 text-xs text-red-700 hover:bg-red-50"
+                    onClick={() => onDelete(activity)}
+                    aria-label="Delete activity"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Meta */}

@@ -1,14 +1,28 @@
 import * as React from "react";
-import { ActivityType, CreateActivityInput } from "@/types/activity";
+import { ActivityType, CreateActivityInput, UpdateActivityInput } from "@/types/activity";
 import { cn } from "@/utils/cn";
+
+type Mode = "create" | "edit";
 
 type Props = {
   readonly open: boolean;
   readonly onClose: () => void;
-  readonly onCreate: (payload: CreateActivityInput) => Promise<void> | void;
+  readonly onCreate?: (payload: CreateActivityInput) => Promise<void> | void;
+  readonly onUpdate?: (payload: UpdateActivityInput) => Promise<void> | void;
   // prefill from parent context
   readonly entity: "company" | "contact" | "deal";
   readonly entityId: string;
+  
+  // NEW: for edit mode
+  readonly mode?: Mode;
+  readonly activityId?: string;
+  readonly initial?: {
+    readonly type?: ActivityType;
+    readonly title?: string;
+    readonly notes?: string;
+    readonly dueAt?: string;
+    readonly participants?: readonly string[];
+  };
 };
 
 const TYPES: ReadonlyArray<{ readonly label: string; readonly value: ActivityType }> = [
@@ -19,7 +33,7 @@ const TYPES: ReadonlyArray<{ readonly label: string; readonly value: ActivityTyp
   { label: "✅ Task", value: "task" },
 ];
 
-export function NewActivityModal({ open, onClose, onCreate, entity, entityId }: Props) {
+export function NewActivityModal({ open, onClose, onCreate, onUpdate, entity, entityId, mode, activityId, initial }: Props) {
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const firstFieldRef = React.useRef<HTMLInputElement>(null);
 
@@ -31,6 +45,19 @@ export function NewActivityModal({ open, onClose, onCreate, entity, entityId }: 
   const [notes, setNotes] = React.useState("");
   const [dueAt, setDueAt] = React.useState<string>(""); // ISO string or ""
   const [participants, setParticipants] = React.useState<string>(""); // comma-separated
+
+  const m: Mode = mode ?? "create";
+
+  // Initialize form state from initial when open changes
+  React.useEffect(() => {
+    if (open && initial) {
+      setType(initial.type ?? "note");
+      setTitle(initial.title ?? "");
+      setNotes(initial.notes ?? "");
+      setDueAt(initial.dueAt ? initial.dueAt.slice(0, 16) : ""); // datetime-local friendly
+      setParticipants((initial.participants || []).join(", "));
+    }
+  }, [open, initial]);
 
   React.useEffect(() => {
     if (open) {
@@ -63,27 +90,53 @@ export function NewActivityModal({ open, onClose, onCreate, entity, entityId }: 
     setError(null);
     if (!title.trim()) return setError("Title is required.");
 
-    const payload: CreateActivityInput = {
-      type,
-      title: title.trim(),
-      notes: notes.trim() || undefined,
-      dueAt: dueAt ? new Date(dueAt).toISOString() : undefined,
-      participants:
-        participants
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean) || [],
-      entity,
-      entityId,
-    };
+    if (m === "create") {
+      if (!onCreate) return;
+      const payload: CreateActivityInput = {
+        type,
+        title: title.trim(),
+        notes: notes.trim() || undefined,
+        dueAt: dueAt ? new Date(dueAt).toISOString() : undefined,
+        participants:
+          participants
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean) || [],
+        entity,
+        entityId,
+      };
 
-    try {
-      setSubmitting(true);
-      await onCreate(payload);
-      onClose();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to create activity.");
-      setSubmitting(false);
+      try {
+        setSubmitting(true);
+        await onCreate(payload);
+        onClose();
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to create activity.");
+        setSubmitting(false);
+      }
+    } else {
+      if (!onUpdate || !activityId) return;
+      const payload: UpdateActivityInput = {
+        id: activityId,
+        type,
+        title: title.trim(),
+        notes: notes.trim() || undefined,
+        dueAt: dueAt ? new Date(dueAt).toISOString() : undefined,
+        participants:
+          participants
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean) || [],
+      };
+
+      try {
+        setSubmitting(true);
+        await onUpdate(payload);
+        onClose();
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Failed to update activity.");
+        setSubmitting(false);
+      }
     }
   }
 
@@ -100,7 +153,7 @@ export function NewActivityModal({ open, onClose, onCreate, entity, entityId }: 
         className="relative z-10 w-[min(96vw,720px)] rounded-2xl border border-gray-200 bg-white p-5 shadow-xl"
       >
         <h2 id="new-activity-title" className="mb-3 text-lg font-semibold">
-          New Activity
+          {m === "create" ? "New Activity" : "Edit Activity"}
         </h2>
 
         {error && (
@@ -186,7 +239,7 @@ export function NewActivityModal({ open, onClose, onCreate, entity, entityId }: 
                 submitting && "opacity-60"
               )}
             >
-              {submitting ? "Creating…" : "Create Activity"}
+              {submitting ? (m === "create" ? "Creating…" : "Saving…") : (m === "create" ? "Create Activity" : "Save Changes")}
             </button>
           </div>
         </form>

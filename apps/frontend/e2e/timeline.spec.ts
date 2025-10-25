@@ -73,5 +73,43 @@ test.describe("Activity Timeline", () => {
     // Optimistic: should appear quickly
     await expect(page.getByText("Follow up with ACME")).toBeVisible();
   });
+
+  test("edit activity saves changes optimistically", async ({ page }) => {
+    await page.goto("/activities");
+
+    // Open edit on first visible item
+    await page.getByRole("article").first().getByRole("button", { name: /edit/i }).click();
+
+    // Modify title
+    const title = page.getByLabel("Title *");
+    await title.clear();
+    await title.fill("Renamed by test");
+    await page.getByRole("button", { name: /save changes/i }).click();
+
+    // Should appear optimistically
+    await expect(page.getByText("Renamed by test")).toBeVisible();
+  });
+
+  test("delete activity removes from list (optimistic)", async ({ page }) => {
+    await page.goto("/activities");
+
+    // Get first item text
+    const firstItem = page.getByRole("article").first();
+    const textBefore = await firstItem.textContent();
+
+    // Click delete and confirm
+    await firstItem.getByRole("button", { name: /delete/i }).click();
+    
+    // Handle confirm dialog
+    page.once("dialog", (dialog) => dialog.accept());
+
+    // Wait a bit for optimistic removal
+    await page.waitForTimeout(100);
+
+    // Should be removed
+    if (textBefore) {
+      await expect(page.getByText(textBefore, { exact: false })).not.toBeVisible();
+    }
+  });
 });
 
