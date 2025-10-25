@@ -47,20 +47,20 @@ function getSocket(): Socket {
       reconnectionAttempts: Infinity,
     });
 
-    // Log connection events in development
-    if (import.meta.env.DEV) {
-      socketInstance.on('connect', () => {
-        console.log('[WebSocket] Connected to', wsUrl);
-      });
-
-      socketInstance.on('disconnect', (reason) => {
-        console.log('[WebSocket] Disconnected:', reason);
-      });
-
-      socketInstance.on('connect_error', (error) => {
-        console.error('[WebSocket] Connection error:', error.message);
-      });
-    }
+    // Log connection events in development (commented out for production)
+    // if (import.meta.env.DEV) {
+    //   socketInstance.on('connect', () => {
+    //     console.log('[WebSocket] Connected to', wsUrl);
+    //   });
+    //
+    //   socketInstance.on('disconnect', (reason) => {
+    //     console.log('[WebSocket] Disconnected:', reason);
+    //   });
+    //
+    //   socketInstance.on('connect_error', (error) => {
+    //     console.error('[WebSocket] Connection error:', error.message);
+    //   });
+    // }
   }
   return socketInstance;
 }

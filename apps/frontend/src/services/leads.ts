@@ -33,14 +33,12 @@ export async function createLead(payload: LeadCreateDto): Promise<Lead> {
   // Mark attribution as sent after successful creation
   if (attribution) {
     markAttributionSent();
-    if (import.meta.env.DEV) {
-      console.log('[Attribution] Sent with lead:', {
-        leadId: response.id,
-        uti: attribution.uti,
-        utm_source: attribution.utm?.source,
-        ad_id: attribution.platform?.ad_id,
-      });
-    }
+    // console.log('[Attribution] Sent with lead:', {
+    //   leadId: response.id,
+    //   uti: attribution.uti,
+    //   utm_source: attribution.utm?.source,
+    //   ad_id: attribution.platform?.ad_id,
+    // });
   }
 
   return response;

@@ -34,5 +34,4 @@ ${missingEnvVars.map((v) => `│    - ${v.padEnd(55)}│`).join('\n')}
     throw new Error('Environment validation failed. Halting application startup.');
   }
 
-  console.log('✅ Environment configuration validated successfully');
 }

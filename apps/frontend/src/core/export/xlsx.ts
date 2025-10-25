@@ -16,10 +16,10 @@ export function exportToXLSX(options: ExportOptions): void {
   // 4. Apply styles
   // 5. Trigger download
 
-  console.log('TODO: Export to XLSX', {
-    filename,
-    title,
-    columns: columns.length,
-    rows: data.length,
-  });
+  // console.log('TODO: Export to XLSX', {
+  //   filename,
+  //   title,
+  //   columns: columns.length,
+  //   rows: data.length,
+  // });
 }

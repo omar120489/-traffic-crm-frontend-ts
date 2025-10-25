@@ -16,11 +16,11 @@ export function exportToPDF(options: ExportOptions): void {
   // 4. Apply formatting
   // 5. Trigger download
 
-  console.log('TODO: Export to PDF', {
-    filename,
-    title,
-    subtitle,
-    columns: columns.length,
-    rows: data.length,
-  });
+  // console.log('TODO: Export to PDF', {
+  //   filename,
+  //   title,
+  //   subtitle,
+  //   columns: columns.length,
+  //   rows: data.length,
+  // });
 }
