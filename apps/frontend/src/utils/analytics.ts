@@ -17,7 +17,5 @@ export const track = (event: string, props?: Record<string, unknown>): void => {
   // Uncomment the line below when you're ready to wire analytics:
   // window.posthog?.capture(event, props);
 
-  if (import.meta.env.DEV) {
-    console.log('[Analytics]', event, props);
-  }
+  // Avoid console noise; hook up to your analytics provider when ready
 };

@@ -17,13 +17,10 @@ export function useAttribution(): void {
         const hasUtm = Object.values(attribution.utm).some(Boolean);
         const hasPlatform = Object.values(attribution.platform).some(Boolean);
 
-        if (hasUtm || hasPlatform) {
-          console.log('[Attribution] Captured:', {
-            uti: attribution.uti,
-            utm: attribution.utm,
-            platform: attribution.platform,
-          });
-        }
+        // Intentionally silent to avoid noisy dev logs
+        // You can wire this to a toast or analytics debug panel if needed
+        void hasUtm; // keep variables referenced to avoid unused warnings
+        void hasPlatform;
       }
     } catch (error) {
       console.error('[Attribution] Failed to parse attribution:', error);
