@@ -13,11 +13,8 @@ export function useAttribution(): void {
       // Parse and store attribution data from current URL
       const attribution = parseAttribution();
 
-      // console.log('[Attribution] Captured:', {
-      //   uti: attribution.uti,
-      //   utm: attribution.utm,
-      //   platform: attribution.platform,
-      // });
+      // Intentionally silent to avoid noisy dev logs
+      // You can wire this to a toast or analytics debug panel if needed
     } catch (error) {
       console.error('[Attribution] Failed to parse attribution:', error);
     }

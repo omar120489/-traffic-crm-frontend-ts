@@ -27,12 +27,7 @@ export async function createLead(payload: LeadCreateDto): Promise<Lead> {
 
   if (attribution) {
     markAttributionSent();
-    // console.log('[Attribution] Sent with lead:', {
-    //   leadId: response.id,
-    //   uti: attribution.uti,
-    //   utm_source: attribution.utm?.source,
-    //   ad_id: attribution.platform?.ad_id,
-    // });
+    // Intentionally silent in production and development to avoid noisy logs
   }
 
   return response;

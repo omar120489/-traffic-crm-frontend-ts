@@ -65,7 +65,8 @@ export default [
       'react/react-in-jsx-scope': 'off',
       'react/jsx-props-no-spreading': 'off',
       'import/order': 'off',
-      'no-console': 'off',
+      // Enforce no-console but allow warn/error
+      'no-console': ['error', { allow: ['warn', 'error'] }],
       'no-shadow': 'off',
       'import/no-cycle': 'off',
       'import/no-extraneous-dependencies': 'off',
