@@ -32,6 +32,7 @@ model Org {
   Activities     Activity[]
   Tags           Tag[]
   TagAssignments TagAssignment[]
+  SavedViews     SavedView[]
 
   @@index([slug])
 }
@@ -54,6 +55,7 @@ model User {
   OwnedLeads         Lead[]
   OwnedDeals         Deal[]
   AuthoredActivities Activity[]
+  SavedViews         SavedView[]
 }
 
 model Company {
@@ -287,4 +289,27 @@ model TagAssignment {
   @@unique([tagId, entityType, entityId])
   @@index([orgId])
   @@index([entityType, entityId])
+}
+
+// ------------------------------------------------------------
+// SavedView — Sprint 6: Saved Analytics Filter Views
+// ------------------------------------------------------------
+model SavedView {
+  id        String   @id @default(cuid())
+  orgId     String
+  Org       Org      @relation(fields: [orgId], references: [id])
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  
+  name      String
+  filters   Json     // { from, to, users, types }
+  isDefault Boolean  @default(false)
+  isShared  Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([orgId, userId, name])
+  @@index([orgId, userId])
+  @@index([orgId, isDefault])
 }
