@@ -14,7 +14,7 @@ import theme6 from 'assets/scss/_theme6.module.scss';
 // ==============================|| DEFAULT THEME - PALETTE ||============================== //
 
 export function buildPalette(presetColor: PresetColor) {
-  let colors: any;
+  let colors: Record<string, any>;
 
   switch (presetColor) {
     case 'theme1':
