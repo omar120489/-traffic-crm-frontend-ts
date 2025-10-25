@@ -106,7 +106,7 @@ export function FirebaseProvider({ children }: FirebaseProviderProps) {
 
   const updateProfile = useCallback(async () => {
     // Implementation depends on your requirements
-    console.log('Update profile not implemented for Firebase');
+    // console.log('Update profile not implemented for Firebase');
   }, []);
 
   // Show loader while initializing

@@ -160,7 +160,7 @@ export default function ContactsPageExample() {
   }, [page, search, status]);
 
   const handleEdit = (id: string) => {
-    console.log('Edit contact:', id);
+    // console.log('Edit contact:', id);
     // TODO: Navigate to edit page or open modal
   };
 
@@ -264,7 +264,7 @@ export default function ContactsPageExample() {
       title="Contacts"
       breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contacts' }]}
       actions={
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => console.log('Add')}>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={() => {/* TODO: Add contact */}}>
           Add Contact
         </Button>
       }

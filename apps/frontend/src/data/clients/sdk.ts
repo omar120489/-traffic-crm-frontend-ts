@@ -7,7 +7,7 @@ async function getToken() {
   // Dev override from .env.local
   const dev = import.meta.env.VITE_DEV_JWT;
   if (dev) {
-    console.log('[SDK] Using dev JWT from env');
+    // console.log('[SDK] Using dev JWT from env');
     return dev as string;
   }
 

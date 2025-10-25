@@ -73,7 +73,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Supabase auth state change:', event);
+      // console.log('Supabase auth state change:', event);
 
       if (event === 'SIGNED_IN' && session?.user) {
         setSession(session.access_token);
@@ -110,7 +110,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
       }
 
       // Auth state change listener will handle the Redux dispatch
-      console.log('Supabase login successful:', data);
+      // console.log('Supabase login successful:', data);
     } catch (error) {
       handleAuthError(error, 'Supabase', 'login');
     }
@@ -143,7 +143,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
           throw error;
         }
 
-        console.log('Supabase registration successful:', data);
+        // console.log('Supabase registration successful:', data);
         // Note: User may need to confirm email before they can login
       } catch (error) {
         handleAuthError(error, 'Supabase', 'register');
@@ -183,7 +183,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
         throw error;
       }
 
-      console.log('Password reset email sent');
+      // console.log('Password reset email sent');
     } catch (error) {
       handleAuthError(error, 'Supabase', 'resetPassword');
     }
