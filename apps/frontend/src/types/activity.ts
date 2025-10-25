@@ -6,25 +6,44 @@ export type ActivityType = 'note' | 'call' | 'email' | 'meeting' | 'task';
 export interface Activity {
   readonly id: string;
   readonly type: ActivityType;
-  readonly content: string;
+  readonly content?: string;
+  readonly title?: string;
+  readonly notes?: string;
+  readonly dueAt?: string;
   readonly entityType: 'contact' | 'deal' | 'company';
   readonly entityId: string;
-  readonly userId: string;
-  readonly user: {
+  readonly userId?: string;
+  readonly user?: {
     readonly id: string;
     readonly name: string;
-    readonly email: string;
+    readonly email?: string;
     readonly avatar?: string;
   };
+  readonly createdBy?: {
+    readonly id: string;
+    readonly name: string;
+    readonly avatarUrl?: string;
+  };
+  readonly participants?: ReadonlyArray<{
+    readonly id: string;
+    readonly name: string;
+    readonly email?: string;
+  }>;
+  readonly entity?: 'contact' | 'deal' | 'company';
   readonly createdAt: string;
-  readonly updatedAt: string;
+  readonly updatedAt?: string;
 }
 
 export interface CreateActivityInput {
   readonly type: ActivityType;
-  readonly content: string;
-  readonly entityType: 'contact' | 'deal' | 'company';
-  readonly entityId: string;
+  readonly content?: string;
+  readonly title?: string;
+  readonly notes?: string;
+  readonly dueAt?: string;
+  readonly participants?: readonly string[];
+  readonly entityType?: 'contact' | 'deal' | 'company';
+  readonly entityId?: string;
+  readonly entity?: 'contact' | 'deal' | 'company';
 }
 
 export interface UpdateActivityInput {

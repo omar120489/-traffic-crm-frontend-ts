@@ -3,11 +3,13 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import ActivityItem from "./ActivityItem";
 import ActivityFilters from "./ActivityFilters";
 import { groupByDay } from "./groupByDay";
+import { NewActivityModal } from "./NewActivityModal";
 import {
   getActivities,
   getActivityTypeOptions,
+  createActivity,
 } from "@/services/activities.service";
-import type { Activity, ActivityFilters as Filters } from "@/types/activity";
+import type { Activity, ActivityFilters as Filters, CreateActivityInput } from "@/types/activity";
 
 type Row = 
   | { readonly kind: "header"; readonly id: string; readonly label: string }
@@ -36,6 +38,7 @@ export default function ActivityTimeline({
   const [error, setError] = React.useState<string | null>(null);
   const [cursor, setCursor] = React.useState<string | undefined>(undefined);
   const parentRef = React.useRef<HTMLDivElement | null>(null);
+  const [newOpen, setNewOpen] = React.useState(false);
 
   // Group activities by day and flatten into rows with headers
   const rows = React.useMemo<Row[]>(() => {
@@ -106,6 +109,62 @@ export default function ActivityTimeline({
     []
   );
 
+  // Handler for creating new activity with optimistic update
+  async function handleCreate(payload: CreateActivityInput) {
+    // Compose payload with the entity from props if not filled by modal
+    const composed: CreateActivityInput = {
+      ...payload,
+      entity: payload.entity ?? entityType,
+      entityId: payload.entityId ?? entityId,
+      entityType: payload.entityType ?? entityType,
+    };
+
+    // optimistic shell
+    const temp: Activity = {
+      id: `tmp_${Date.now()}`,
+      type: composed.type,
+      title: composed.title,
+      content: composed.content,
+      notes: composed.notes,
+      dueAt: composed.dueAt,
+      createdAt: new Date().toISOString(),
+      createdBy: { id: "me", name: "You", avatarUrl: undefined },
+      participants: (composed.participants || []).map((p, i) => ({
+        id: `${i}_${p}`,
+        name: p,
+        email: p.includes("@") ? p : undefined,
+      })),
+      entity: composed.entity,
+      entityType: composed.entityType ?? composed.entity ?? 'contact',
+      entityId: composed.entityId ?? '',
+    };
+
+    // Optimistically add to the top of the list
+    setData((prev) => [temp, ...prev]);
+    setTotal((prev) => prev + 1);
+
+    // Scroll to top to show new activity
+    parentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+
+    // server (or mock) create
+    try {
+      const saved = await createActivity(composed);
+      // replace temp with saved (match by id)
+      setData((prev) => {
+        const idx = prev.findIndex((x) => x.id === temp.id);
+        if (idx === -1) return [saved, ...prev]; // fallback
+        const copy = [...prev];
+        copy[idx] = saved;
+        return copy;
+      });
+    } catch (e) {
+      // revert temp if failed
+      setData((prev) => prev.filter((x) => x.id !== temp.id));
+      setTotal((prev) => Math.max(0, prev - 1));
+      throw e;
+    }
+  }
+
   return (
     <section className="flex flex-col gap-4" data-testid="activity-timeline">
       <ActivityFilters
@@ -161,6 +220,24 @@ export default function ActivityTimeline({
         )}
         {error && <ErrorState message={error} />}
       </div>
+
+      {/* Floating Action Button */}
+      <button
+        aria-label="New activity"
+        onClick={() => setNewOpen(true)}
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-2xl font-bold text-white shadow-lg transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      >
+        +
+      </button>
+
+      {/* New Activity Modal */}
+      <NewActivityModal
+        open={newOpen}
+        onClose={() => setNewOpen(false)}
+        onCreate={handleCreate}
+        entity={entityType ?? "company"}
+        entityId={entityId ?? "company-1"}
+      />
     </section>
   );
 }

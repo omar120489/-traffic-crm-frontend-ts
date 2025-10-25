@@ -90,24 +90,32 @@ export async function createActivity(
 ): Promise<Activity> {
   // Mock implementation
   if (USE_MOCK_DATA) {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    // emulate latency
+    await new Promise((resolve) => setTimeout(resolve, 350));
     
-    const newActivity: Activity = {
-      id: `act-${Date.now()}`,
-      ...input,
-      userId: 'user-1',
-      user: {
-        id: 'user-1',
-        name: 'Current User',
-        email: 'current@traffic-crm.example.com',
-      },
+    const act: Activity = {
+      id: `a_${Date.now()}`,
+      type: input.type,
+      title: input.title,
+      content: input.content,
+      notes: input.notes,
+      dueAt: input.dueAt,
+      entityType: (input.entityType ?? input.entity ?? 'contact') as 'contact' | 'deal' | 'company',
+      entityId: input.entityId ?? '',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdBy: { id: "me", name: "You" },
+      participants: (input.participants || []).map((p, i) => ({
+        id: `${i}_${p}`,
+        name: p,
+        email: p.includes("@") ? p : undefined,
+      })),
+      entity: input.entity ?? input.entityType,
     };
     
-    return newActivity;
+    return act;
   }
   
+  // Real API
   const { data } = await http.post<Activity>('/api/activities', input);
   return data;
 }

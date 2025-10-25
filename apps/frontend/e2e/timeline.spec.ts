@@ -58,5 +58,20 @@ test.describe("Activity Timeline", () => {
     const items = page.locator('[data-testid^="activity-item-"]');
     expect(await items.count()).toBeGreaterThanOrEqual(0);
   });
+
+  test("create activity via modal (optimistic)", async ({ page }) => {
+    await page.goto("/activities");
+
+    // Open modal
+    await page.getByRole("button", { name: /new activity/i }).click();
+
+    // Fill form
+    await page.getByLabel("Title *").fill("Follow up with ACME");
+    await page.getByLabel("Notes").fill("Confirm SOW and dates");
+    await page.getByRole("button", { name: /create activity/i }).click();
+
+    // Optimistic: should appear quickly
+    await expect(page.getByText("Follow up with ACME")).toBeVisible();
+  });
 });
 

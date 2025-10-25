@@ -28,7 +28,7 @@ export default function ActivityItem({ activity }: Props) {
         {/* Header: title + relative time */}
         <div className="flex items-start justify-between gap-3">
           <h3 className="truncate text-sm font-semibold text-gray-900">
-            {activity.content?.split('\n')[0] ?? activity.type.toUpperCase()}
+            {activity.title ?? activity.content?.split('\n')[0] ?? activity.type.toUpperCase()}
           </h3>
           <time
             className="shrink-0 whitespace-nowrap text-xs text-gray-500"
@@ -41,26 +41,26 @@ export default function ActivityItem({ activity }: Props) {
 
         {/* Meta */}
         <p className="mt-1 line-clamp-3 text-sm text-gray-700">
-          {activity.content ?? "—"}
+          {activity.notes ?? activity.content ?? "—"}
         </p>
 
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
-          {activity.user && (
+          {(activity.user || activity.createdBy) && (
             <span className="inline-flex items-center gap-2">
               <span className="inline-block h-5 w-5 overflow-hidden rounded-full bg-gray-100 ring-1 ring-gray-200">
-                {activity.user.avatar ? (
+                {(activity.user?.avatar || activity.createdBy?.avatarUrl) ? (
                   <img
-                    src={activity.user.avatar}
-                    alt={activity.user.name ?? "User"}
+                    src={activity.user?.avatar ?? activity.createdBy?.avatarUrl}
+                    alt={activity.user?.name ?? activity.createdBy?.name ?? "User"}
                     className="h-full w-full object-cover"
                   />
                 ) : (
                   <span className="grid h-full w-full place-items-center text-[10px]">
-                    {activity.user.name?.[0] ?? "U"}
+                    {(activity.user?.name ?? activity.createdBy?.name)?.[0] ?? "U"}
                   </span>
                 )}
               </span>
-              <span className="truncate">{activity.user.name}</span>
+              <span className="truncate">{activity.user?.name ?? activity.createdBy?.name}</span>
             </span>
           )}
           <span>•</span>
