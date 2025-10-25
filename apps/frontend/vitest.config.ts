@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config';
 import path from 'node:path';
 
 export default defineConfig({
+  plugins: [],
   test: {
     globals: true,
     environment: 'jsdom',
@@ -26,7 +27,9 @@ export default defineConfig({
       '@features': path.resolve(__dirname, './src/features'),
       '@shared': path.resolve(__dirname, './src/shared'),
       '@styles': path.resolve(__dirname, './src/styles'),
+      '@services': path.resolve(__dirname, './src/services'),
       'ui-component': path.resolve(__dirname, './src/ui-component'),
+      'layouts': path.resolve(__dirname, './src/layouts'),
       'utils': path.resolve(__dirname, './src/utils'),
       'store': path.resolve(__dirname, './src/store'),
       'config': path.resolve(__dirname, './src/config'),
