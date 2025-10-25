@@ -1,0 +1,29 @@
+{
+  "kpis": {
+    "totalActivities": 1234,
+    "activeUsers": 87,
+    "avgDailyActivities": 56,
+    "medianTimeToFirstResponseMs": 2520000
+  },
+  "byDay": [
+    { "date": "2025-10-01", "count": 45 },
+    { "date": "2025-10-02", "count": 52 },
+    { "date": "2025-10-03", "count": 38 },
+    { "date": "2025-10-04", "count": 61 },
+    { "date": "2025-10-05", "count": 48 }
+  ],
+  "mix": [
+    { "type": "email", "count": 512, "percent": 41.5 },
+    { "type": "call", "count": 387, "percent": 31.3 },
+    { "type": "meeting", "count": 221, "percent": 17.9 },
+    { "type": "note", "count": 87, "percent": 7.0 },
+    { "type": "task", "count": 27, "percent": 2.3 }
+  ],
+  "topContributors": [
+    { "userId": "u1", "name": "Alice Rivera", "avatarUrl": null, "count": 156 },
+    { "userId": "u2", "name": "Bob Chen", "avatarUrl": null, "count": 134 },
+    { "userId": "u3", "name": "Carol Johnson", "avatarUrl": null, "count": 112 },
+    { "userId": "u4", "name": "David Smith", "avatarUrl": null, "count": 98 },
+    { "userId": "u5", "name": "Eve Williams", "avatarUrl": null, "count": 76 }
+  ]
+}
