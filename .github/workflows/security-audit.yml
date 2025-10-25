@@ -128,7 +128,7 @@ jobs:
           publish_results: true
       
       - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@cdcdbb579706841c47f7063dda365e292e5cad7a # v2.13.4
+        uses: github/codeql-action/upload-sarif@d198d2fabf39a7f36b5ce57ce70d4942944f006e # v3.31.0
         with:
           sarif_file: scorecard-results.sarif
       
