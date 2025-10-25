@@ -1,4 +1,4 @@
-import { createClient } from '@sdk-js/core';
+import { createClient } from '@traffic-crm/sdk-js';
 
 const baseUrl = import.meta.env.VITE_APP_API_URL ?? 'http://localhost:3000/api';
 

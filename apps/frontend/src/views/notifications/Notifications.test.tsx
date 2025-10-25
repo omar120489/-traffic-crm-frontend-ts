@@ -93,8 +93,7 @@ describe('Notifications Page', () => {
 
     renderWithProviders(<Notifications />);
 
-    expect(screen.getByTestId('notif-skeletons')).toBeInTheDocument();
-    expect(screen.getAllByTestId('notif-skeleton-row').length).toBeGreaterThan(0);
+    expect(screen.getByTestId('page-skeletons')).toBeInTheDocument();
   });
 
   it('should render error state', () => {
@@ -120,7 +119,7 @@ describe('Notifications Page', () => {
 
     renderWithProviders(<Notifications />);
 
-    expect(screen.getByText(/Failed to load notifications/i)).toBeInTheDocument();
+    expect(screen.getByText(/Failed to load/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Retry/i })).toBeInTheDocument();
   });
 

@@ -11,7 +11,7 @@ const dealApiMocks = vi.hoisted(() => ({
   get: vi.fn<(id: string) => Promise<Deal>>(),
 }));
 
-vi.mock('services/deals', () => ({
+vi.mock('@services/deals.sdk', () => ({
   dealsApi: {
     getDeal: dealApiMocks.get,
   },

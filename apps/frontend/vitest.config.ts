@@ -28,6 +28,7 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, './src/shared'),
       '@styles': path.resolve(__dirname, './src/styles'),
       '@services': path.resolve(__dirname, './src/services'),
+      '@traffic-crm/sdk-js': path.resolve(__dirname, '../../packages/sdk-js/src/index.ts'),
       'ui-component': path.resolve(__dirname, './src/ui-component'),
       'layouts': path.resolve(__dirname, './src/layouts'),
       'utils': path.resolve(__dirname, './src/utils'),
