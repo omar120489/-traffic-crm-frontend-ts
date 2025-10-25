@@ -198,7 +198,7 @@ export function useNotifications(): UseNotificationsResult {
       try {
         // Note: Backend endpoint doesn't exist yet, but structure is ready
         // await notificationsService.markAsUnread(id);
-        console.log('[useNotifications] Mark as unread not yet implemented on backend for id:', id);
+        // console.log('[useNotifications] Mark as unread not yet implemented on backend for id:', id);
       } catch (err) {
         console.error('[useNotifications] Failed to mark notification as unread:', err);
         // Revert optimistic update on error

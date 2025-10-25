@@ -15,5 +15,5 @@ export function exportToCSV(options: ExportOptions): void {
   // 3. Handle special characters and escaping
   // 4. Trigger download
 
-  console.log('TODO: Export to CSV', { filename, columns: columns.length, rows: data.length });
+  // console.log('TODO: Export to CSV', { filename, columns: columns.length, rows: data.length });
 }

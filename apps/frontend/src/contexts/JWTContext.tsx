@@ -105,7 +105,7 @@ export function JWTProvider({ children }: JWTProviderProps) {
 
   const updateProfile = useCallback(() => {
     // Implementation depends on your requirements
-    console.log('Update profile not implemented');
+    // console.log('Update profile not implemented');
   }, []);
 
   const contextValue: AuthContextType = useMemo(

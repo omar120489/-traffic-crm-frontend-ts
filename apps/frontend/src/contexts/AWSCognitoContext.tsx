@@ -158,7 +158,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
               return;
             }
 
-            console.log('Cognito registration successful:', result);
+            // console.log('Cognito registration successful:', result);
             // Note: User will need to confirm email before they can login
             resolve();
           });
