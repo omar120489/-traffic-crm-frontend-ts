@@ -18,11 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: "pnpm" }
-      - run: pnpm install --frozen-lockfile
+        with: { node-version: 20 }
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Validate PR title
         run: echo "${{ github.event.pull_request.title }}" | npx commitlint
 
@@ -36,10 +37,10 @@ jobs:
           ["@apps/core-api", "./apps/frontend", "@shared-types", "@sdk-js/core"]
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: "pnpm" }
+        with: { node-version: 20 }
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Type check ${{ matrix.workspace }}
@@ -52,10 +53,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: "pnpm" }
+        with: { node-version: 20 }
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run linter
@@ -66,10 +67,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: "pnpm" }
+        with: { node-version: 20 }
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run tests
@@ -80,10 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: "pnpm" }
+        with: { node-version: 20 }
+      - name: Enable Corepack
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run security audit
