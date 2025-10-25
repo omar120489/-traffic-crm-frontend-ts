@@ -10,6 +10,7 @@ import { PipelinesModule } from './modules/pipelines/pipelines.module';
 import { StagesModule } from './modules/stages/stages.module';
 import { ActivitiesModule } from './modules/activities/activities.module';
 import { TagsModule } from './modules/tags/tags.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
 import jwtConfig from './auth/jwt.config';
 
 @Module({
@@ -28,6 +29,7 @@ import jwtConfig from './auth/jwt.config';
     StagesModule,
     ActivitiesModule,
     TagsModule,
+    AnalyticsModule,
   ]
 })
 export class AppModule {}

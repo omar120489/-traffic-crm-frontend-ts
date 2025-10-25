@@ -32,7 +32,7 @@ const MOCK_DATA: AnalyticsResponse = {
 };
 
 // Toggle this to switch between mock and real API
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 export async function getAnalytics(f: AnalyticsFilters): Promise<AnalyticsResponse> {
   if (USE_MOCK_DATA) {
