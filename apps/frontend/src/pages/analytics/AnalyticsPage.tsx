@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { format, subDays } from "date-fns";
 import { AppPage } from "@traffic-crm/ui-kit";
-import { KpiStat, AnalyticsFilters, ActivityByDayChart, ActivityMixChart, TopContributorsChart } from "@/components/analytics";
+import { KpiStat, AnalyticsFilters } from "@/components/analytics";
+import ActivityByDayChart from "@/components/analytics/ActivityByDayChart";
+import ActivityMixChart from "@/components/analytics/ActivityMixChart";
+import TopContributorsChart from "@/components/analytics/TopContributorsChart";
 import { getAnalytics } from "@/services/analytics.service";
 import type { AnalyticsResponse, AnalyticsFilters as Filters } from "@/types/analytics";
 
@@ -98,22 +101,31 @@ export default function AnalyticsPage() {
         </section>
 
         {/* Charts */}
-        {!loading && !error && data && (
-          <>
-            <section className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-2">
-                <ActivityByDayChart data={data.byDay} />
-              </div>
-              <div>
-                <ActivityMixChart data={data.mix} />
-              </div>
-            </section>
+        <section className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <ActivityByDayChart 
+              data={data?.byDay || []} 
+              loading={loading}
+              error={error}
+              height={260}
+            />
+          </div>
+          <div>
+            <ActivityMixChart 
+              data={data?.mix || []}
+              loading={loading}
+              error={error}
+            />
+          </div>
+        </section>
 
-            <section>
-              <TopContributorsChart data={data.topContributors} />
-            </section>
-          </>
-        )}
+        <section>
+          <TopContributorsChart 
+            data={data?.topContributors || []}
+            loading={loading}
+            error={error}
+          />
+        </section>
 
         {/* Empty State */}
         {!loading && !error && data && data.kpis.totalActivities === 0 && (
