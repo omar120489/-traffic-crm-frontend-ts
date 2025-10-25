@@ -29,7 +29,7 @@ export default function ActivityItem({ activity, onEdit, onDelete }: Props) {
       <div className="min-w-0 flex-1">
         {/* Header: title + relative time + actions */}
         <div className="flex items-start justify-between gap-3">
-          <h3 className="truncate text-sm font-semibold text-gray-900">
+          <h3 className="truncate text-sm font-semibold text-gray-900" data-testid="activity-item-title">
             {activity.title ?? activity.content?.split('\n')[0] ?? activity.type.toUpperCase()}
           </h3>
           <div className="flex items-center gap-2 shrink-0">

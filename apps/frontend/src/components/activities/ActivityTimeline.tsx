@@ -5,12 +5,13 @@ import ActivityFilters from "./ActivityFilters";
 import { groupByDay } from "./groupByDay";
 import { NewActivityModal } from "./NewActivityModal";
 import { useToast } from "@/hooks/useToast";
+import { useUndoDelete } from "@/hooks/useUndoDelete";
 import {
   getActivities,
   getActivityTypeOptions,
   createActivity,
   updateActivity,
-  deleteActivity,
+  deleteActivity as apiDeleteActivity,
 } from "@/services/activities.service";
 import type { Activity, ActivityFilters as Filters, CreateActivityInput, UpdateActivityInput } from "@/types/activity";
 
@@ -45,8 +46,15 @@ export default function ActivityTimeline({
   const [editOpen, setEditOpen] = React.useState(false);
   const [editing, setEditing] = React.useState<Activity | null>(null);
   
-  // Toast notifications
+  // Toast notifications + Undo delete
   const { notify } = useToast();
+  const { schedule } = useUndoDelete();
+  
+  // Keep a ref to latest data for rollback
+  const dataRef = React.useRef(data);
+  React.useEffect(() => {
+    dataRef.current = data;
+  }, [data]);
 
   // Group activities by day and flatten into rows with headers
   const rows = React.useMemo<Row[]>(() => {
@@ -160,25 +168,28 @@ export default function ActivityTimeline({
     }
   }
 
-  // Handler for deleting activity with optimistic update
-  async function handleDelete(activity: Activity) {
-    if (!confirm("Delete this activity? This cannot be undone.")) return;
-
-    // optimistic remove
-    const snapshot = data;
+  // Handler for deleting activity with 5s undo window
+  function handleDelete(activity: Activity) {
+    // 1) Snapshot state & optimistic remove
+    const snapshot = dataRef.current;
     setData((prev) => prev.filter((x) => x.id !== activity.id));
     setTotal((prev) => Math.max(0, prev - 1));
 
-    try {
-      await deleteActivity({ id: activity.id });
-      notify("success", "Activity deleted!");
-    } catch (e) {
-      // rollback
-      setData(snapshot);
-      setTotal((prev) => prev + 1);
-      notify("error", "Failed to delete activity");
-      throw e;
-    }
+    // 2) Schedule commit in 5s; allow undo to cancel
+    schedule({
+      id: activity.id,
+      label: activity.title || activity.notes || "Untitled",
+      commit: async () => {
+        await apiDeleteActivity({ id: activity.id });
+        notify("success", "Activity deleted!");
+      },
+      rollback: () => {
+        // restore UI if server delete fails after the window
+        setData(snapshot);
+        setTotal(snapshot.length);
+        notify("error", "Failed to delete activity");
+      },
+    }, 5000);
   }
 
   // Handler for creating new activity with optimistic update

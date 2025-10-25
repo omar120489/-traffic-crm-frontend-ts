@@ -19,8 +19,9 @@ import 'styles/tailwind.css';
 // map
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-// toast provider
+// toast provider + undo delete
 import { ToastProvider } from 'hooks/useToast';
+import { UndoDeleteProvider } from 'hooks/useUndoDelete';
 
 // google-fonts
 // Preload critical fonts (for example, Roboto) to reduce FOUC.
@@ -55,7 +56,9 @@ root.render(
     <ConfigProvider>
       <AuthProvider>
         <ToastProvider>
-          <App />
+          <UndoDeleteProvider>
+            <App />
+          </UndoDeleteProvider>
         </ToastProvider>
       </AuthProvider>
     </ConfigProvider>
