@@ -19,6 +19,9 @@ import 'styles/tailwind.css';
 // map
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+// toast provider
+import { ToastProvider } from 'hooks/useToast';
+
 // google-fonts
 // Preload critical fonts (for example, Roboto) to reduce FOUC.
 // (In a real app, you might add a <link rel="preload" as="font" href="..." crossorigin="anonymous" /> tag in your HTML (or via a plugin) for each critical font.)
@@ -51,7 +54,9 @@ root.render(
   <Provider store={store}>
     <ConfigProvider>
       <AuthProvider>
-        <App />
+        <ToastProvider>
+          <App />
+        </ToastProvider>
       </AuthProvider>
     </ConfigProvider>
   </Provider>

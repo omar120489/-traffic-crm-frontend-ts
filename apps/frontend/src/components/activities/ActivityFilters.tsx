@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
 import type { ActivityFilters, ActivityType } from "@/types/activity";
 
 export type ActivityFiltersProps = {
@@ -23,6 +24,11 @@ export default function ActivityFilters({
 }: ActivityFiltersProps) {
   const update = <K extends keyof ActivityFilters>(key: K, v: ActivityFilters[K]) =>
     onChange({ ...value, [key]: v });
+
+  // Debounced search to prevent API thrashing
+  const debouncedSearch = useDebouncedCallback((v: string) => {
+    update("search", v || undefined);
+  }, 300);
 
   return (
     <div className="grid grid-cols-1 gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
@@ -89,9 +95,10 @@ export default function ActivityFilters({
         <input
           type="search"
           placeholder="Search notes, titles, participants…"
-          className="w-full rounded-xl border border-gray-300 px-3 py-2 text-gray-900 outline-none focus:border-gray-400"
-          value={value.search ?? ""}
-          onChange={(e) => update("search", e.target.value || undefined)}
+          className="w-full rounded-xl border border-gray-300 px-3 py-2 text-gray-900 outline-none focus:border-gray-400 focus:ring-2 ring-indigo-300"
+          defaultValue={value.search ?? ""}
+          onChange={(e) => debouncedSearch(e.target.value)}
+          aria-label="Search activities"
         />
       </div>
     </div>

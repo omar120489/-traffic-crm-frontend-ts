@@ -4,6 +4,7 @@ import ActivityItem from "./ActivityItem";
 import ActivityFilters from "./ActivityFilters";
 import { groupByDay } from "./groupByDay";
 import { NewActivityModal } from "./NewActivityModal";
+import { useToast } from "@/hooks/useToast";
 import {
   getActivities,
   getActivityTypeOptions,
@@ -43,6 +44,9 @@ export default function ActivityTimeline({
   const [newOpen, setNewOpen] = React.useState(false);
   const [editOpen, setEditOpen] = React.useState(false);
   const [editing, setEditing] = React.useState<Activity | null>(null);
+  
+  // Toast notifications
+  const { notify } = useToast();
 
   // Group activities by day and flatten into rows with headers
   const rows = React.useMemo<Row[]>(() => {
@@ -142,6 +146,7 @@ export default function ActivityTimeline({
         if (j !== -1) copy[j] = saved;
         return copy;
       });
+      notify("success", "Activity updated!");
     } catch (e) {
       // rollback
       setData((prev) => {
@@ -150,6 +155,7 @@ export default function ActivityTimeline({
         if (j !== -1) copy[j] = snapshot;
         return copy;
       });
+      notify("error", "Failed to update activity");
       throw e;
     }
   }
@@ -165,10 +171,12 @@ export default function ActivityTimeline({
 
     try {
       await deleteActivity({ id: activity.id });
+      notify("success", "Activity deleted!");
     } catch (e) {
       // rollback
       setData(snapshot);
       setTotal((prev) => prev + 1);
+      notify("error", "Failed to delete activity");
       throw e;
     }
   }
@@ -221,10 +229,12 @@ export default function ActivityTimeline({
         copy[idx] = saved;
         return copy;
       });
+      notify("success", "Activity created!");
     } catch (e) {
       // revert temp if failed
       setData((prev) => prev.filter((x) => x.id !== temp.id));
       setTotal((prev) => Math.max(0, prev - 1));
+      notify("error", "Failed to create activity");
       throw e;
     }
   }
