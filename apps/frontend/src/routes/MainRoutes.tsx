@@ -28,6 +28,9 @@ const PipelinesPage = Loadable(lazy(() => import('@/pages/settings/PipelinesPage
 const DealsKanbanPage = Loadable(lazy(() => import('@/pages/deals/DealsKanbanPage')));
 const Company360Page = Loadable(lazy(() => import('@/pages/companies/Company360Page')));
 
+// Sprint 5 pages
+const AnalyticsPage = Loadable(lazy(() => import('@/pages/analytics')));
+
 const MainRoutes: RouteObject = {
   path: '/',
   element: (
@@ -90,6 +93,10 @@ const MainRoutes: RouteObject = {
     },
     {
       path: '/analytics',
+      element: <AnalyticsPage />,
+    },
+    {
+      path: '/analytics/legacy',
       element: <AnalyticsDashboard />,
     },
     {
