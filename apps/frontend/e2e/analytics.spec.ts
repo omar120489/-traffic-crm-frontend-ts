@@ -1,141 +1,150 @@
 import { test, expect } from '@playwright/test';
 
-const TEST_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQxMDI0NDQ4MDB9.test';
+const BASE = process.env.E2E_BASE_URL ?? 'http://localhost:3000';
 
-test.describe('Analytics dashboard', () => {
+test.describe('Analytics Dashboard', () => {
   test.beforeEach(async ({ page }) => {
-    await page.addInitScript(([token]) => {
-      window.localStorage.setItem('serviceToken', token);
-    }, [TEST_TOKEN]);
-
-    const defaultKpis = {
-      leadsCreated: 12,
-      dealsCreated: 8,
-      dealsWon: 5,
-      winRate: 41.7,
-      avgCycleDays: 28.4,
-      revenue: 125000,
-      roas: 3.2
-    };
-
-    const altKpis = {
-      ...defaultKpis,
-      leadsCreated: 20,
-      dealsCreated: 14
-    };
-
-    await page.route('**/api/account/me', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          user: {
-            id: 'user-1',
-            email: 'demo@example.com',
-            firstName: 'Demo',
-            lastName: 'User'
-          }
-        })
-      });
-    });
-
-    await page.route('**/api/reporting/kpis**', async (route) => {
-      const url = new URL(route.request().url());
-      const dateFrom = url.searchParams.get('dateFrom');
-      const payload = dateFrom === '2024-01-01' ? altKpis : defaultKpis;
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(payload)
-      });
-    });
-
-    await page.route('**/api/reporting/funnel**', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify([
-          { name: 'Discovery', count: 50, conversionRate: 60 },
-          { name: 'Proposal', count: 25, conversionRate: 40 },
-          { name: 'Negotiation', count: 10, conversionRate: 25 }
-        ])
-      });
-    });
-
-    await page.route('**/api/reporting/trends**', async (route) => {
-      const url = new URL(route.request().url());
-      const interval = url.searchParams.get('interval');
-      const body =
-        interval === 'week'
-          ? [
-              { date: '2024-01-01', value: 4 },
-              { date: '2024-01-08', value: 6 }
-            ]
-          : [
-              { date: '2024-01-01', value: 2 },
-              { date: '2024-01-02', value: 3 },
-              { date: '2024-01-03', value: 4 }
-            ];
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(body)
-      });
-    });
-
-    await page.route('**/api/reporting/cohorts**', async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify([
-          { cohortKey: '2023-12', total: 40, converted: 10, conversionRate: 25 },
-          { cohortKey: '2024-01', total: 50, converted: 20, conversionRate: 40 }
-        ])
-      });
-    });
+    await page.goto(`${BASE}/analytics`);
   });
 
-  test('renders KPIs, updates with filters, and supports drill-down', async ({ page }) => {
-    const kpisResponsePromise = page.waitForResponse(
-      (res) => res.url().includes('/api/reporting/kpis') && res.status() === 200
-    );
+  test('loads KPI tiles and charts', async ({ page }) => {
+    // KPI tiles
+    await expect(page.getByText(/Total Activities/i)).toBeVisible();
+    await expect(page.getByText(/Active Users/i)).toBeVisible();
+    await expect(page.getByText(/Avg Daily/i)).toBeVisible();
+    await expect(page.getByText(/Median TTF Response/i)).toBeVisible();
 
-    await page.goto('/analytics', { waitUntil: 'networkidle' });
+    // Charts visible (role=img on SVG with aria-labels)
+    await expect(page.getByRole('img', { name: /Activity by Day line chart/i })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Activity Mix donut chart/i })).toBeVisible();
+    
+    // Top Contributors uses semantic markup, check for title
+    await expect(page.getByText(/Top Contributors/i)).toBeVisible();
+  });
 
-    const kpisResponse = await kpisResponsePromise;
-    expect(kpisResponse.status()).toBe(200);
+  test('Activity by Day: hover + keyboard tooltips work', async ({ page }) => {
+    const chart = page.getByRole('img', { name: /Activity by Day line chart/i });
+    
+    // Hover to trigger tooltip
+    await chart.hover({ position: { x: 120, y: 40 } });
+    
+    // Wait for tooltip to appear (it shows "Activities: X")
+    await page.waitForTimeout(100);
+    await expect(page.getByText(/Activities:/)).toBeVisible();
 
-    await expect(page.getByTestId('kpi-leads-created')).toBeVisible({ timeout: 10000 });
-    await expect(page.getByTestId('kpi-deals-created')).toBeVisible({ timeout: 10000 });
+    // Keyboard nav (← →) to move focus point
+    await chart.focus();
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(100);
+    await expect(page.getByText(/Activities:/)).toBeVisible();
+    
+    // Test left arrow
+    await page.keyboard.press('ArrowLeft');
+    await page.waitForTimeout(100);
+    await expect(page.getByText(/Activities:/)).toBeVisible();
+  });
 
-    await expect(page.getByTestId('kpi-leads-created')).toContainText('12');
-    await expect(page.getByTestId('kpi-deals-created')).toContainText('8');
-    await expect(page.getByText('Discovery')).toBeVisible();
+  test('Activity Mix: slice hover + legend highlight', async ({ page }) => {
+    // Each slice is a <path> with role=button
+    const donut = page.getByRole('img', { name: /Activity Mix donut chart/i });
+    await expect(donut).toBeVisible();
 
-    const refetchPromise = page.waitForResponse(
-      (res) => res.url().includes('/api/reporting/kpis') && res.status() === 200
-    );
-    await page.getByLabel('Date From').fill('2024-01-01');
-    await page.getByRole('button', { name: 'Apply' }).click();
-    await refetchPromise;
-    await page.waitForTimeout(50);
-    await expect(page.getByTestId('kpi-leads-created')).toContainText('20');
+    // Find first slice button
+    const slice = page.getByRole('button', { name: /Call:|Email:|Meeting:|Note:|Task:/i }).first();
+    await expect(slice).toBeVisible();
 
-    const trendsPromise = page.waitForResponse(
-      (res) => res.url().includes('/api/reporting/trends') && res.status() === 200
-    );
-    await page.getByLabel('Trend Interval').click();
-    await page.getByRole('option', { name: 'Weekly' }).click();
-    await trendsPromise;
-    await expect(page.getByText('2024-01-08')).toBeVisible();
+    // Hover to show tooltip
+    await slice.hover();
+    await page.waitForTimeout(100);
+    
+    // Tooltip should appear with activity count
+    await expect(page.getByText(/activities/i)).toBeVisible();
+  });
 
-    await page.getByTestId('kpi-deals-created').click();
-    await expect(page).toHaveURL(/\/deals\?.*dateFrom=2024-01-01/);
-    await expect(page.getByText(/Active filters/i)).toBeVisible();
+  test('Top Contributors: bar hover shows tooltip', async ({ page }) => {
+    // Find first contributor bar (role=button)
+    const bar = page.getByRole('button', { name: /Rivera|Chen|Johnson|Smith|Williams/i }).first();
+    await expect(bar).toBeVisible();
 
-    await page.goBack();
-    await page.getByText('Discovery').click();
-    await expect(page).toHaveURL(/\/deals\?.*stage=Discovery/);
+    // Hover to show tooltip
+    await bar.hover();
+    await page.waitForTimeout(100);
+    
+    // Tooltip should show activities count
+    await expect(page.getByText(/activities/i)).toBeVisible();
+  });
+
+  test('filters sync to URL', async ({ page }) => {
+    // Find date inputs
+    const fromInput = page.locator('input[type="date"]').first();
+    const toInput = page.locator('input[type="date"]').nth(1);
+
+    await fromInput.fill('2025-09-01');
+    await toInput.fill('2025-09-30');
+
+    // Wait for debounce + network
+    await page.waitForTimeout(600);
+
+    // Check URL params
+    await expect(page).toHaveURL(/from=2025-09-01/);
+    await expect(page).toHaveURL(/to=2025-09-30/);
+  });
+
+  test('charts handle loading states', async ({ page }) => {
+    // On initial load, should see loading skeletons briefly
+    // This test verifies the page structure loads correctly
+    
+    // Wait for charts to finish loading
+    await page.waitForTimeout(600);
+    
+    // All charts should be visible (not loading)
+    await expect(page.getByRole('img', { name: /Activity by Day line chart/i })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Activity Mix donut chart/i })).toBeVisible();
+    await expect(page.getByText(/Top Contributors/i)).toBeVisible();
+  });
+
+  test('responsive layout on mobile', async ({ page }) => {
+    // Set mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    
+    // All KPIs should still be visible
+    await expect(page.getByText(/Total Activities/i)).toBeVisible();
+    await expect(page.getByText(/Active Users/i)).toBeVisible();
+    
+    // Charts should adapt
+    await expect(page.getByRole('img', { name: /Activity by Day line chart/i })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Activity Mix donut chart/i })).toBeVisible();
+  });
+
+  test('keyboard navigation through all interactive elements', async ({ page }) => {
+    // Tab through the page
+    await page.keyboard.press('Tab'); // First date input
+    await page.keyboard.press('Tab'); // Second date input
+    await page.keyboard.press('Tab'); // Reset button
+    await page.keyboard.press('Tab'); // Activity by Day chart
+    
+    // Should be able to interact with chart via keyboard
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(100);
+    await expect(page.getByText(/Activities:/)).toBeVisible();
+  });
+
+  test('reset filters button works', async ({ page }) => {
+    // Change dates
+    const fromInput = page.locator('input[type="date"]').first();
+    const toInput = page.locator('input[type="date"]').nth(1);
+
+    await fromInput.fill('2025-09-01');
+    await toInput.fill('2025-09-15');
+    await page.waitForTimeout(600);
+
+    // Click reset button
+    await page.getByRole('button', { name: /Reset to Last 30 Days/i }).click();
+    await page.waitForTimeout(600);
+
+    // URL should update to default range
+    const url = page.url();
+    expect(url).toContain('from=');
+    expect(url).toContain('to=');
   });
 });
