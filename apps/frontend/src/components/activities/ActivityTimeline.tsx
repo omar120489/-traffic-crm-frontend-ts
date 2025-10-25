@@ -2,11 +2,16 @@ import * as React from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import ActivityItem from "./ActivityItem";
 import ActivityFilters from "./ActivityFilters";
+import { groupByDay } from "./groupByDay";
 import {
   getActivities,
   getActivityTypeOptions,
 } from "@/services/activities.service";
 import type { Activity, ActivityFilters as Filters } from "@/types/activity";
+
+type Row = 
+  | { readonly kind: "header"; readonly id: string; readonly label: string }
+  | { readonly kind: "item"; readonly id: string; readonly activity: Activity };
 
 type Props = {
   readonly entityType?: Activity["entityType"];
@@ -32,10 +37,23 @@ export default function ActivityTimeline({
   const [cursor, setCursor] = React.useState<string | undefined>(undefined);
   const parentRef = React.useRef<HTMLDivElement | null>(null);
 
+  // Group activities by day and flatten into rows with headers
+  const rows = React.useMemo<Row[]>(() => {
+    const groups = groupByDay(data);
+    const flat: Row[] = [];
+    for (const g of groups) {
+      flat.push({ kind: "header", id: `h-${g.key}`, label: g.label });
+      for (const a of g.items) {
+        flat.push({ kind: "item", id: a.id, activity: a });
+      }
+    }
+    return flat;
+  }, [data]);
+
   const rowVirtualizer = useVirtualizer({
-    count: data.length,
+    count: rows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 96, // avg row height in px
+    estimateSize: (i) => (rows[i]?.kind === "header" ? 36 : 96),
     overscan: 8,
   });
 
@@ -101,6 +119,9 @@ export default function ActivityTimeline({
 
       <div
         ref={parentRef}
+        role="feed"
+        aria-busy={loading}
+        aria-label="Activity timeline"
         className="relative overflow-auto rounded-2xl border border-gray-200 bg-gray-50"
         style={{ height }}
       >
@@ -109,17 +130,21 @@ export default function ActivityTimeline({
           className="relative"
         >
           {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-            const activity = data[virtualRow.index];
+            const row = rows[virtualRow.index];
             return (
               <div
-                key={activity?.id ?? virtualRow.key}
+                key={row?.id ?? virtualRow.key}
                 className="absolute left-0 right-0 px-3 py-2"
                 style={{
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
               >
-                {activity ? (
-                  <ActivityItem activity={activity} />
+                {row?.kind === "header" ? (
+                  <div className="sticky top-0 z-10 mb-1 bg-gray-50/80 px-1 text-xs font-semibold uppercase tracking-wide text-gray-500 backdrop-blur">
+                    {row.label}
+                  </div>
+                ) : row?.kind === "item" && row.activity ? (
+                  <ActivityItem activity={row.activity} />
                 ) : (
                   <SkeletonRow />
                 )}
