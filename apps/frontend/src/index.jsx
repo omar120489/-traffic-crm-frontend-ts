@@ -14,6 +14,7 @@ import { validateEnvironmentVariables } from './config/validateEnv';
 
 // style + assets
 import 'assets/scss/style.scss';
+import 'styles/tailwind.css';
 
 // map
 import 'mapbox-gl/dist/mapbox-gl.css';
