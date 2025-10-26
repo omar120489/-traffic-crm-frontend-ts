@@ -57,3 +57,11 @@ backup_*/
 *.tar.gz
 *.fig
 .git.backup.*
+.env*
+!.env.example
+
+# Build artifacts
+dist/
+apps/*/dist/
+build/
+
