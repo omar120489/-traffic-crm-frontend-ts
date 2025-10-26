@@ -123,9 +123,8 @@ export function CommentsPanel({ entityType, entityId, title = 'Comments' }: Comm
             </Button>
           </Box>
           {submitError && <Alert severity="error">{submitError}</Alert>}
-          {error && !submitError && (
-            <Alert severity="error">Unable to load comments. Please try again.</Alert>
-          )}
+          {/* @ts-ignore - MUI v7 type incompatibility */}
+          {error && !submitError && <Alert severity="error">Unable to load comments. Please try again.</Alert>}
         </Stack>
       </CardContent>
       <Divider />
