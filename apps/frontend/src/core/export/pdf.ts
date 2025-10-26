@@ -6,8 +6,8 @@
 
 import type { ExportOptions } from './types';
 
-export function exportToPDF(options: ExportOptions): void {
-  const { filename, columns, data, title, subtitle } = options;
+export function exportToPDF(_options: ExportOptions): void {
+  // const { filename, columns, data, title, subtitle } = options;
 
   // TODO: Implement PDF generation using jspdf
   // 1. Create PDF document

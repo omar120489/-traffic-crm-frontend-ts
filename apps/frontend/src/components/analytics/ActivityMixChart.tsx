@@ -64,7 +64,7 @@ export default function ActivityMixChart({
   }
 
   const total = data.reduce((sum, d) => sum + d.count, 0);
-  const slices = data.map((d, i) => {
+  const slices = data.map((d) => {
     const percent = total > 0 ? (d.count / total) * 100 : 0;
     return { ...d, percent, color: TYPE_COLORS[d.type] || "#94a3b8" };
   });

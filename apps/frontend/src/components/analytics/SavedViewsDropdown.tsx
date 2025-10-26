@@ -10,7 +10,7 @@ type Props = {
   onDelete(view: SavedView): Promise<void> | void;
 };
 
-export default function SavedViewsDropdown({ currentFilters, onApply, onCreate, onEdit, onDelete }: Props) {
+export default function SavedViewsDropdown({ currentFilters: _currentFilters, onApply, onCreate, onEdit, onDelete }: Props) {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState<SavedViewList>({ personal: [], default: [] });
   const [open, setOpen] = useState(false);

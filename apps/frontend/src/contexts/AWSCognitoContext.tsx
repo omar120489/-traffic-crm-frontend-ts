@@ -152,7 +152,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
         ];
 
         return new Promise<void>((resolve, reject) => {
-          userPool.signUp(email, password, attributeList, [], (err, result) => {
+          userPool.signUp(email, password, attributeList, [], (err, _result) => {
             if (err) {
               reject(err);
               return;

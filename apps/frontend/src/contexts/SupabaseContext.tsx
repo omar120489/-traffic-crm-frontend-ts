@@ -100,7 +100,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
         throw new Error('Password must be at least 6 characters');
       }
 
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data: _data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -127,7 +127,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
           throw new Error('Password must be at least 6 characters');
         }
 
-        const { data, error } = await supabase.auth.signUp({
+        const { data: _data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {

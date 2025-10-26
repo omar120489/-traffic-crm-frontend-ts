@@ -12,10 +12,10 @@
  * // Google Analytics
  * window.gtag?.('event', event, props);
  */
-export const track = (event: string, props?: Record<string, unknown>): void => {
+export const track = (_event: string, _props?: Record<string, unknown>): void => {
   // No-op by default - prevents errors when analytics not configured
   // Uncomment the line below when you're ready to wire analytics:
-  // window.posthog?.capture(event, props);
+  // window.posthog?.capture(_event, _props);
 
   // Avoid console noise; hook up to your analytics provider when ready
 };

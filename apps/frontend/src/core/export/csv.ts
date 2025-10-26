@@ -6,8 +6,8 @@
 
 import type { ExportOptions } from './types';
 
-export function exportToCSV(options: ExportOptions): void {
-  const { filename, columns, data } = options;
+export function exportToCSV(_options: ExportOptions): void {
+  // const { filename, columns, data } = options;
 
   // TODO: Implement CSV generation
   // 1. Create CSV header row

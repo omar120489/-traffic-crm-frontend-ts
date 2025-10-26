@@ -12,7 +12,7 @@ const DealEditPage = Loadable(lazy(() => import('@/views/pages/deals/DealEditPag
 const LeadsListPage = Loadable(lazy(() => import('@/views/pages/leads/LeadsListPage')));
 const LeadDetailPage = Loadable(lazy(() => import('@/views/leads/LeadDetail')));
 const LeadEditPage = Loadable(lazy(() => import('@/views/pages/leads/LeadEditPage')));
-const ContactsListPage = Loadable(lazy(() => import('@/views/pages/contacts/ContactsListPage')));
+// const ContactsListPage = Loadable(lazy(() => import('@/views/pages/contacts/ContactsListPage'))); // Unused - replaced by ContactsListPageNew
 const CompaniesListPage = Loadable(lazy(() => import('@/views/pages/companies/CompaniesListPage')));
 const AnalyticsDashboard = Loadable(lazy(() => import('@/views/pages/analytics/AnalyticsDashboard')));
 const PnLAnalyticsPage = Loadable(lazy(() => import('@/views/analytics/PnLAnalytics')));

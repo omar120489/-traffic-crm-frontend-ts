@@ -1,4 +1,4 @@
-import * as React from 'react';
+// React import not needed with new JSX transform
 import { Box, Button, Stack, TextField, InputAdornment } from '@mui/material';
 import AppPage from '../../../layouts/AppPage';
 import RoomsList from '../../../features/chat/components/RoomsList';

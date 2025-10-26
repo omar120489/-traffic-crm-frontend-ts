@@ -1,4 +1,4 @@
-import * as React from 'react';
+// React import not needed with new JSX transform
 import { Box, CircularProgress, Divider, Stack, Typography } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { useRoomMessages } from '../hooks/useRoomMessages';

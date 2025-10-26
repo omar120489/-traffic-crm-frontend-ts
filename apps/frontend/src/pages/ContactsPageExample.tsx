@@ -159,8 +159,8 @@ export default function ContactsPageExample() {
     };
   }, [page, search, status]);
 
-  const handleEdit = (id: string) => {
-    // console.log('Edit contact:', id);
+  const handleEdit = (_id: string) => {
+    // console.log('Edit contact:', _id);
     // TODO: Navigate to edit page or open modal
   };
 

@@ -228,9 +228,9 @@ class ContactsService {
   /**
    * Delete a contact
    */
-  async delete(id: string): Promise<void> {
+  async delete(_id: string): Promise<void> {
     // TODO: Replace with real SDK call
-    // return ContactsService.delete(this.client, id);
+    // return ContactsService.delete(this.client, _id);
 
     await new Promise((resolve) => setTimeout(resolve, 200));
   }

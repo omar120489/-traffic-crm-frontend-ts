@@ -6,8 +6,8 @@
 
 import type { ExportOptions } from './types';
 
-export function exportToXLSX(options: ExportOptions): void {
-  const { filename, columns, data, title } = options;
+export function exportToXLSX(_options: ExportOptions): void {
+  // const { filename, columns, data, title } = options;
 
   // TODO: Implement XLSX generation using xlsx package
   // 1. Create workbook

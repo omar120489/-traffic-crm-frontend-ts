@@ -54,9 +54,10 @@ function formatNumber(value: number, decimals = 2): string {
   return value.toFixed(decimals);
 }
 
-function formatPercent(value: number): string {
-  return `${(value * 100).toFixed(1)}%`;
-}
+// Unused utility function - kept for reference
+// function formatPercent(value: number): string {
+//   return `${(value * 100).toFixed(1)}%`;
+// }
 
 export default function PnLAnalytics() {
   const [data, setData] = useState<PnLResponse | null>(null);
