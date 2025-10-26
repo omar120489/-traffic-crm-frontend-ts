@@ -6,9 +6,13 @@ on:
             version:
                 description: "Version or commit to deploy (defaults to latest tag)"
                 required: false
-    push:
-        tags:
-            - "v*.*.*" # deploy on version tags
+    workflow_call:
+        # Allow release.yml to call this workflow after staging deployment
+        secrets:
+            PROD_API_KEY:
+                required: true
+            PROD_DEPLOY_URL:
+                required: true
 
 # Harden default token and avoid over-broad permissions
 permissions:

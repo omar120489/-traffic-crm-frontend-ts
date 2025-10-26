@@ -25,12 +25,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 10
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Extract version from tag
         id: version
@@ -89,32 +86,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 10
-
-      - name: Configure pnpm
-        run: pnpm config set store-dir ~/.pnpm-store
-
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: TypeScript check
-        run: pnpm --filter ./apps/frontend run typecheck
+        run: pnpm typecheck
 
       - name: Lint
-        run: pnpm --filter ./apps/frontend run lint
+        run: pnpm lint
 
       - name: Build frontend
         run: pnpm --filter ./apps/frontend run build
@@ -122,8 +105,8 @@ jobs:
       - name: Build backend
         run: pnpm --filter ./apps/core-api run build
 
-      - name: Run unit tests
-        run: pnpm --filter ./apps/frontend run test
+      - name: Run tests
+        run: pnpm test
 
       - name: Upload frontend build artifacts
         uses: actions/upload-artifact@v4
@@ -171,17 +154,52 @@ jobs:
           # - Docker: docker build && docker push && kubectl apply
           echo "✅ Deployment complete"
 
+      - name: Wait for staging rollout
+        run: sleep 15
+
+      - name: Health check - staging
+        env:
+          STAGING_URL: ${{ vars.STAGING_PUBLIC_URL || 'https://staging.example.com' }}
+        run: |
+          echo "🔍 Checking staging health endpoint..."
+          url="${STAGING_URL}/health"
+          echo "Health URL: $url"
+          
+          for i in {1..10}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$url" || echo "000")
+            echo "Attempt $i: $code"
+            
+            if [ "$code" -eq 200 ]; then
+              echo "✅ Staging health check passed"
+              exit 0
+            fi
+            
+            sleep 5
+          done
+          
+          echo "❌ Staging health check failed after 10 attempts"
+          exit 1
+
       - name: Run smoke tests
         run: |
-          echo "🧪 Running smoke tests on staging..."
-          # Add smoke test commands here
-          # curl -f https://staging.example.com/health || exit 1
+          echo "🧪 Running additional smoke tests on staging..."
+          # Add additional smoke test commands here
+          # curl -f https://staging.example.com/api/health || exit 1
           echo "✅ Smoke tests passed"
+
+  deploy-production:
+    name: Deploy to Production
+    needs: [create-release, build-and-test, deploy-staging]
+    if: success()
+    uses: ./.github/workflows/deploy-production.yml
+    secrets:
+      PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
+      PROD_DEPLOY_URL: ${{ secrets.PROD_DEPLOY_URL }}
 
   notify:
     name: Notify Team
     runs-on: ubuntu-latest
-    needs: [create-release, build-and-test, deploy-staging]
+    needs: [create-release, build-and-test, deploy-staging, deploy-production]
     if: always()
 
     steps:
@@ -190,10 +208,15 @@ jobs:
         run: |
           if [ "${{ needs.create-release.result }}" == "success" ] && \
              [ "${{ needs.build-and-test.result }}" == "success" ] && \
-             [ "${{ needs.deploy-staging.result }}" == "success" ]; then
+             [ "${{ needs.deploy-staging.result }}" == "success" ] && \
+             [ "${{ needs.deploy-production.result }}" == "success" ]; then
             echo "status=success" >> $GITHUB_OUTPUT
             echo "emoji=✅" >> $GITHUB_OUTPUT
-            echo "message=Release deployed successfully to staging!" >> $GITHUB_OUTPUT
+            echo "message=Release deployed successfully to staging and production!" >> $GITHUB_OUTPUT
+          elif [ "${{ needs.deploy-staging.result }}" == "success" ]; then
+            echo "status=partial" >> $GITHUB_OUTPUT
+            echo "emoji=⚠️" >> $GITHUB_OUTPUT
+            echo "message=Release deployed to staging, but production deployment failed." >> $GITHUB_OUTPUT
           else
             echo "status=failure" >> $GITHUB_OUTPUT
             echo "emoji=❌" >> $GITHUB_OUTPUT
@@ -238,7 +261,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Environment:*\nStaging"
+                      "text": "*Environment:*\nStaging + Production"
                     }
                   ]
                 },
