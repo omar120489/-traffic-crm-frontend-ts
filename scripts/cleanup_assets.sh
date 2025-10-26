@@ -148,15 +148,15 @@ delete_unused() {
     if [ -e "$path" ]; then
       sz=$(bytes "$path"); hr=$(echo "$sz" | hr_size)
       if [ $DRY_RUN -eq 1 ]; then
-        printf "- WOULD DELETE \`%s\` (%s)\n" "$path" "$hr" >> "$REPORT_FILE"
+        printf -- "- WOULD DELETE \`%s\` (%s)\n" "$path" "$hr" >> "$REPORT_FILE"
         log "Would delete: $path ($hr)"
       else
         log "Deleting: $path ($hr)"
         git rm -r --quiet "$path" || rm -rf "$path"
-        printf "- Deleted \`%s\` (%s)\n" "$path" "$hr" >> "$REPORT_FILE"
+        printf -- "- Deleted \`%s\` (%s)\n" "$path" "$hr" >> "$REPORT_FILE"
       fi
     else
-      printf "- Not found: \`%s\`\n" "$path" >> "$REPORT_FILE"
+      printf -- "- Not found: \`%s\`\n" "$path" >> "$REPORT_FILE"
     fi
   done
 }
@@ -170,7 +170,7 @@ verify_references() {
     if grep -RIn --include="*.{ts,tsx,js,jsx,scss}" "$d/" apps/frontend/src 2>/dev/null | head -5; then
       grep -RIn --include="*.{ts,tsx,js,jsx,scss}" "$d/" apps/frontend/src 2>/dev/null | head -5 | sed 's/^/- /' >> "$REPORT_FILE"
     else
-      printf "- No references found\n" >> "$REPORT_FILE"
+      printf -- "- No references found\n" >> "$REPORT_FILE"
     fi
     printf "\n" >> "$REPORT_FILE"
   done
@@ -194,14 +194,14 @@ optimize_png_jpg() {
   append_section "Optimization (PNG/JPG)"
   if [ $DRY_RUN -eq 1 ]; then
     log "Would optimize PNG/JPG under $ASSETS_DIR"
-    printf "- Would run pngquant (65–80 quality) on PNGs\n" >> "$REPORT_FILE"
-    printf "- Would run jpegoptim (max=85) on JPGs\n" >> "$REPORT_FILE"
+    printf -- "- Would run pngquant (65–80 quality) on PNGs\n" >> "$REPORT_FILE"
+    printf -- "- Would run jpegoptim (max=85) on JPGs\n" >> "$REPORT_FILE"
   else
     log "Optimizing PNGs…"
     find "$ASSETS_DIR" -type f -iname "*.png" -print0 | xargs -0 -I{} "$PNGQUANT_BIN" --force --skip-if-larger --quality=65-80 --ext .png {} 2>/dev/null || true
     log "Optimizing JPGs…"
     find "$ASSETS_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 | xargs -0 -I{} "$JPEGOPTIM_BIN" --strip-all --max=85 --preserve {} 2>/dev/null || true
-    printf "- PNG/JPG optimization completed\n" >> "$REPORT_FILE"
+    printf -- "- PNG/JPG optimization completed\n" >> "$REPORT_FILE"
   fi
 }
 
@@ -215,14 +215,14 @@ convert_to_webp() {
   append_section "WebP Conversion"
   if [ $DRY_RUN -eq 1 ]; then
     log "Would convert PNG/JPG to WebP (q=80)…"
-    printf "- Would generate .webp variants for PNG/JPG assets (q=80)\n" >> "$REPORT_FILE"
+    printf -- "- Would generate .webp variants for PNG/JPG assets (q=80)\n" >> "$REPORT_FILE"
   else
     log "Converting PNG/JPG to WebP (q=80)…"
     while IFS= read -r -d '' f; do
       out="${f%.*}.webp"
       "$CWEBP_BIN" -quiet -q 80 "$f" -o "$out" 2>/dev/null || true
     done < <(find "$ASSETS_DIR" -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) -print0)
-    printf "- WebP conversion completed (non-destructive)\n" >> "$REPORT_FILE"
+    printf -- "- WebP conversion completed (non-destructive)\n" >> "$REPORT_FILE"
   fi
 }
 
@@ -258,7 +258,7 @@ summary_sizes() {
   saved_hr=$(echo "$saved" | hr_size)
 
   append_section "Size Summary"
-  printf "- Before: **%s**\n- After: **%s**\n- Saved: **%s**\n" "$start_hr" "$end_hr" "$saved_hr" >> "$REPORT_FILE"
+  printf -- "- Before: **%s**\n- After: **%s**\n- Saved: **%s**\n" "$start_hr" "$end_hr" "$saved_hr" >> "$REPORT_FILE"
 
   log "Before: $start_hr | After: $end_hr | Saved: $saved_hr"
   ok  "Report: $REPORT_FILE"
