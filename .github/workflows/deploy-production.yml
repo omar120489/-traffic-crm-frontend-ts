@@ -1,0 +1,240 @@
+name: Deploy Production
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version or commit to deploy (defaults to latest tag)"
+                required: false
+    push:
+        tags:
+            - "v*.*.*" # deploy on version tags
+
+# Harden default token and avoid over-broad permissions
+permissions:
+    contents: read
+    actions: read
+
+concurrency:
+    group: deploy-production
+    cancel-in-progress: false # never cancel an in-flight prod deploy
+
+env:
+    APP_NAME: traffic-crm
+    # Set this in the Environment config so it shows on the Deployments tab
+    PROD_PUBLIC_URL: https://example.com
+
+jobs:
+    build-and-test:
+        name: Build & Test
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        permissions:
+            contents: read
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "pnpm"
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v3
+              with:
+                  version: 10
+
+            - name: Install deps
+              run: pnpm install --frozen-lockfile
+
+            - name: Typecheck
+              run: pnpm typecheck
+
+            - name: Lint
+              run: pnpm lint
+
+            - name: Tests
+              run: pnpm test
+
+            - name: Build frontend
+              run: pnpm --filter ./apps/frontend run build
+
+            - name: Build backend
+              run: pnpm --filter ./apps/core-api run build
+
+            - name: Package artifact
+              run: |
+                  mkdir -p dist_bundle
+                  # Copy frontend build output
+                  cp -R apps/frontend/dist dist_bundle/frontend 2>/dev/null || true
+                  # Copy backend build output
+                  cp -R apps/core-api/dist dist_bundle/backend 2>/dev/null || true
+                  # Copy package files for deployment
+                  cp package.json dist_bundle/ 2>/dev/null || true
+                  cp pnpm-lock.yaml dist_bundle/ 2>/dev/null || true
+                  # Create tarball
+                  tar -czf artifact.tgz dist_bundle
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: prod-artifact
+                  path: artifact.tgz
+                  retention-days: 7
+
+    deploy:
+        name: Deploy to Production
+        needs: build-and-test
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+
+        # 👇 Add the environment in GitHub: Settings → Environments → New → "production"
+        # Put PROD secrets there; add required reviewers and optional wait timer.
+        environment:
+            name: production
+            url: ${{ vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL }}
+
+        permissions:
+            contents: read
+            deployments: write
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Download artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: prod-artifact
+                  path: .
+
+            - name: Verify artifact
+              run: |
+                  test -f artifact.tgz || (echo "artifact.tgz missing" && exit 1)
+                  tar -tzf artifact.tgz | head -n 20
+
+            # 👉 Replace this block with your actual provider deploy (Vercel/AWS/Render/etc.)
+            - name: Deploy (placeholder)
+              env:
+                  PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
+                  PROD_DEPLOY_URL: ${{ secrets.PROD_DEPLOY_URL }}
+              run: |
+                  echo "Deploying ${GITHUB_REF#refs/tags/} to production at $PROD_DEPLOY_URL"
+                  echo "Artifact size: $(du -h artifact.tgz | cut -f1)"
+                  echo ""
+                  echo "🚀 Replace this placeholder with your actual deployment command:"
+                  echo ""
+                  echo "Examples:"
+                  echo "  Vercel:  vercel deploy --prod --token=\$PROD_API_KEY"
+                  echo "  AWS:     aws s3 sync dist_bundle/frontend s3://bucket-name"
+                  echo "  Render:  curl -X POST \$PROD_DEPLOY_URL -H \"Authorization: Bearer \$PROD_API_KEY\""
+                  echo "  Fly.io:  fly deploy --remote-only"
+                  echo ""
+                  # Example deployment (uncomment and adapt):
+                  # curl -X POST "$PROD_DEPLOY_URL/deploy" -H "Authorization: Bearer $PROD_API_KEY" \
+                  #      -F artifact=@artifact.tgz
+
+            - name: Announce deployment
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const ref = context.ref.startsWith('refs/tags/') ? context.ref.replace('refs/tags/','') : context.sha.slice(0,7)
+                      core.notice(`✅ Deployed ${ref} to production`)
+
+    health-check:
+        name: Health Check
+        needs: deploy
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        if: always()
+        steps:
+            - name: Wait for rollout
+              run: sleep 15
+
+            - name: Check /health (retry)
+              env:
+                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL) }}
+              run: |
+                  url="${URL}"
+                  echo "Health URL: $url"
+                  for i in {1..10}; do
+                    code=$(curl -s -o /dev/null -w "%{http_code}" "$url" || true)
+                    echo "Attempt $i: $code"
+                    if [ "$code" -eq 200 ]; then
+                      echo "✅ Health check passed"
+                      exit 0
+                    fi
+                    sleep 5
+                  done
+                  echo "❌ Health check failed after 10 attempts"
+                  exit 1
+
+    rollback:
+        name: Rollback (previous artifact)
+        needs: [deploy, health-check]
+        runs-on: ubuntu-latest
+        if: failure() # triggers only if health-check failed
+        timeout-minutes: 20
+        environment:
+            name: production
+        permissions:
+            contents: read
+            actions: read
+            deployments: write
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Find previous successful run
+              id: prev
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const { owner, repo } = context.repo
+                      const runs = await github.rest.actions.listWorkflowRuns({
+                        owner, repo, workflow_id: 'deploy-production.yml', status: 'success'
+                      })
+                      const previous = runs.data.workflow_runs.find(r => r.id !== context.runId)
+                      core.setOutput('run_id', previous?.id || '')
+                      if (!previous) {
+                        core.warning('No previous successful run found.')
+                      } else {
+                        core.notice(`Found previous successful run: ${previous.id}`)
+                      }
+
+            - name: Download previous artifact
+              if: steps.prev.outputs.run_id != ''
+              uses: actions/download-artifact@v4
+              with:
+                  name: prod-artifact
+                  run-id: ${{ steps.prev.outputs.run_id }}
+                  path: .
+
+            - name: Roll back deployment (placeholder)
+              if: steps.prev.outputs.run_id != ''
+              env:
+                  PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
+                  PROD_DEPLOY_URL: ${{ secrets.PROD_DEPLOY_URL }}
+              run: |
+                  echo "🔄 Rolling back using previous artifact.tgz"
+                  test -f artifact.tgz || (echo "Previous artifact not found" && exit 1)
+                  echo "Previous artifact size: $(du -h artifact.tgz | cut -f1)"
+                  echo ""
+                  echo "Replace this placeholder with your actual rollback command:"
+                  echo ""
+                  # Example rollback (uncomment and adapt):
+                  # curl -X POST "$PROD_DEPLOY_URL/deploy" -H "Authorization: Bearer $PROD_API_KEY" \
+                  #      -F artifact=@artifact.tgz
+
+            - name: Announce rollback
+              if: steps.prev.outputs.run_id != ''
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      core.warning(`⚠️ Rolled back production deployment to previous version`)
+
+            - name: No previous version available
+              if: steps.prev.outputs.run_id == ''
+              run: |
+                  echo "❌ Cannot rollback: No previous successful deployment found"
+                  echo "Manual intervention required"
+                  exit 1

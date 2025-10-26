@@ -1,0 +1,72 @@
+name: Smoke Test - Production
+
+on:
+    workflow_dispatch:
+    schedule:
+        # Run every 6 hours
+        - cron: "0 */6 * * *"
+
+permissions:
+    contents: read
+
+jobs:
+    smoke:
+        name: Production Smoke Tests
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+
+        steps:
+            - name: Check root endpoint
+              env:
+                  URL: ${{ vars.PROD_PUBLIC_URL || 'https://example.com' }}
+              run: |
+                  echo "Testing root: $URL"
+                  code=$(curl -s -o /dev/null -w "%{http_code}" "$URL/" || echo "000")
+                  echo "Response: $code"
+                  if [ "$code" -eq 200 ]; then
+                    echo "✅ Root endpoint healthy"
+                  else
+                    echo "❌ Root endpoint failed: $code"
+                    exit 1
+                  fi
+
+            - name: Check health endpoint
+              env:
+                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL) }}
+              run: |
+                  echo "Testing health: $URL"
+                  code=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
+                  echo "Response: $code"
+                  if [ "$code" -eq 200 ]; then
+                    echo "✅ Health endpoint healthy"
+                  else
+                    echo "❌ Health endpoint failed: $code"
+                    exit 1
+                  fi
+
+            - name: Check API endpoint (optional)
+              env:
+                  URL: ${{ vars.PROD_PUBLIC_URL || 'https://example.com' }}
+              run: |
+                  echo "Testing API: $URL/api/health"
+                  code=$(curl -s -o /dev/null -w "%{http_code}" "$URL/api/health" || echo "000")
+                  echo "Response: $code"
+                  # Don't fail if API endpoint doesn't exist yet
+                  if [ "$code" -eq 200 ]; then
+                    echo "✅ API endpoint healthy"
+                  else
+                    echo "⚠️  API endpoint returned: $code (non-blocking)"
+                  fi
+
+            - name: Report success
+              if: success()
+              run: |
+                  echo "🎉 All smoke tests passed!"
+                  echo "Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+
+            - name: Report failure
+              if: failure()
+              run: |
+                  echo "❌ Smoke tests failed!"
+                  echo "Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+                  echo "Check the logs above for details"
