@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nest start --watch",
-    "start": "node dist/main.js",
+    "start": "node dist/apps/core-api/src/main.js",
     "start:dev": "nest start --watch",
     "build": "nest build",
     "typecheck": "tsc --noEmit",
