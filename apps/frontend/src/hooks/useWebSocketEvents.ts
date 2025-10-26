@@ -15,6 +15,14 @@ let socketInstance: Socket | null = null;
 let connectionCount = 0;
 
 /**
+ * Check if WebSocket is enabled via environment variable
+ * Set VITE_ENABLE_WEBSOCKET=true to enable WebSocket connections
+ */
+function isWebSocketEnabled(): boolean {
+  return import.meta.env.VITE_ENABLE_WEBSOCKET === 'true';
+}
+
+/**
  * Derive WebSocket URL from HTTP API URL
  * http://localhost:8787 → ws://localhost:8787
  * https://api.example.com → wss://api.example.com
@@ -36,7 +44,12 @@ function getWebSocketUrl(): string {
 /**
  * Get or create the singleton socket connection
  */
-function getSocket(): Socket {
+function getSocket(): Socket | null {
+  // Return null if WebSocket is disabled
+  if (!isWebSocketEnabled()) {
+    return null;
+  }
+
   if (!socketInstance) {
     const wsUrl = getWebSocketUrl();
     socketInstance = io(wsUrl, {
@@ -94,8 +107,15 @@ export function useWebSocketEvents(): UseWebSocketEventsResult {
 
   // Initialize socket connection
   useEffect(() => {
-    connectionCount++;
     const socket = getSocket();
+    
+    // If WebSocket is disabled, return early with no-op cleanup
+    if (!socket) {
+      setConnected(false);
+      return () => {};
+    }
+
+    connectionCount++;
     socketRef.current = socket;
 
     // Update connected state

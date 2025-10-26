@@ -38,7 +38,7 @@ function mapNotificationToDto(notification: NotificationCreateDto): Record<strin
  */
 export async function listNotifications(): Promise<NotificationListResponse> {
   const response = await apiGet<{ items: Record<string, unknown>[]; total: number }>(
-    '/api/v1/notifications'
+    '/api/notifications'
   );
   return {
     items: response.items.map(mapNotificationFromDto),
@@ -51,7 +51,7 @@ export async function listNotifications(): Promise<NotificationListResponse> {
  */
 export async function createNotification(payload: NotificationCreateDto): Promise<Notification> {
   const dto = mapNotificationToDto(payload);
-  const response = await apiPost<Record<string, unknown>>('/api/v1/notifications', dto);
+  const response = await apiPost<Record<string, unknown>>('/api/notifications', dto);
   return mapNotificationFromDto(response);
 }
 
@@ -59,7 +59,7 @@ export async function createNotification(payload: NotificationCreateDto): Promis
  * Mark a notification as read
  */
 export async function markAsRead(id: string | number): Promise<Notification> {
-  const response = await apiPatch<Record<string, unknown>>(`/api/v1/notifications/${id}/read`, {});
+  const response = await apiPatch<Record<string, unknown>>(`/api/notifications/${id}/read`, {});
   return mapNotificationFromDto(response);
 }
 
@@ -67,7 +67,7 @@ export async function markAsRead(id: string | number): Promise<Notification> {
  * Mark all notifications as read
  */
 export async function markAllAsRead(): Promise<void> {
-  await apiPatch('/api/v1/notifications/mark-all-read', {});
+  await apiPatch('/api/notifications/mark-all-read', {});
 }
 
 export const notificationsService = {
