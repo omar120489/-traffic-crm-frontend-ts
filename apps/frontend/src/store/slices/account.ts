@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { UserProfile } from 'types/auth';
+import type { UserProfile } from '../../types/auth';
 
 // Account state interface
 export interface AccountState {

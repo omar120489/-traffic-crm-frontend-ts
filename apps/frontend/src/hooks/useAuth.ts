@@ -1,7 +1,7 @@
 import { useContext, type Context } from 'react';
 
 import AuthContext from 'contexts/JWTContext';
-import type { AuthContextType } from 'types/auth';
+import type { AuthContextType } from '../types/auth';
 
 const authContext = AuthContext as unknown as Context<AuthContextType | null>;
 

@@ -1,4 +1,4 @@
-import type { UserProfile } from 'types/auth';
+import type { UserProfile } from '../types/auth';
 
 export const LOGIN = 'LOGIN' as const;
 export const LOGOUT = 'LOGOUT' as const;
