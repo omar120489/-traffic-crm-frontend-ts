@@ -1,34 +1,42 @@
-# Code ownership for automated review requests
-# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# CODEOWNERS
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# Frontend Sprint 2 code
-/apps/frontend/src/pages/contacts/**   @omar120489
-/apps/frontend/src/pages/deals/**      @omar120489
-/apps/frontend/src/pages/companies/**  @omar120489
-/apps/frontend/src/pages/settings/**   @omar120489
-/apps/frontend/src/pages/auth/**       @omar120489
-/apps/frontend/src/components/**       @omar120489
-/apps/frontend/src/contexts/**         @omar120489
-/apps/frontend/src/lib/**              @omar120489
+# Default owner for everything
+*                           @omar120489
 
-# Core API
-/apps/core-api/**                      @omar120489
+# Frontend
+/apps/frontend/             @omar120489
+/packages/ui-kit/           @omar120489
 
-# UI Kit & Packages
-/packages/ui-kit/**                    @omar120489
-/packages/rbac/**                      @omar120489
-/packages/sdk-js/**                    @omar120489
+# Backend
+/apps/core-api/             @omar120489
+/apps/reporting/            @omar120489
+/apps/workers/              @omar120489
 
-# Infrastructure & Workflows (High Sensitivity - Require Review)
-/.github/workflows/**                  @omar120489  # Critical: workflow changes require review
-/.github/CODEOWNERS                    @omar120489  # Critical: ownership changes require review
-/.github/**                            @omar120489
-/.husky/**                             @omar120489
-/prisma/**                             @omar120489
+# Shared packages
+/packages/sdk-js/           @omar120489
+/packages/shared-types/     @omar120489
+/packages/rbac/             @omar120489
 
-# Security & Configuration
-/.npmrc                                @omar120489
-/package.json                          @omar120489  # Root package changes
-/pnpm-lock.yaml                        @omar120489  # Dependency changes
-/.nvmrc                                @omar120489
-/tsconfig*.json                        @omar120489
+# Infrastructure
+/.github/workflows/         @omar120489
+/infra/                     @omar120489
+/scripts/                   @omar120489
+
+# Database
+/apps/core-api/prisma/      @omar120489
+
+# Configuration
+*.config.js                 @omar120489
+*.config.ts                 @omar120489
+tsconfig*.json              @omar120489
+package.json                @omar120489
+pnpm-workspace.yaml         @omar120489
+
+# Documentation
+*.md                        @omar120489
+/docs/                      @omar120489
+
+# Security
+SECURITY.md                 @omar120489
+.github/dependabot.yml      @omar120489
