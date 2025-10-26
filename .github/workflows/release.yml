@@ -10,6 +10,9 @@ permissions:
   packages: write
   pull-requests: write
 
+env:
+  STAGING_PUBLIC_URL: https://staging.example.com
+
 jobs:
   create-release:
     name: Create GitHub Release
@@ -159,7 +162,7 @@ jobs:
 
       - name: Health check - staging
         env:
-          STAGING_URL: ${{ vars.STAGING_PUBLIC_URL || 'https://staging.example.com' }}
+          STAGING_URL: ${{ env.STAGING_PUBLIC_URL }}
         run: |
           echo "🔍 Checking staging health endpoint..."
           url="${STAGING_URL}/health"

@@ -9,6 +9,9 @@ on:
 permissions:
     contents: read
 
+env:
+    PROD_PUBLIC_URL: https://example.com
+
 jobs:
     smoke:
         name: Production Smoke Tests
@@ -18,7 +21,7 @@ jobs:
         steps:
             - name: Check root endpoint
               env:
-                  URL: ${{ vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL || 'https://example.com' }}
+                  URL: ${{ env.PROD_PUBLIC_URL }}
               run: |
                   echo "Testing root: $URL"
                   code=$(curl -s -o /dev/null -w "%{http_code}" "$URL/" || echo "000")
@@ -32,7 +35,7 @@ jobs:
 
             - name: Check health endpoint
               env:
-                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL || 'https://example.com') }}
+                  URL: ${{ format('{0}/health', env.PROD_PUBLIC_URL) }}
               run: |
                   echo "Testing health: $URL"
                   code=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
@@ -46,7 +49,7 @@ jobs:
 
             - name: Check API endpoint (optional)
               env:
-                  URL: ${{ vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL || 'https://example.com' }}
+                  URL: ${{ env.PROD_PUBLIC_URL }}
               run: |
                   echo "Testing API: $URL/api/health"
                   code=$(curl -s -o /dev/null -w "%{http_code}" "$URL/api/health" || echo "000")

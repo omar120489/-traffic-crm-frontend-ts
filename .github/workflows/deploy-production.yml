@@ -154,7 +154,7 @@ jobs:
 
             - name: Check /health (retry)
               env:
-                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL) }}
+                  URL: ${{ format('{0}/health', env.PROD_PUBLIC_URL) }}
               run: |
                   url="${URL}"
                   echo "Health URL: $url"
