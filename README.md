@@ -18,6 +18,35 @@
 
 Full-stack TypeScript CRM platform for travel/traffic businesses with React frontend, NestJS backend, and background workers.
 
+## 📑 Table of Contents
+
+- [Latest Release](#-latest-release-sprint-3-complete)
+- [Quick Start](#-quick-start)
+- [Roadmap](#️-roadmap)
+- [Architecture](#️-architecture)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [One-Command Setup](#one-command-setup)
+  - [Manual Setup](#manual-setup-alternative)
+- [Documentation](#-documentation)
+- [Utility Scripts](#️-utility-scripts)
+- [Development Commands](#-development-commands)
+- [Service URLs](#-service-urls)
+- [Demo Data](#-demo-data)
+- [Tech Stack](#️-tech-stack)
+- [Authentication](#-authentication)
+- [Database](#-database)
+- [Background Jobs](#-background-jobs-workers)
+- [Packages](#-packages)
+- [Testing](#-testing)
+- [Environment Variables](#-environment-variables)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Support & Documentation](#-support--documentation)
+
+---
+
 ## 🎯 Latest Release: Sprint 3 Complete
 
 **Status**: 🟩 Production Ready | **Date**: October 24, 2025 | **Velocity**: 21/21 pts (100%)
