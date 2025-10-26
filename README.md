@@ -22,6 +22,7 @@ Full-stack TypeScript CRM platform for travel/traffic businesses with React fron
 
 - [Latest Release](#-latest-release-sprint-3-complete)
 - [Quick Start](#-quick-start)
+  - [Project Health](#-project-health-october-2025)
 - [Roadmap](#️-roadmap)
 - [Architecture](#️-architecture)
 - [Getting Started](#-getting-started)
@@ -73,6 +74,7 @@ Full-stack TypeScript CRM platform for travel/traffic businesses with React fron
 2. 🔧 **[Workflow Scripts](./docs/workflow/SCRIPTS.md)** - Automation helpers
 3. 📦 **[SDK Documentation](./packages/sdk-js/README.md)** - Using the SDK
 4. 📚 **[Documentation Index](./docs/INDEX.md)** - Complete documentation navigation
+5. 📊 **[Project Analysis & Action Plan](./docs/analysis/INDEX.md)** - Health score, risks, and roadmap
 
 **Quick verification:**
 
@@ -86,6 +88,20 @@ pnpm test
 # Type check
 pnpm typecheck
 ```
+
+### 📊 Project Health (October 2025)
+
+**Overall Score: 82/100** 🟢 Good
+
+- ✅ Architecture: 90/100 (Excellent)
+- ✅ Code Quality: 85/100 (Good)
+- ✅ Security: 95/100 (Excellent)
+- ⚠️ Testing: 60/100 (Needs improvement)
+- ⚠️ CI/CD: 75/100 (Non-blocking gates)
+
+[📊 View Full Analysis](./docs/analysis/INDEX.md) |
+[📋 Quick Reference](./docs/analysis/QUICK_REFERENCE.md) |
+[🎯 Action Plan](./docs/analysis/EXECUTIVE_SUMMARY.md)
 
 ## 🗺️ Roadmap
 
