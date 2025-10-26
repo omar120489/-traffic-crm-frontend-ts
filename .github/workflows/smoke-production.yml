@@ -70,3 +70,4 @@ jobs:
                   echo "❌ Smoke tests failed!"
                   echo "Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
                   echo "Check the logs above for details"
+
