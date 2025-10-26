@@ -306,7 +306,7 @@ jobs:
       
       - name: Attach to release
         if: github.event_name == 'release'
-        uses: softprops/action-gh-release@9d7c94cfd0a1f3ed45544c887983e9fa900f0564 # v2.0.4
+        uses: softprops/action-gh-release@aa05f9d77940d1a6b7a495c3264de51fabbf36d9 # v2.0.4
         with:
           files: |
             audit-summary.md
