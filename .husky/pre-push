@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 set -euo pipefail
 
-echo "🔍 Running pre-push checks (Sprint 2 only)..."
+echo "🔍 Running pre-push checks..."
 
 # Always run from repo root (works even when hook runs from .husky/)
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-cd "$REPO_ROOT/apps/frontend"
+cd "$REPO_ROOT"
 
 # Optional: Node 20 guard (honors .nvmrc if present)
 if [ -f "$REPO_ROOT/.nvmrc" ]; then
@@ -20,7 +20,7 @@ if [ -f "$REPO_ROOT/.nvmrc" ]; then
   esac
 fi
 
-# Fast, focused check
-pnpm tsc --noEmit -p tsconfig.sprint2.json
+# Fast, focused check - use root typecheck script
+pnpm typecheck
 
-echo "✅ Sprint 2 TypeScript clean! Pushing..."
+echo "✅ TypeScript clean! Pushing..."
