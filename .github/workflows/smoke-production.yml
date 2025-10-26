@@ -18,7 +18,7 @@ jobs:
         steps:
             - name: Check root endpoint
               env:
-                  URL: ${{ vars.PROD_PUBLIC_URL || 'https://example.com' }}
+                  URL: ${{ vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL || 'https://example.com' }}
               run: |
                   echo "Testing root: $URL"
                   code=$(curl -s -o /dev/null -w "%{http_code}" "$URL/" || echo "000")
@@ -32,7 +32,7 @@ jobs:
 
             - name: Check health endpoint
               env:
-                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL) }}
+                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL || 'https://example.com') }}
               run: |
                   echo "Testing health: $URL"
                   code=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
@@ -46,7 +46,7 @@ jobs:
 
             - name: Check API endpoint (optional)
               env:
-                  URL: ${{ vars.PROD_PUBLIC_URL || 'https://example.com' }}
+                  URL: ${{ vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL || 'https://example.com' }}
               run: |
                   echo "Testing API: $URL/api/health"
                   code=$(curl -s -o /dev/null -w "%{http_code}" "$URL/api/health" || echo "000")

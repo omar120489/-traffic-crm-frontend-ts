@@ -150,7 +150,7 @@ jobs:
 
             - name: Check /health (retry)
               env:
-                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL) }}
+                  URL: ${{ vars.PROD_HEALTH_URL || format('{0}/health', vars.PROD_PUBLIC_URL || env.PROD_PUBLIC_URL) }}
               run: |
                   url="${URL}"
                   echo "Health URL: $url"
@@ -191,6 +191,7 @@ jobs:
                         owner, repo, workflow_id: 'deploy-production.yml', status: 'success'
                       })
                       const previous = runs.data.workflow_runs.find(r => r.id !== context.runId)
+                      // Set output to empty string if not found (safe for conditional checks below)
                       core.setOutput('run_id', previous?.id || '')
                       if (!previous) {
                         core.warning('No previous successful run found.')
@@ -198,6 +199,8 @@ jobs:
                         core.notice(`Found previous successful run: ${previous.id}`)
                       }
 
+            # All steps below check 'steps.prev.outputs.run_id != ""' before executing
+            # This ensures they only run when a previous deployment was found
             - name: Download previous artifact
               if: steps.prev.outputs.run_id != ''
               uses: actions/download-artifact@v4
