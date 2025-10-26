@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtGuard as JwtAuthGuard } from '../auth/jwt.guard';
 import { SavedViewsService } from './saved-views.service';
 import { CreateSavedViewDto, UpdateSavedViewDto } from './saved-views.dto';
 

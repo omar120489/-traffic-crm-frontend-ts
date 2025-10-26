@@ -1,4 +1,5 @@
-import { Module, CacheModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import { AnalyticsController } from './analytics.controller';
 import { AnalyticsService } from './analytics.service';
 import { PrismaModule } from '../../prisma/prisma.module';

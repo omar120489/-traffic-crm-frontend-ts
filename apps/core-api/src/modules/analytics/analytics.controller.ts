@@ -3,10 +3,10 @@ import {
   Get,
   Query,
   UseInterceptors,
-  CacheInterceptor,
   UseGuards,
   Req,
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ApiBearerAuth, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { JwtGuard } from '../../auth/jwt.guard';
 import { Org } from '../../auth/org.decorator';
