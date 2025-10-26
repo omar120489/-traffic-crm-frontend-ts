@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Type check ${{ matrix.workspace }}
-        run: pnpm --filter ${{ matrix.workspace }} typecheck || true
+        run: pnpm --filter ${{ matrix.workspace }} typecheck
       - name: Build ${{ matrix.workspace }}
         run: pnpm --filter ${{ matrix.workspace }} build
 
@@ -60,7 +60,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run linter
-        run: pnpm lint || true
+        run: pnpm lint
 
   # Testing
   test:
@@ -74,7 +74,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run tests
-        run: pnpm test || true
+        run: pnpm test
 
   # Security audit
   security-audit:
