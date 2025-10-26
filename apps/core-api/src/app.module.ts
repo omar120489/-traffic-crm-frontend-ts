@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { HealthModule } from './health/health.module';
 import { ContactsModule } from './modules/contacts/contacts.module';
 import { CompaniesModule } from './modules/companies/companies.module';
 import { LeadsModule } from './modules/leads/leads.module';
@@ -20,6 +21,7 @@ import jwtConfig from './auth/jwt.config';
       isGlobal: true,
       load: [jwtConfig],
     }),
+    HealthModule,
     AuthModule,
     PrismaModule,
     ContactsModule,
