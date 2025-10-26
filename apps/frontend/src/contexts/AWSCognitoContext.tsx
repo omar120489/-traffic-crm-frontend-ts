@@ -11,9 +11,9 @@ import {
 
 // project imports
 import Loader from 'ui-component/Loader';
-import { useDispatch, useSelector } from 'store';
-import { login as loginAction, logout as logoutAction, initialize } from 'store/slices/account';
-import type { AuthContextType } from 'types/auth';
+import { useDispatch, useSelector } from '../store';
+import { login as loginAction, logout as logoutAction, initialize } from '../store/slices/account';
+import type { AuthContextType } from '../types/auth';
 import { mapCognitoProfile, setSession, clearAuthStorage, handleAuthError } from './auth-utils';
 
 // ==============================|| AWS COGNITO SETUP ||============================== //

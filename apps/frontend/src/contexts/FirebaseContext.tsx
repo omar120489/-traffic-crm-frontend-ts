@@ -6,9 +6,9 @@ import 'firebase/compat/auth';
 
 // project imports
 import Loader from 'ui-component/Loader';
-import { useDispatch, useSelector } from 'store';
-import { login as loginAction, logout as logoutAction, initialize } from 'store/slices/account';
-import type { AuthContextType, UserProfile } from 'types/auth';
+import { useDispatch, useSelector } from '../store';
+import { login as loginAction, logout as logoutAction, initialize } from '../store/slices/account';
+import type { AuthContextType, UserProfile } from '../types/auth';
 
 // firebase initialize
 if (!firebase.apps.length) {

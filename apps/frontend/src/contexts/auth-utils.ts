@@ -4,7 +4,7 @@
 
 import { jwtDecode } from 'jwt-decode';
 import axiosServices from 'utils/axios';
-import type { UserProfile } from 'types/auth';
+import type { UserProfile } from '../types/auth';
 
 // ==============================|| TOKEN MANAGEMENT ||============================== //
 

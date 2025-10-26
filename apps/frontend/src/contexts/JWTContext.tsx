@@ -1,11 +1,11 @@
 import { createContext, useEffect, useCallback, useMemo, type ReactNode } from 'react';
 // project imports
 import Loader from 'ui-component/Loader';
-import { authApi } from 'utils/axios';
+import { authApi } from '../data/clients/axios';
 import { setSession, verifyToken } from './jwt-helpers';
-import { useDispatch, useSelector } from 'store';
-import { login as loginAction, logout as logoutAction, initialize } from 'store/slices/account';
-import type { AuthContextType } from 'types/auth';
+import { useDispatch, useSelector } from '../store';
+import { login as loginAction, logout as logoutAction, initialize } from '../store/slices/account';
+import type { AuthContextType } from '../types/auth';
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 

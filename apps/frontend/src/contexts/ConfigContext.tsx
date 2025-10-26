@@ -1,8 +1,8 @@
 import { createContext, useMemo, type ReactNode } from 'react';
 
 import config from 'config';
-import { useLocalStorage } from 'hooks/useLocalStorage';
-import type { ConfigContextType } from 'types/config';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import type { ConfigContextType } from '../types/config';
 
 // ==============================|| CONFIG CONTEXT ||============================== //
 

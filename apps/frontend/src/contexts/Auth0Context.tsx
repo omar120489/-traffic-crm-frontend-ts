@@ -5,9 +5,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 // project imports
 import Loader from 'ui-component/Loader';
-import { useDispatch, useSelector } from 'store';
-import { login as loginAction, logout as logoutAction, initialize } from 'store/slices/account';
-import type { AuthContextType } from 'types/auth';
+import { useDispatch, useSelector } from '../store';
+import { login as loginAction, logout as logoutAction, initialize } from '../store/slices/account';
+import type { AuthContextType } from '../types/auth';
 import { mapAuth0Profile, setSession, clearAuthStorage, handleAuthError } from './auth-utils';
 
 // ==============================|| AUTH0 CONTEXT & PROVIDER ||============================== //
