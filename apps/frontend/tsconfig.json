@@ -37,7 +37,9 @@
       "@assets/*": ["./src/assets/*"],
       "@lib/*": ["./src/lib/*"],
       "utils/*": ["./src/utils/*"],
+      "types": ["./src/types"],
       "types/*": ["./src/types/*"],
+      "services": ["./src/services"],
       "services/*": ["./src/services/*"],
       "config": ["./src/config"],
       "contexts/*": ["./src/contexts/*"],
@@ -46,7 +48,9 @@
       "store": ["./src/store"],
       "store/*": ["./src/store/*"],
       "hooks/*": ["./src/hooks/*"],
+      "layout/*": ["./src/layout/*"],
       "layouts/*": ["./src/layouts/*"],
+      "views/*": ["./src/views/*"],
       "ui-component/*": ["./src/ui-component/*"]
     },
     "types": [
@@ -70,6 +74,5 @@
     "backup_*",
     ".project_audit",
     "e2e"
-  ],
-  "extends": "../../tsconfig.base.json"
+  ]
 }
