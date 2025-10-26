@@ -103,15 +103,27 @@ export function useNotifications(): UseNotificationsResult {
 
   // Load notifications from API
   const load = useCallback(async () => {
+    // Skip if notifications are disabled
+    if (import.meta.env.VITE_ENABLE_NOTIFICATIONS !== 'true') {
+      setNotifications([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const response: NotificationListResponse = await notificationsService.listNotifications();
       setNotifications(response.items);
       setError(null);
     } catch (err) {
-      setError(err);
-      console.error('[useNotifications] Failed to load notifications:', err);
-      throw err;
+      // In development, silently swallow 404 errors (endpoint not available yet)
+      if (import.meta.env.DEV && (err as any)?.response?.status === 404) {
+        setNotifications([]);
+        setError(null);
+      } else {
+        setError(err);
+        console.error('[useNotifications] Failed to load notifications:', err);
+      }
     } finally {
       setLoading(false);
     }

@@ -153,7 +153,7 @@ export function useWebSocketEvents(): UseWebSocketEventsResult {
   const subscribe = useCallback((event: string, handler: WebSocketEventHandler) => {
     const socket = socketRef.current;
     if (!socket) {
-      console.warn('[WebSocket] Cannot subscribe: socket not initialized');
+      // Silently return no-op when WebSocket is disabled
       return () => {};
     }
 
@@ -190,7 +190,7 @@ export function useWebSocketEvents(): UseWebSocketEventsResult {
   const emit = useCallback((event: string, data?: unknown) => {
     const socket = socketRef.current;
     if (!socket?.connected) {
-      console.warn('[WebSocket] Cannot emit: socket not connected');
+      // Silently return when WebSocket is disabled or not connected
       return;
     }
     socket.emit(event, data);
