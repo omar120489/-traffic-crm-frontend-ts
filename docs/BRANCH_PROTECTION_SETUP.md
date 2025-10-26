@@ -5,6 +5,7 @@ This guide walks you through setting up branch protection rules for `main` to en
 ## 🎯 Goal
 
 Ensure all code merged to `main`:
+
 - ✅ Passes Sprint 2 TypeScript checks
 - ✅ Has at least 1 approved review
 - ✅ Cannot be force-pushed
@@ -22,12 +23,14 @@ Ensure all code merged to `main`:
 ### 2. Configure Protection Rules
 
 #### **A. Require Pull Request Reviews**
+
 - ☑️ **Require a pull request before merging**
   - ☑️ **Require approvals**: `1`
   - ☑️ **Dismiss stale pull request approvals when new commits are pushed**
   - ☑️ **Require review from Code Owners** (uses `.github/CODEOWNERS`)
 
 #### **B. Require Status Checks**
+
 - ☑️ **Require status checks to pass before merging**
   - ☑️ **Require branches to be up to date before merging** ⚠️ **IMPORTANT**
     - This prevents green-but-stale PRs from merging after `main` moves
@@ -38,15 +41,18 @@ Ensure all code merged to `main`:
     - ✅ `test` (if you have a test CI job)
 
 #### **C. Additional Protections**
+
 - ☑️ **Require conversation resolution before merging**
 - ☑️ **Do not allow bypassing the above settings** (even for admins)
 - ☑️ **Restrict who can push to matching branches** (optional, for team environments)
 
 #### **D. Force Push & Deletion**
+
 - ☑️ **Do not allow force pushes**
 - ☑️ **Do not allow deletions**
 
 #### **E. Merge Strategy** (Optional but Recommended)
+
 - Go to **Settings** → **General** → **Pull Requests**
 - ☑️ **Allow squash merging** (keeps history clean)
 - ☐ **Allow merge commits** (optional)
@@ -60,6 +66,7 @@ Click **Create** or **Save changes** at the bottom.
 ## 🎯 What This Enforces
 
 ### Before Merge
+
 ```
 ┌─────────────────────────────────────┐
 │  Developer pushes to feature branch │
@@ -91,6 +98,7 @@ Click **Create** or **Save changes** at the bottom.
 ```
 
 ### Blocked Scenarios
+
 - ❌ **Force push to `main`** → Rejected
 - ❌ **Direct commit to `main`** → Must use PR
 - ❌ **Merge without approval** → Blocked
@@ -118,6 +126,7 @@ git push origin test/branch-protection
 ### 3. Verify Checks Run
 
 You should see:
+
 - ⏳ `typecheck` check running
 - ⏳ Review required (from CODEOWNERS)
 
@@ -145,9 +154,11 @@ If you absolutely must bypass protection (production emergency):
    - **Re-enable immediately after**
 
 2. **Or use `--no-verify` for local hooks only:**
+
    ```bash
    git push --no-verify  # Bypasses pre-push hook, NOT CI
    ```
+
    ⚠️ **CI will still block the merge if checks fail**
 
 ## 📊 Monitoring
@@ -171,6 +182,7 @@ gh api repos/:owner/:repo/branches/main/protection
 ## 🎯 Success Criteria
 
 Your branch protection is working when:
+
 - ✅ You cannot push directly to `main`
 - ✅ PRs show "Review required" badge
 - ✅ PRs show "Checks must pass" badge

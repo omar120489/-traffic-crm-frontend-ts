@@ -15,22 +15,26 @@ This document describes the **Continuous Security Audit** infrastructure for Tra
 ## 🎯 What's Included
 
 ### **1. Weekly Automated Audits** 🗓️
+
 - **Schedule**: Every Monday at 9 AM UTC
 - **Duration**: ~15 minutes
 - **Scope**: Full security verification across all workflows
 - **Notifications**: Slack + GitHub Issues (on failure)
 
 ### **2. On-Demand Verification** 🔍
+
 - **Trigger**: Manual workflow dispatch
 - **Use Case**: Pre-release checks, ad-hoc audits
 - **Reports**: Downloadable artifacts
 
 ### **3. Release-Attached Reports** 📦
+
 - **Trigger**: Automatic on release creation
 - **Artifacts**: Audit summary + detailed reports
 - **Retention**: 90 days
 
 ### **4. PDF Compliance Bundle** 📄
+
 - **Content**: 9,000+ lines of audit documentation
 - **Format**: Professional, printable PDF
 - **Use Case**: Internal/external audits, compliance reviews
@@ -44,6 +48,7 @@ This document describes the **Continuous Security Audit** infrastructure for Tra
 The workflow is already configured in `.github/workflows/security-audit.yml`. To activate:
 
 1. **Enable the workflow** (if not already active):
+
    ```bash
    # Workflow is automatically enabled on merge to main
    git push origin main
@@ -54,6 +59,7 @@ The workflow is already configured in `.github/workflows/security-audit.yml`. To
    - Confirm next scheduled run: "Next run: Monday, [DATE] at 9:00 AM UTC"
 
 3. **Configure Slack notifications** (optional):
+
    ```bash
    # Add Slack webhook to repository secrets
    gh secret set SLACK_WEBHOOK_URL --body "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
@@ -86,7 +92,9 @@ gh workflow run security-audit.yml
 ## 📊 Audit Components
 
 ### **1. Security Verification** ✅
+
 **What it does**:
+
 - Runs the 8-point automated verification script
 - Checks for unpinned actions, broad permissions, script injection risks
 - Validates CODEOWNERS and branch protection
@@ -94,11 +102,14 @@ gh workflow run security-audit.yml
 **Output**: `security-report.txt` (artifact)
 
 **On Failure**:
+
 - Creates GitHub issue with `security`, `audit`, `high-priority` labels
 - Notifies team via Slack (if configured)
 
 ### **2. OpenSSF Scorecard** 🏆
+
 **What it does**:
+
 - Runs official OpenSSF Scorecard analysis
 - Generates SARIF report for GitHub Security tab
 - Scores 18+ security checks (0-10 scale)
@@ -108,7 +119,9 @@ gh workflow run security-audit.yml
 **Target Score**: 9.5+/10
 
 ### **3. Dependency Review** 📦
+
 **What it does**:
+
 - Runs `pnpm audit` for known vulnerabilities
 - Lists outdated packages
 - Checks for security advisories
@@ -118,7 +131,9 @@ gh workflow run security-audit.yml
 **Trigger**: Manual runs + releases only (not weekly)
 
 ### **4. Action Version Check** 🔄
+
 **What it does**:
+
 - Scans all workflows for unpinned actions
 - Validates SHA-pinned actions
 - Reports any version drift
@@ -128,7 +143,9 @@ gh workflow run security-audit.yml
 **Expected Result**: 100% actions pinned
 
 ### **5. Audit Summary** 📋
+
 **What it does**:
+
 - Aggregates results from all jobs
 - Generates executive summary
 - Attaches to releases automatically
@@ -142,17 +159,21 @@ gh workflow run security-audit.yml
 ### **Slack Notifications** (Optional)
 
 **When**:
+
 - Weekly audit completion (success or failure)
 - Manual audit completion (if configured)
 
 **Setup**:
-1. Create Slack webhook: https://api.slack.com/messaging/webhooks
+
+1. Create Slack webhook: <https://api.slack.com/messaging/webhooks>
 2. Add to repository secrets:
+
    ```bash
    gh secret set SLACK_WEBHOOK_URL --body "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
    ```
 
 **Message Format**:
+
 ```
 ✅ Weekly Security Audit
 Weekly security audit passed! All checks are green.
@@ -172,10 +193,12 @@ Job Results:
 ### **GitHub Issues** (Automatic)
 
 **When**:
+
 - Weekly audit fails
 - Critical security issues detected
 
 **Issue Format**:
+
 ```markdown
 🚨 Weekly Security Audit Failed - 2025-10-24
 
@@ -214,6 +237,7 @@ All audit reports are saved as workflow artifacts:
 | `audit-summary.md` | 90 days | ~2 KB | Executive summary |
 
 **Download Artifacts**:
+
 ```bash
 # Via GitHub CLI
 gh run download [RUN_ID]
@@ -228,7 +252,8 @@ gh run download [RUN_ID]
 
 ## 🎯 Success Criteria
 
-### **Weekly Audit Passes If**:
+### **Weekly Audit Passes If**
+
 - ✅ All 8 security verification checks pass
 - ✅ OpenSSF Scorecard ≥ 9.0/10
 - ✅ 100% actions are SHA-pinned
@@ -237,7 +262,8 @@ gh run download [RUN_ID]
 - ✅ CODEOWNERS file exists and is valid
 - ✅ No broad workflow permissions
 
-### **Weekly Audit Fails If**:
+### **Weekly Audit Fails If**
+
 - ❌ Any verification check fails
 - ❌ OpenSSF Scorecard < 9.0/10
 - ❌ Unpinned actions detected
@@ -307,6 +333,7 @@ Edit `.github/workflows/security-audit.yml`:
 ### **Dashboard (GitHub Actions)**
 
 View metrics in **Actions** → **Security Audit**:
+
 - ✅ Success rate (last 30 runs)
 - ⏱️ Average duration
 - 📊 Trend analysis
@@ -321,8 +348,10 @@ View metrics in **Actions** → **Security Audit**:
 **Cause**: New workflow added with tag-based action versions (e.g., `@v4`)
 
 **Fix**:
+
 1. Find the unpinned action in the report
 2. Pin to full SHA:
+
    ```yaml
    # Before
    uses: actions/checkout@v4
@@ -330,6 +359,7 @@ View metrics in **Actions** → **Security Audit**:
    # After
    uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
    ```
+
 3. Re-run audit to verify
 
 ### **OpenSSF Scorecard < 9.0**
@@ -337,6 +367,7 @@ View metrics in **Actions** → **Security Audit**:
 **Cause**: Missing security controls or outdated dependencies
 
 **Fix**:
+
 1. Download `scorecard-results.sarif` artifact
 2. Review failed checks in GitHub Security tab
 3. Address issues per OpenSSF recommendations
@@ -347,15 +378,21 @@ View metrics in **Actions** → **Security Audit**:
 **Cause**: Missing or invalid `SLACK_WEBHOOK_URL` secret
 
 **Fix**:
+
 1. Verify secret exists:
+
    ```bash
    gh secret list | grep SLACK_WEBHOOK_URL
    ```
+
 2. If missing, add it:
+
    ```bash
    gh secret set SLACK_WEBHOOK_URL --body "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
    ```
+
 3. Test webhook manually:
+
    ```bash
    curl -X POST -H 'Content-type: application/json' \
      --data '{"text":"Test notification"}' \
@@ -367,6 +404,7 @@ View metrics in **Actions** → **Security Audit**:
 **Cause**: Large repository or slow runners
 
 **Fix**:
+
 1. Optimize verification script (cache results)
 2. Run dependency review only on-demand (already configured)
 3. Use GitHub-hosted larger runners (if available)
@@ -388,18 +426,21 @@ View metrics in **Actions** → **Security Audit**:
 ## 🎯 Next Steps
 
 ### **Immediate** (Next 7 Days)
+
 1. ✅ Verify first weekly audit runs successfully
 2. ✅ Configure Slack notifications (optional)
 3. ✅ Generate initial PDF compliance bundle
 4. ✅ Distribute bundle to stakeholders
 
 ### **Short-Term** (Next 30 Days)
+
 1. 🔄 Monitor weekly audit results
 2. 🔄 Address any failures promptly
 3. 🔄 Integrate audit results into sprint planning
 4. 🔄 Train team on audit process
 
 ### **Long-Term** (Next 90 Days)
+
 1. 🔄 Achieve 100% weekly audit pass rate
 2. 🔄 Maintain OpenSSF Scorecard ≥ 9.5/10
 3. 🔄 Conduct quarterly compliance review
@@ -438,8 +479,9 @@ View metrics in **Actions** → **Security Audit**:
 ---
 
 **Questions or Issues?**
+
 - **Security Team**: @omar120489
-- **Email**: security@traffic-crm.example.com
+- **Email**: <security@traffic-crm.example.com>
 - **Slack**: #security-team
 
 ---
@@ -447,4 +489,3 @@ View metrics in **Actions** → **Security Audit**:
 **Document Version**: 1.0  
 **Last Updated**: October 24, 2025  
 **Next Review**: January 24, 2026
-

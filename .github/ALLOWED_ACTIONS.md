@@ -9,6 +9,7 @@
 ## 📋 Purpose
 
 This document defines the approved GitHub Actions that can be used in workflows within this repository. This policy helps:
+
 - ✅ Prevent supply-chain attacks
 - ✅ Ensure consistent security practices
 - ✅ Maintain audit trail for action usage
@@ -21,12 +22,14 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Core Actions** (Always Allowed)
 
 #### **Repository Management**
+
 - `actions/checkout@*`
   - **Purpose**: Clone repository
   - **Security**: Official GitHub action
   - **Pinning**: Required (SHA)
 
 #### **Environment Setup**
+
 - `actions/setup-node@*`
   - **Purpose**: Set up Node.js environment
   - **Security**: Official GitHub action
@@ -38,12 +41,14 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Pinning**: Required (SHA)
 
 #### **Caching**
+
 - `actions/cache@*`
   - **Purpose**: Cache dependencies
   - **Security**: Official GitHub action
   - **Pinning**: Required (SHA)
 
 #### **Artifact Management**
+
 - `actions/upload-artifact@*`
   - **Purpose**: Upload build artifacts
   - **Security**: Official GitHub action
@@ -55,6 +60,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Pinning**: Required (SHA)
 
 #### **GitHub API**
+
 - `actions/github-script@*`
   - **Purpose**: Interact with GitHub API
   - **Security**: Official GitHub action, sandboxed
@@ -65,6 +71,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Package Managers** (Approved)
 
 #### **PNPM**
+
 - `pnpm/action-setup@*`
   - **Purpose**: Set up PNPM package manager
   - **Security**: Official PNPM action, verified creator
@@ -77,6 +84,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Release & Deployment** (Approved)
 
 #### **GitHub Releases**
+
 - `softprops/action-gh-release@*`
   - **Purpose**: Create GitHub releases
   - **Security**: Verified creator, widely used
@@ -89,6 +97,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Notifications** (Approved)
 
 #### **Slack**
+
 - `slackapi/slack-github-action@*`
   - **Purpose**: Send Slack notifications
   - **Security**: Official Slack action
@@ -101,6 +110,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Security Scanning** (Approved)
 
 #### **Runtime Security**
+
 - `step-security/harden-runner@*`
   - **Purpose**: Runtime security monitoring
   - **Security**: Specialized security vendor
@@ -109,6 +119,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Next Review**: 2026-01-24
 
 #### **Vulnerability Scanning**
+
 - `aquasecurity/trivy-action@*`
   - **Purpose**: Container and code scanning
   - **Security**: Verified security vendor
@@ -124,6 +135,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Next Review**: 2026-01-24
 
 #### **Secret Scanning**
+
 - `trufflesecurity/trufflehog@*`
   - **Purpose**: Scan for leaked secrets
   - **Security**: Verified security vendor
@@ -132,6 +144,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Next Review**: 2026-01-24
 
 #### **SBOM Generation**
+
 - `anchore/sbom-action@*`
   - **Purpose**: Generate Software Bill of Materials
   - **Security**: Verified security vendor
@@ -144,6 +157,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Cloud Providers** (Approved)
 
 #### **AWS**
+
 - `aws-actions/configure-aws-credentials@*`
   - **Purpose**: Configure AWS credentials (OIDC)
   - **Security**: Official AWS action
@@ -152,6 +166,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Next Review**: 2026-01-24
 
 #### **Azure**
+
 - `azure/login@*`
   - **Purpose**: Azure login (OIDC)
   - **Security**: Official Azure action
@@ -160,6 +175,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
   - **Next Review**: 2026-01-24
 
 #### **Google Cloud**
+
 - `google-github-actions/auth@*`
   - **Purpose**: GCP authentication (OIDC)
   - **Security**: Official Google action
@@ -172,6 +188,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ## ❌ Prohibited Actions
 
 ### **Categories Not Allowed**
+
 - ❌ Actions from unverified creators
 - ❌ Actions without recent maintenance (>6 months)
 - ❌ Actions with known security vulnerabilities
@@ -179,6 +196,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 - ❌ Actions that execute arbitrary code from external sources
 
 ### **Specific Examples**
+
 - ❌ `random-user/some-action` - Unverified creator
 - ❌ `abandoned-project/old-action` - No recent updates
 - ❌ Any action using `docker://` without approval
@@ -190,6 +208,7 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ### **Adding New Actions**
 
 #### **Step 1: Request**
+
 ```markdown
 ## New Action Request
 
@@ -202,7 +221,9 @@ This document defines the approved GitHub Actions that can be used in workflows 
 ```
 
 #### **Step 2: Security Review**
+
 Security team reviews:
+
 1. ✅ Creator verification (GitHub verified badge)
 2. ✅ Maintenance status (updated within 6 months)
 3. ✅ Security vulnerabilities (GitHub Security Advisories)
@@ -211,11 +232,13 @@ Security team reviews:
 6. ✅ Community adoption (usage statistics)
 
 #### **Step 3: Approval**
+
 - **Approval Authority**: @omar120489 (Security Team)
 - **SLA**: 2 business days
 - **Documentation**: Update this file with approval
 
 #### **Step 4: Implementation**
+
 1. Add action to approved list
 2. Pin to specific SHA
 3. Document in workflow
@@ -226,6 +249,7 @@ Security team reviews:
 ## 📅 Maintenance
 
 ### **Quarterly Reviews**
+
 - **Frequency**: Every 3 months
 - **Owner**: Security Team
 - **Process**:
@@ -236,6 +260,7 @@ Security team reviews:
   5. Remove abandoned actions
 
 ### **Next Review Dates**
+
 - **Q1 2026**: January 24, 2026
 - **Q2 2026**: April 24, 2026
 - **Q3 2026**: July 24, 2026
@@ -272,11 +297,13 @@ Security team reviews:
 ## 📚 References
 
 ### **Official Documentation**
+
 - [GitHub Actions Security](https://docs.github.com/en/actions/security-guides)
 - [GitHub Marketplace](https://github.com/marketplace?type=actions)
 - [OpenSSF Scorecard](https://github.com/ossf/scorecard)
 
 ### **Internal Documentation**
+
 - `WORKFLOW_SECURITY_AUDIT.md` - Security audit
 - `SECURITY_GAP_ANALYSIS.md` - Gap analysis
 - `.github/CODEOWNERS` - Code ownership
@@ -286,6 +313,7 @@ Security team reviews:
 ## ✅ Compliance
 
 ### **Standards Met**
+
 - ✅ GitHub Security Hardening Guide
 - ✅ OpenSSF Best Practices
 - ✅ OWASP CI/CD Security
@@ -304,4 +332,3 @@ Security team reviews:
 **Policy Version**: 1.0  
 **Effective Date**: October 24, 2025  
 **Next Review**: January 24, 2026
-

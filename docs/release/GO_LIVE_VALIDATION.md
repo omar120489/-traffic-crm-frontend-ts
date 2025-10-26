@@ -11,6 +11,7 @@
 ### **1. Continuous Audit Workflow** 🔍
 
 **Execute**:
+
 ```bash
 # Dry run now
 gh workflow run security-audit.yml
@@ -26,6 +27,7 @@ gh run view --job=all
 ```
 
 **Expected Results**:
+
 - ✅ Scorecard job completes successfully
 - ✅ Verification script passes (8/8 checks)
 - ✅ Dependency review completes (if triggered)
@@ -38,6 +40,7 @@ gh run view --job=all
 - ✅ Slack notification sent (if webhook configured)
 
 **Troubleshooting**:
+
 - If Scorecard fails: Check SARIF upload permissions
 - If verification fails: Review `.github/workflows/verify-security.sh` output
 - If Slack fails: Verify `SLACK_WEBHOOK_URL` secret exists
@@ -47,6 +50,7 @@ gh run view --job=all
 ### **2. PDF Compliance Bundle** 📄
 
 **Execute**:
+
 ```bash
 # Generate PDF bundle
 ./scripts/generate-compliance-pdf.sh
@@ -59,6 +63,7 @@ open Traffic_CRM_Security_Compliance_Bundle_*.pdf
 ```
 
 **Expected Results**:
+
 - ✅ PDF generated successfully (~2-5 MB)
 - ✅ Table of Contents renders correctly
 - ✅ All 8 documents included
@@ -67,6 +72,7 @@ open Traffic_CRM_Security_Compliance_Bundle_*.pdf
 - ✅ Metadata populated (title, author, date)
 
 **Spot-Check**:
+
 - [ ] TOC navigates to sections
 - [ ] Official citations are clickable
 - [ ] Code blocks render correctly
@@ -74,6 +80,7 @@ open Traffic_CRM_Security_Compliance_Bundle_*.pdf
 - [ ] Images/diagrams display (if any)
 
 **Troubleshooting**:
+
 - If pandoc missing: `brew install pandoc` (macOS) or `sudo apt-get install pandoc` (Linux)
 - If PDF corrupted: Check source markdown for syntax errors
 - If links broken: Verify anchor tags in source files
@@ -83,6 +90,7 @@ open Traffic_CRM_Security_Compliance_Bundle_*.pdf
 ### **3. README Links & Cross-refs** 📚
 
 **Execute**:
+
 ```bash
 # Open README in browser
 gh repo view --web
@@ -92,6 +100,7 @@ open README.md
 ```
 
 **Check**:
+
 - [ ] Security & Compliance section renders
 - [ ] All document links work:
   - [ ] `COMPLIANCE_BUNDLE_EXECUTIVE_SUMMARY.md`
@@ -105,6 +114,7 @@ open README.md
 - [ ] Anchor links navigate properly
 
 **Troubleshooting**:
+
 - If links 404: Verify file paths are correct
 - If badges broken: Check workflow names match
 - If anchors fail: Verify heading IDs in target files
@@ -116,13 +126,16 @@ open README.md
 **Repository Settings → Secrets and variables → Actions**:
 
 **Required Secrets**:
+
 - [ ] `GITHUB_TOKEN` (auto-provided by GitHub)
 
 **Optional Secrets**:
+
 - [ ] `SLACK_WEBHOOK_URL` (for Slack notifications)
 - [ ] `NPM_TOKEN` (for SDK publishing)
 
 **Setup Slack Webhook** (Optional):
+
 ```bash
 # Add Slack webhook
 gh secret set SLACK_WEBHOOK_URL --body "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
@@ -134,10 +147,12 @@ gh secret list | grep SLACK_WEBHOOK_URL
 **Repository Settings → Actions → General**:
 
 **Workflow Permissions**:
+
 - [ ] **Read repository contents** (default) ✅
 - [ ] **Allow GitHub Actions to create and approve pull requests** (only if needed)
 
 **Recommended Settings**:
+
 - ✅ Read repository contents and packages
 - ✅ Allow GitHub Actions to create issues (for failure notifications)
 - ❌ Allow GitHub Actions to create and approve pull requests (unless needed)
@@ -151,6 +166,7 @@ gh secret list | grep SLACK_WEBHOOK_URL
 **Branch name pattern**: `main`
 
 **Protect matching branches**:
+
 - [x] Require a pull request before merging
   - [x] Require approvals: 1
   - [x] Dismiss stale pull request approvals when new commits are pushed
@@ -168,6 +184,7 @@ gh secret list | grep SLACK_WEBHOOK_URL
 - [x] Restrict who can push to matching branches (optional)
 
 **Quick Setup**:
+
 ```bash
 # Via GitHub CLI (if available)
 gh api repos/:owner/:repo/branches/main/protection \
@@ -192,6 +209,7 @@ gh api repos/:owner/:repo/branches/main/protection \
 ```
 
 **Result**:
+
 - ✅ Security Audit status visible
 - ✅ OpenSSF Scorecard score displayed
 - ✅ Release workflow status shown
@@ -341,6 +359,7 @@ jobs:
 ```
 
 **Result**:
+
 - ✅ Weekly digest issue created/updated every Friday
 - ✅ Audit pass rate displayed
 - ✅ Dependabot alerts counted
@@ -352,16 +371,20 @@ jobs:
 ## 🚀 First Week Cadence
 
 ### **Monday** 📅
+
 - ✅ **Continuous audit runs automatically** (9 AM UTC)
 - [ ] Verify Slack notification received
 - [ ] Check artifacts uploaded
 - [ ] Review audit summary
 
 ### **Tuesday** 📄
+
 - [ ] Generate PDF compliance bundle:
+
   ```bash
   ./scripts/generate-compliance-pdf.sh
   ```
+
 - [ ] Share with stakeholders:
   - Engineering team
   - Security team
@@ -369,25 +392,32 @@ jobs:
   - Leadership (if needed)
 
 ### **Wednesday** 📊
+
 - [ ] OpenSSF Scorecard UI sanity check:
-  - Visit: https://securityscorecards.dev/viewer/?uri=github.com/omar120489/-traffic-crm-frontend-ts
+  - Visit: <https://securityscorecards.dev/viewer/?uri=github.com/omar120489/-traffic-crm-frontend-ts>
   - Verify score ≥ 9.0/10
   - Review any new recommendations
 
 ### **Thursday** 🔍
+
 - [ ] Quick scan on PRs touching workflows:
+
   ```bash
   .github/workflows/verify-security.sh
   ```
+
 - [ ] Review any workflow changes
 - [ ] Ensure CODEOWNERS approval required
 
 ### **Friday** 🔄
+
 - [ ] Review Weekly Digest Issue (auto-created)
 - [ ] 10-minute Dependabot PR review:
+
   ```bash
   gh pr list --label dependencies --limit 10
   ```
+
 - [ ] Merge low-risk updates (patch versions)
 - [ ] Schedule high-risk updates (major versions)
 
@@ -396,6 +426,7 @@ jobs:
 ## ✅ Validation Checklist
 
 ### **Infrastructure** ✅
+
 - [ ] Continuous audit workflow runs successfully
 - [ ] PDF compliance bundle generates
 - [ ] README links work
@@ -403,6 +434,7 @@ jobs:
 - [ ] Branch protections enabled
 
 ### **Automation** ✅
+
 - [ ] Weekly audits scheduled (Monday 9 AM UTC)
 - [ ] On-demand verification works
 - [ ] Release attachments automated
@@ -410,12 +442,14 @@ jobs:
 - [ ] GitHub issues created on failure
 
 ### **Documentation** ✅
+
 - [ ] All security reports accessible
 - [ ] Setup guides complete
 - [ ] Troubleshooting documented
 - [ ] Quick start guides ready
 
 ### **Polishes** ✅
+
 - [ ] README badges added
 - [ ] Weekly digest workflow created
 - [ ] First week cadence documented
@@ -425,6 +459,7 @@ jobs:
 ## 🎯 Success Criteria
 
 **Week 1 Complete If**:
+
 - ✅ All 5 verification checks pass
 - ✅ PDF bundle generated and distributed
 - ✅ OpenSSF Scorecard ≥ 9.0/10
@@ -432,6 +467,7 @@ jobs:
 - ✅ Dependabot PRs reviewed
 
 **Ongoing Success**:
+
 - ✅ Weekly audit pass rate ≥ 95%
 - ✅ OpenSSF Scorecard maintained ≥ 9.0/10
 - ✅ Dependabot PRs merged within 7 days
@@ -442,11 +478,13 @@ jobs:
 ## 📞 Support
 
 **Issues?**
+
 - **Security Team**: @omar120489
-- **Email**: security@traffic-crm.example.com
+- **Email**: <security@traffic-crm.example.com>
 - **Slack**: #security-team
 
 **Documentation**:
+
 - **Setup Guide**: `CONTINUOUS_AUDIT_SETUP.md`
 - **Troubleshooting**: `INFRASTRUCTURE_FINAL_STATUS.md`
 - **Executive Summary**: `COMPLIANCE_BUNDLE_EXECUTIVE_SUMMARY.md`
@@ -456,4 +494,3 @@ jobs:
 **Document Version**: 1.0  
 **Date**: October 24, 2025  
 **Status**: ✅ Ready for Execution
-

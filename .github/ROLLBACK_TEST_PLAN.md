@@ -27,6 +27,7 @@ This document defines the comprehensive test plan for the rollback workflow (`.g
 ## 🔧 Pre-Test Setup
 
 ### **Environment Preparation**
+
 ```bash
 # 1. Ensure staging environment is available
 # 2. Create test release tags
@@ -48,6 +49,7 @@ ls -la .github/workflows/rollback-release.yml
 ```
 
 ### **Test Data**
+
 - **Valid Version**: `v2.0.0-test` (exists)
 - **Invalid Version**: `v99.99.99` (doesn't exist)
 - **Current Version**: `v3.0.0-test` (latest)
@@ -62,11 +64,13 @@ ls -la .github/workflows/rollback-release.yml
 **Objective**: Verify complete rollback workflow succeeds
 
 **Pre-conditions**:
+
 - Current deployment: `v3.0.0-test`
 - Target version: `v2.0.0-test` (exists and is stable)
 - All systems operational
 
 **Steps**:
+
 1. Navigate to GitHub Actions → Rollback Release
 2. Click "Run workflow"
 3. Enter inputs:
@@ -77,6 +81,7 @@ ls -la .github/workflows/rollback-release.yml
 5. Monitor execution in real-time
 
 **Expected Results**:
+
 - ✅ Workflow starts successfully
 - ✅ Validation job passes
   - Version `v2.0.0-test` exists
@@ -98,6 +103,7 @@ ls -la .github/workflows/rollback-release.yml
 - ✅ Overall workflow status: SUCCESS
 
 **Verification Commands**:
+
 ```bash
 # Check workflow status
 gh run list --workflow=rollback-release.yml --limit=1
@@ -117,6 +123,7 @@ gh issue list --label rollback --state closed --limit 1
 ```
 
 **Pass Criteria**:
+
 - ✅ All jobs complete successfully
 - ✅ Deployment verified in production
 - ✅ Health checks pass
@@ -130,10 +137,12 @@ gh issue list --label rollback --state closed --limit 1
 **Objective**: Verify workflow fails gracefully with invalid version
 
 **Pre-conditions**:
+
 - Current deployment: `v3.0.0-test`
 - Target version: `v99.99.99` (doesn't exist)
 
 **Steps**:
+
 1. Navigate to GitHub Actions → Rollback Release
 2. Click "Run workflow"
 3. Enter inputs:
@@ -144,6 +153,7 @@ gh issue list --label rollback --state closed --limit 1
 5. Monitor execution
 
 **Expected Results**:
+
 - ✅ Workflow starts successfully
 - ❌ Validation job fails
   - Error message: "Version v99.99.99 does not exist"
@@ -157,6 +167,7 @@ gh issue list --label rollback --state closed --limit 1
 - ❌ Overall workflow status: FAILURE
 
 **Verification Commands**:
+
 ```bash
 # Check workflow status
 gh run list --workflow=rollback-release.yml --limit=1
@@ -171,6 +182,7 @@ gh issue list --label rollback --state open --limit 1
 ```
 
 **Pass Criteria**:
+
 - ❌ Validation job fails with clear error message
 - ✅ No deployment attempted
 - ✅ Issue created with failure details
@@ -184,10 +196,12 @@ gh issue list --label rollback --state open --limit 1
 **Objective**: Verify workflow handles build failures correctly
 
 **Pre-conditions**:
+
 - Current deployment: `v3.0.0-test`
 - Target version: `v2.0.0-test-broken` (exists but has build errors)
 
 **Setup**:
+
 ```bash
 # Create a broken version for testing
 git checkout v2.0.0-test
@@ -199,6 +213,7 @@ git push origin v2.0.0-test-broken
 ```
 
 **Steps**:
+
 1. Navigate to GitHub Actions → Rollback Release
 2. Click "Run workflow"
 3. Enter inputs:
@@ -209,6 +224,7 @@ git push origin v2.0.0-test-broken
 5. Monitor execution
 
 **Expected Results**:
+
 - ✅ Workflow starts successfully
 - ✅ Validation job passes
 - ❌ Build job fails
@@ -223,6 +239,7 @@ git push origin v2.0.0-test-broken
 - ❌ Overall workflow status: FAILURE
 
 **Verification Commands**:
+
 ```bash
 # Check workflow status
 gh run list --workflow=rollback-release.yml --limit=1
@@ -241,6 +258,7 @@ gh issue list --label rollback --state open --limit 1
 ```
 
 **Pass Criteria**:
+
 - ❌ Build job fails with clear error message
 - ✅ No deployment attempted
 - ✅ Issue updated with build failure details
@@ -248,6 +266,7 @@ gh issue list --label rollback --state open --limit 1
 - ✅ Production environment unchanged
 
 **Cleanup**:
+
 ```bash
 # Remove broken tag
 git tag -d v2.0.0-test-broken
@@ -261,11 +280,13 @@ git push origin :refs/tags/v2.0.0-test-broken
 **Objective**: Verify workflow handles deployment failures correctly
 
 **Pre-conditions**:
+
 - Current deployment: `v3.0.0-test`
 - Target version: `v2.0.0-test` (valid and builds successfully)
 - Deployment credentials invalid (simulated)
 
 **Setup**:
+
 ```bash
 # Temporarily remove or invalidate deployment credentials
 # (This is environment-specific - adjust as needed)
@@ -273,6 +294,7 @@ git push origin :refs/tags/v2.0.0-test-broken
 ```
 
 **Steps**:
+
 1. Navigate to GitHub Actions → Rollback Release
 2. Click "Run workflow"
 3. Enter inputs:
@@ -283,6 +305,7 @@ git push origin :refs/tags/v2.0.0-test-broken
 5. Monitor execution
 
 **Expected Results**:
+
 - ✅ Workflow starts successfully
 - ✅ Validation job passes
 - ✅ Build job passes
@@ -297,6 +320,7 @@ git push origin :refs/tags/v2.0.0-test-broken
 - ❌ Overall workflow status: FAILURE
 
 **Verification Commands**:
+
 ```bash
 # Check workflow status
 gh run list --workflow=rollback-release.yml --limit=1
@@ -315,6 +339,7 @@ gh issue list --label rollback --state open --limit=1
 ```
 
 **Pass Criteria**:
+
 - ❌ Deploy job fails with clear error message
 - ✅ Build artifacts available (for retry)
 - ✅ Issue updated with deployment failure details
@@ -322,6 +347,7 @@ gh issue list --label rollback --state open --limit=1
 - ✅ Production environment unchanged
 
 **Cleanup**:
+
 ```bash
 # Restore deployment credentials
 ```
@@ -333,11 +359,13 @@ gh issue list --label rollback --state open --limit=1
 **Objective**: Verify emergency rollback with skipped tests
 
 **Pre-conditions**:
+
 - Current deployment: `v3.0.0-test` (critical bug in production)
 - Target version: `v2.0.0-test` (last known good version)
 - Emergency situation (need fast rollback)
 
 **Steps**:
+
 1. Navigate to GitHub Actions → Rollback Release
 2. Click "Run workflow"
 3. Enter inputs:
@@ -348,6 +376,7 @@ gh issue list --label rollback --state open --limit=1
 5. Monitor execution
 
 **Expected Results**:
+
 - ✅ Workflow starts successfully
 - ✅ Validation job passes
 - ✅ Build job passes
@@ -364,6 +393,7 @@ gh issue list --label rollback --state open --limit=1
 - ⏱️ Execution time: Faster than Scenario 1 (tests skipped)
 
 **Verification Commands**:
+
 ```bash
 # Check workflow status and duration
 gh run list --workflow=rollback-release.yml --limit=1
@@ -380,6 +410,7 @@ curl -s https://example.com/api/version | jq '.version'
 ```
 
 **Pass Criteria**:
+
 - ✅ All jobs complete successfully
 - ✅ Tests skipped (faster execution)
 - ✅ Deployment verified
@@ -414,6 +445,7 @@ Status: ✅ ALL TESTS PASSED
 ## 📅 Test Schedule
 
 ### **Regular Testing**
+
 - **Frequency**: Quarterly
 - **Schedule**:
   - Q1: January 15
@@ -422,6 +454,7 @@ Status: ✅ ALL TESTS PASSED
   - Q4: October 15
 
 ### **Ad-Hoc Testing**
+
 - After workflow modifications
 - After infrastructure changes
 - After any production rollback (post-mortem)
@@ -438,6 +471,7 @@ Status: ✅ ALL TESTS PASSED
    - Activate incident response team
 
 2. **Manual Rollback**:
+
    ```bash
    # If automated rollback fails, perform manual rollback
    git checkout v2.0.0-test
@@ -462,7 +496,8 @@ Status: ✅ ALL TESTS PASSED
 
 ## ✅ Success Criteria
 
-### **Workflow Must**:
+### **Workflow Must**
+
 - ✅ Validate version exists before proceeding
 - ✅ Build previous version successfully
 - ✅ Deploy to production without errors
@@ -473,7 +508,8 @@ Status: ✅ ALL TESTS PASSED
 - ✅ Provide clear error messages
 - ✅ Leave production unchanged on failure
 
-### **Performance Targets**:
+### **Performance Targets**
+
 - ⏱️ Full rollback (with tests): < 10 minutes
 - ⏱️ Emergency rollback (skip tests): < 6 minutes
 - ⏱️ Validation failure: < 2 minutes
@@ -501,4 +537,3 @@ Status: ✅ ALL TESTS PASSED
 **Test Plan Version**: 1.0  
 **Last Tested**: Pending  
 **Next Test**: Sprint 5 (Week 3-4)
-

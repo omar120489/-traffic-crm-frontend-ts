@@ -86,11 +86,13 @@
 **Risk Assessment**:
 
 ##### **HIGH RISK** (User-Controlled Input) ❌
+
 **Pattern**: `${{ github.event.* }}`, `${{ github.head_ref }}`, `${{ github.base_ref }}`
 
 **Found**: 0 instances ✅ **NONE FOUND**
 
 **Example of VULNERABLE code** (not found in your workflows):
+
 ```yaml
 # ❌ DANGEROUS - DO NOT USE
 - name: Comment on PR
@@ -103,6 +105,7 @@
 ---
 
 ##### **MEDIUM RISK** (GitHub Context) ⚠️
+
 **Pattern**: `${{ github.actor }}`, `${{ github.repository }}`, `${{ github.ref }}`
 
 **Found**: 12 instances
@@ -110,23 +113,29 @@
 **Examples from your workflows**:
 
 1. **rollback-release.yml** (Line 80):
+
 ```yaml
 **Initiated by**: @${{ github.actor }}
 ```
+
 **Risk**: LOW - Used in issue body (GitHub sanitizes markdown)  
 **Status**: ✅ **SAFE** (GitHub's markdown renderer escapes special chars)
 
 2. **release-hardened.yml** (Line 391):
+
 ```yaml
 **Triggered by**: @${{ github.actor }}
 ```
+
 **Risk**: LOW - Used in issue body  
 **Status**: ✅ **SAFE**
 
 3. **Multiple workflows** - URLs:
+
 ```yaml
 url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 ```
+
 **Risk**: LOW - Used in URLs (GitHub context is trusted)  
 **Status**: ✅ **SAFE**
 
@@ -135,6 +144,7 @@ url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.
 ---
 
 ##### **LOW RISK** (Workflow Inputs) ⚠️
+
 **Pattern**: `${{ inputs.* }}`, `${{ steps.*.outputs.* }}`
 
 **Found**: 35 instances
@@ -142,14 +152,17 @@ url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.
 **Examples from your workflows**:
 
 1. **rollback-release.yml** (Line 53):
+
 ```yaml
 VERSION="${{ inputs.version }}"
 ```
+
 **Risk**: MEDIUM - User input in shell variable  
 **Mitigation**: ✅ **MITIGATED** - Only used in validation, not executed  
 **Recommendation**: Use environment variables for extra safety
 
 **SAFER VERSION**:
+
 ```yaml
 - name: Validate version exists
   env:
@@ -162,19 +175,23 @@ VERSION="${{ inputs.version }}"
 ```
 
 2. **rollback-release.yml** (Lines 76-82):
+
 ```yaml
 title: `🔄 Rollback to ${{ inputs.version }} initiated`
 body: `## Rollback Request
   **Target Version**: ${{ inputs.version }}
   **Reason**: ${{ inputs.reason }}
 ```
+
 **Risk**: LOW - Used in github-script (sandboxed JavaScript)  
 **Status**: ✅ **SAFE** - github-script action sanitizes inputs
 
 3. **rollback-release.yml** (Line 110):
+
 ```yaml
 ref: ${{ inputs.version }}
 ```
+
 **Risk**: LOW - Used in action parameter (validated by action)  
 **Status**: ✅ **SAFE**
 
@@ -183,6 +200,7 @@ ref: ${{ inputs.version }}
 ---
 
 ##### **NO RISK** (Constants & Outputs) ✅
+
 **Pattern**: `${{ needs.*.result }}`, `${{ steps.*.outputs.* }}` (internal)
 
 **Found**: Majority of instances
@@ -198,6 +216,7 @@ ref: ${{ inputs.version }}
 **Results**: ✅ **NO ISSUES FOUND**
 
 **Verified**:
+
 - ✅ All secrets use `${{ secrets.* }}`
 - ✅ No hardcoded credentials
 - ✅ No secrets in logs (proper masking)
@@ -212,6 +231,7 @@ ref: ${{ inputs.version }}
 **Results**: ✅ **NO CRITICAL ISSUES FOUND**
 
 **Verified**:
+
 - ✅ No direct use of `${{ github.event.* }}` in `run:` commands
 - ✅ No `${{ github.head_ref }}` or `${{ github.base_ref }}` in shell
 - ✅ All user inputs go through github-script (sandboxed)
@@ -228,6 +248,7 @@ ref: ${{ inputs.version }}
 **Issue**: 56 unpinned actions across 12 workflows
 
 **Affected Workflows**:
+
 - `typecheck-sprint2.yml` (3 actions)
 - `publish-sdk.yml` (4 actions)
 - `sdk-codegen.yml` (3 actions)
@@ -240,6 +261,7 @@ ref: ${{ inputs.version }}
 - `no-artifacts.yml` (1 action)
 
 **Action Required**:
+
 ```bash
 # For each workflow, replace:
 uses: actions/checkout@v4
@@ -262,6 +284,7 @@ uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 **Action Required**:
 
 Create `.github/workflows/scorecard.yml`:
+
 ```yaml
 name: OpenSSF Scorecard
 
@@ -305,6 +328,7 @@ jobs:
 ```
 
 **Benefits**:
+
 - ✅ Automated security scoring
 - ✅ Continuous monitoring
 - ✅ Security insights dashboard
@@ -322,6 +346,7 @@ jobs:
 **Action Required**:
 
 Review `.github/workflows/codeql.yml` and ensure:
+
 ```yaml
 # Verify these settings:
 - name: Initialize CodeQL
@@ -340,6 +365,7 @@ Review `.github/workflows/codeql.yml` and ensure:
 ```
 
 **Benefits**:
+
 - ✅ Automated vulnerability detection
 - ✅ Security alerts
 - ✅ Code scanning results
@@ -361,6 +387,7 @@ Review `.github/workflows/codeql.yml` and ensure:
 **Example Fix for rollback-release.yml**:
 
 **Before**:
+
 ```yaml
 - name: Validate version exists
   run: |
@@ -371,6 +398,7 @@ Review `.github/workflows/codeql.yml` and ensure:
 ```
 
 **After**:
+
 ```yaml
 - name: Validate version exists
   env:
@@ -387,6 +415,7 @@ Review `.github/workflows/codeql.yml` and ensure:
 ```
 
 **Benefits**:
+
 - ✅ Prevents command injection
 - ✅ Better shell escaping
 - ✅ Clearer separation of data and code
@@ -403,6 +432,7 @@ Review `.github/workflows/codeql.yml` and ensure:
 **Action Required**:
 
 Create `.github/workflows/workflow-security-scan.yml`:
+
 ```yaml
 name: Workflow Security Scan
 
@@ -459,6 +489,7 @@ jobs:
 ```
 
 **Benefits**:
+
 - ✅ Automated workflow linting
 - ✅ Detects unpinned actions
 - ✅ Checks permission scoping
@@ -478,6 +509,7 @@ jobs:
 **Action Required**:
 
 Add to release workflows:
+
 ```yaml
 - name: Generate SLSA provenance
   uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
@@ -487,6 +519,7 @@ Add to release workflows:
 ```
 
 **Benefits**:
+
 - ✅ Supply-chain transparency
 - ✅ SLSA Level 3 compliance
 - ✅ Verifiable builds
@@ -503,6 +536,7 @@ Add to release workflows:
 **Action Required**:
 
 Create workflow diagrams using Mermaid:
+
 ```markdown
 # .github/WORKFLOW_ARCHITECTURE.md
 
@@ -519,6 +553,7 @@ graph TD
 ```
 
 **Benefits**:
+
 - ✅ Better documentation
 - ✅ Easier onboarding
 - ✅ Visual understanding
@@ -609,6 +644,7 @@ graph TD
 ### **1. OpenSSF Scorecard**
 
 **Setup**:
+
 ```bash
 # 1. Create workflow (see Priority 1.2)
 # 2. Enable Dependency graph
@@ -625,6 +661,7 @@ gh api repos/:owner/:repo/code-scanning/alerts
 ```
 
 **Expected Checks**:
+
 - ✅ Binary-Artifacts
 - ✅ Branch-Protection
 - ✅ CI-Tests
@@ -650,6 +687,7 @@ gh api repos/:owner/:repo/code-scanning/alerts
 ### **2. CodeQL**
 
 **Setup**:
+
 ```bash
 # 1. Verify workflow exists
 cat .github/workflows/codeql.yml
@@ -669,6 +707,7 @@ gh api repos/:owner/:repo/code-scanning/alerts
 ```
 
 **Query Suites**:
+
 - `security-extended` - Recommended (includes all security queries)
 - `security-and-quality` - Most comprehensive
 - `security-only` - Minimal (security-critical only)
@@ -678,6 +717,7 @@ gh api repos/:owner/:repo/code-scanning/alerts
 ### **3. Actionlint**
 
 **Setup**:
+
 ```bash
 # 1. Install locally (optional)
 brew install actionlint
@@ -701,6 +741,7 @@ self-hosted-runner:
 ### **After Full Implementation**
 
 **Security Posture**:
+
 - ✅ OpenSSF Scorecard: 9.5+/10
 - ✅ All actions SHA-pinned (100%)
 - ✅ Automated security scanning
@@ -708,6 +749,7 @@ self-hosted-runner:
 - ✅ Zero critical vulnerabilities
 
 **Operational Benefits**:
+
 - ✅ Automated security monitoring
 - ✅ Early vulnerability detection
 - ✅ Compliance reporting
@@ -715,6 +757,7 @@ self-hosted-runner:
 - ✅ Reduced manual reviews
 
 **Compliance**:
+
 - ✅ OpenSSF Best Practices
 - ✅ GitHub Security Hardening
 - ✅ OWASP CI/CD Security
@@ -726,6 +769,7 @@ self-hosted-runner:
 ## 📞 Support & Resources
 
 ### **Official Documentation**
+
 - [OpenSSF Scorecard](https://github.com/ossf/scorecard)
 - [GitHub CodeQL](https://codeql.github.com/)
 - [GitHub Security Lab](https://securitylab.github.com/)
@@ -733,6 +777,7 @@ self-hosted-runner:
 - [Actionlint](https://github.com/rhysd/actionlint)
 
 ### **Internal Documentation**
+
 - `WORKFLOW_SECURITY_AUDIT.md` - Line-by-line audit
 - `SECURITY_GAP_ANALYSIS.md` - Gap analysis
 - `.github/ALLOWED_ACTIONS.md` - Approved actions
@@ -745,6 +790,7 @@ self-hosted-runner:
 **Current Status**: ✅ **EXCELLENT** with clear improvement path
 
 **Key Findings**:
+
 - ✅ Hardened workflows are secure (0 issues)
 - ⚠️ 56 unpinned actions in non-release workflows
 - ✅ No script injection vulnerabilities
@@ -753,6 +799,7 @@ self-hosted-runner:
 - ⚠️ CodeQL needs configuration review
 
 **Priority Actions**:
+
 1. 🔴 Pin all actions (2-3 hours)
 2. 🔴 Enable OpenSSF Scorecard (15 minutes)
 3. 🔴 Review CodeQL config (15 minutes)
@@ -760,6 +807,7 @@ self-hosted-runner:
 5. 🟡 Add workflow security scanning (30 minutes)
 
 **Expected Timeline**:
+
 - **This Week**: Pin actions, enable Scorecard, review CodeQL
 - **Sprint 4**: Harden validation, add scanning
 - **Sprint 5**: SLSA provenance, documentation
@@ -771,4 +819,3 @@ self-hosted-runner:
 **Scan Completed**: October 24, 2025  
 **Next Scan**: After implementing Priority 1 actions  
 **Status**: ✅ **APPROVED** with actionable recommendations
-

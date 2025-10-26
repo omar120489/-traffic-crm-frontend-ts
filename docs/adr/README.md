@@ -122,4 +122,3 @@ When a decision is replaced:
 
 **Last Updated**: October 24, 2025  
 **Maintained By**: Engineering Team
-

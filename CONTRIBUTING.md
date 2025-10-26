@@ -36,7 +36,9 @@ pnpm run preflight
 ## 📋 Git Hooks (Automated Quality Gates)
 
 ### Pre-Commit Hook (Fast Lint)
+
 Runs **lint-staged** on changed files only:
+
 - ✅ ESLint with auto-fix on changed `.ts`/`.tsx` files
 - ✅ TypeScript check on Sprint 2 files
 - ✅ Markdownlint on changed `.md` files
@@ -44,7 +46,9 @@ Runs **lint-staged** on changed files only:
 - ❌ Blocks commit if linting/typecheck fails
 
 ### Pre-Push Hook (Full Sprint 2 Check)
+
 Runs a **comprehensive Sprint-2-only TypeScript check**:
+
 - ✅ Validates all Sprint 2 code (`src/pages/{contacts,deals,companies,settings,auth}`, `src/components`, `src/lib`, `src/contexts`)
 - ✅ Ignores legacy code (shimmed in `src/legacy/ambient.d.ts`)
 - ✅ Enforces Node 20 (via `.nvmrc`)
@@ -117,6 +121,7 @@ git commit -m "chore(deps): upgrade @mui/material to 7.0"
 ```
 
 **Commit types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `chore`: Maintenance (deps, config)
@@ -148,6 +153,7 @@ When you modernize a legacy area:
 4. **Commit** with a `refactor:` prefix
 
 Example:
+
 ```bash
 # Migrate hooks/useNotifications.ts
 # 1. Add proper types to the file
@@ -174,36 +180,42 @@ grep "declare module" apps/frontend/src/legacy/ambient.d.ts
 ## 🔒 Code Quality Standards
 
 ### TypeScript
+
 - ✅ Sprint 2 code: **Strict mode**, no `any`
 - ✅ Props: Use `Readonly<>` or `readonly` fields
 - ✅ Arrays: Use `ReadonlyArray<T>` for props
 - ✅ Avoid deprecated APIs (check Sonar warnings)
 
 ### React
+
 - ✅ Functional components only
 - ✅ Hooks for state management
 - ✅ Proper accessibility (`aria-label`, `htmlFor`, etc.)
 - ✅ Use `onKeyDown` (not deprecated `onKeyPress`)
 
 ### Imports
+
 - ✅ Use workspace aliases: `@traffic-crm/ui-kit`, `@traffic-crm/sdk-js`
 - ✅ Group imports: external → internal → relative
 
 ## 🧪 Testing
 
 ### Unit Tests (Vitest)
+
 ```bash
 pnpm --filter ./apps/frontend run test:unit
 pnpm --filter @apps/core-api run test
 ```
 
 ### E2E Tests (Playwright)
+
 ```bash
 pnpm --filter ./apps/frontend run test:e2e
 pnpm --filter ./apps/frontend run test:e2e:ui  # Interactive mode
 ```
 
 ### Smoke Tests
+
 ```bash
 pnpm --filter ./apps/frontend run test:smoke
 ```
@@ -219,7 +231,9 @@ pnpm --filter ./apps/frontend run test:smoke
 ## 🐛 Troubleshooting
 
 ### "Unsupported engine" warning
+
 You're on Node 24, but the project expects Node 20:
+
 ```bash
 nvm install 20
 nvm use 20
@@ -227,6 +241,7 @@ corepack enable  # Ensures pnpm version matches packageManager field
 ```
 
 ### Pre-push hook fails
+
 ```bash
 # Check what's failing
 cd apps/frontend
@@ -236,6 +251,7 @@ pnpm tsc --noEmit -p tsconfig.sprint2.json
 ```
 
 ### Workspace package not found
+
 ```bash
 # Rebuild all packages
 pnpm -r run build
@@ -245,6 +261,7 @@ pnpm -r install --frozen-lockfile
 ```
 
 ### Prisma client out of sync
+
 ```bash
 cd apps/core-api
 pnpm prisma:generate

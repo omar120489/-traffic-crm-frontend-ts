@@ -16,6 +16,7 @@
 ## 📋 Settings to Enable
 
 ### Branch name pattern
+
 ```
 main
 ```
@@ -25,6 +26,7 @@ main
 ### ✅ Protect matching branches
 
 #### Require a pull request before merging
+
 - [x] **Require a pull request before merging**
   - **Required number of approvals before merging:** `1`
   - [x] **Dismiss stale pull request approvals when new commits are pushed**
@@ -32,12 +34,14 @@ main
   - [x] **Require approval of the most recent reviewable push**
 
 #### Require status checks to pass before merging
+
 - [x] **Require status checks to pass before merging**
   - [x] **Require branches to be up to date before merging**
   
   **Search for and add these status checks:**
   
   In the "Search for status checks" box, type and select:
+
   ```
   CI / build
   CI / typecheck
@@ -53,6 +57,7 @@ main
   3. Come back and add the checks
 
 #### Other protections
+
 - [x] **Require conversation resolution before merging**
 - [ ] Require signed commits (optional, recommended for security)
 - [ ] Require linear history (optional, enforces rebase/squash)
@@ -60,6 +65,7 @@ main
 - [x] **Include administrators** (recommended for solo dev — keeps you honest!)
 
 #### Rules applied to everyone including administrators
+
 - [x] **Allow force pushes** → **Specify who can force push** → Leave empty (no one)
 - [x] **Allow deletions** → Uncheck (prevents accidental branch deletion)
 
@@ -103,6 +109,7 @@ Branch name pattern: main
 If this is your first time setting up branch protection, follow this sequence:
 
 ### Step 1: Create a test PR to trigger workflows
+
 ```bash
 git checkout -b test/branch-protection-setup
 echo "# Test PR for branch protection" > TEST.md
@@ -113,7 +120,9 @@ gh pr create --title "Test: Branch protection setup" --body "Triggering workflow
 ```
 
 ### Step 2: Wait for workflows to complete
+
 Check the PR's "Checks" tab. You should see:
+
 - ✅ CI / build
 - ✅ CI / typecheck
 - ✅ CI / lint
@@ -122,17 +131,21 @@ Check the PR's "Checks" tab. You should see:
 - ✅ Docs Lint / lint
 
 ### Step 3: Configure branch protection
+
 Now go to **Settings → Branches → Add rule** and follow the checklist above.
 
 The status checks will now appear in the search box.
 
 ### Step 4: Test the protection
+
 Try to merge the test PR. It should:
+
 1. Require 1 approval (if team, or you can approve your own if solo)
 2. Show all checks passing
 3. Allow merge
 
 ### Step 5: Clean up
+
 ```bash
 gh pr merge test/branch-protection-setup --squash
 git checkout main
@@ -145,6 +158,7 @@ git branch -d test/branch-protection-setup
 ## 🧪 Verification Tests
 
 ### Test 1: Direct push to main (should fail)
+
 ```bash
 git checkout main
 echo "test" >> README.md
@@ -154,6 +168,7 @@ git push origin main
 ```
 
 **Expected result:**
+
 ```
 remote: error: GH006: Protected branch update failed for refs/heads/main.
 remote: error: Changes must be made through a pull request.
@@ -162,6 +177,7 @@ remote: error: Changes must be made through a pull request.
 ✅ **Success!** Direct pushes are blocked.
 
 ### Test 2: PR with failing check (should block merge)
+
 ```bash
 git checkout -b test/failing-check
 echo "const x: number = 'string';" >> apps/core-api/src/test-error.ts
@@ -171,6 +187,7 @@ gh pr create --title "Test: Failing check" --body "Should block merge"
 ```
 
 **Expected result:**
+
 - PR is created
 - CI / typecheck fails
 - "Merge" button is disabled with message: "Required status checks must pass before merging"
@@ -178,6 +195,7 @@ gh pr create --title "Test: Failing check" --body "Should block merge"
 ✅ **Success!** Failing checks block merges.
 
 ### Test 3: PR with SDK drift (should block merge)
+
 ```bash
 git checkout -b test/sdk-drift
 echo "// API change" >> apps/core-api/src/modules/contacts/contacts.controller.ts
@@ -187,6 +205,7 @@ gh pr create --title "Test: SDK drift" --body "Should fail SDK check"
 ```
 
 **Expected result:**
+
 - PR is created
 - SDK Codegen / codegen fails
 - Bot comments with instructions to run `pnpm dev:sdk`
@@ -199,26 +218,32 @@ gh pr create --title "Test: SDK drift" --body "Should fail SDK check"
 ## 🔧 Troubleshooting
 
 ### "Status checks not found"
+
 **Problem:** The status checks don't appear in the search box.
 
 **Solution:**
+
 1. The workflows must run at least once before they appear
 2. Create a test PR (see "First-Time Setup Sequence" above)
 3. Wait for workflows to complete
 4. Return to branch protection settings — checks will now be searchable
 
 ### "Include administrators" is greyed out
+
 **Problem:** You're not an admin on the repository.
 
 **Solution:**
+
 1. Go to **Settings → Collaborators and teams**
 2. Ensure your user has "Admin" role
 3. Return to branch protection settings
 
 ### "Cannot merge even though checks pass"
+
 **Problem:** "Require branches to be up to date" is enabled, but branch is behind main.
 
 **Solution:**
+
 ```bash
 git checkout your-branch
 git pull origin main --rebase
@@ -226,9 +251,11 @@ git push --force-with-lease
 ```
 
 ### "Accidentally locked myself out"
+
 **Problem:** Enabled protection but can't merge anything.
 
 **Solution (temporary):**
+
 1. Go to branch protection settings
 2. Uncheck "Include administrators"
 3. Merge your PR
@@ -301,6 +328,7 @@ After setting up, verify all protections are working:
 ```
 
 Or manually check:
+
 - [ ] Cannot push directly to `main`
 - [ ] Cannot merge PR with failing checks
 - [ ] Cannot merge PR without approval
@@ -325,5 +353,3 @@ All changes must go through PRs, pass all checks, and get reviewed before mergin
 ---
 
 *Last Updated: October 24, 2025*
-
-

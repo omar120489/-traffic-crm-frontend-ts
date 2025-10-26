@@ -18,42 +18,51 @@ grep -c "declare module" apps/frontend/src/legacy/ambient.d.ts
 ## 📋 Migration Checklist
 
 ### Hooks (`hooks/*`)
+
 - [ ] `hooks/useJourneyEvents`
 - [ ] `hooks/useNotifications`
 - [ ] `hooks/useNotificationPreferences`
 - [ ] Other hooks (wildcard: `hooks/*`)
 
 ### Layouts (`layouts/*`)
+
 - [ ] `layouts/AppPage`
 - [ ] Other layouts (wildcard: `layouts/*`)
 
 ### Utils (`utils/*`)
+
 - [ ] `utils/notifications`
 - [ ] `utils/analytics`
 - [ ] Other utils (wildcard: `utils/*`)
 
 ### Services (`services/*`)
+
 - [ ] `services/reporting`
 - [ ] Other services (wildcard: `services/*`)
 
 ### Types (`types/*`)
+
 - [ ] `types/api` (Deal, Lead, Notification, ApiResponse, etc.)
 - [ ] `types/metrics` (CohortItem, FunnelStage, TimeSeriesPoint)
 - [ ] Other types (wildcard: `types/*`)
 
 ### Constants (`constants/*`)
+
 - [ ] `constants/deals` (DEAL_STAGES, DEAL_STATUSES)
 - [ ] Other constants (wildcard: `constants/*`)
 
 ### UI Components (`ui-component/*`)
+
 - [ ] `ui-component/cards/MainCard`
 - [ ] Other UI components (wildcard: `ui-component/*`)
 
 ### Store (`store/*`)
+
 - [ ] `store` (Redux store)
 - [ ] `store/slices/*` (Redux slices)
 
 ### SDK
+
 - [ ] `@sdk-js/core` (old SDK placeholder)
 
 ## 🔄 Migration Process
@@ -61,9 +70,11 @@ grep -c "declare module" apps/frontend/src/legacy/ambient.d.ts
 For each module above:
 
 ### 1. Choose a Module
+
 Pick a module from the checklist (start with small, isolated modules).
 
 ### 2. Add Proper Types
+
 ```typescript
 // Before (shimmed as 'any')
 export const useNotifications = () => { ... };
@@ -91,6 +102,7 @@ export const useNotifications = (filter?: NotificationFilter): {
 ```
 
 ### 3. Remove Shim
+
 Open `apps/frontend/src/legacy/ambient.d.ts` and delete the corresponding `declare module` block:
 
 ```typescript
@@ -102,6 +114,7 @@ declare module 'hooks/useNotifications' {
 ```
 
 ### 4. Verify
+
 ```bash
 # Check Sprint 2 code (should still pass)
 pnpm --filter ./apps/frontend run typecheck:sprint2
@@ -113,6 +126,7 @@ pnpm --filter ./apps/frontend run typecheck:legacy
 ```
 
 ### 5. Commit
+
 ```bash
 git add apps/frontend/src/hooks/useNotifications.ts
 git add apps/frontend/src/legacy/ambient.d.ts
@@ -122,23 +136,28 @@ git commit -m "refactor(hooks): migrate useNotifications to TypeScript"
 ## 📈 Progress Tracking
 
 ### Week 1 (Current)
+
 - [x] Sprint 2 code fully typed
 - [x] Legacy shims in place
 - [ ] First 3 modules migrated
 
 ### Week 2
+
 - [ ] Hooks migrated (5 modules)
 - [ ] Utils migrated (3 modules)
 
 ### Week 3
+
 - [ ] Types migrated (2 modules)
 - [ ] Constants migrated (1 module)
 
 ### Week 4
+
 - [ ] Services migrated (1 module)
 - [ ] UI Components migrated (2 modules)
 
 ### Week 5
+
 - [ ] Store migrated (2 modules)
 - [ ] SDK placeholder removed
 - [ ] `ambient.d.ts` deleted 🎉
@@ -160,7 +179,9 @@ Migrate in this order for maximum impact:
 ## 🚨 Common Pitfalls
 
 ### Circular Dependencies
+
 If you get circular dependency errors, extract shared types to a separate file:
+
 ```typescript
 // types/shared.ts
 export interface User { ... }
@@ -170,9 +191,12 @@ import type { User } from '../types/shared';
 ```
 
 ### Breaking Changes
+
 If a migration breaks consuming code:
+
 1. Fix the consuming code in the same commit
 2. Or use a temporary compatibility layer:
+
 ```typescript
 // Old API (deprecated)
 export const oldFunction = (arg: any) => newFunction(arg);
@@ -182,7 +206,9 @@ export const newFunction = (arg: TypedArg): TypedResult => { ... };
 ```
 
 ### Type Inference Issues
+
 If TypeScript can't infer types, add explicit annotations:
+
 ```typescript
 // Before
 const [state, setState] = useState(null);
@@ -204,6 +230,7 @@ When all checkboxes are checked and `grep -c "declare module" apps/frontend/src/
 1. Delete `apps/frontend/src/legacy/ambient.d.ts`
 2. Remove `src/legacy/ambient.d.ts` from `apps/frontend/tsconfig.json`
 3. Update `apps/frontend/package.json`:
+
    ```json
    {
      "scripts": {
@@ -212,6 +239,7 @@ When all checkboxes are checked and `grep -c "declare module" apps/frontend/src/
      }
    }
    ```
+
 4. Update `.husky/pre-push` to use default `tsconfig.json`
 5. Celebrate! 🎊
 
@@ -219,4 +247,3 @@ When all checkboxes are checked and `grep -c "declare module" apps/frontend/src/
 
 **Last Updated:** October 24, 2025  
 **Current Shims:** Run `grep -c "declare module" apps/frontend/src/legacy/ambient.d.ts` to check
-

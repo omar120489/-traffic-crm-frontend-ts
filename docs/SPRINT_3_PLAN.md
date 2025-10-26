@@ -8,21 +8,25 @@
 ## 🎯 Objectives (Definition of Done)
 
 ### 1. Auth Login Flow (Real)
+
 - ✅ Users can log in via `/login`, receive JWT, app state hydrates
 - ✅ Token refresh/expiry handled; 401 → redirect to `/login`
 - ✅ **DoD**: E2E smoke runs headless: login → contacts → logout
 
 ### 2. Deals Kanban (MVP)
+
 - ✅ Board grouped by pipeline stages, DnD to update `stageId` and ordering
 - ✅ Stage WIP label + basic filters (owner, tags)
 - ✅ **DoD**: Drag card → PATCH deal → optimistic update + toast
 
 ### 3. Company 360
+
 - ✅ `/companies/:id`: company info, contacts, active deals, revenue summary, timeline
 - ✅ Deep links work from lists and Kanban
 - ✅ **DoD**: Loading/empty states + error toasts
 
 ### 4. Quality Gates Continue to Pass
+
 - ✅ Sprint 2 typecheck pre-push passes
 - ✅ New code 100% in sprint2 tsconfig scope (or add to scope)
 
@@ -41,6 +45,7 @@
 | **FE-AUTH-04** | Error states (invalid creds), remember me | 1 |
 
 **Notes**:
+
 - If `/api/auth/login` already exists: align payload + CORS
 - Use existing `AuthContext` from Sprint 2 as base
 
@@ -58,6 +63,7 @@
 | **FE-KANBAN-05** | Empty states + toasts | 1 |
 
 **Notes**:
+
 - Stage reorder already exists; confirm "position" semantics
 - Use `@dnd-kit/core` and `@dnd-kit/sortable` (already installed)
 
@@ -90,6 +96,7 @@
 ### PATCH /api/deals/:id
 
 **Request Body**:
+
 ```json
 {
   "stageId": "uuid",
@@ -100,6 +107,7 @@
 **Response**: `200 OK` → updated deal
 
 **Notes**:
+
 - `position` is 0-based within stage
 - Server handles reordering other deals in the stage
 
@@ -108,6 +116,7 @@
 ### GET /api/companies/:id/summary
 
 **Response**:
+
 ```json
 {
   "company": {
@@ -266,15 +275,18 @@ apps/core-api/src/
 ## 🧪 Testing Strategy
 
 ### Unit Tests
+
 - `deals.service.ts` - move logic with position reordering
 - `companies.service.ts` - summary aggregation
 - `AuthContext` - token expiry detection
 
 ### Integration Tests
+
 - `PATCH /api/deals/:id` - verify position updates
 - `GET /api/companies/:id/summary` - verify aggregates
 
 ### E2E Tests (Playwright)
+
 ```typescript
 test('Kanban DnD flow', async ({ page }) => {
   await page.goto('/login');
@@ -370,6 +382,7 @@ enum DealStatus {
 ### Auth Token Structure
 
 JWT payload should include:
+
 ```json
 {
   "sub": "user-uuid",
@@ -386,4 +399,3 @@ JWT payload should include:
 **Sprint Start**: TBD  
 **Sprint End**: TBD  
 **Team Velocity**: TBD (estimate 15-20 points/week)
-

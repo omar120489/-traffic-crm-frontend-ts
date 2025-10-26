@@ -17,6 +17,7 @@ Repository → Settings → Branches → Add branch protection rule
 ### 2. Required Settings (Copy-Paste Checklist)
 
 #### ✅ Protect matching branches
+
 - [x] **Require a pull request before merging**
   - [x] Require approvals: **1**
   - [x] Dismiss stale pull request approvals when new commits are pushed
@@ -26,6 +27,7 @@ Repository → Settings → Branches → Add branch protection rule
   - [x] Require branches to be up to date before merging
   
   **Required status checks (add these):**
+
   ```
   CI / build
   CI / typecheck
@@ -45,6 +47,7 @@ Repository → Settings → Branches → Add branch protection rule
   - [x] Include administrators (recommended for solo dev)
 
 #### ❌ Do NOT enable (for solo dev)
+
 - [ ] Lock branch (prevents all pushes)
 - [ ] Restrict who can push to matching branches (not needed for solo)
 
@@ -53,36 +56,42 @@ Repository → Settings → Branches → Add branch protection rule
 ## 📋 Required Status Checks Breakdown
 
 ### 1. **CI / build**
+
 **Workflow:** `.github/workflows/ci.yml`  
 **Job:** `build`  
 **Purpose:** Ensures all packages build successfully  
 **Command:** `pnpm -r build`
 
 ### 2. **CI / typecheck**
+
 **Workflow:** `.github/workflows/ci.yml`  
 **Job:** `typecheck`  
 **Purpose:** Catches TypeScript errors across the monorepo  
 **Command:** `pnpm -r typecheck`
 
 ### 3. **CI / lint**
+
 **Workflow:** `.github/workflows/ci.yml`  
 **Job:** `lint`  
 **Purpose:** Enforces code style (ESLint)  
 **Command:** `pnpm -r lint`
 
 ### 4. **CI / test**
+
 **Workflow:** `.github/workflows/ci.yml`  
 **Job:** `test`  
 **Purpose:** Runs unit tests (Vitest)  
 **Command:** `pnpm -r test`
 
 ### 5. **SDK Codegen / codegen**
+
 **Workflow:** `.github/workflows/sdk-codegen.yml`  
 **Job:** `codegen`  
 **Purpose:** Ensures SDK types are in sync with OpenAPI spec  
 **Fails if:** `packages/sdk-js` has uncommitted changes after regeneration
 
 ### 6. **Docs Lint / lint**
+
 **Workflow:** `.github/workflows/docs-lint.yml`  
 **Job:** `lint`  
 **Purpose:** Ensures documentation follows markdown standards  
@@ -117,6 +126,7 @@ gh api repos/:owner/:repo/branches/main/protection \
 ## 🧪 Verify Setup
 
 ### Test 1: Create a PR with failing typecheck
+
 ```bash
 git checkout -b test/broken-types
 # Introduce a type error
@@ -129,6 +139,7 @@ gh pr create --title "Test: Broken types" --body "Should fail CI"
 **Expected:** CI fails, PR cannot be merged.
 
 ### Test 2: Create a PR with SDK drift
+
 ```bash
 git checkout -b test/sdk-drift
 # Modify API without regenerating SDK
@@ -141,6 +152,7 @@ gh pr create --title "Test: SDK drift" --body "Should fail SDK Codegen check"
 **Expected:** SDK Codegen check fails with helpful comment.
 
 ### Test 3: Create a valid PR
+
 ```bash
 git checkout -b feat/valid-change
 # Make a valid change
@@ -173,6 +185,7 @@ gh pr create --title "Feat: Valid change" --body "Should pass all checks"
 If you absolutely need to bypass checks (e.g., hotfix):
 
 ### Option 1: Temporarily disable branch protection
+
 ```bash
 gh api repos/:owner/:repo/branches/main/protection \
   --method DELETE
@@ -181,6 +194,7 @@ gh api repos/:owner/:repo/branches/main/protection \
 **Remember to re-enable after!**
 
 ### Option 2: Use admin override
+
 If "Include administrators" is unchecked, admins can merge despite failing checks.
 
 **⚠️ Not recommended for solo dev — keep yourself honest!**
@@ -190,12 +204,14 @@ If "Include administrators" is unchecked, admins can merge despite failing check
 ## 🎯 Best Practices
 
 ### For Solo Dev
+
 1. **Keep "Include administrators" checked** — Forces you to fix issues before merging
 2. **Use draft PRs** — For work-in-progress that won't pass checks yet
 3. **Local pre-push checks** — Run `pnpm greenlight` before pushing
 4. **Conventional commits** — Already enforced via Husky + commitlint
 
 ### For Team
+
 1. **Require 1+ reviews** — Already configured
 2. **Use CODEOWNERS** — Auto-assign reviewers for specific paths
 3. **Require conversation resolution** — Ensures all feedback is addressed
@@ -236,6 +252,7 @@ Create `.github/CODEOWNERS`:
 ## 🔄 Workflow: Making Changes
 
 ### Standard Flow
+
 ```bash
 # 1. Create feature branch
 git checkout -b feat/new-feature
@@ -266,6 +283,7 @@ gh pr merge --squash
 ```
 
 ### Quick Fix Flow
+
 ```bash
 # For small fixes that don't need a PR (use sparingly)
 git checkout main
@@ -283,12 +301,15 @@ git push origin main
 ## 🆘 Troubleshooting
 
 ### "Required status check is not present"
+
 **Cause:** Workflow hasn't run yet on this branch  
 **Fix:** Push a commit to trigger workflows, or wait for first run
 
 ### "This branch is out of date"
+
 **Cause:** `main` has new commits since your branch was created  
-**Fix:** 
+**Fix:**
+
 ```bash
 git checkout feat/your-branch
 git pull origin main --rebase
@@ -296,8 +317,10 @@ git push --force-with-lease
 ```
 
 ### "SDK Codegen check failed"
+
 **Cause:** API changed but SDK wasn't regenerated  
 **Fix:**
+
 ```bash
 pnpm dev:sdk
 git add packages/sdk-js
@@ -306,8 +329,10 @@ git push
 ```
 
 ### "Docs Lint check failed"
+
 **Cause:** Markdown style issues  
 **Fix:**
+
 ```bash
 pnpm lint:md:fix
 git add .
@@ -342,5 +367,3 @@ After setting up branch protection, verify:
 **🎉 With these settings, your `main` branch is protected and your workflow is bulletproof!**
 
 *Last Updated: October 24, 2025*
-
-

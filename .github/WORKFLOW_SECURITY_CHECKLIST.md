@@ -11,6 +11,7 @@
 This checklist ensures all GitHub Actions workflows comply with official security standards from GitHub and AWS Well-Architected Framework.
 
 **Use this checklist for**:
+
 - ✅ New workflow creation
 - ✅ Workflow modifications
 - ✅ Pull request reviews
@@ -70,6 +71,7 @@ uses: actions/checkout@main
 ```
 
 **Verification Command**:
+
 ```bash
 # Check for unpinned actions
 grep -r "uses:.*@v[0-9]" .github/workflows/[name].yml
@@ -90,6 +92,7 @@ grep -r "uses:.*@master" .github/workflows/[name].yml
 - [ ] Each permission justified with comment
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT - Scoped per job
 permissions:
@@ -106,6 +109,7 @@ jobs:
 ```
 
 **Verification Command**:
+
 ```bash
 # Check for broad permissions
 grep -A5 "permissions:" .github/workflows/[name].yml
@@ -124,6 +128,7 @@ grep -A5 "permissions:" .github/workflows/[name].yml
 - [ ] User inputs use environment variables
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT - Use environment variables
 - name: Process input
@@ -139,6 +144,7 @@ grep -A5 "permissions:" .github/workflows/[name].yml
 ```
 
 **Verification Command**:
+
 ```bash
 # Check for dangerous patterns
 grep -E '\$\{\{ github\.event\.' .github/workflows/[name].yml
@@ -158,6 +164,7 @@ grep -E '\$\{\{ github\.head_ref' .github/workflows/[name].yml
 - [ ] OIDC preferred over long-lived credentials
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT
 env:
@@ -169,6 +176,7 @@ env:
 ```
 
 **Verification Command**:
+
 ```bash
 # Check for hardcoded secrets (common patterns)
 grep -iE '(password|token|key|secret).*[:=].*["\047][a-zA-Z0-9]{20,}' .github/workflows/[name].yml
@@ -186,6 +194,7 @@ grep -iE '(password|token|key|secret).*[:=].*["\047][a-zA-Z0-9]{20,}' .github/wo
 - [ ] Group name unique and descriptive
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT
 concurrency:
@@ -205,6 +214,7 @@ concurrency:
 - [ ] Critical jobs have conservative timeouts
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT
 jobs:
@@ -225,6 +235,7 @@ jobs:
 - [ ] Proper labels and reviewers assigned
 
 **Verification**:
+
 ```bash
 # Check if workflow is in dependabot config
 grep -A10 "github-actions" .github/dependabot.yml
@@ -242,6 +253,7 @@ grep -A10 "github-actions" .github/dependabot.yml
 - [ ] Branch protection enforces review
 
 **Verification**:
+
 ```bash
 # Check CODEOWNERS
 grep "workflows" .github/CODEOWNERS
@@ -260,6 +272,7 @@ grep "workflows" .github/CODEOWNERS
 - [ ] Default values provided where appropriate
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT
 on:
@@ -292,6 +305,7 @@ on:
 - [ ] Exit codes checked explicitly
 
 **Example**:
+
 ```yaml
 # ✅ CORRECT
 - name: Deploy
@@ -407,6 +421,7 @@ fi
 ```
 
 **Usage**:
+
 ```bash
 # Make executable
 chmod +x .github/scripts/verify-workflow-security.sh
@@ -562,6 +577,7 @@ jobs:
 **Schedule**: Every 3 months (Jan, Apr, Jul, Oct)
 
 **Checklist**:
+
 - [ ] Review all workflows against this checklist
 - [ ] Update pinned action SHAs
 - [ ] Review Dependabot alerts
@@ -580,19 +596,19 @@ jobs:
 ### **Official Standards**
 
 1. **GitHub Actions Security Hardening**
-   - URL: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+   - URL: <https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions>
    - Citation: "Pin actions to a full length commit SHA"
 
 2. **AWS Well-Architected Framework**
-   - URL: https://docs.aws.amazon.com/wellarchitected/latest/framework/sec_permissions_least_privileges.html
+   - URL: <https://docs.aws.amazon.com/wellarchitected/latest/framework/sec_permissions_least_privileges.html>
    - Citation: "Implement least privilege for workflow permissions"
 
 3. **GitHub Security Lab**
-   - URL: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+   - URL: <https://securitylab.github.com/research/github-actions-preventing-pwn-requests/>
    - Citation: "Avoid script injection via untrusted inputs"
 
 4. **OpenSSF Scorecard**
-   - URL: https://github.com/ossf/scorecard
+   - URL: <https://github.com/ossf/scorecard>
    - Citation: "Pin dependencies to specific versions"
 
 ### **Internal Documentation**
@@ -635,4 +651,3 @@ jobs:
 **Checklist Version**: 1.0  
 **Last Updated**: October 24, 2025  
 **Next Review**: January 24, 2026
-

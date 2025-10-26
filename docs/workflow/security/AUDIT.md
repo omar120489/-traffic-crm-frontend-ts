@@ -18,6 +18,7 @@
 | `release-hardened.yml` | A++ (98/100) | ✅ Excellent | ✅ Excellent | ⭐ **Recommended** |
 
 **Key Findings**:
+
 - ✅ Hardened workflow implements **ALL** OpenSSF recommendations
 - ✅ SHA-pinned actions prevent supply-chain attacks
 - ✅ Scoped permissions follow least-privilege principle
@@ -35,6 +36,7 @@
 **Reference**: [OpenSSF Scorecard - Pinned Dependencies](https://github.com/ossf/scorecard/blob/main/docs/checks.md#pinned-dependencies)
 
 #### **release.yml** (Original)
+
 | Line | Action | Status | Risk | Fix |
 |------|--------|--------|------|-----|
 | 20 | `actions/checkout@v4` | ❌ Tag-based | **HIGH** | Pin to SHA |
@@ -60,6 +62,7 @@
 ---
 
 #### **release-optimized.yml**
+
 | Line | Action | Status | Risk | Fix |
 |------|--------|--------|------|-----|
 | 30 | `actions/checkout@v4` | ❌ Tag-based | **HIGH** | Pin to SHA |
@@ -85,6 +88,7 @@
 ---
 
 #### **release-hardened.yml** ⭐
+
 | Line | Action | Status | SHA | Version |
 |------|--------|--------|-----|---------|
 | 37 | `actions/checkout` | ✅ **Pinned** | `b4ffde65...` | v4.1.1 |
@@ -117,6 +121,7 @@
 **Reference**: [GitHub Security Hardening - Permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
 
 #### **release.yml** (Original)
+
 ```yaml
 # Lines 8-11: Workflow-level permissions (TOO BROAD)
 permissions:
@@ -126,6 +131,7 @@ permissions:
 ```
 
 **Issues**:
+
 - ❌ **Line 8-11**: All jobs inherit write permissions
 - ❌ **build-and-test** job (line 79): Doesn't need write access
 - ❌ **deploy-staging** job (line 142): Doesn't need write access
@@ -137,6 +143,7 @@ permissions:
 ---
 
 #### **release-optimized.yml**
+
 ```yaml
 # Lines 16-18: Default read-only (GOOD)
 permissions:
@@ -162,6 +169,7 @@ jobs:
 ```
 
 **Improvements**:
+
 - ✅ **Line 17**: Default read-only permissions
 - ✅ **Line 25-26**: Scoped write for create-release job
 - ✅ **Line 94-95**: Read-only for build-and-test
@@ -174,6 +182,7 @@ jobs:
 ---
 
 #### **release-hardened.yml** ⭐
+
 ```yaml
 # Lines 17-19: Default read-only (EXCELLENT)
 permissions:
@@ -199,6 +208,7 @@ jobs:
 ```
 
 **Improvements**:
+
 - ✅ **Line 18**: Default read-only with clear comment
 - ✅ **Line 28-29**: Scoped write with justification comment
 - ✅ **Line 104-105**: Explicit read-only with comment
@@ -218,11 +228,13 @@ jobs:
 **Reference**: [GitHub Workflow Syntax - Concurrency](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency)
 
 #### **release.yml** (Original)
+
 ```yaml
 # ❌ NO CONCURRENCY CONTROL
 ```
 
 **Issues**:
+
 - ❌ Multiple releases can run simultaneously
 - ❌ Race conditions possible
 - ❌ Resource waste
@@ -233,6 +245,7 @@ jobs:
 ---
 
 #### **release-optimized.yml** & **release-hardened.yml** ⭐
+
 ```yaml
 # Lines 12-14 (optimized) / 13-15 (hardened)
 concurrency:
@@ -241,6 +254,7 @@ concurrency:
 ```
 
 **Benefits**:
+
 - ✅ Prevents overlapping releases
 - ✅ Ensures sequential processing
 - ✅ Avoids race conditions
@@ -258,6 +272,7 @@ concurrency:
 **Reference**: [GitHub Workflow Syntax - Timeout](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes)
 
 #### **release.yml** & **release-optimized.yml**
+
 ```yaml
 # ❌ NO TIMEOUTS
 jobs:
@@ -267,6 +282,7 @@ jobs:
 ```
 
 **Issues**:
+
 - ❌ Jobs can hang indefinitely
 - ❌ Wastes runner capacity
 - ❌ Delays failure detection
@@ -277,6 +293,7 @@ jobs:
 ---
 
 #### **release-hardened.yml** ⭐
+
 ```yaml
 # Lines 25, 100, 189, 284
 jobs:
@@ -294,6 +311,7 @@ jobs:
 ```
 
 **Benefits**:
+
 - ✅ Prevents hung jobs
 - ✅ Faster failure detection
 - ✅ Cost optimization
@@ -311,12 +329,14 @@ jobs:
 **Reference**: [GitHub OIDC with Cloud Providers](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
 
 #### **release.yml** & **release-optimized.yml**
+
 ```yaml
 # ⚠️ NOT OIDC-READY
 # Would require long-lived secrets for cloud deployments
 ```
 
 **Issues**:
+
 - ⚠️ Requires long-lived `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, etc.
 - ⚠️ Secrets must be rotated manually
 - ⚠️ Higher risk if secrets are compromised
@@ -327,6 +347,7 @@ jobs:
 ---
 
 #### **release-hardened.yml** ⭐
+
 ```yaml
 # Lines 193-194, 223-230
 permissions:
@@ -340,6 +361,7 @@ permissions:
 ```
 
 **Benefits**:
+
 - ✅ Ready for OIDC (just uncomment `id-token: write`)
 - ✅ No long-lived credentials needed
 - ✅ Automatic token rotation
@@ -357,12 +379,14 @@ permissions:
 **Best Practice**: Validate builds and scan for sensitive files
 
 #### **release.yml** (Original)
+
 ```yaml
 # ❌ NO BUILD VALIDATION
 # ❌ NO SECURITY CHECKS
 ```
 
 **Issues**:
+
 - ❌ Doesn't verify builds exist
 - ❌ Doesn't check for sensitive files
 - ❌ No bundle size reporting
@@ -373,6 +397,7 @@ permissions:
 ---
 
 #### **release-optimized.yml**
+
 ```yaml
 # Lines 130-150: Basic validation
 - name: Validate builds
@@ -383,6 +408,7 @@ permissions:
 ```
 
 **Improvements**:
+
 - ✅ Checks build existence
 - ✅ Reports bundle sizes
 - ⚠️ No security checks
@@ -393,6 +419,7 @@ permissions:
 ---
 
 #### **release-hardened.yml** ⭐
+
 ```yaml
 # Lines 140-168: Comprehensive validation
 - name: Validate builds
@@ -411,6 +438,7 @@ permissions:
 ```
 
 **Benefits**:
+
 - ✅ Validates build existence
 - ✅ Reports bundle sizes
 - ✅ **Scans for sensitive files** (`.env`, `.key`, `.pem`)
@@ -428,6 +456,7 @@ permissions:
 **Best Practice**: Validate deployments with comprehensive tests
 
 #### **release.yml** (Original)
+
 ```yaml
 # Lines 177-182: Placeholder only
 - name: Run smoke tests
@@ -435,6 +464,7 @@ permissions:
 ```
 
 **Issues**:
+
 - ❌ No actual validation
 - ❌ No health checks
 - ❌ No retry logic
@@ -445,6 +475,7 @@ permissions:
 ---
 
 #### **release-optimized.yml**
+
 ```yaml
 # Lines 203-219: Basic validation
 - name: Run smoke tests
@@ -454,6 +485,7 @@ permissions:
 ```
 
 **Improvements**:
+
 - ✅ Includes wait time
 - ⚠️ Health checks commented out
 - ❌ No retry logic
@@ -464,6 +496,7 @@ permissions:
 ---
 
 #### **release-hardened.yml** ⭐
+
 ```yaml
 # Lines 239-279: Comprehensive validation
 - name: Run comprehensive smoke tests
@@ -497,6 +530,7 @@ permissions:
 ```
 
 **Benefits**:
+
 - ✅ Retry logic for transient failures
 - ✅ Multiple endpoint checks
 - ✅ Content validation
@@ -523,6 +557,7 @@ permissions:
 ```
 
 **Benefits**:
+
 - ✅ Prevents unauthorized workflow changes
 - ✅ Enforces peer review
 - ✅ Audit trail for sensitive changes
@@ -643,12 +678,14 @@ permissions:
 **Use**: `release.yml` (Original)
 
 **Justification**:
+
 - ✅ Already tested and working
 - ✅ B+ grade is acceptable for initial release
 - ✅ CODEOWNERS protection in place
 - ✅ Can release immediately
 
 **Accepted Risks**:
+
 - ⚠️ Tag-based actions (mitigated by CODEOWNERS)
 - ⚠️ Broad permissions (limited blast radius)
 - ⚠️ No timeouts (operational, not security)
@@ -662,6 +699,7 @@ permissions:
 **Upgrade to**: `release-hardened.yml`
 
 **Justification**:
+
 - ✅ A++ grade (98/100)
 - ✅ Full OpenSSF compliance
 - ✅ SHA-pinned actions
@@ -670,6 +708,7 @@ permissions:
 - ✅ Comprehensive validation
 
 **Timeline**:
+
 - **Sprint 4**: Evaluate security requirements
 - **Sprint 5**: Migrate to hardened workflow
 - **Ongoing**: Quarterly SHA updates
@@ -704,18 +743,21 @@ permissions:
 ## 🔧 Action Items
 
 ### **Immediate** (Before Sprint 3 Release)
+
 - [x] ✅ Review audit findings
 - [x] ✅ Accept risks for original workflow
 - [x] ✅ Verify CODEOWNERS protection
 - [x] ✅ Document upgrade path
 
 ### **Short-term** (Sprint 4)
+
 - [ ] Evaluate security requirements
 - [ ] Test hardened workflow in feature branch
 - [ ] Update deployment commands
 - [ ] Configure OIDC (if using cloud)
 
 ### **Long-term** (Sprint 5+)
+
 - [ ] Migrate to hardened workflow
 - [ ] Set up Dependabot for action updates
 - [ ] Implement quarterly SHA review process
@@ -726,6 +768,7 @@ permissions:
 ## 📖 References
 
 ### **Official Standards**
+
 1. [OpenSSF Scorecard - Pinned Dependencies](https://github.com/ossf/scorecard/blob/main/docs/checks.md#pinned-dependencies)
 2. [GitHub Security Hardening Guide](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 3. [GitHub Token Permissions](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
@@ -733,6 +776,7 @@ permissions:
 5. [OWASP CI/CD Security](https://cheatsheetseries.owasp.org/cheatsheets/CI_CD_Security_Cheat_Sheet.html)
 
 ### **Internal Documentation**
+
 - `WORKFLOW_REVIEW.md` - Initial review
 - `WORKFLOW_SECURITY_HARDENING.md` - Implementation guide
 - `WORKFLOW_COMPARISON.md` - Feature comparison
@@ -745,6 +789,7 @@ permissions:
 **Overall Assessment**: ✅ **EXCELLENT**
 
 **Key Achievements**:
+
 1. ✅ Hardened workflow implements **ALL** best practices
 2. ✅ Full OpenSSF Scorecard compliance (hardened)
 3. ✅ Full GitHub Security Hardening compliance (hardened)
@@ -753,10 +798,12 @@ permissions:
 6. ✅ Rollback capability implemented
 
 **Security Posture**:
+
 - **Current** (release.yml): B+ - Acceptable for Sprint 3
 - **Future** (release-hardened.yml): A++ - Gold standard
 
 **Recommendation**: ✅ **APPROVED**
+
 - Use original for Sprint 3 (acceptable risk)
 - Upgrade to hardened for Sprint 4+ (maximum security)
 
@@ -766,4 +813,3 @@ permissions:
 **Next Review**: After Sprint 3 release  
 **Auditor**: AI Security Assistant  
 **Status**: ✅ **APPROVED FOR PRODUCTION**
-

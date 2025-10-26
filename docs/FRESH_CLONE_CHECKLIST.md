@@ -50,6 +50,7 @@ pnpm run preflight
 ### Issue: `nvm: command not found`
 
 **Solution:** Install nvm first:
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 # Restart terminal
@@ -59,6 +60,7 @@ nvm install 20
 ### Issue: `corepack: command not found`
 
 **Solution:** Update Node.js (corepack ships with Node 16.9+):
+
 ```bash
 nvm install 20
 nvm use 20
@@ -68,6 +70,7 @@ corepack enable
 ### Issue: `ERR_PNPM_UNSUPPORTED_ENGINE`
 
 **Solution:** You're on the wrong Node version:
+
 ```bash
 node -v  # Check current version
 nvm use 20  # Switch to Node 20
@@ -76,6 +79,7 @@ nvm use 20  # Switch to Node 20
 ### Issue: Slow install (>2 minutes)
 
 **Possible causes:**
+
 - No cache (first install) → Expected
 - Slow network → Check connection
 - Missing `--frozen-lockfile` → Use it for deterministic installs
@@ -83,6 +87,7 @@ nvm use 20  # Switch to Node 20
 ### Issue: TypeCheck fails with legacy errors
 
 **Solution:** Ensure you're running the Sprint 2 config:
+
 ```bash
 cd apps/frontend
 pnpm tsc --noEmit -p tsconfig.sprint2.json  # Sprint 2 only
@@ -92,6 +97,7 @@ pnpm tsc --noEmit -p tsconfig.json          # Full repo (with shims)
 ## 🎯 Success Criteria
 
 You're ready to contribute when:
+
 - ✅ Install completes in <60s (cold) or <15s (cached)
 - ✅ `typecheck:sprint2` passes with 0 errors
 - ✅ `lint` passes with 0 warnings
@@ -103,18 +109,21 @@ You're ready to contribute when:
 After smoke test passes:
 
 1. **Start the backend:**
+
    ```bash
    pnpm --filter @apps/core-api start:dev
    # API runs on http://localhost:3000
    ```
 
 2. **Start the frontend:**
+
    ```bash
    pnpm --filter ./apps/frontend dev
    # Frontend runs on http://localhost:5173
    ```
 
 3. **Make a test change:**
+
    ```bash
    git checkout -b test/my-first-pr
    # Edit a file in apps/frontend/src/pages/contacts/
@@ -141,4 +150,3 @@ After smoke test passes:
 
 **Last Updated:** October 24, 2025  
 **Status:** ✅ Production-ready
-

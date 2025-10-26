@@ -9,6 +9,7 @@
 ## 🔍 Problem
 
 Current schema has:
+
 ```prisma
 model Company {
   id        String     @id              // ❌ No @default(cuid())
@@ -158,11 +159,13 @@ echo "  3. pnpm --filter @apps/core-api build"
 ## 🎯 Why This Matters
 
 **Without defaults:**
+
 - TypeScript requires explicit `id` and `updatedAt` in every `create()`
 - Causes TS2322 errors
 - Forces use of `UncheckedCreateInput` (less type-safe)
 
 **With defaults:**
+
 - Prisma auto-generates `id` and `updatedAt`
 - TypeScript uses `CreateInput` (more type-safe)
 - Relation `connect` syntax works perfectly
@@ -232,5 +235,3 @@ await prisma.company.create({ data });
 ---
 
 *Last Updated: October 24, 2025*
-
-

@@ -13,6 +13,7 @@ A **world-class TypeScript infrastructure** that lets teams move fast without br
 ### Core Features
 
 #### **1. Multi-Layer Quality Gates** 🔒
+
 - ✅ **Pre-Commit Hook** (lint-staged): 3-5s, changed files only
 - ✅ **Pre-Push Hook** (Sprint 2 typecheck): ~10s, Node 20 guard
 - ✅ **CI TypeCheck** (GitHub Actions): ~25s, cached, auto-cancel stale runs
@@ -20,6 +21,7 @@ A **world-class TypeScript infrastructure** that lets teams move fast without br
 - ✅ **Branch Protection** (GitHub): up-to-date + checks required
 
 #### **2. Performance Optimizations** ⚡
+
 - ✅ **pnpm caching**: 3x faster installs (30s → 10s)
 - ✅ **ESLint scoped to Sprint 2**: 3.75x faster linting (45s → 12s)
 - ✅ **Concurrency guard**: Auto-cancel stale CI runs
@@ -27,6 +29,7 @@ A **world-class TypeScript infrastructure** that lets teams move fast without br
 - ✅ **Frozen lockfile**: Deterministic installs
 
 #### **3. Developer Experience** 🚀
+
 - ✅ **Corepack**: No global pnpm install needed
 - ✅ **Preflight script**: One-liner sanity check
 - ✅ **Fresh clone checklist**: <2 min setup for new contributors
@@ -34,6 +37,7 @@ A **world-class TypeScript infrastructure** that lets teams move fast without br
 - ✅ **Fail-fast surfaces**: Show changed TS files on failure
 
 #### **4. Documentation** 📚
+
 - ✅ **CONTRIBUTING.md**: Comprehensive contributor guide
 - ✅ **MIGRATION.md**: Legacy → TypeScript tracker
 - ✅ **BRANCH_PROTECTION_SETUP.md**: GitHub settings guide
@@ -139,6 +143,7 @@ pnpm --filter ./apps/frontend dev        # Frontend
 ## 📁 File Structure
 
 ### Configuration Files
+
 ```
 .
 ├── .husky/
@@ -160,6 +165,7 @@ pnpm --filter ./apps/frontend dev        # Frontend
 ```
 
 ### Documentation
+
 ```
 docs/
 ├── CONTRIBUTING.md                # Contributor guide
@@ -177,6 +183,7 @@ docs/
 ## 🎯 Scripts Reference
 
 ### Root Scripts
+
 ```bash
 pnpm run preflight          # One-liner sanity check (frozen install + typecheck + lint)
 pnpm run dev                # Start all apps in parallel
@@ -188,6 +195,7 @@ pnpm run greenlight         # Sprint 2 comprehensive check
 ```
 
 ### Frontend Scripts
+
 ```bash
 pnpm --filter ./apps/frontend run typecheck           # Fast Sprint 2 check
 pnpm --filter ./apps/frontend run typecheck:sprint2   # Explicit Sprint 2
@@ -201,6 +209,7 @@ pnpm --filter ./apps/frontend run lint                # ESLint (Sprint 2 scoped)
 ## 🔧 Configuration Deep Dive
 
 ### lint-staged (Pre-Commit)
+
 ```json
 {
   "lint-staged": {
@@ -216,12 +225,14 @@ pnpm --filter ./apps/frontend run lint                # ESLint (Sprint 2 scoped)
 ```
 
 **Why this works:**
+
 - ✅ Only runs on **changed files** (fast)
 - ✅ Auto-fixes ESLint issues
 - ✅ TypeChecks Sprint 2 code
 - ✅ Fixes markdown formatting
 
 ### CI Workflow (GitHub Actions)
+
 ```yaml
 name: sprint2-typecheck
 
@@ -262,12 +273,14 @@ jobs:
 ```
 
 **Why this works:**
+
 - ✅ **Caching**: 3x faster installs
 - ✅ **Concurrency**: Auto-cancel stale runs (saves CI minutes)
 - ✅ **Fail-fast**: Shows changed TS files on failure (faster triage)
 - ✅ **Migration tracker**: Live progress in job summary
 
 ### ESLint Configuration
+
 ```javascript
 // apps/frontend/eslint.config.mjs
 {
@@ -282,6 +295,7 @@ jobs:
 ```
 
 **Why this works:**
+
 - ✅ ESLint only parses **Sprint 2 code** (3.75x faster)
 - ✅ Aligns with pre-push hook strategy
 - ✅ No legacy code noise
@@ -291,11 +305,13 @@ jobs:
 ## 📈 Migration Strategy
 
 ### Current State
+
 - ✅ Sprint 2 code: **100% typed** (strict mode)
 - ⏳ Legacy code: **Shimmed** in `ambient.d.ts`
 - 📊 Progress: **~23 shims remaining** (tracked in CI)
 
 ### Migration Process
+
 1. **Pick a module** from `MIGRATION.md` checklist
 2. **Add proper types** to the file
 3. **Delete the shim** from `src/legacy/ambient.d.ts`
@@ -303,6 +319,7 @@ jobs:
 5. **Commit**: `git commit -m "refactor(hooks): migrate useNotifications to TypeScript"`
 
 ### Track Progress
+
 ```bash
 # Count remaining shims
 grep -c "declare module" apps/frontend/src/legacy/ambient.d.ts
@@ -314,7 +331,9 @@ grep "declare module" apps/frontend/src/legacy/ambient.d.ts
 ```
 
 ### Completion Criteria
+
 When count reaches **0**:
+
 1. Delete `apps/frontend/src/legacy/ambient.d.ts`
 2. Remove from `tsconfig.json` include
 3. Update scripts to use default `tsconfig.json`
@@ -326,6 +345,7 @@ When count reaches **0**:
 ## 🎊 Success Metrics
 
 ### Infrastructure Maturity
+
 - ✅ **Tier 1:** Enterprise-grade CI/CD
 - ✅ **Tier 1:** Multi-layer quality gates
 - ✅ **Tier 1:** Comprehensive documentation
@@ -333,6 +353,7 @@ When count reaches **0**:
 - ✅ **Tier 1:** Migration strategy defined
 
 ### Developer Experience
+
 - ✅ **Fresh clone to productive:** <2 minutes
 - ✅ **Pre-commit feedback:** 3-5 seconds
 - ✅ **Pre-push feedback:** ~10 seconds
@@ -340,6 +361,7 @@ When count reaches **0**:
 - ✅ **Total commit-to-merge:** ~40-50 seconds
 
 ### Code Quality
+
 - ✅ **Sprint 2 code:** 0 TypeScript errors
 - ✅ **ESLint:** 0 warnings (Sprint 2)
 - ✅ **Markdownlint:** Auto-fixed on commit
@@ -350,16 +372,19 @@ When count reaches **0**:
 ## 🚀 Next Steps
 
 ### Immediate (Today)
+
 1. ✅ Switch to Node 20: `nvm use 20`
 2. ✅ Set up branch protection (see `docs/BRANCH_PROTECTION_SETUP.md`)
 3. ✅ Verify CI badge turns green
 
 ### This Week
+
 1. 📋 Migrate first 3 legacy modules
 2. 📋 Add E2E smoke tests to CI
 3. 📋 Document Sprint 3 goals
 
 ### This Month
+
 1. 📋 Complete legacy migration (target: 0 shims)
 2. 📋 Enable strict TypeScript mode for entire repo
 3. 📋 Add performance budgets to CI
@@ -385,6 +410,7 @@ When count reaches **0**:
 ## 🎉 Final Thoughts
 
 **You've built a world-class TypeScript monorepo infrastructure that:**
+
 - ⚡ Gives **instant feedback** (3-5s pre-commit, 10s pre-push)
 - 🔒 Has **5 layers of quality gates** (pre-commit → pre-push → CI → reviews → branch protection)
 - 🧯 **Doesn't block progress** (legacy code shimmed + tracked)
@@ -402,4 +428,3 @@ When count reaches **0**:
 **Last Updated:** October 24, 2025  
 **Status:** ✅ **SHIPPED & BATTLE-READY**  
 **Commit:** `7c7cc473`
-

@@ -11,9 +11,10 @@
 ### **1️⃣ Create PR** (1 minute)
 
 **Click here to create PR:**
-👉 https://github.com/omar120489/-traffic-crm-frontend-ts/compare/main...feat/s5-analytics-dashboard
+👉 <https://github.com/omar120489/-traffic-crm-frontend-ts/compare/main...feat/s5-analytics-dashboard>
 
 **Title:**
+
 ```
 feat: Analytics Dashboard (Sprint 5)
 ```
@@ -46,7 +47,7 @@ git push origin v5.0.0
 ```
 
 **Then create GitHub Release:**
-👉 https://github.com/omar120489/-traffic-crm-frontend-ts/releases/new?tag=v5.0.0
+👉 <https://github.com/omar120489/-traffic-crm-frontend-ts/releases/new?tag=v5.0.0>
 
 - **Title**: `v5.0.0 – Sprint 5: Analytics Dashboard`
 - **Description**: Copy-paste `SPRINT_5_COMPLETE.md`
@@ -73,6 +74,7 @@ git push origin v5.0.0
 ## 📣 **After Ship: Announce**
 
 **Slack (Engineering):**
+
 ```
 ✅ Shipped v5.0.0 – Analytics Dashboard
 4 KPIs, 3 charts, filters + URL sync, E2E + CI green.
@@ -103,4 +105,3 @@ Release: https://github.com/omar120489/-traffic-crm-frontend-ts/releases/tag/v5.
 **Ready to ship!** 🚀
 
 Just follow the 3 steps above and you're done!
-

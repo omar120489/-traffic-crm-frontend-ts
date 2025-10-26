@@ -192,4 +192,3 @@ Downgrading `@fastify/static` to the 6.x line on Fastify v4 was the right tactic
 - [@fastify/static Documentation](https://github.com/fastify/fastify-static)
 - [Project Architecture Overview](./ARCHITECTURE_OVERVIEW.md)
 - [Contributing Guidelines](../CONTRIBUTING.md)
-

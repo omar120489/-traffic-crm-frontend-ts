@@ -116,8 +116,8 @@ cd apps/frontend && pnpm test:e2e
 ## 📚 Documentation
 
 - [CONTRIBUTING.md](./CONTRIBUTING.md)
-- [WORKFLOW_SCRIPTS.md](./WORKFLOW_SCRIPTS.md)
-- [docs/RELEASE_PLAYBOOK.md](./docs/RELEASE_PLAYBOOK.md)
+- [docs/workflow/SCRIPTS.md](./docs/workflow/SCRIPTS.md)
+- [docs/release/PLAYBOOK.md](./docs/release/PLAYBOOK.md)
 - [packages/sdk-js/README.md](./packages/sdk-js/README.md)
 
 ---

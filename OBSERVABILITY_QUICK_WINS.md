@@ -281,6 +281,7 @@ alerts:
 **Implementation Options**:
 
 1. **Grafana** (Recommended)
+
    ```bash
    # Import dashboard JSON (generated from spec)
    # Settings → Data Sources → Add Prometheus/Loki
@@ -288,12 +289,14 @@ alerts:
    ```
 
 2. **Datadog**
+
    ```bash
    # Use Datadog Dashboard API
    # Create dashboard from spec
    ```
 
 3. **New Relic**
+
    ```bash
    # Use New Relic Dashboards
    # Import custom dashboard
@@ -405,6 +408,7 @@ git push origin main
 ## 📊 Expected Metrics
 
 ### **Web Vitals Targets**
+
 | **Metric** | **Good** | **Needs Improvement** | **Poor** |
 |------------|----------|-----------------------|----------|
 | **LCP** | ≤2.5s | ≤4s | >4s |
@@ -414,6 +418,7 @@ git push origin main
 | **TTFB** | ≤800ms | ≤1.8s | >1.8s |
 
 ### **Release Health Targets**
+
 | **Metric** | **Target** | **Warning** | **Critical** |
 |------------|------------|-------------|--------------|
 | **Error Rate** | <0.1% | <1% | <5% |
@@ -426,12 +431,11 @@ git push origin main
 ## 📞 Support
 
 - **Engineering Lead**: @omar120489
-- **Ops Team**: ops@traffic-crm.example.com
-- **Monitoring**: monitoring@traffic-crm.example.com
+- **Ops Team**: <ops@traffic-crm.example.com>
+- **Monitoring**: <monitoring@traffic-crm.example.com>
 
 ---
 
 **Status**: ✅ Ready to Execute  
 **Time**: ~15 minutes total  
 **Impact**: High (production visibility)
-

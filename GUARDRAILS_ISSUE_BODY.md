@@ -1,9 +1,11 @@
 ## 🩺 Objective
+
 Verify production health after v5.0.0 (Analytics Dashboard) launch and capture baseline KPIs.
 
 ---
 
 ## ✅ Checklist
+
 - [ ] `/analytics` loads under **2.5s TTI**
 - [ ] 4 KPI tiles render with data
 - [ ] 3 charts hydrate correctly
@@ -17,6 +19,7 @@ Verify production health after v5.0.0 (Analytics Dashboard) launch and capture b
 ## 🧪 Quick Health Checks
 
 ### Backend Health
+
 ```bash
 # Test API endpoint response time
 curl -s -w "Time: %{time_total}s\n" -o /dev/null http://localhost:3000/api/analytics
@@ -26,12 +29,14 @@ curl -s -w "Time: %{time_total}s\n" -o /dev/null "http://localhost:3000/api/anal
 ```
 
 ### E2E Smoke Test
+
 ```bash
 cd apps/frontend
 pnpm test:e2e analytics.spec.ts
 ```
 
 ### Lighthouse Performance
+
 ```bash
 npx lighthouse http://localhost:3000/analytics --view
 ```
@@ -54,6 +59,7 @@ npx lighthouse http://localhost:3000/analytics --view
 | Lighthouse Score | — | Target: > 90 |
 
 ### Capture Script
+
 ```bash
 curl -s "http://localhost:3000/api/analytics" | jq '.' > baseline_$(date +%Y%m%d).json
 cat baseline_$(date +%Y%m%d).json
@@ -64,6 +70,7 @@ cat baseline_$(date +%Y%m%d).json
 ## 📈 APM / Logs
 
 ### Error Rate
+
 ```bash
 # 5xx errors in last 10 min
 grep "500\|502\|503" logs/api*.log | tail -n 20
@@ -73,6 +80,7 @@ grep "ERROR" logs/api*.log | wc -l
 ```
 
 ### Slow Queries
+
 ```bash
 # Queries > 300ms
 grep "duration" logs/prisma*.log | grep -E "([3-9][0-9]{2,}|[1-9][0-9]{3,})ms"
@@ -95,6 +103,7 @@ grep "duration" logs/prisma*.log | grep -E "([3-9][0-9]{2,}|[1-9][0-9]{3,})ms"
 ## 📝 Findings
 
 ### Health Check Results
+
 ```
 Date: ____-__-__ __:__ UTC
 Tester: [Your Name]
@@ -119,7 +128,6 @@ Tester: [Your Name]
 
 ## 📚 References
 
-- **Release**: https://github.com/omar120489/-traffic-crm-frontend-ts/releases/tag/v5.0.0
-- **PR**: https://github.com/omar120489/-traffic-crm-frontend-ts/pull/38
+- **Release**: <https://github.com/omar120489/-traffic-crm-frontend-ts/releases/tag/v5.0.0>
+- **PR**: <https://github.com/omar120489/-traffic-crm-frontend-ts/pull/38>
 - **Full Checklist**: `POST_SHIP_GUARDRAILS_v5.0.0.md`
-

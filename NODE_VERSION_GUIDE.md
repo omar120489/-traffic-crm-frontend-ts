@@ -57,6 +57,7 @@ git push --no-verify origin feat/deals-kanban
 **Cause**: Different shell/terminal than where you ran `nvm use`
 
 **Fix**:
+
 ```bash
 # Ensure you're in the same terminal
 which node && node -v
@@ -71,6 +72,7 @@ nvm use 20
 **Issue**: GUI tools may use a different shell that didn't load `nvm`
 
 **Fix**:
+
 1. Close VS Code / GUI tool
 2. Run `nvm alias default 20` in terminal
 3. Reopen VS Code / GUI tool
@@ -149,4 +151,3 @@ git push origin feat/deals-kanban  # Hook will pass
 ---
 
 **Note**: The pre-push hook runs `pnpm tsc --noEmit -p tsconfig.sprint2.json` to ensure Sprint 2 code is type-safe before pushing. This is a quality gate to prevent TypeScript errors from reaching the remote.
-

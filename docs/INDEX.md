@@ -3,7 +3,7 @@
 Welcome to the Traffic CRM documentation! This index organizes all documentation by category for easy navigation.
 
 **Repository:** <https://github.com/omar120489/-traffic-crm-frontend-ts>  
-**Last Updated:** October 24, 2025
+**Last Updated:** October 26, 2025
 
 ---
 
@@ -90,6 +90,38 @@ Welcome to the Traffic CRM documentation! This index organizes all documentation
 
 ---
 
+## 🚀 Release & Deployment
+
+| Document | Description |
+|----------|-------------|
+| [release/PLAYBOOK.md](./release/PLAYBOOK.md) | Canonical release process and procedures |
+| [release/CHECKLIST.md](./release/CHECKLIST.md) | Step-by-step release checklist |
+| [release/GO_LIVE_VALIDATION.md](./release/GO_LIVE_VALIDATION.md) | Production go-live validation steps |
+
+---
+
+## 🔐 Security & Compliance
+
+| Document | Description |
+|----------|-------------|
+| [security/GAP_ANALYSIS.md](./security/GAP_ANALYSIS.md) | Security gap analysis and recommendations |
+| [security/COMPLIANCE_SUMMARY.md](./security/COMPLIANCE_SUMMARY.md) | Compliance status and requirements |
+| [security/CONTINUOUS_AUDIT.md](./security/CONTINUOUS_AUDIT.md) | Continuous security audit setup |
+| [SECURITY.md](../SECURITY.md) | Security policy and vulnerability reporting (root) |
+
+---
+
+## 🔄 Workflow & Automation
+
+| Document | Description |
+|----------|-------------|
+| [workflow/SCRIPTS.md](./workflow/SCRIPTS.md) | Workflow automation scripts and helpers |
+| [workflow/security/AUDIT.md](./workflow/security/AUDIT.md) | Security audit workflow |
+| [workflow/security/SCAN.md](./workflow/security/SCAN.md) | Security scanning procedures |
+| [workflow/security/HARDENING.md](./workflow/security/HARDENING.md) | Security hardening checklist |
+
+---
+
 ## 📊 Feature Documentation
 
 ### Completed Features
@@ -173,8 +205,34 @@ docs/
 
 ```
 docs/
+├── release/
+│   ├── PLAYBOOK.md            Release process
+│   ├── CHECKLIST.md           Release checklist
+│   └── GO_LIVE_VALIDATION.md  Go-live validation
+├── workflow/
+│   ├── SCRIPTS.md             Workflow automation
+│   └── security/              Security workflows
+├── security/
+│   ├── GAP_ANALYSIS.md        Security gaps
+│   ├── COMPLIANCE_SUMMARY.md  Compliance status
+│   └── CONTINUOUS_AUDIT.md    Audit setup
 ├── POST_SYNC_VALIDATION_CHECKLIST.md   GitHub config, CI/CD, security
 └── PROJECT_STRUCTURE.md                Monorepo organization
+```
+
+### 📦 Historical Archive
+
+```
+docs/archive/
+├── sprints/
+│   ├── INDEX.md               Sprint timeline (Sprint 1-6)
+│   └── [34 sprint docs]       Historical sprint documentation
+├── releases/
+│   ├── INDEX.md               Release history
+│   └── [2 release docs]       Versioned releases (v3.0.0, v5.0.0)
+└── infrastructure/
+    ├── INDEX.md               Infrastructure history
+    └── [3 infra docs]         Setup and status reports
 ```
 
 ### 📊 Session Reports & History
@@ -274,9 +332,11 @@ When documentation becomes outdated:
 
 ## 📊 Documentation Statistics
 
-**Total Documents:** 25+  
-**Categories:** 6 (Getting Started, Operational, Features, Sync, Scripts, Reference)  
-**Last Major Update:** October 24, 2025 (GitHub sync completion)
+**Total Documents:** 179 markdown files  
+**Root Directory:** 35 files (reduced from 69, -49% clutter)  
+**Categories:** 9 (Getting Started, Operational, Release, Workflow, Security, Features, Archive, Sync, Scripts)  
+**Archived Documents:** 39 files (sprints, releases, infrastructure)  
+**Last Major Update:** October 26, 2025 (Documentation reorganization)
 
 ---
 

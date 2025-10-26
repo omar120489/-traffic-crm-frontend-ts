@@ -14,6 +14,7 @@
 **File**: `.github/workflows/publish-sdk.yml`
 
 **Fix Applied**:
+
 ```yaml
 - name: Configure npm auth
   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
@@ -33,6 +34,7 @@
 **File**: `apps/core-api/prisma/seed.ts:150`
 
 **Fix Applied**:
+
 ```typescript
 // Before
 console.log('✅ Deal:', deal.title, '($' + deal.amountCents! / 100 + ')');
@@ -51,6 +53,7 @@ console.log('✅ Deal:', deal.title, '($' + (deal.amountCents ?? 0) / 100 + ')')
 **File**: `apps/core-api/scripts/emit-openapi.mjs`
 
 **Fix Applied**:
+
 ```javascript
 // Before
 import { writeFileSync } from 'fs';
@@ -71,6 +74,7 @@ import { resolve } from 'node:path';
 **File**: `apps/core-api/src/auth/rbac.guard.ts:19`
 
 **Fix Applied**:
+
 ```typescript
 // Before
 constructor(private reflector: Reflector) {}
@@ -89,6 +93,7 @@ constructor(private readonly reflector: Reflector) {}
 **File**: `apps/frontend/src/components/activities/ActivityDialog.tsx`
 
 **Fix Applied**:
+
 ```typescript
 export interface ActivityDialogProps {
   readonly open: boolean;
@@ -109,6 +114,7 @@ export interface ActivityDialogProps {
 **File**: `apps/frontend/src/components/tags/TagFilter.tsx`
 
 **Fix Applied**:
+
 ```typescript
 export interface TagFilterProps {
   readonly selectedTags: string[];
@@ -127,6 +133,7 @@ export interface TagFilterProps {
 **File**: `apps/frontend/src/lib/http.ts`
 
 **Fix Applied**:
+
 ```typescript
 // Before
 export function authHeader(): Record<string, string> {
@@ -214,6 +221,7 @@ These are lower priority and can be addressed in future PRs:
 
 **File**: `apps/frontend/src/pages/contacts/ContactsListPage.tsx`  
 **Issues**:
+
 - Negated condition: `if (!tags)` → `if (tags == null)`
 - forEach → for...of loop
 - Deprecated `renderTags`/`InputProps` (MUI v5 supports these, can suppress)
@@ -266,16 +274,19 @@ node scripts/emit-openapi.mjs
 ## 🔄 Next Steps
 
 ### Immediate
+
 - ✅ All must-fix items resolved
 - ✅ Code quality improved
 - ✅ SSR compatibility ensured
 
 ### Short-Term (Optional)
+
 - [ ] Address nice-to-fix items in separate PR
 - [ ] Add `// NOSONAR` comments where intentional
 - [ ] Update E2E tests to remove TODOs
 
 ### Long-Term
+
 - [ ] Set up Sonar Cloud integration
 - [ ] Add quality gates to CI
 - [ ] Track technical debt metrics
@@ -297,4 +308,3 @@ node scripts/emit-openapi.mjs
 ---
 
 **Quality Score**: **A** (All must-fix items resolved, nice-to-fix items documented)
-

@@ -95,14 +95,16 @@ gh workflow run rollback-release.yml \
 ## 📞 Support
 
 - Engineering Lead: @omar120489
-- Security Team: security@traffic-crm.example.com
+- Security Team: <security@traffic-crm.example.com>
 - Documentation: `/docs/releases/v3.0.0/`
 EOF
 
 # Commit and push
+
 git add docs/releases/v3.0.0/
 git commit -m "docs: add v3.0.0 release baseline artifacts"
 git push origin main
+
 ```
 
 **Result**: ✅ Compliance bundle archived in `/docs/releases/v3.0.0/`
@@ -157,12 +159,13 @@ gh workflow run rollback-release.yml \
 ## 📞 Support
 
 - Engineering Lead: @omar120489
-- Security Team: security@traffic-crm.example.com
+- Security Team: <security@traffic-crm.example.com>
 EOF
 
 git add docs/releases/README.md
 git commit -m "docs: add release archive index"
 git push origin main
+
 ```
 
 **Result**: ✅ Release archive structure established

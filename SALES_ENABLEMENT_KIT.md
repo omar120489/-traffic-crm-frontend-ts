@@ -442,8 +442,8 @@ EOF
 
 ## 📞 Support
 
-- **Sales Lead**: sales@traffic-crm.example.com
-- **Demo Support**: demo@traffic-crm.example.com
+- **Sales Lead**: <sales@traffic-crm.example.com>
+- **Demo Support**: <demo@traffic-crm.example.com>
 - **Engineering**: @omar120489
 
 ---
@@ -451,4 +451,3 @@ EOF
 **Status**: ✅ Ready to Use  
 **Time**: ~30 minutes to prepare  
 **Impact**: High (sales enablement)
-

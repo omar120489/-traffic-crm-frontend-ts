@@ -8,6 +8,7 @@
 ## ✅ **TRACK A: POST-SHIP GUARDRAILS (12 min)**
 
 ### **Prerequisites**
+
 - Backend running on `http://localhost:3000`
 - Frontend dev server running (for E2E tests)
 
@@ -21,11 +22,13 @@ cd /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516
 ```
 
 ### **What It Does**
+
 1. ✅ Tests API performance (`/api/analytics`)
 2. ✅ Captures KPI baseline to `baseline_YYYYMMDD_HHMM.json`
 3. ✅ Runs E2E smoke tests (`analytics.spec.ts`)
 
 ### **Expected Output**
+
 ```
 === Post-Ship Guardrails (v5.0.0) ===
 API: http://localhost:3000/api/analytics
@@ -46,6 +49,7 @@ Running 11 tests using 1 worker
 ### **Record Results**
 
 Go to your GitHub issue and paste:
+
 - API response time: `Total: 0.XXXs`
 - E2E status: `11 passed`
 - Baseline file: `baseline_YYYYMMDD_HHMM.json`
@@ -71,6 +75,7 @@ cd ../..
 ```
 
 **Expected Output**:
+
 ```
 ✔ Generated Prisma Client
 ✔ Migration applied: 20251025_add_saved_views
@@ -89,11 +94,13 @@ pnpm run start:dev
 ### **Step 4: Get JWT Token** (2 min)
 
 **Option 1**: Use existing dev token
+
 ```bash
 export TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
 **Option 2**: Generate new token (if you have the script)
+
 ```bash
 cd apps/core-api
 node scripts/make-dev-jwt.mjs
@@ -103,6 +110,7 @@ cd ../..
 ```
 
 **Option 3**: Use a test token (dev only)
+
 ```bash
 # This is a sample dev token - replace with your own!
 export TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzEiLCJvcmdJZCI6Im9yZ18xIiwidXNlcklkIjoidXNlcl8xIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjk4MjQwMDAwfQ.test"
@@ -122,6 +130,7 @@ echo $TOKEN
 ```
 
 ### **Expected Output**
+
 ```
 === Saved Views API Smoke ===
 API base: http://localhost:3000
@@ -205,6 +214,7 @@ git push -u origin feat/s6-saved-views-drilldowns
 ## 🚨 **COMMON GOTCHAS**
 
 ### **401 Unauthorized**
+
 ```bash
 # TOKEN missing or expired
 # Generate a fresh dev JWT:
@@ -214,6 +224,7 @@ export TOKEN="<new-token>"
 ```
 
 ### **404 /api/saved-views**
+
 ```bash
 # Module not wired or server not restarted
 # Restart backend:
@@ -222,6 +233,7 @@ pnpm run start:dev
 ```
 
 ### **Prisma Migration Mismatch**
+
 ```bash
 cd apps/core-api
 pnpm prisma migrate dev --name add_saved_views
@@ -229,6 +241,7 @@ pnpm prisma generate
 ```
 
 ### **Port Conflicts**
+
 ```bash
 # Check if port 3000 is in use
 lsof -ti:3000
@@ -237,12 +250,14 @@ kill -9 $(lsof -ti:3000)
 ```
 
 ### **Playwright Missing Browsers**
+
 ```bash
 cd apps/frontend
 pnpm exec playwright install --with-deps
 ```
 
 ### **jq Not Installed**
+
 ```bash
 # macOS
 brew install jq
@@ -258,16 +273,19 @@ sudo apt-get install jq
 After running both scripts, reply with:
 
 ### **Guardrails**
+
 - API perf line: `Total: X.XXXs`
 - E2E: `N passed`
 - Baseline filename: `baseline_YYYYMMDD_HHMM.json`
 
 ### **Saved Views**
+
 - VIEW_ID returned: `clxxx...`
 - Any errors in terminal? Yes/No
 - Any errors in backend logs? Yes/No
 
 ### **Example Report**
+
 ```
 ✅ Guardrails
 - API: Total: 0.234s
@@ -332,4 +350,3 @@ cd ../..
 ```
 
 **GO! 🚀**
-
