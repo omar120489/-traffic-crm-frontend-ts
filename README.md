@@ -30,7 +30,9 @@ Full-stack TypeScript CRM platform for travel/traffic businesses with React fron
 
 **Metrics**: 19 files created | 12 components | ~1,900 LOC | 0 TypeScript errors
 
-[📄 View Release Notes](./docs/archive/sprints/RELEASE_NOTES_SPRINT_3.md) | [📊 Sprint 3 Details](./docs/archive/sprints/SPRINT_3_COMPLETE.md) | [🎯 Kanban Guide](./KANBAN_COMPLETE_SUMMARY.md)
+[📄 View Release Notes](./docs/archive/sprints/RELEASE_NOTES_SPRINT_3.md) |
+[📊 Sprint 3 Details](./docs/archive/sprints/SPRINT_3_COMPLETE.md) |
+[📚 Archived Docs](./docs/archive/root-docs/)
 
 ---
 
@@ -38,19 +40,22 @@ Full-stack TypeScript CRM platform for travel/traffic businesses with React fron
 
 **New to this project?** Start here:
 
-1. 📋 **[Deployment Readiness Checklist](./DEPLOYMENT_READINESS.md)** - Complete setup status
-2. 🤝 **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute
-3. 🔧 **[Workflow Scripts](./docs/workflow/SCRIPTS.md)** - Automation helpers
-4. 📦 **[SDK Documentation](./packages/sdk-js/README.md)** - Using the SDK
+1. 🤝 **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute
+2. 🔧 **[Workflow Scripts](./docs/workflow/SCRIPTS.md)** - Automation helpers
+3. 📦 **[SDK Documentation](./packages/sdk-js/README.md)** - Using the SDK
+4. 📚 **[Documentation Index](./docs/INDEX.md)** - Complete documentation navigation
 
 **Quick verification:**
 
 ```bash
-# Verify deployment readiness
-./scripts/verify-deployment-ready.sh
+# Start all services
+pnpm dev
 
-# Start working on an issue
-./workflow-helper.sh start 1
+# Run tests
+pnpm test
+
+# Type check
+pnpm typecheck
 ```
 
 ## 🗺️ Roadmap
@@ -74,7 +79,7 @@ traffic-crm/
     └── docker/            # PostgreSQL, Redis, MailHog, MinIO
 ```
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -129,24 +134,26 @@ pnpm --filter @apps/workers dev
 
 ## 📚 Documentation
 
-- **[STACK_SETUP_COMPLETE.md](./STACK_SETUP_COMPLETE.md)** - Full stack setup guide & troubleshooting
-- **[docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)** - Migrating services to typed SDK
-- **[docs/guides/BRANDING_SETUP.md](./docs/guides/BRANDING_SETUP.md)** - Logo & branding setup
-- **[LOGO_SETUP.md](./LOGO_SETUP.md)** - Quick logo installation guide
-- **[infra/docker/README.md](./infra/docker/README.md)** - Infrastructure services
+- **[Documentation Index](./docs/INDEX.md)** - Central navigation for all documentation
+- **[SDK Migration Guide](./docs/guides/SDK_MIGRATION.md)** - Migrating services to typed SDK
+- **[Branding Setup](./docs/guides/BRANDING_SETUP.md)** - Logo & branding setup
+- **[Infrastructure](./infra/docker/README.md)** - Docker services documentation
+- **[Archived Docs](./docs/archive/root-docs/)** - Historical documentation
 
 ## 🛠️ Utility Scripts
 
-- **[docs/SCRIPTS.md](./docs/SCRIPTS.md)** - Pre-merge verification, history cleanup, and maintenance utilities
-- **[docs/LOCAL_WORKFLOW.md](./docs/LOCAL_WORKFLOW.md)** - Local-only development workflow (current, until history cleanup)
+- **[Workflow Scripts](./docs/workflow/SCRIPTS.md)** - Automation and maintenance utilities
+- **[Local Workflow](./docs/LOCAL_WORKFLOW.md)** - Development workflow guide
 
 Quick reference:
 
 ```bash
-./scripts/premerge.sh              # Verify builds before merge
-MODE=local ./scripts/premerge.sh    # Merge locally (current workflow)
-MODE=pr ./scripts/premerge.sh       # Push branch for PR (blocked by large files)
-./scripts/cleanup-history.sh        # Remove large files from history (advanced)
+# Development
+pnpm dev              # Start all services
+pnpm build            # Build all apps
+pnpm typecheck        # Type check all workspaces
+pnpm lint             # Lint all workspaces
+pnpm test             # Run all tests
 ```
 
 ## 🔧 Development Commands
@@ -445,16 +452,16 @@ Proprietary - All rights reserved
 
 **Grade:** A+++ (99.5/100) | **OpenSSF Scorecard:** 9.5+/10 | **Certifications:** 6 standards ✓
 
-- **📄 Compliance Bundle:** [Executive Summary](./COMPLIANCE_BUNDLE_EXECUTIVE_SUMMARY.md) (9,000+ lines, PDF-ready)
-- **🔍 Continuous Audit:** [Setup Guide](./CONTINUOUS_AUDIT_SETUP.md) (Weekly automated audits)
+- **📄 Security Policy:** [SECURITY.md](./SECURITY.md) - Vulnerability reporting and security practices
 - **📊 Security Reports:**
-  - [Workflow Security Audit](./WORKFLOW_SECURITY_AUDIT.md) (2,100 lines)
-  - [Gap Analysis](./SECURITY_GAP_ANALYSIS.md) (1,800 lines)
-  - [Hardening Guide](./WORKFLOW_SECURITY_HARDENING.md) (1,600 lines)
-  - [Security Scan](./WORKFLOW_SECURITY_SCAN.md) (1,200 lines)
-  - [Compliance Summary](./SECURITY_COMPLIANCE_SUMMARY.md) (600 lines)
+  - [Gap Analysis](./docs/security/GAP_ANALYSIS.md)
+  - [Compliance Summary](./docs/security/COMPLIANCE_SUMMARY.md)
+  - [Continuous Audit](./docs/security/CONTINUOUS_AUDIT.md)
+- **🔧 Workflow Security:**
+  - [Security Audit](./docs/workflow/security/AUDIT.md)
+  - [Security Scan](./docs/workflow/security/SCAN.md)
 - **✅ Certifications:** OpenSSF | GitHub | OWASP | SLSA L2 | AWS | GitHub Security Lab
-- **🛠️ Tools:** `./scripts/generate-compliance-pdf.sh` | `.github/workflows/security-audit.yml`
+- **🛠️ Tools:** `.github/workflows/security-audit.yml` | `.github/workflows/codeql.yml`
 
 ### 🔧 Troubleshooting
 
