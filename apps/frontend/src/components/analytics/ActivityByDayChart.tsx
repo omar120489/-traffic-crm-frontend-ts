@@ -197,6 +197,7 @@ export default function ActivityByDayChart({
         {focusPoint && (
           <div
             className="pointer-events-none -mt-6 translate-x-2 rounded-md border border-slate-200 bg-white/95 px-2 py-1 text-xs text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 dark:text-slate-200"
+            // Inline styles required: dynamic tooltip positioning based on mouse position and chart bounds
             style={{
               position: "relative",
               left:
