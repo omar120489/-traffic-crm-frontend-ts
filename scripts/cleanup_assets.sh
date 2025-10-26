@@ -125,7 +125,7 @@ inventory() {
   append_section "Planned Removals"
   printf "Directories marked for deletion (if present):\n\n" >> "$REPORT_FILE"
   for d in "${REMOVE_DIRS[@]}"; do
-    printf "- \`%s/%s\`\n" "$ASSETS_DIR" "$d" >> "$REPORT_FILE"
+    printf -- "- \`%s/%s\`\n" "$ASSETS_DIR" "$d" >> "$REPORT_FILE"
   done
 }
 
