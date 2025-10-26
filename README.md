@@ -103,6 +103,32 @@ pnpm typecheck
 [📋 Quick Reference](./docs/analysis/QUICK_REFERENCE.md) |
 [🎯 Action Plan](./docs/analysis/EXECUTIVE_SUMMARY.md)
 
+## 📦 Applications
+
+### Active Apps
+
+- **Frontend** (`apps/frontend/`) - React 19 + Vite 7 + Material-UI 7
+  - Main user interface
+  - Deals Kanban, Company 360, Analytics Dashboard
+  - Test coverage: ~60% (Vitest + Playwright)
+
+- **Core API** (`apps/core-api/`) - NestJS 10 + Fastify 4 + Prisma 5
+  - Main backend API
+  - 13 Prisma models (User, Org, Company, Contact, Deal, Lead, etc.)
+  - JWT authentication + RBAC
+  - Auto-generates OpenAPI spec for SDK
+
+- **Reporting** (`apps/reporting/`) - NestJS 11 microservice
+  - Attribution reporting service (port 8005)
+  - Aggregates leads, deals, and ad spend data
+  - Calculates ROI metrics (CPL, CPA, ROAS, conversion rates)
+  - Connects to sales and cost importer microservices
+
+- **Workers** (`apps/workers/`) - BullMQ + IORedis
+  - Background job processing
+  - Lead scoring and data enrichment queues
+  - Minimal implementation (ready for expansion)
+
 ## 🗺️ Roadmap
 
 See [docs/PRODUCT_ROADMAP.md](./docs/PRODUCT_ROADMAP.md) for the complete 12-week sprint plan and module progress tracking.
