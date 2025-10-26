@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 
 type Point = { date: string; count: number };
 
-type Props = {
+type Props = Readonly<{
   title?: string;
   data: Point[];
   loading?: boolean;
@@ -11,7 +11,7 @@ type Props = {
   className?: string;
   height?: number;
   colorClass?: string;
-};
+}>;
 
 const MARGIN = { top: 20, right: 16, bottom: 28, left: 36 };
 const TOOLTIP_WIDTH = 140;
@@ -27,8 +27,11 @@ export default function ActivityByDayChart({
   height = 220,
   colorClass = "stroke-indigo-600 fill-indigo-600/10",
 }: Props) {
+  // All hooks must be called before any early returns (Rules of Hooks)
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [w, setW] = React.useState(600);
+  const [hover, setHover] = React.useState<number | null>(null);
+  const [focusIdx, setFocusIdx] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     const el = containerRef.current;
@@ -43,48 +46,23 @@ export default function ActivityByDayChart({
   const innerW = Math.max(0, w - MARGIN.left - MARGIN.right);
   const innerH = Math.max(0, height - MARGIN.top - MARGIN.bottom);
 
-  if (loading) {
-    return (
-      <ChartCard title={title} className={className}>
-        <div className="h-[220px] animate-pulse rounded-xl bg-slate-100 dark:bg-slate-800" />
-      </ChartCard>
-    );
-  }
-  if (error) {
-    return (
-      <ChartCard title={title} className={className}>
-        <div className="flex h-[220px] items-center justify-center rounded-xl border border-red-200 bg-red-50 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950">
-          {error}
-        </div>
-      </ChartCard>
-    );
-  }
-  if (!data?.length) {
-    return (
-      <ChartCard title={title} className={className}>
-        <div className="flex h-[220px] flex-col items-center justify-center rounded-xl border border-slate-200 text-sm text-slate-500 dark:border-slate-800">
-          <span>No activity in the selected range.</span>
-        </div>
-      </ChartCard>
-    );
-  }
-
-  // Memoize parsed and sorted series to avoid expensive date parsing on every render
+  // Memoize parsed and sorted series (handle empty data gracefully)
   const series = React.useMemo(
     () =>
-      [...data]
-        .map((d) => ({ x: parseISO(d.date).getTime(), y: d.count, date: d.date }))
-        .sort((a, b) => a.x - b.x),
+      data?.length
+        ? [...data]
+            .map((d) => ({ x: parseISO(d.date).getTime(), y: d.count, date: d.date }))
+            .sort((a, b) => a.x - b.x)
+        : [],
     [data]
   );
 
   // Memoize all chart calculations to prevent recomputation on every render
-  const { xMin, xMax, yMax, xScale, yScale, linePath, areaPath, xTicks, yTicks } = React.useMemo(() => {
+  const { xMin, xMax, xScale, yScale, linePath, areaPath, xTicks, yTicks } = React.useMemo(() => {
     if (!series.length) {
       return {
         xMin: 0,
         xMax: 0,
-        yMax: 0,
         xScale: () => 0,
         yScale: () => 0,
         linePath: "",
@@ -95,7 +73,7 @@ export default function ActivityByDayChart({
     }
 
     const xMin = series[0].x;
-    const xMax = series[series.length - 1].x;
+    const xMax = series.at(-1)!.x; // Use .at(-1) for cleaner syntax
     const yMax = Math.max(1, Math.max(...series.map((d) => d.y)));
 
     const xScale = (t: number) =>
@@ -109,7 +87,7 @@ export default function ActivityByDayChart({
     const areaPath =
       `M ${xScale(series[0].x)} ${yScale(0)} ` +
       series.map((d) => `L ${xScale(d.x)} ${yScale(d.y)}`).join(" ") +
-      ` L ${xScale(series[series.length - 1].x)} ${yScale(0)} Z`;
+      ` L ${xScale(series.at(-1)!.x)} ${yScale(0)} Z`;
 
     const xTicks = pickTicks(
       series.map((d) => d.x),
@@ -119,15 +97,13 @@ export default function ActivityByDayChart({
       Math.round((i * yMax) / (TICK_COUNTS.y - 1))
     );
 
-    return { xMin, xMax, yMax, xScale, yScale, linePath, areaPath, xTicks, yTicks };
+    return { xMin, xMax, xScale, yScale, linePath, areaPath, xTicks, yTicks };
   }, [series, innerW, innerH]);
-
-  const [hover, setHover] = React.useState<number | null>(null);
-  const [focusIdx, setFocusIdx] = React.useState<number | null>(null);
 
   // Memoize event handlers to prevent unnecessary re-renders
   const onMove = React.useCallback(
     (evt: React.MouseEvent<SVGSVGElement>) => {
+      if (!series.length) return;
       const rect = (evt.currentTarget as SVGSVGElement).getBoundingClientRect();
       const px = evt.clientX - rect.left - MARGIN.left;
       const t = xMin + (px / Math.max(1, innerW)) * (xMax - xMin);
@@ -145,7 +121,7 @@ export default function ActivityByDayChart({
   }, []);
 
   const focusIndex = focusIdx ?? hover ?? null;
-  const focusPoint = focusIndex != null ? series[focusIndex] : null;
+  const focusPoint = focusIndex != null && series[focusIndex] ? series[focusIndex] : null;
 
   // Memoize tooltip style to avoid recalculation on every render
   const tooltipStyle = React.useMemo(() => {
@@ -161,6 +137,35 @@ export default function ActivityByDayChart({
       width: TOOLTIP_WIDTH,
     };
   }, [focusPoint, xScale, w]);
+
+  // Early returns AFTER all hooks have been called
+  if (loading) {
+    return (
+      <ChartCard title={title} className={className}>
+        <div className="h-[220px] animate-pulse rounded-xl bg-slate-100 dark:bg-slate-800" />
+      </ChartCard>
+    );
+  }
+
+  if (error) {
+    return (
+      <ChartCard title={title} className={className}>
+        <div className="flex h-[220px] items-center justify-center rounded-xl border border-red-200 bg-red-50 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950">
+          {error}
+        </div>
+      </ChartCard>
+    );
+  }
+
+  if (!series.length) {
+    return (
+      <ChartCard title={title} className={className}>
+        <div className="flex h-[220px] flex-col items-center justify-center rounded-xl border border-slate-200 text-sm text-slate-500 dark:border-slate-800">
+          <span>No activity in the selected range.</span>
+        </div>
+      </ChartCard>
+    );
+  }
 
   return (
     <ChartCard title={title} className={className}>
@@ -272,11 +277,11 @@ function ChartCard({
   title,
   className,
   children,
-}: {
+}: Readonly<{
   title: string;
   className?: string;
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <section className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ""}`}>
       <header className="mb-3 flex items-center justify-between">
@@ -292,7 +297,7 @@ function pickTicks(xs: number[], desired: number): number[] {
   const step = Math.max(1, Math.floor(xs.length / desired));
   const ticks: number[] = [];
   for (let i = 0; i < xs.length; i += step) ticks.push(xs[i]);
-  if (ticks[ticks.length - 1] !== xs[xs.length - 1]) ticks.push(xs[xs.length - 1]);
+  if (ticks.at(-1) !== xs.at(-1)) ticks.push(xs.at(-1)!);
   return ticks;
 }
 
