@@ -14,14 +14,18 @@ export const enrichmentQueue = new Queue('enrichment', { connection });
 new Worker(
   'lead-scoring',
   async (job) => {
-    console.log(`[lead-scoring] Processing job ${job.id} for lead ${job.data.leadId}`);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[lead-scoring] Processing job ${job.id} for lead ${job.data.leadId}`);
+    }
     // TODO: scoring logic using job.data
     // - Email validation score
     // - Company size/industry match
     // - Engagement history
     // - UTM source quality
     const score = Math.floor(Math.random() * 100);
-    console.log(`[lead-scoring] Lead ${job.data.leadId} scored: ${score}`);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[lead-scoring] Lead ${job.data.leadId} scored: ${score}`);
+    }
     return { score };
   },
   { connection }
@@ -30,17 +34,23 @@ new Worker(
 new Worker(
   'enrichment',
   async (job) => {
-    console.log(`[enrichment] Processing job ${job.id} for ${job.data.type} ${job.data.entityId}`);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[enrichment] Processing job ${job.id} for ${job.data.type} ${job.data.entityId}`);
+    }
     // TODO: enrichment logic (e.g., Clearbit, social lookup)
     // - Company data (size, industry, location)
     // - Contact social profiles (LinkedIn, Twitter)
     // - Email verification
-    console.log(`[enrichment] Enriched ${job.data.type} ${job.data.entityId}`);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[enrichment] Enriched ${job.data.type} ${job.data.entityId}`);
+    }
     return { enriched: true };
   },
   { connection }
 );
 
-console.log('✅ Workers running. Queues: lead-scoring, enrichment');
-console.log('   Redis:', process.env.REDIS_URL || 'redis://localhost:6379');
+if (process.env.NODE_ENV !== 'test') {
+  console.log('✅ Workers running. Queues: lead-scoring, enrichment');
+  console.log('   Redis:', process.env.REDIS_URL || 'redis://localhost:6379');
+}
 
