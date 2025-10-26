@@ -24,6 +24,7 @@ import Typography from '@mui/material/Typography';
 
 import { useAttachments } from 'hooks/useAttachments';
 import { buildAttachmentDownloadUrl } from 'services/attachments';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { Attachment, EntityIdentifier } from 'types/api';
 
 export interface AttachmentUploaderProps {

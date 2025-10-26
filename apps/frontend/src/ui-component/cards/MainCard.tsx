@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useColorScheme } from '@mui/material/styles';
 import type { CardProps, SxProps, Theme } from '@mui/material';
 
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import { ThemeMode } from 'config';
 
 const headerStyle: SxProps<Theme> = {

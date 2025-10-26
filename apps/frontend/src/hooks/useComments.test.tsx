@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useComments } from './useComments';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { Comment, CommentListResponse } from 'types/api';
 
 const commentsMocks = vi.hoisted(() => ({

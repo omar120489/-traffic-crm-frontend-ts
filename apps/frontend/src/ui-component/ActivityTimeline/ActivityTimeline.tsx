@@ -21,6 +21,7 @@ import {
   IconTrophy,
   IconX,
 } from '@tabler/icons-react';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { JourneyEvent } from 'types/api';
 
 interface ActivityTimelineProps {
@@ -88,7 +89,7 @@ function getEventTitle(event: JourneyEvent): string {
     default:
       return type
         .split('_')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
   }
 }

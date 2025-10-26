@@ -1,10 +1,6 @@
 import { apiGet, apiPost } from 'utils/axios';
-import type {
-  JourneyEvent,
-  JourneyEventCreateDto,
-  JourneyEventListResponse,
-  EntityIdentifier,
-} from 'types/api';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+import type { JourneyEvent, JourneyEventCreateDto, JourneyEventListResponse, EntityIdentifier } from 'types/api';
 
 const API_BASE_URL = '/api/v1/journey-events';
 

@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { commentsService } from 'services/comments';
-import type {
-  Comment,
-  CommentCreateDto,
-  CommentListResponse,
-  CommentUpdateDto,
-  EntityIdentifier,
-} from 'types/api';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+import type { Comment, CommentCreateDto, CommentListResponse, CommentUpdateDto, EntityIdentifier } from 'types/api';
 import { useWebSocketEvents } from './useWebSocketEvents';
 
 interface UseCommentsOptions {

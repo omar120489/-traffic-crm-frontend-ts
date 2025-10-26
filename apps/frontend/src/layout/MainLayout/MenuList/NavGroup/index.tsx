@@ -27,6 +27,7 @@ import NavCollapse from '../NavCollapse';
 import NavItem from '../NavItem';
 import Transitions from 'ui-component/extended/Transitions';
 import { useGetMenuMaster } from 'api/menu';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import type {

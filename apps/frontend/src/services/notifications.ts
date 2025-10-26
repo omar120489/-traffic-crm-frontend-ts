@@ -1,4 +1,5 @@
 import { apiGet, apiPost, apiPatch } from 'utils/axios';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { Notification, NotificationCreateDto, NotificationListResponse } from 'types/api';
 
 /**

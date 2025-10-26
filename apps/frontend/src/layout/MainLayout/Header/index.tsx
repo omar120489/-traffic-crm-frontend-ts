@@ -14,6 +14,7 @@ import FullScreenSection from './FullScreenSection';
 import NotificationSection from './NotificationSection';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 

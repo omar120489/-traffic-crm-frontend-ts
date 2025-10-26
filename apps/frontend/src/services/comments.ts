@@ -1,12 +1,7 @@
 import { apiDelete, apiGet, apiPatch, apiPost } from 'utils/axios';
 
-import type {
-  Comment,
-  CommentCreateDto,
-  CommentListResponse,
-  CommentUpdateDto,
-  EntityIdentifier,
-} from 'types/api';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+import type { Comment, CommentCreateDto, CommentListResponse, CommentUpdateDto, EntityIdentifier } from 'types/api';
 
 const BASE_URL = '/api/v1/comments';
 

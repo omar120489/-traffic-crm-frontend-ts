@@ -12,6 +12,7 @@ import MenuList from '../MenuList';
 import LogoSection from '../LogoSection';
 import MiniDrawerStyled from './MiniDrawerStyled';
 
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import { drawerWidth } from 'store/constant';

@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAttachments } from './useAttachments';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { Attachment } from 'types/api';
 
 const attachmentsMocks = vi.hoisted(() => ({

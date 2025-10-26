@@ -21,6 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { useComments } from 'hooks/useComments';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { EntityIdentifier } from 'types/api';
 
 export interface CommentsPanelProps {

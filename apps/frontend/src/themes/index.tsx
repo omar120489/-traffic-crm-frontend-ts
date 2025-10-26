@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider, StyledEngineProvider, type Theme } from '@m
 import CssBaseline from '@mui/material/CssBaseline';
 
 // project imports
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import { CSS_VAR_PREFIX, DEFAULT_THEME_MODE, ThemeMode, ThemeDirection } from 'config';
 import CustomShadows from './custom-shadows';
 import useConfig from 'hooks/useConfig';

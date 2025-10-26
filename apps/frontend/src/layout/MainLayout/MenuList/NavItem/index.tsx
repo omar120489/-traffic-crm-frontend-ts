@@ -14,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
+// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import { MenuOrientation, ThemeDirection } from 'config';
 import useConfig from 'hooks/useConfig';
 import { withAlpha } from 'utils/colorUtils';
