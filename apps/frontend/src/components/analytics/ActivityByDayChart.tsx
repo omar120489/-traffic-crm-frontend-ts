@@ -14,6 +14,9 @@ type Props = {
 };
 
 const MARGIN = { top: 20, right: 16, bottom: 28, left: 36 };
+const TOOLTIP_WIDTH = 140;
+const MIN_CONTAINER_WIDTH = 320;
+const TICK_COUNTS = { x: 7, y: 5 };
 
 export default function ActivityByDayChart({
   title = "Activity by Day",
@@ -31,7 +34,7 @@ export default function ActivityByDayChart({
     const el = containerRef.current;
     if (!el) return;
     const ro = new ResizeObserver((entries) => {
-      for (const e of entries) setW(Math.max(320, Math.floor(e.contentRect.width)));
+      for (const e of entries) setW(Math.max(MIN_CONTAINER_WIDTH, Math.floor(e.contentRect.width)));
     });
     ro.observe(el);
     return () => ro.disconnect();
@@ -66,45 +69,98 @@ export default function ActivityByDayChart({
     );
   }
 
-  const series = [...data]
-    .map((d) => ({ x: parseISO(d.date).getTime(), y: d.count, date: d.date }))
-    .sort((a, b) => a.x - b.x);
+  // Memoize parsed and sorted series to avoid expensive date parsing on every render
+  const series = React.useMemo(
+    () =>
+      [...data]
+        .map((d) => ({ x: parseISO(d.date).getTime(), y: d.count, date: d.date }))
+        .sort((a, b) => a.x - b.x),
+    [data]
+  );
 
-  const xMin = series[0].x;
-  const xMax = series[series.length - 1].x;
-  const yMax = Math.max(1, Math.max(...series.map((d) => d.y)));
+  // Memoize all chart calculations to prevent recomputation on every render
+  const { xMin, xMax, yMax, xScale, yScale, linePath, areaPath, xTicks, yTicks } = React.useMemo(() => {
+    if (!series.length) {
+      return {
+        xMin: 0,
+        xMax: 0,
+        yMax: 0,
+        xScale: () => 0,
+        yScale: () => 0,
+        linePath: "",
+        areaPath: "",
+        xTicks: [],
+        yTicks: [],
+      };
+    }
 
-  const xScale = (t: number) =>
-    MARGIN.left + ((t - xMin) / Math.max(1, xMax - xMin)) * innerW;
-  const yScale = (v: number) =>
-    MARGIN.top + innerH - (v / yMax) * innerH;
+    const xMin = series[0].x;
+    const xMax = series[series.length - 1].x;
+    const yMax = Math.max(1, Math.max(...series.map((d) => d.y)));
 
-  const linePath = series
-    .map((d, i) => `${i === 0 ? "M" : "L"} ${xScale(d.x)} ${yScale(d.y)}`)
-    .join(" ");
+    const xScale = (t: number) =>
+      MARGIN.left + ((t - xMin) / Math.max(1, xMax - xMin)) * innerW;
+    const yScale = (v: number) => MARGIN.top + innerH - (v / yMax) * innerH;
 
-  const areaPath =
-    `M ${xScale(series[0].x)} ${yScale(0)} ` +
-    series.map((d) => `L ${xScale(d.x)} ${yScale(d.y)}`).join(" ") +
-    ` L ${xScale(series[series.length - 1].x)} ${yScale(0)} Z`;
+    const linePath = series
+      .map((d, i) => `${i === 0 ? "M" : "L"} ${xScale(d.x)} ${yScale(d.y)}`)
+      .join(" ");
 
-  const xTicks = pickTicks(series.map((d) => d.x), 7);
-  const yTicks = Array.from({ length: 5 }, (_, i) => Math.round((i * yMax) / 4));
+    const areaPath =
+      `M ${xScale(series[0].x)} ${yScale(0)} ` +
+      series.map((d) => `L ${xScale(d.x)} ${yScale(d.y)}`).join(" ") +
+      ` L ${xScale(series[series.length - 1].x)} ${yScale(0)} Z`;
+
+    const xTicks = pickTicks(
+      series.map((d) => d.x),
+      TICK_COUNTS.x
+    );
+    const yTicks = Array.from({ length: TICK_COUNTS.y }, (_, i) =>
+      Math.round((i * yMax) / (TICK_COUNTS.y - 1))
+    );
+
+    return { xMin, xMax, yMax, xScale, yScale, linePath, areaPath, xTicks, yTicks };
+  }, [series, innerW, innerH]);
 
   const [hover, setHover] = React.useState<number | null>(null);
   const [focusIdx, setFocusIdx] = React.useState<number | null>(null);
 
-  const onMove = (evt: React.MouseEvent<SVGSVGElement>) => {
-    const rect = (evt.currentTarget as SVGSVGElement).getBoundingClientRect();
-    const px = evt.clientX - rect.left - MARGIN.left;
-    const t = xMin + (px / Math.max(1, innerW)) * (xMax - xMin);
-    const idx = nearestIndex(series.map((d) => d.x), t);
-    setHover(idx);
-  };
-  const onLeave = () => setHover(null);
+  // Memoize event handlers to prevent unnecessary re-renders
+  const onMove = React.useCallback(
+    (evt: React.MouseEvent<SVGSVGElement>) => {
+      const rect = (evt.currentTarget as SVGSVGElement).getBoundingClientRect();
+      const px = evt.clientX - rect.left - MARGIN.left;
+      const t = xMin + (px / Math.max(1, innerW)) * (xMax - xMin);
+      const idx = nearestIndex(
+        series.map((d) => d.x),
+        t
+      );
+      setHover(idx);
+    },
+    [series, innerW, xMin, xMax]
+  );
+
+  const onLeave = React.useCallback(() => {
+    setHover(null);
+  }, []);
 
   const focusIndex = focusIdx ?? hover ?? null;
   const focusPoint = focusIndex != null ? series[focusIndex] : null;
+
+  // Memoize tooltip style to avoid recalculation on every render
+  const tooltipStyle = React.useMemo(() => {
+    if (!focusPoint) return {};
+
+    const left =
+      Math.min(Math.max(MARGIN.left, xScale(focusPoint.x)), w - MARGIN.right - TOOLTIP_WIDTH) -
+      MARGIN.left;
+
+    return {
+      position: "relative" as const,
+      left,
+      width: TOOLTIP_WIDTH,
+    };
+  }, [focusPoint, xScale, w]);
 
   return (
     <ChartCard title={title} className={className}>
@@ -198,19 +254,13 @@ export default function ActivityByDayChart({
           <div
             className="pointer-events-none -mt-6 translate-x-2 rounded-md border border-slate-200 bg-white/95 px-2 py-1 text-xs text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 dark:text-slate-200"
             // Inline styles required: dynamic tooltip positioning based on mouse position and chart bounds
-            style={{
-              position: "relative",
-              left:
-                Math.min(
-                  Math.max(MARGIN.left, xScale(focusPoint.x)),
-                  w - MARGIN.right - 140
-                ) - MARGIN.left,
-              width: 140,
-            }}
+            style={tooltipStyle}
             aria-live="polite"
           >
             <div className="font-medium">{format(focusPoint.x, "PPP")}</div>
-            <div className="mt-0.5">Activities: <span className="font-semibold">{focusPoint.y}</span></div>
+            <div className="mt-0.5">
+              Activities: <span className="font-semibold">{focusPoint.y}</span>
+            </div>
           </div>
         )}
       </div>
