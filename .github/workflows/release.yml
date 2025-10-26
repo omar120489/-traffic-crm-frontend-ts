@@ -110,8 +110,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: TypeScript check (Sprint 2)
-        run: pnpm --filter ./apps/frontend run typecheck:sprint2
+      - name: TypeScript check
+        run: pnpm --filter ./apps/frontend run typecheck
 
       - name: Lint
         run: pnpm --filter ./apps/frontend run lint
