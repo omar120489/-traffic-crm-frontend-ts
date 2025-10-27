@@ -234,7 +234,7 @@ jobs:
 
       - name: Send Slack notification
         if: always()
-        uses: slackapi/slack-github-action@v1
+        uses: slackapi/slack-github-action@v2
         continue-on-error: true
         with:
           payload: |
