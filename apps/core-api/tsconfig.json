@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "CommonJS",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "target": "ES2022",
     "lib": ["ES2022"],
     "emitDecoratorMetadata": true,
@@ -17,7 +17,6 @@
     "noEmit": false,
     "sourceMap": true,
     "incremental": true,
-    "ignoreDeprecations": "6.0",
     "paths": {
       "@rbac/*": ["../../packages/rbac/src/*"]
     }

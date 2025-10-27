@@ -25,6 +25,7 @@
   "scripts": {
     "gen": "openapi-typescript http://localhost:3000/openapi.json -o src/types.gen.ts",
     "codegen": "openapi-typescript ../../apps/core-api/openapi.json -o src/types.gen.ts",
+    "typecheck": "tsc --noEmit",
     "build": "tsc -p tsconfig.json",
     "prepublishOnly": "pnpm build"
   },
