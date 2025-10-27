@@ -1,57 +1,52 @@
 # Multi-stage build for Traffic CRM Frontend
+# Build stage only copies what's needed from monorepo
 
-# Stage 1: Build
-FROM node:20-alpine AS build
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Enable pnpm via corepack
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable pnpm
 
-# Copy workspace manifests for dependency resolution
+# Copy root-level workspace files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY tsconfig.base.json ./
 
-# Copy frontend source
-COPY apps/frontend ./apps/frontend
+# Copy entire project tree (needed for monorepo resolution)
+COPY apps ./apps
 COPY packages ./packages
-COPY tsconfig.base.json .
 
-# Pre-fetch and install dependencies with retry logic for GitHub Actions
-RUN pnpm fetch --frozen-lockfile && \
-    pnpm install --frozen-lockfile --offline || pnpm install --frozen-lockfile
+# Install all dependencies
+RUN pnpm install --frozen-lockfile
 
-# Build the frontend application
+# Build only the frontend
 RUN pnpm --filter ./apps/frontend build
 
-# Stage 2: Production
+# Production stage
 FROM nginx:alpine
 
-# Copy built assets from build stage
-COPY --from=build /app/apps/frontend/dist /usr/share/nginx/html
+# Copy built assets from builder
+COPY --from=builder /app/apps/frontend/dist /usr/share/nginx/html
 
-# Copy nginx configuration (from monorepo root context)
+# Copy nginx config
 COPY ./apps/frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create a non-root user and group
+# Create non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Change ownership of nginx directories
+# Set permissions
 RUN chown -R appuser:appgroup /var/cache/nginx && \
     chown -R appuser:appgroup /var/log/nginx && \
-    chown -R appuser:appgroup /etc/nginx/conf.d
-RUN touch /var/run/nginx.pid && chown -R appuser:appgroup /var/run/nginx.pid
+    chown -R appuser:appgroup /etc/nginx/conf.d && \
+    touch /var/run/nginx.pid && \
+    chown -R appuser:appgroup /var/run/nginx.pid
 
-# Switch to the non-root user
 USER appuser
 
-# Expose port 80
 EXPOSE 80
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
