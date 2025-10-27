@@ -13,12 +13,15 @@ RUN corepack enable pnpm
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY tsconfig.base.json ./
 
+# Pre-fetch dependencies to leverage pnpm's content-addressable store
+RUN pnpm fetch --frozen-lockfile
+
 # Copy entire project tree (needed for monorepo resolution)
 COPY apps ./apps
 COPY packages ./packages
 
-# Install all dependencies
-RUN pnpm install --frozen-lockfile
+# Install all dependencies (use offline after fetch to avoid lockfile sync issues)
+RUN pnpm install --frozen-lockfile --offline
 
 # Build only the frontend
 RUN pnpm --filter ./apps/frontend build
