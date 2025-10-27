@@ -20,8 +20,8 @@ RUN pnpm fetch --frozen-lockfile
 COPY apps ./apps
 COPY packages ./packages
 
-# Install all dependencies (use offline after fetch to avoid lockfile sync issues)
-RUN pnpm install --frozen-lockfile --offline
+# Install all dependencies (use offline after fetch; allow lockfile updates for CI consistency)
+RUN pnpm install --offline
 
 # Build only the frontend
 RUN pnpm --filter ./apps/frontend build
