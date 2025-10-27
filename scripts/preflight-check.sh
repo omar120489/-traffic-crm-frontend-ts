@@ -13,6 +13,12 @@ echo "🔍 Traffic CRM Preflight Check"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
+# Ensure NVM is loaded if available
+if [ -z "${NVM_DIR:-}" ] && [ -s "$HOME/.nvm/nvm.sh" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  . "$NVM_DIR/nvm.sh"
+fi
+
 # Check 1: Node version
 echo "📦 Checking Node version..."
 NODE_VERSION=$(node --version | sed 's/v//')
