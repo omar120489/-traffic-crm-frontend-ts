@@ -36,6 +36,7 @@ jobs:
               uses: docker/build-push-action@v4
               with:
                   context: .
+                  file: ./apps/frontend/Dockerfile
                   push: true
                   tags: |
                       ghcr.io/${{ github.repository_owner }}/traffic-crm-frontend-ts:latest
