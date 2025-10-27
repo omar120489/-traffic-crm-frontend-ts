@@ -12,6 +12,8 @@
     "esModuleInterop": true,
     
     // PRAGMATIC MODE: Relaxed for rapid development
+    
+    // PRAGMATIC MODE: Relaxed for rapid development
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
@@ -53,7 +55,8 @@
       "types/*": ["./src/types/*"],
       "services": ["./src/services"],
       "services/*": ["./src/services/*"],
-      "config": ["./src/config"],
+      "config": ["./src/config.ts"],
+      "themes": ["./src/themes/index.tsx"],
       "contexts/*": ["./src/contexts/*"],
       "api/*": ["./src/api/*"],
       "menu-items": ["./src/menu-items"],

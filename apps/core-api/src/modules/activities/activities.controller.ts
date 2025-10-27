@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import type { Prisma } from '@prisma/client';
 import { ActivitiesService } from './activities.service';
 
 @ApiTags('activities')
@@ -32,7 +33,7 @@ export class ActivitiesController {
       authorId: string;
       subject?: string;
       body?: string;
-      dataJson?: any;
+      dataJson?: Prisma.InputJsonValue;
       dueAt?: string;
     },
   ) {
@@ -54,4 +55,3 @@ export class ActivitiesController {
     return this.activities.delete(id);
   }
 }
-

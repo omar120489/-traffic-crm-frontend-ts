@@ -99,9 +99,15 @@ export function JWTProvider({ children }: JWTProviderProps) {
   }, [dispatch]);
 
   const resetPassword = useCallback(async (email: string) => {
-    // Implementation depends on your backend API
     await authApi.resetPassword(email);
   }, []);
+
+  const forgotPassword = useCallback(
+    async (email: string) => {
+      await resetPassword(email);
+    },
+    [resetPassword]
+  );
 
   const updateProfile = useCallback(() => {
     // Implementation depends on your requirements
@@ -117,9 +123,20 @@ export function JWTProvider({ children }: JWTProviderProps) {
       logout,
       register,
       resetPassword,
+      forgotPassword,
       updateProfile
     }),
-    [isLoggedIn, isInitialized, user, login, logout, register, resetPassword, updateProfile]
+    [
+      isLoggedIn,
+      isInitialized,
+      user,
+      login,
+      logout,
+      register,
+      resetPassword,
+      forgotPassword,
+      updateProfile
+    ]
   );
 
   // Show loader while initializing

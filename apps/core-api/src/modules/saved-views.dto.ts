@@ -7,7 +7,7 @@ export class CreateSavedViewDto {
 
   @IsObject()
   @IsNotEmpty()
-  filters!: Record<string, any>; // { from, to, users, types }
+  filters!: Record<string, unknown>; // { from, to, users, types }
 
   @IsBoolean()
   @IsOptional()
@@ -25,7 +25,7 @@ export class UpdateSavedViewDto {
 
   @IsObject()
   @IsOptional()
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
 
   @IsBoolean()
   @IsOptional()
@@ -35,4 +35,3 @@ export class UpdateSavedViewDto {
   @IsOptional()
   isShared?: boolean;
 }
-

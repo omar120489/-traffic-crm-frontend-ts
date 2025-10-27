@@ -131,6 +131,8 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
     [loginWithRedirect]
   );
 
+  const forgotPassword = resetPassword;
+
   const updateProfile = useCallback(async () => {
     try {
       // Auth0 profile updates typically happen via Management API
@@ -154,6 +156,7 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
     logout,
     register,
     resetPassword,
+    forgotPassword,
     updateProfile
   };
 

@@ -1,18 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
+import request, { type Response } from 'supertest';
 import { AppModule } from '../src/app.module';
+import { PrismaService } from '../src/prisma/prisma.service';
 
 describe('Health Check (e2e)', () => {
-  let app: INestApplication;
+  let app: NestFastifyApplication;
 
   beforeAll(async () => {
+    const prismaMock = {
+      onModuleInit: jest.fn(),
+      enableShutdownHooks: jest.fn(),
+      $connect: jest.fn(),
+      $disconnect: jest.fn(),
+    } satisfies Partial<PrismaService>;
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue(prismaMock)
+      .compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
     await app.init();
+    await app.getHttpAdapter().getInstance().ready();
   });
 
   afterAll(async () => {
@@ -23,7 +35,7 @@ describe('Health Check (e2e)', () => {
     return request(app.getHttpServer())
       .get('/health')
       .expect(200)
-      .expect((res) => {
+      .expect((res: Response) => {
         expect(res.body).toHaveProperty('status');
         expect(res.body.status).toBe('ok');
       });
@@ -33,10 +45,9 @@ describe('Health Check (e2e)', () => {
     return request(app.getHttpServer())
       .get('/health')
       .expect(200)
-      .expect((res) => {
+      .expect((res: Response) => {
         expect(res.body).toHaveProperty('timestamp');
         expect(typeof res.body.timestamp).toBe('string');
       });
   });
 });
-

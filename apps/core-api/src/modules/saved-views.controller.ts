@@ -13,6 +13,14 @@ import { JwtGuard as JwtAuthGuard } from '../auth/jwt.guard';
 import { SavedViewsService } from './saved-views.service';
 import { CreateSavedViewDto, UpdateSavedViewDto } from './saved-views.dto';
 
+interface SavedViewsRequest {
+  user: {
+    orgId: string;
+    userId: string;
+    [key: string]: unknown;
+  };
+}
+
 @Controller('saved-views')
 @UseGuards(JwtAuthGuard)
 export class SavedViewsController {
@@ -23,7 +31,7 @@ export class SavedViewsController {
    * List all saved views (personal + default/shared)
    */
   @Get()
-  async findAll(@Req() req: any) {
+  async findAll(@Req() req: SavedViewsRequest) {
     const { orgId, userId } = req.user;
     return this.savedViewsService.findAll(orgId, userId);
   }
@@ -33,7 +41,7 @@ export class SavedViewsController {
    * Get a single saved view
    */
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() req: any) {
+  async findOne(@Param('id') id: string, @Req() req: SavedViewsRequest) {
     const { orgId, userId } = req.user;
     return this.savedViewsService.findOne(id, orgId, userId);
   }
@@ -43,7 +51,7 @@ export class SavedViewsController {
    * Create a new saved view
    */
   @Post()
-  async create(@Body() dto: CreateSavedViewDto, @Req() req: any) {
+  async create(@Body() dto: CreateSavedViewDto, @Req() req: SavedViewsRequest) {
     const { orgId, userId } = req.user;
     return this.savedViewsService.create(orgId, userId, dto);
   }
@@ -56,7 +64,7 @@ export class SavedViewsController {
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateSavedViewDto,
-    @Req() req: any,
+    @Req() req: SavedViewsRequest,
   ) {
     const { orgId, userId } = req.user;
     return this.savedViewsService.update(id, orgId, userId, dto);
@@ -67,9 +75,8 @@ export class SavedViewsController {
    * Delete a saved view
    */
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() req: any) {
+  async remove(@Param('id') id: string, @Req() req: SavedViewsRequest) {
     const { orgId, userId } = req.user;
     return this.savedViewsService.remove(id, orgId, userId);
   }
 }
-

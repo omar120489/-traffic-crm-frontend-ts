@@ -5,7 +5,7 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createRemoteJWKSet, jwtVerify, importSPKI, type KeyLike } from 'jose';
+import { createRemoteJWKSet, jwtVerify, importSPKI, type KeyLike, type JWTPayload } from 'jose';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -59,7 +59,7 @@ export class JwtGuard implements CanActivate {
 
     const token = auth.slice(7);
     try {
-      let payload: any;
+      let payload: JWTPayload;
       if ('length' in verifier) {
         // Remote JWKS
         payload = (await jwtVerify(token, verifier, { audience, issuer })).payload;
@@ -83,4 +83,3 @@ export class JwtGuard implements CanActivate {
     }
   }
 }
-

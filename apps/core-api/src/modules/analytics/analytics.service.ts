@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AnalyticsQueryDto, AnalyticsResponseDto, ActivityType } from './analytics.dto';
+import type { Prisma, Activity } from '@prisma/client';
 
 type Role = 'admin' | 'manager' | 'user' | 'viewer';
+type ActivitySummary = Pick<Activity, 'id' | 'type' | 'createdAt' | 'authorId' | 'completedAt' | 'dueAt'>;
 
 @Injectable()
 export class AnalyticsService {
@@ -23,7 +25,7 @@ export class AnalyticsService {
     }
 
     // Fetch raw activities
-    const acts = await this.prisma.activity.findMany({
+    const acts: ActivitySummary[] = await this.prisma.activity.findMany({
       where,
       select: {
         id: true,
@@ -55,8 +57,8 @@ export class AnalyticsService {
     q: AnalyticsQueryDto,
     start: Date,
     end: Date,
-  ): Record<string, unknown> | null {
-    const where: any = {
+  ): Prisma.ActivityWhereInput | null {
+    const where: Prisma.ActivityWhereInput = {
       orgId: user.orgId,
       createdAt: {
         gte: start,
@@ -87,7 +89,7 @@ export class AnalyticsService {
     return where;
   }
 
-  private calculateKpis(acts: any[], start: Date, end: Date) {
+  private calculateKpis(acts: ActivitySummary[], start: Date, end: Date) {
     const totalActivities = acts.length;
     const uniqueUsers = new Set(acts.map(a => a.authorId)).size;
     const days = Math.max(1, this.differenceInDays(this.addDays(end, 1), start));
@@ -103,7 +105,7 @@ export class AnalyticsService {
     };
   }
 
-  private calculateMedianTtf(acts: any[]): number {
+  private calculateMedianTtf(acts: ActivitySummary[]): number {
     const ttfMs = acts
       .filter(a => a.completedAt && a.createdAt)
       .map(a => a.completedAt!.getTime() - a.createdAt.getTime())
@@ -117,7 +119,7 @@ export class AnalyticsService {
       : (ttfMs[mid - 1] + ttfMs[mid]) / 2;
   }
 
-  private calculateByDay(acts: any[], start: Date, end: Date) {
+  private calculateByDay(acts: ActivitySummary[], start: Date, end: Date) {
     const byDayMap = new Map<string, number>();
     for (let d = start; d <= end; d = this.addDays(d, 1)) {
       byDayMap.set(this.formatDate(d), 0);
@@ -131,7 +133,7 @@ export class AnalyticsService {
     return Array.from(byDayMap.entries()).map(([date, count]) => ({ date, count }));
   }
 
-  private calculateMix(acts: any[]) {
+  private calculateMix(acts: ActivitySummary[]) {
     const allowedTypes: ActivityType[] = ['call', 'email', 'meeting', 'note', 'task'];
     const mixCounts: Record<ActivityType, number> = {
       call: 0,
@@ -155,7 +157,7 @@ export class AnalyticsService {
     }));
   }
 
-  private async calculateTopContributors(acts: any[]) {
+  private async calculateTopContributors(acts: ActivitySummary[]) {
     const countsByUser = new Map<string, number>();
     for (const a of acts) {
       countsByUser.set(a.authorId, (countsByUser.get(a.authorId) ?? 0) + 1);

@@ -58,20 +58,15 @@ declare module 'store/*' {
   export default defaultExport;
 }
 
-declare module 'config' {
-  const defaultExport: any;
-  export default defaultExport;
-}
-
-declare module 'config/*' {
-  const defaultExport: any;
-  export default defaultExport;
-}
-
 // Constants
 declare module 'constants/*' {
   const defaultExport: any;
   export default defaultExport;
+}
+
+declare module '*.jsx' {
+  const component: any;
+  export default component;
 }
 
 // Services

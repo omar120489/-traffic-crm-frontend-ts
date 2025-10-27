@@ -13,6 +13,16 @@ import { Org } from '../../auth/org.decorator';
 import { AnalyticsService } from './analytics.service';
 import { AnalyticsQueryDto, AnalyticsResponseDto } from './analytics.dto';
 
+type Role = 'admin' | 'manager' | 'user' | 'viewer';
+
+interface AuthenticatedRequest {
+  user?: {
+    sub?: string;
+    role?: string;
+    [key: string]: unknown;
+  };
+}
+
 @ApiTags('analytics')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
@@ -26,13 +36,16 @@ export class AnalyticsController {
   async getAnalytics(
     @Query() query: AnalyticsQueryDto,
     @Org() orgId: string,
-    @Req() req: any,
+    @Req() req: AuthenticatedRequest,
   ): Promise<AnalyticsResponseDto> {
     // Extract user info from JWT (injected by JwtGuard)
+    const rawRole = req.user?.role;
+    const role: Role = rawRole === 'manager' || rawRole === 'user' || rawRole === 'viewer' ? rawRole : 'admin';
+
     const user = {
       id: req.user?.sub ?? 'dev-user',
       orgId,
-      role: req.user?.role ?? 'admin',
+      role,
     };
 
     return this.service.fetchAnalytics(user, query);

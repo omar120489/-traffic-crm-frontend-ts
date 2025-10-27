@@ -224,6 +224,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
     logout,
     register,
     resetPassword,
+    forgotPassword: resetPassword,
     updateProfile
   };
 

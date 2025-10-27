@@ -111,7 +111,7 @@ export const authApi = {
   login: async (email: string, password: string): Promise<LoginResponse> => {
     // Return mock JWT - backend auth is disabled so any request will work
     return {
-      token: 'dev-mock-jwt-token',
+      serviceToken: 'dev-mock-jwt-token',
       user: {
         id: 'dev-user',
         email: email,
@@ -126,12 +126,14 @@ export const authApi = {
   // DEV MODE: Mock profile
   getProfile: async (): Promise<UserProfileResponse> => {
     return {
-      id: 'dev-user',
-      email: 'dev@example.com',
-      firstName: 'Dev',
-      lastName: 'User',
-      orgId: 'clx0d018d000008l701211234',
-      role: 'admin',
+      user: {
+        id: 'dev-user',
+        email: 'dev@example.com',
+        firstName: 'Dev',
+        lastName: 'User',
+        orgId: 'clx0d018d000008l701211234',
+        role: 'admin'
+      }
     };
   },
 

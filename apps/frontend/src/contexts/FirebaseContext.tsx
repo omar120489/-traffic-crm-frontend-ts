@@ -122,6 +122,7 @@ export function FirebaseProvider({ children }: FirebaseProviderProps) {
     logout,
     register,
     resetPassword,
+    forgotPassword: resetPassword,
     updateProfile
   };
 

@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSavedViewDto, UpdateSavedViewDto } from './saved-views.dto';
 
@@ -85,7 +86,7 @@ export class SavedViewsService {
         orgId,
         userId,
         name: dto.name,
-        filters: dto.filters,
+        filters: dto.filters as Prisma.InputJsonValue,
         isDefault: dto.isDefault ?? false,
         isShared: dto.isShared ?? false,
       },
@@ -133,7 +134,9 @@ export class SavedViewsService {
       where: { id },
       data: {
         name: dto.name,
-        filters: dto.filters,
+        ...(dto.filters !== undefined
+          ? { filters: dto.filters as Prisma.InputJsonValue }
+          : {}),
         isDefault: dto.isDefault,
         isShared: dto.isShared,
       },
@@ -167,4 +170,3 @@ export class SavedViewsService {
     return { success: true };
   }
 }
-

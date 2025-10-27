@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import type { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
@@ -28,7 +29,7 @@ export class ActivitiesService {
     authorId: string;
     subject?: string;
     body?: string;
-    dataJson?: any;
+    dataJson?: Prisma.InputJsonValue;
     dueAt?: string;
   }) {
     return this.prisma.activity.create({
@@ -55,4 +56,3 @@ export class ActivitiesService {
     return this.prisma.activity.delete({ where: { id } });
   }
 }
-

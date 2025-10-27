@@ -5,13 +5,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 // third party
 import * as Yup from 'yup';
@@ -197,18 +197,14 @@ export default function AuthResetPassword({ ...others }: Props) {
           {strength !== 0 && (
             <FormControl fullWidth>
               <Box sx={{ mb: 2 }}>
-                <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                  <Grid item>
-                    <Box
-                      sx={{ width: 85, height: 8, borderRadius: '7px', bgcolor: level?.color }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle1" sx={{ fontSize: '0.75rem' }}>
-                      {level?.label}
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+                  <Box
+                    sx={{ width: 85, height: 8, borderRadius: '7px', bgcolor: level?.color }}
+                  />
+                  <Typography variant="subtitle1" sx={{ fontSize: '0.75rem' }}>
+                    {level?.label}
+                  </Typography>
+                </Stack>
               </Box>
             </FormControl>
           )}

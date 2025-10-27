@@ -237,6 +237,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
     logout,
     register,
     resetPassword,
+    forgotPassword: resetPassword,
     updateProfile
   };
 
