@@ -10,6 +10,7 @@
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "ignoreDeprecations": "6.0",
     
     // PRAGMATIC MODE: Relaxed for rapid development
     "strict": false,
