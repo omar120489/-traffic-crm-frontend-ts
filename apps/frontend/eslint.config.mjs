@@ -140,13 +140,14 @@ export default [
     languageOptions: {
       parser: tsparser,
       parserOptions: {
+        tsconfigRootDir: __dirname,
         ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: {
           jsx: true
         },
-        // Use Sprint 2 tsconfig for faster linting (only checks typed code)
-        project: ['./tsconfig.sprint2.json']
+        // Use main tsconfig to ensure ESLint gets path aliases and strict mode
+        project: ['./tsconfig.json']
       }
     },
     plugins: {

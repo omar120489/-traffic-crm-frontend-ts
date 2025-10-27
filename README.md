@@ -1,552 +1,106 @@
 # Traffic CRM Monorepo
 
-[![CI](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/ci.yml)
-[![Deploy Production](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/deploy-production.yml)
-[![Security Audit](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/security-audit.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/security-audit.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/omar120489/-traffic-crm-frontend-ts/badge)](https://securityscorecards.dev/viewer/?uri=github.com/omar120489/-traffic-crm-frontend-ts)
-[![Release Please](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/release-please.yml)
-[![Preview Build](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/preview-build.yml)
-[![CodeQL](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/codeql.yml)
-[![Docs Lint](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/docs-lint.yml/badge.svg)](https://github.com/omar120489/-traffic-crm-frontend-ts/actions/workflows/docs-lint.yml)
-[![Latest Release](https://img.shields.io/github/v/release/omar120489/-traffic-crm-frontend-ts)](https://github.com/omar120489/-traffic-crm-frontend-ts/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg)](https://pnpm.io/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://reactjs.org/)
-[![NestJS](https://img.shields.io/badge/NestJS-10-e0234e.svg)](https://nestjs.com/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
-
-Full-stack TypeScript CRM platform for travel/traffic businesses with React frontend, NestJS backend, and background workers.
-
-## 📑 Table of Contents
-
-- [Latest Release](#-latest-release-sprint-3-complete)
-- [Quick Start](#-quick-start)
-  - [Project Health](#-project-health-october-2025)
-- [Roadmap](#️-roadmap)
-- [Architecture](#️-architecture)
-- [Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [One-Command Setup](#one-command-setup)
-  - [Manual Setup](#manual-setup-alternative)
-- [Documentation](#-documentation)
-- [Utility Scripts](#️-utility-scripts)
-- [Development Commands](#-development-commands)
-- [Service URLs](#-service-urls)
-- [Demo Data](#-demo-data)
-- [Tech Stack](#️-tech-stack)
-- [Authentication](#-authentication)
-- [Database](#-database)
-- [Background Jobs](#-background-jobs-workers)
-- [Packages](#-packages)
-- [Testing](#-testing)
-- [Environment Variables](#-environment-variables)
-- [Deployment](#-deployment)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Support & Documentation](#-support--documentation)
+Traffic CRM is a TypeScript-first workspace that brings together the React frontend, NestJS services, BullMQ workers, and shared packages that power the product.
 
 ---
 
-## 🎯 Latest Release: Sprint 3 Complete
+## Contents
 
-**Status**: 🟩 Production Ready | **Date**: October 24, 2025 | **Velocity**: 21/21 pts (100%)
-
-### What's New
-
-- ✅ **Deals Kanban Board** (9 pts) – Full drag & drop workflow with filters, search, and URL sync
-- ✅ **Company 360 View** (5 pts) – Comprehensive company overview with stats, contacts, and deals tables
-- ✅ **Auth Foundation** (7 pts) – JWT-hydrated auth context with protected routes and SSR safety
-
-**Metrics**: 19 files created | 12 components | ~1,900 LOC | 0 TypeScript errors
-
-[📄 View Release Notes](./docs/archive/sprints/RELEASE_NOTES_SPRINT_3.md) |
-[📊 Sprint 3 Details](./docs/archive/sprints/SPRINT_3_COMPLETE.md) |
-[📚 Archived Docs](./docs/archive/root-docs/)
+- **apps/frontend** – React 19 + Vite application with modular features, Playwright/Vitest harnesses, and a hardened Docker/Nginx runtime. See `docs/FRONTEND_STRUCTURE.md` for the tree snapshot.
+- **apps/core-api** – NestJS service backed by Prisma and Fastify. Ships JWT tooling, OpenAPI emission, and database seed scripts.
+- **apps/reporting/traffic-crm-backend-reporting** – NestJS microservice scaffold reserved for reporting workloads.
+- **apps/workers** – BullMQ processors (lead scoring, enrichment stubs) using Redis.
+- **packages/sdk-js** – Generated TypeScript client (OpenAPI → ky) consumed by the frontend.
+- **packages/ui-kit** – Material UI based shared component library.
+- **packages/rbac** – Lightweight RBAC helpers.
+- **packages/shared-types** (`@traffic-crm/shared-types`) – Monorepo-wide data contracts.
+- **infra/docker** – Docker Compose stack (Postgres, Redis, MailHog, MinIO).
+- **docs** – Currently `FRONTEND_STRUCTURE.md`; additional docs live at the root (e.g. `PROJECT_STATUS_OVERVIEW.md`).
 
 ---
 
-## 🚀 Quick Start
+## Prerequisites
 
-**New to this project?** Start here:
+- Node.js 20.x (project engines enforce `>=20 <21`; run `nvm use` if available).
+- pnpm ≥ 9 (enable with `corepack enable pnpm`).
+- Docker Desktop (optional for local development, required for container builds and the quick-start script).
 
-1. 🤝 **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute
-2. 🔧 **[Workflow Scripts](./docs/workflow/SCRIPTS.md)** - Automation helpers
-3. 📦 **[SDK Documentation](./packages/sdk-js/README.md)** - Using the SDK
-4. 📚 **[Documentation Index](./docs/INDEX.md)** - Complete documentation navigation
-5. 📊 **[Project Analysis & Action Plan](./docs/analysis/INDEX.md)** - Health score, risks, and roadmap
+---
 
-**Quick verification:**
+## Quick Start
 
 ```bash
-# Start all services
-pnpm dev
-
-# Run tests
-pnpm test
-
-# Type check
-pnpm typecheck
-```
-
-### 📊 Project Health (October 2025)
-
-**Overall Score: 95/100** 🟢 Excellent
-
-- ✅ Architecture: 95/100 (Excellent)
-- ✅ Code Quality: 95/100 (Excellent)
-- ✅ Security: 100/100 (Perfect)
-- ✅ CI/CD: 95/100 (Excellent)
-- ⚠️ Testing: 70/100 (Good - backend tests in progress)
-
-**📄 Health Reports:**
-- [Repository Health Check (95/100)](./REPOSITORY_HEALTH_CHECK.md)
-- [TypeScript Fixes Summary](./TYPESCRIPT_FIXES_SUMMARY.md)
-- [Git Repository Analysis](./GIT_REPOSITORY_ANALYSIS.md)
-- [Database Migration Workflow](./apps/core-api/MIGRATIONS.md)
-
-## 📦 Applications
-
-### Active Apps
-
-- **Frontend** (`apps/frontend/`) - React 19 + Vite 7 + Material-UI 7
-  - Main user interface
-  - Deals Kanban, Company 360, Analytics Dashboard
-  - Test coverage: ~60% (Vitest + Playwright)
-
-- **Core API** (`apps/core-api/`) - NestJS 10 + Fastify 4 + Prisma 5
-  - Main backend API
-  - 13 Prisma models (User, Org, Company, Contact, Deal, Lead, etc.)
-  - JWT authentication + RBAC
-  - Auto-generates OpenAPI spec for SDK
-
-- **Reporting** (`apps/reporting/`) - NestJS 11 microservice
-  - Attribution reporting service (port 8005)
-  - Aggregates leads, deals, and ad spend data
-  - Calculates ROI metrics (CPL, CPA, ROAS, conversion rates)
-  - Connects to sales and cost importer microservices
-
-- **Workers** (`apps/workers/`) - BullMQ + IORedis
-  - Background job processing
-  - Lead scoring and data enrichment queues
-  - Minimal implementation (ready for expansion)
-
-## 🗺️ Roadmap
-
-See [docs/PRODUCT_ROADMAP.md](./docs/PRODUCT_ROADMAP.md) for the complete 12-week sprint plan and module progress tracking.
-
-## 🏗️ Architecture
-
-```
-traffic-crm/
-├── apps/
-│   ├── frontend/          # React 19 + Vite + TypeScript + MUI
-│   ├── core-api/          # NestJS + Fastify + Prisma + PostgreSQL
-│   ├── workers/           # BullMQ + Redis background jobs
-│   ├── api-dev/           # Legacy Express mock API (deprecated)
-│   └── reporting/         # NestJS reporting microservice
-├── packages/
-│   ├── sdk-js/            # Auto-generated typed SDK from OpenAPI
-│   └── shared-types/      # Shared TypeScript types (Zod schemas)
-└── infra/
-    └── docker/            # PostgreSQL, Redis, MailHog, MinIO
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+ (Note: Workspace runs on Node 24+)
-- pnpm 10+ (installed via `corepack enable`)
-- Docker Desktop
-
-### One-Command Setup
-
-```bash
-./scripts/quick-start.sh
-```
-
-This will:
-
-1. Start Docker services (PostgreSQL, Redis, MailHog, MinIO)
-2. Run database migrations
-3. Seed demo data
-4. Generate dev JWT token
-5. Attempt SDK generation (if API is running)
-
-### Manual Setup (Alternative)
-
-```bash
-# 1. Install dependencies
 pnpm install
-
-# 2. Start infrastructure
-pnpm docker:up
-
-# 3. Setup database
-pnpm db:migrate
-pnpm db:seed
-
-# 4. Generate dev JWT
-pnpm dev:jwt
-# Copy token and add to apps/frontend/.env.local:
-# VITE_DEV_JWT=<paste_token_here>
-
-# 5. Start Core API
+cp .env.example .env          # optional custom ports
+pnpm docker:up                # optional: Postgres, Redis, MailHog, MinIO
 pnpm --filter @apps/core-api dev
-
-# 6. Generate SDK types (after API is running)
-pnpm sdk:gen
-
-# 7. Start Frontend (new terminal)
 pnpm --filter ./apps/frontend dev
-
-# 8. (Optional) Start Workers
-pnpm --filter @apps/workers dev
 ```
 
-## 📚 Documentation
+- API: <http://localhost:3000> (Swagger at `/docs`)
+- Frontend: <http://localhost:5173>
 
-- **[Documentation Index](./docs/INDEX.md)** - Central navigation for all documentation
-- **[SDK Migration Guide](./docs/guides/SDK_MIGRATION.md)** - Migrating services to typed SDK
-- **[Branding Setup](./docs/guides/BRANDING_SETUP.md)** - Logo & branding setup
-- **[Infrastructure](./infra/docker/README.md)** - Docker services documentation
-- **[Archived Docs](./docs/archive/root-docs/)** - Historical documentation
-
-## 🛠️ Utility Scripts
-
-- **[Workflow Scripts](./docs/workflow/SCRIPTS.md)** - Automation and maintenance utilities
-- **[Local Workflow](./docs/LOCAL_WORKFLOW.md)** - Development workflow guide
-
-Quick reference:
-
-```bash
-# Development
-pnpm dev              # Start all services
-pnpm build            # Build all apps
-pnpm typecheck        # Type check all workspaces
-pnpm lint             # Lint all workspaces
-pnpm test             # Run all tests
-```
-
-## 🔧 Development Commands
-
-### Root-Level
-
-```bash
-pnpm dev              # Start all apps in parallel
-pnpm build            # Build all apps
-pnpm typecheck        # Type check all workspaces
-pnpm lint             # Lint all workspaces
-pnpm test             # Run all tests
-
-# Infrastructure
-pnpm docker:up        # Start Docker services
-pnpm docker:down      # Stop Docker services
-pnpm db:up            # Start PostgreSQL only
-pnpm db:migrate       # Run Prisma migrations
-pnpm db:seed          # Seed demo data
-
-# Development utilities
-pnpm dev:jwt          # Generate dev JWT token
-pnpm sdk:gen          # Regenerate SDK types
-```
-
-### Per-App
-
-```bash
-# Core API
-pnpm --filter @apps/core-api dev            # Start with hot reload
-pnpm --filter @apps/core-api prisma:studio  # Open Prisma Studio GUI
-
-# Frontend
-pnpm --filter ./apps/frontend dev     # Start Vite dev server
-pnpm --filter ./apps/frontend build   # Production build
-
-# Workers (optional)
-pnpm --filter @apps/workers dev       # Start background workers
-```
-
-## 🌐 Service URLs
-
-| Service | URL | Credentials |
-|---------|-----|-------------|
-| Frontend | <http://localhost:5173> | - |
-| Core API | <http://localhost:3000> | - |
-| Swagger Docs | <http://localhost:3000/docs> | - |
-| Prisma Studio | <http://localhost:5555> | (run `prisma:studio`) |
-| MailHog UI | <http://localhost:8025> | - |
-| MinIO Console | <http://localhost:9001> | admin / minioadmin |
-
-## 🧪 Demo Data
-
-The seed creates:
-
-- **Org:** demo-org
-- **Company:** Acme Inc.
-- **Contacts:** John Doe, Jane Smith
-- **Leads:** Website Inquiry (NEW), Referral (QUALIFIED)
-- **Deals:** Acme Pilot ($12k), Enterprise Package ($50k)
-
-Access these via `/contacts`, `/leads`, `/deals` in the frontend.
-
-## 🏗️ Tech Stack
-
-### Frontend
-
-- React 19 (RC)
-- TypeScript 5.6
-- Vite 7
-- Material-UI (MUI) 7
-- React Router 7
-- Redux Toolkit + Redux Persist
-- SWR for data fetching
-- Axios (legacy) + ky (SDK)
-- Formik + Yup validation
-- ApexCharts for analytics
-- XLSX for exports
-
-### Backend
-
-- NestJS 10
-- Fastify 4
-- Prisma 5
-- PostgreSQL 16
-- Jose (JWT)
-- BullMQ (job queues)
-- IORedis
-- Zod validation
-- Swagger/OpenAPI
-
-### Infrastructure
-
-- Docker Compose
-- PostgreSQL 16
-- Redis 7
-- MailHog (email testing)
-- MinIO (S3-compatible storage)
-
-### Monorepo
-
-- pnpm workspaces
-- TypeScript project references
-- Shared types package
-- Auto-generated SDK
-
-## 🔐 Authentication
-
-**Development:** Uses dev JWT tokens generated via `pnpm dev:jwt`
-
-**Production:** Integrate with:
-
-- Auth0 (recommended)
-- AWS Cognito
-- Keycloak
-- Custom JWT issuer
-
-See `apps/core-api/src/auth/jwt.guard.ts` for implementation.
-
-## 📊 Database
-
-### Schema Management
-
-```bash
-# Create migration
-pnpm --filter @apps/core-api prisma:migrate --name <migration_name>
-
-# Generate Prisma Client
-pnpm --filter @apps/core-api prisma:generate
-
-# Open Prisma Studio
-pnpm --filter @apps/core-api prisma:studio
-```
-
-### Entities
-
-- Orgs (multi-tenancy)
-- Contacts
-- Companies
-- Leads (with scoring)
-- Deals (with stages)
-- Activities
-- Comments
-- Attachments
-- Notifications
-
-## 🔄 Background Jobs (Workers)
-
-Located in `apps/workers/`:
-
-**Queues:**
-
-- `lead-scoring`: Automatic lead qualification
-- `enrichment`: Contact/company data enrichment
-
-**Usage:**
-
-```typescript
-import { leadScoringQueue } from '@apps/workers';
-
-await leadScoringQueue.add('score', { leadId: 'ld-123' });
-```
-
-**Start:** `pnpm --filter @apps/workers dev`
-
-## 📦 Packages
-
-### `@sdk-js/core`
-
-Auto-generated typed client from Core API's OpenAPI spec.
-
-```typescript
-import { api } from '@/data/clients/sdk';
-
-const contacts = await api.listContacts();
-const contact = await api.getContact('ct-123');
-```
-
-Regenerate: `pnpm sdk:gen`
-
-### `@shared-types`
-
-Shared TypeScript types and Zod schemas.
-
-```typescript
-import type { Contact, Lead, Deal } from '@shared-types';
-```
-
-## 🧪 Testing
-
-```bash
-# Frontend unit tests (Vitest)
-pnpm --filter ./apps/frontend test
-
-# Frontend E2E tests (Playwright)
-pnpm --filter ./apps/frontend test:e2e
-pnpm --filter ./apps/frontend test:e2e:ui  # Interactive mode
-
-# Backend tests
-pnpm --filter @apps/core-api test
-```
-
-## 📝 Environment Variables
-
-### Frontend (`.env.local`)
-
-```env
-VITE_APP_API_URL=http://localhost:3000/api
-VITE_DEV_JWT=<token_from_pnpm_dev:jwt>
-```
-
-### Core API (`.env`)
-
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/trafficcrm
-REDIS_URL=redis://localhost:6379
-DEV_JWT_SECRET=dev-secret-change-me
-PORT=3000
-NODE_ENV=development
-```
-
-See `.env.example` files in each app for full list.
-
-## 🚢 Deployment
-
-### Frontend (Vercel/Netlify)
-
-```bash
-pnpm --filter ./apps/frontend build
-# Deploy dist/ folder
-```
-
-### Core API (Railway/Fly.io/AWS)
-
-```bash
-pnpm --filter @apps/core-api build
-# Deploy with Dockerfile or buildpack
-```
-
-### Workers (Background service)
-
-```bash
-pnpm --filter @apps/workers build
-# Deploy as separate service with Redis access
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for detailed guidelines on:
-
-- Development setup and workflow
-- Coding standards and style guide
-- Commit message conventions
-- Pull request process
-- Testing requirements
-
-**Quick Start:**
-
-1. Fork & clone: `git clone https://github.com/YOUR_USERNAME/-traffic-crm-frontend-ts.git`
-2. Create a branch: `git checkout -b feat/my-feature`
-3. Make changes & test: `./scripts/premerge.sh`
-4. Commit: `git commit -m "feat: add my feature"`
-5. Push & create PR: `git push origin feat/my-feature`
-
-See also:
-
-- [Local Development Workflow](./docs/LOCAL_WORKFLOW.md)
-- [Scripts Reference](./docs/SCRIPTS.md)
-- [Changelog](./CHANGELOG.md)
-
-## 📄 License
-
-Proprietary - All rights reserved
-
-## 🆘 Support & Documentation
-
-### 📚 Documentation
-
-- **📍 Start Here:** [Documentation Index](./docs/INDEX.md) - Central navigation for all docs
-- **📐 Architecture:** [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md) - System design
-- **🔧 Development:** [Local Workflow](./docs/LOCAL_WORKFLOW.md) - Development guide
-- **✅ Production:** [Post-Sync Validation](./docs/POST_SYNC_VALIDATION_CHECKLIST.md)
-- **⚙️ Scripts:** [Scripts Reference](./docs/SCRIPTS.md) - Automation tools
-- **🤝 Contributing:** [Contributing Guide](./CONTRIBUTING.md) - How to contribute
-- **📝 Changelog:** [Changelog](./CHANGELOG.md) - Version history
-
-### 🏗️ Architecture & Guides
-
-- **Architecture Diagrams:** [Visual Maps & Flows](./docs/ARCHITECTURE_DIAGRAMS.md) - Mermaid diagrams
-- **Fastify Ecosystem:** [Dependency Analysis & v5 Migration](./docs/FASTIFY_DEPENDENCY_ANALYSIS.md)
-- **Branch Protection:** [Setup Guide](./docs/BRANCH_PROTECTION_SETUP.md)
-- **Infrastructure:** [Complete Setup Documentation](./docs/INFRASTRUCTURE_COMPLETE.md)
-- **ADRs:** [Architecture Decision Records](./docs/adr/) - Key technical decisions
-
-### 🔒 Security & Compliance
-
-**Grade:** A+++ (99.5/100) | **OpenSSF Scorecard:** 9.5+/10 | **Certifications:** 6 standards ✓
-
-- **📄 Security Policy:** [SECURITY.md](./SECURITY.md) - Vulnerability reporting and security practices
-- **📊 Security Reports:**
-  - [Gap Analysis](./docs/security/GAP_ANALYSIS.md)
-  - [Compliance Summary](./docs/security/COMPLIANCE_SUMMARY.md)
-  - [Continuous Audit](./docs/security/CONTINUOUS_AUDIT.md)
-- **🔧 Workflow Security:**
-  - [Security Audit](./docs/workflow/security/AUDIT.md)
-  - [Security Scan](./docs/workflow/security/SCAN.md)
-- **✅ Certifications:** OpenSSF | GitHub | OWASP | SLSA L2 | AWS | GitHub Security Lab
-- **🛠️ Tools:** `.github/workflows/security-audit.yml` | `.github/workflows/codeql.yml`
-
-### 🔧 Troubleshooting
-
-- **SDK Issues:** See [docs/guides/SDK_MIGRATION.md](./docs/guides/SDK_MIGRATION.md)
-- **Infrastructure:** See [infra/docker/README.md](./infra/docker/README.md)
-- **Common Issues:** Check [docs/INDEX.md#troubleshooting](./docs/INDEX.md)
-
-### 💬 Get Help
-
-- **Issues:** [GitHub Issues](https://github.com/omar120489/-traffic-crm-frontend-ts/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/omar120489/-traffic-crm-frontend-ts/discussions)
+> Prefer automation? `bash scripts/quick-start.sh` starts Docker dependencies, runs migrations/seeds, generates a dev JWT, and refreshes the SDK types.
 
 ---
 
-**Built with ❤️ for the travel industry**
+## Common Commands
+
+| Task | Command |
+| --- | --- |
+| Start all dev servers | `pnpm dev` |
+| Build workspace | `pnpm build` |
+| Lint workspace | `pnpm lint` |
+| Type-check workspace | `pnpm typecheck` |
+| Run all tests | `pnpm test` |
+| Generate SDK types | `pnpm sdk:gen` |
+| Start workers | `pnpm --filter @apps/workers dev` |
+| Prisma migrations | `pnpm --filter @apps/core-api prisma:migrate` |
+
+- Frontend-only build: `pnpm --filter ./apps/frontend build`
+- Docker image: `docker build -f apps/frontend/Dockerfile -t traffic-crm/frontend:local .`
+  - Nginx runs as non-root `appuser`; smoke test via `docker run --rm -p 8080:80 traffic-crm/frontend:local`.
+
+---
+
+## Testing
+
+- Frontend unit/integration tests: `pnpm --filter ./apps/frontend test:unit`
+- Frontend E2E tests: `pnpm --filter ./apps/frontend test:e2e`
+- Backend tests: `pnpm --filter @apps/core-api test`
+- Pre-commit hooks (Husky + lint-staged) enforce ESLint, TypeScript checks, and markdownlint.
+
+---
+
+## CI/CD
+
+- `.github/workflows/ci.yml` – primary lint/typecheck/test/build pipeline.
+- `.github/workflows/frontend-docker.yml` – builds and pushes the frontend Docker image to GHCR (requires repository permission “Improve repository permissions”).
+- `.github/workflows/update-status.yml` – regenerates `PROJECT_STATUS_OVERVIEW.md` when key directories change.
+- Additional workflows cover SDK publishing, CodeQL, docs linting, preview builds, and scheduled health checks.
+
+---
+
+## Documentation
+
+- Monorepo status ledger: [PROJECT_STATUS_OVERVIEW.md](./PROJECT_STATUS_OVERVIEW.md)
+- Frontend structure snapshot: [docs/FRONTEND_STRUCTURE.md](./docs/FRONTEND_STRUCTURE.md)
+- Quick-start script: [`scripts/quick-start.sh`](./scripts/quick-start.sh)
+- Docker Compose definitions: [`infra/docker/docker-compose.yml`](./infra/docker/docker-compose.yml)
+
+Update the status overview and structure snapshot after major refactors to keep onboarding material accurate.
+
+---
+
+## Troubleshooting
+
+- **Node version errors** – run `nvm use` or install Node 20.x (engines enforce `<21`).
+- **API  connection issues** – confirm the core API is running on `http://localhost:3000` and `VITE_APP_API_URL` matches.
+- **Playwright config errors** – ensure tests use `apps/frontend/playwright.config.mjs` and `VITE_MODE` is set if you rely on non-default env files.
+- **JWT parsing failures** – clear the `access_token` entry from `localStorage`; the Auth context will fall back to dev defaults.
+
+---
+
+## 📊 Project Status
+
+For a phase-by-phase progress report, documentation coverage, and next-action checklist head to [PROJECT_STATUS_OVERVIEW.md](./PROJECT_STATUS_OVERVIEW.md).

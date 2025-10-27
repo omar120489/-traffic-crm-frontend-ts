@@ -8,24 +8,60 @@
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
-      "@shared-types/*": ["packages/shared-types/src/*"],
-      "@ui-kit/*": ["packages/ui-kit/src/*"],
-      "@rbac/*": ["packages/rbac/src/*"],
-      "@/*": ["apps/frontend/src/*"],
-      "@core/*": ["apps/frontend/src/core/*"],
-      "@data/*": ["apps/frontend/src/data/*"],
-      "@features/*": ["apps/frontend/src/features/*"],
-      "@shared/*": ["apps/frontend/src/shared/*"],
-      "@views/*": ["apps/frontend/src/views/*"],
-      "@hooks/*": ["apps/frontend/src/hooks/*"],
-      "@services/*": ["apps/frontend/src/services/*"],
-      "@types/*": ["apps/frontend/src/types/*"],
-      "@contexts/*": ["apps/frontend/src/contexts/*"],
-      "@store/*": ["apps/frontend/src/store/*"],
-      "@utils/*": ["apps/frontend/src/utils/*"],
-      "@assets/*": ["apps/frontend/src/assets/*"]
+      "@traffic-crm/shared-types/*": [
+        "packages/shared-types/src/*"
+      ],
+      "@ui-kit/*": [
+        "packages/ui-kit/src/*"
+      ],
+      "@rbac/*": [
+        "packages/rbac/src/*"
+      ],
+      "@/*": [
+        "apps/frontend/src/*"
+      ],
+      "@core/*": [
+        "apps/frontend/src/core/*"
+      ],
+      "@data/*": [
+        "apps/frontend/src/data/*"
+      ],
+      "@features/*": [
+        "apps/frontend/src/features/*"
+      ],
+      "@shared/*": [
+        "apps/frontend/src/shared/*"
+      ],
+      "@views/*": [
+        "apps/frontend/src/views/*"
+      ],
+      "@hooks/*": [
+        "apps/frontend/src/hooks/*"
+      ],
+      "@services/*": [
+        "apps/frontend/src/services/*"
+      ],
+      "@types/*": [
+        "apps/frontend/src/types/*"
+      ],
+      "@contexts/*": [
+        "apps/frontend/src/contexts/*"
+      ],
+      "@store/*": [
+        "apps/frontend/src/store/*"
+      ],
+      "@utils/*": [
+        "apps/frontend/src/utils/*"
+      ],
+      "@assets/*": [
+        "apps/frontend/src/assets/*"
+      ],
+      "@traffic-crm/shared-types": [
+        "packages/shared-types/src/index.ts"
+      ]
     }
   }
 }

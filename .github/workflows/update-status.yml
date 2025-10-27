@@ -1,0 +1,53 @@
+name: Update Project Status Overview
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'infra/**'
+      - 'docs/**'
+      - '.github/workflows/**'
+      - 'scripts/generate-project-status.ts'
+      - 'PROJECT_STATUS_OVERVIEW.md'
+  workflow_dispatch:
+
+jobs:
+  refresh-status:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Regenerate project status overview
+        run: pnpm exec tsx scripts/generate-project-status.ts
+
+      - name: Commit and push (if changed)
+        run: |
+          if git diff --quiet PROJECT_STATUS_OVERVIEW.md; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "traffic-crm-bot"
+          git config user.email "bot@trafficcrm.dev"
+          git add PROJECT_STATUS_OVERVIEW.md
+          git commit -m "chore(docs): auto-update project status overview"
+          git push

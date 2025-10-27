@@ -75,7 +75,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
-        '@shared-types': path.resolve(__dirname, '../../packages/shared-types/src'),
+        '@traffic-crm/shared-types': path.resolve(__dirname, '../../packages/shared-types/src'),
         '@': path.resolve(__dirname, './src'),
         '@core': path.resolve(__dirname, './src/core'),
         '@data': path.resolve(__dirname, './src/data'),
