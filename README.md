@@ -92,11 +92,80 @@ Update the status overview and structure snapshot after major refactors to keep 
 
 ---
 
+## GitHub Container Registry (GHCR)
+
+We publish Docker images to GitHub Container Registry (GHCR) at
+`ghcr.io/omar120489/traffic-crm-frontend-ts`.
+
+### Image names
+
+- **Latest**: `ghcr.io/omar120489/traffic-crm-frontend-ts:latest`
+- **Commit SHA**: `ghcr.io/omar120489/traffic-crm-frontend-ts:<commit-sha>`
+
+### Pulling the image (read-only)
+
+If the image is public, pull with:
+
+```bash
+docker pull ghcr.io/omar120489/traffic-crm-frontend-ts:latest
+```
+
+If the image is private, authenticate first using a Personal Access Token
+with `read:packages`:
+
+```bash
+echo "<PERSONAL_ACCESS_TOKEN>" | docker login ghcr.io -u omar120489 \
+  --password-stdin
+docker pull ghcr.io/omar120489/traffic-crm-frontend-ts:latest
+```
+
+### Pushing an image locally (one-off; usually the action does this)
+
+1. **Build**:
+
+   ```bash
+   docker build \
+     -t ghcr.io/omar120489/traffic-crm-frontend-ts:local-test .
+   ```
+
+2. **Login** (use PAT with `write:packages`):
+
+   ```bash
+   echo "<PERSONAL_ACCESS_TOKEN>" | docker login ghcr.io -u omar120489 \
+     --password-stdin
+   ```
+
+3. **Push**:
+
+   ```bash
+   docker push ghcr.io/omar120489/traffic-crm-frontend-ts:local-test
+   ```
+
+### CI publishing
+
+The repository includes a GitHub Actions workflow (`.github/workflows/publish-ghcr.yml`)
+that will build and publish on pushes to `main` and on tag pushes
+(e.g., `v1.2.3`).
+
+- Workflows use `GITHUB_TOKEN` to authenticate with GHCR; ensure repository Actions
+  permissions allow `packages: write` (already enabled).
+- Adjust workflow triggers and tags as you prefer in the workflow file.### CI publishing
+
+The repository includes a GitHub Actions workflow (`.github/workflows/publish-ghcr.yml`)
+that will build and publish on pushes to `main` and on tag pushes (e.g., `v1.2.3`).
+
+- Workflows use `GITHUB_TOKEN` to authenticate with GHCR; ensure repository Actions
+  permissions allow `packages: write` (already enabled).
+- Adjust workflow triggers and tags as you prefer in the workflow file.
+
+---
+
 ## Troubleshooting
 
 - **Node version errors** – run `nvm use` or install Node 20.x (engines enforce `<21`).
 - **API  connection issues** – confirm the core API is running on `http://localhost:3000` and `VITE_APP_API_URL` matches.
-- **Playwright config errors** – ensure tests use `apps/frontend/playwright.config.mjs` and `VITE_MODE` is set if you rely on non-default env files.
+- **Playwright config errors** – ensure tests use `apps/frontend/playwright.config.mjs`
+  and `VITE_MODE` is set if you rely on non-default env files.
 - **JWT parsing failures** – clear the `access_token` entry from `localStorage`; the Auth context will fall back to dev defaults.
 
 ---
