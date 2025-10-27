@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "nest start --watch",
     "start": "node dist/apps/core-api/src/main.js",
     "start:dev": "nest start --watch",
