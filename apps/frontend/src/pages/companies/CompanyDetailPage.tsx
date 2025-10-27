@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Typography,
-  Alert,
-} from '@mui/material';
+import { Box, Button, Card, CardContent, Typography, Alert } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import { AppPage } from '@traffic-crm/ui-kit';
 import { createClient } from '@traffic-crm/sdk-js';
@@ -15,7 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('access_token') ?? '',
+  getToken: () => localStorage.getItem('access_token') ?? ''
 });
 
 interface Company {
@@ -99,9 +92,24 @@ export default function CompanyDetailPage() {
     .filter((d) => d.status === 'won')
     .reduce((sum, d) => sum + d.amountCents, 0);
 
-  if (loading) return <AppPage title="Loading..."><Typography>Loading...</Typography></AppPage>;
-  if (error) return <AppPage title="Error"><Alert severity="error">{error}</Alert></AppPage>;
-  if (!company) return <AppPage title="Not Found"><Alert severity="warning">Company not found</Alert></AppPage>;
+  if (loading)
+    return (
+      <AppPage title="Loading...">
+        <Typography>Loading...</Typography>
+      </AppPage>
+    );
+  if (error)
+    return (
+      <AppPage title="Error">
+        <Alert severity="error">{error}</Alert>
+      </AppPage>
+    );
+  if (!company)
+    return (
+      <AppPage title="Not Found">
+        <Alert severity="warning">Company not found</Alert>
+      </AppPage>
+    );
 
   return (
     <AppPage
@@ -201,7 +209,7 @@ export default function CompanyDetailPage() {
                     borderRadius: 1,
                     bgcolor: 'grey.50',
                     cursor: 'pointer',
-                    '&:hover': { bgcolor: 'grey.100' },
+                    '&:hover': { bgcolor: 'grey.100' }
                   }}
                   onClick={() => navigate(`/contacts/${contact.id}`)}
                 >
@@ -236,7 +244,7 @@ export default function CompanyDetailPage() {
                     bgcolor: 'grey.50',
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center',
+                    alignItems: 'center'
                   }}
                 >
                   <Box>
@@ -262,4 +270,3 @@ export default function CompanyDetailPage() {
     </AppPage>
   );
 }
-

@@ -26,4 +26,3 @@ export const api = createClient({ baseUrl, getToken });
 
 // Export for use in services
 export { createClient };
-

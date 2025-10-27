@@ -19,7 +19,7 @@ export interface KanbanColumnProps {
 export function KanbanColumn({ stage, deals, onDealClick }: Readonly<KanbanColumnProps>) {
   const { setNodeRef, isOver } = useDroppable({
     id: stage.id,
-    data: { type: 'column', stage },
+    data: { type: 'column', stage }
   });
   const totalValue = deals.reduce((sum, deal) => sum + deal.amountCents, 0);
 
@@ -28,7 +28,7 @@ export function KanbanColumn({ stage, deals, onDealClick }: Readonly<KanbanColum
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(cents / 100);
   };
 
@@ -43,7 +43,7 @@ export function KanbanColumn({ stage, deals, onDealClick }: Readonly<KanbanColum
         flexDirection: 'column',
         border: isOver ? '2px solid' : '1px solid',
         borderColor: isOver ? 'primary.main' : 'divider',
-        transition: 'all 0.2s',
+        transition: 'all 0.2s'
       }}
     >
       <CardHeader
@@ -80,7 +80,7 @@ export function KanbanColumn({ stage, deals, onDealClick }: Readonly<KanbanColum
                 border: '2px dashed',
                 borderColor: isOver ? 'primary.main' : 'divider',
                 borderRadius: 1,
-                bgcolor: 'background.paper',
+                bgcolor: 'background.paper'
               }}
             >
               <Typography variant="body2" color="text.secondary">
@@ -99,4 +99,3 @@ export function KanbanColumn({ stage, deals, onDealClick }: Readonly<KanbanColum
     </Card>
   );
 }
-

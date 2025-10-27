@@ -11,7 +11,7 @@ import {
   IconFileInvoice,
   IconUsers,
   IconChartLine,
-  IconCurrencyDollar,
+  IconCurrencyDollar
 } from '@tabler/icons-react';
 
 // constant
@@ -27,7 +27,7 @@ const icons = {
   IconFileInvoice,
   IconUsers,
   IconChartLine,
-  IconCurrencyDollar,
+  IconCurrencyDollar
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -45,7 +45,7 @@ const pages = {
       type: 'item',
       url: '/contacts',
       icon: icons.IconPhoneCall,
-      breadcrumbs: false,
+      breadcrumbs: false
     },
     {
       id: 'companies',
@@ -53,7 +53,7 @@ const pages = {
       type: 'item',
       url: '/companies',
       icon: icons.IconReceipt2,
-      breadcrumbs: false,
+      breadcrumbs: false
     },
     {
       id: 'leads',
@@ -61,7 +61,7 @@ const pages = {
       type: 'item',
       url: '/leads',
       icon: icons.IconUsers,
-      breadcrumbs: false,
+      breadcrumbs: false
     },
     {
       id: 'deals',
@@ -69,7 +69,7 @@ const pages = {
       type: 'item',
       url: '/deals',
       icon: icons.IconFileInvoice,
-      breadcrumbs: false,
+      breadcrumbs: false
     },
     {
       id: 'analytics',
@@ -77,7 +77,7 @@ const pages = {
       type: 'item',
       url: '/analytics',
       icon: icons.IconChartLine,
-      breadcrumbs: true,
+      breadcrumbs: true
     },
     {
       id: 'pnl-analytics',
@@ -85,7 +85,7 @@ const pages = {
       type: 'item',
       url: '/analytics/pnl',
       icon: icons.IconCurrencyDollar,
-      breadcrumbs: true,
+      breadcrumbs: true
     },
     {
       id: 'notifications',
@@ -93,7 +93,7 @@ const pages = {
       type: 'item',
       url: '/notifications',
       icon: icons.IconBellRinging,
-      breadcrumbs: false,
+      breadcrumbs: false
     },
     {
       id: 'chat',
@@ -101,7 +101,7 @@ const pages = {
       type: 'item',
       url: '/chat',
       icon: icons.IconMessageCircle,
-      breadcrumbs: true,
+      breadcrumbs: true
     },
     {
       id: 'maintenance',
@@ -114,14 +114,14 @@ const pages = {
           title: 'error-404',
           type: 'item',
           url: '/pages/error',
-          target: true,
+          target: true
         },
         {
           id: '500',
           title: 'error-500',
           type: 'item',
           url: '/pages/500',
-          target: true,
+          target: true
         },
         {
           id: 'coming-soon',
@@ -133,27 +133,27 @@ const pages = {
               title: 'coming-soon 01',
               type: 'item',
               url: '/pages/coming-soon1',
-              target: true,
+              target: true
             },
             {
               id: 'coming-soon2',
               title: 'coming-soon 02',
               type: 'item',
               url: '/pages/coming-soon2',
-              target: true,
-            },
-          ],
+              target: true
+            }
+          ]
         },
         {
           id: 'under-construction',
           title: 'under-construction',
           type: 'item',
           url: '/pages/under-construction',
-          target: true,
-        },
-      ],
-    },
-  ],
+          target: true
+        }
+      ]
+    }
+  ]
 };
 
 export default pages;

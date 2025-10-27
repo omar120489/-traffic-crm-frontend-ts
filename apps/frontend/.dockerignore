@@ -1,0 +1,25 @@
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+
+# Node dependencies
+node_modules/
+npm-debug.log
+pnpm-lock.yaml
+
+# Build output
+dist/
+build/
+
+# Local environment
+.env
+.env.*
+
+# Test and report files
+playwright-report/
+test-results/
+coverage/
+
+# Vite cache
+.vite/

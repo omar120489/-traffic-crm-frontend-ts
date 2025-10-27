@@ -24,7 +24,7 @@ function MenuList(_props: MenuListProps) {
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const {
-    state: { menuOrientation },
+    state: { menuOrientation }
   } = useConfig();
 
   const { menuMaster } = useGetMenuMaster();
@@ -48,7 +48,7 @@ function MenuList(_props: MenuListProps) {
         const anyItem = item as any;
         const baseItem: RemainingMenuItem = {
           id: anyItem.id,
-          elements: anyItem.children ?? [],
+          elements: anyItem.children ?? []
         };
 
         // Only add properties that exist on the item
@@ -71,7 +71,7 @@ function MenuList(_props: MenuListProps) {
       visibleItems: menuItems.items.slice(0, lastItemIndex + 1),
       remainingItems: rem,
       lastItemId: lastId,
-      lastItem: lastItemCount,
+      lastItem: lastItemCount
     };
   }, [isHorizontal]);
 

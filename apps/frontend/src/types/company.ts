@@ -41,4 +41,3 @@ export interface CompanySummary {
   readonly recentDeals: readonly CompanyDeal[];
   readonly contacts: readonly CompanyContact[];
 }
-

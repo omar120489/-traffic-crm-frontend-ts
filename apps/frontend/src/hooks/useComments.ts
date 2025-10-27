@@ -2,7 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { commentsService } from 'services/comments';
 // @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { Comment, CommentCreateDto, CommentListResponse, CommentUpdateDto, EntityIdentifier } from 'types/api';
+import type {
+  Comment,
+  CommentCreateDto,
+  CommentListResponse,
+  CommentUpdateDto,
+  EntityIdentifier
+} from 'types/api';
 import { useWebSocketEvents } from './useWebSocketEvents';
 
 interface UseCommentsOptions {
@@ -62,7 +68,7 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
     try {
       const response = await commentsService.listComments({
         entityType,
-        entityId,
+        entityId
       });
       handleResponse(response);
       setError(null);
@@ -96,7 +102,7 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
           entityType,
           entityId,
           content: input.content,
-          mentions: input.mentions,
+          mentions: input.mentions
         };
         const created = await commentsService.createComment(payload);
         setComments((prev) => [created, ...prev]);
@@ -212,7 +218,7 @@ export function useComments(options: UseCommentsOptions): UseCommentsResult {
     refresh,
     createComment: create,
     updateComment: update,
-    deleteComment: remove,
+    deleteComment: remove
   };
 }
 

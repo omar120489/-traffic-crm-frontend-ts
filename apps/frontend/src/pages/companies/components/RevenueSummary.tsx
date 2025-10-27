@@ -1,11 +1,11 @@
-import { Card, CardContent, Typography, Stack } from "@mui/material";
-import type { CompanyStats } from "../../../types/company";
+import { Card, CardContent, Typography, Stack } from '@mui/material';
+import type { CompanyStats } from '../../../types/company';
 
 const fmt = (cents: number) =>
   new Intl.NumberFormat(undefined, {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
   }).format(cents / 100);
 
 export default function RevenueSummary({ stats }: Readonly<{ stats: CompanyStats }>) {
@@ -31,4 +31,3 @@ export default function RevenueSummary({ stats }: Readonly<{ stats: CompanyStats
     </Card>
   );
 }
-

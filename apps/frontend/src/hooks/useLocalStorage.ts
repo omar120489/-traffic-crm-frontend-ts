@@ -43,7 +43,7 @@ export function useLocalStorage<T extends Record<string, unknown>>(
     <K extends keyof T>(field: K, value: T[K]) => {
       setState((prev) => ({
         ...prev,
-        [field]: value,
+        [field]: value
       }));
     },
     [setState]

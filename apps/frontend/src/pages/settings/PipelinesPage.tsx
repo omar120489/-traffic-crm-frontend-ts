@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import {
   Alert,
   Card,
   CardContent,
-  Snackbar,
+  Snackbar
 } from '@mui/material';
 import { Add, Edit, Delete, DragIndicator } from '@mui/icons-material';
 import { AppPage, DataTable, type Column } from '@traffic-crm/ui-kit';
@@ -24,19 +24,19 @@ import {
   useSensor,
   useSensors,
   closestCenter,
-  DragEndEvent,
+  DragEndEvent
 } from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   verticalListSortingStrategy,
-  useSortable,
+  useSortable
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 const api = createClient({
-  baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('token') ?? '',
+  baseUrl: import.meta.env.VITE_APP_API_URL || 'http://localhost:3000',
+  getToken: () => localStorage.getItem('token') ?? ''
 });
 
 interface Pipeline {
@@ -59,7 +59,7 @@ export default function PipelinesPage() {
   const [_loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [toast, setToast] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
-  
+
   // Dialog states
   const [pipelineDialog, setPipelineDialog] = useState(false);
   const [stageDialog, setStageDialog] = useState(false);
@@ -67,34 +67,50 @@ export default function PipelinesPage() {
   const [editingStage, setEditingStage] = useState<Stage | null>(null);
 
   // Drag and drop
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
-  );
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
   // Get auth from context
   const { orgId } = useAuth();
 
-  useEffect(() => {
-    loadPipelines();
-  }, []);
+  const loadPipelines = useCallback(async () => {
+    if (!orgId) {
+      setPipelines([]);
+      setSelectedPipeline(null);
+      return;
+    }
 
-  const loadPipelines = async () => {
     try {
       setLoading(true);
       const data = await api.listPipelines(orgId);
       setPipelines(data);
-      if (data.length > 0 && !selectedPipeline) {
-        setSelectedPipeline(data[0]);
+      if (data.length === 0) {
+        setSelectedPipeline(null);
+        return;
       }
-      setError(null);
+
+      setSelectedPipeline((current) => {
+        if (!current) {
+          return data[0];
+        }
+        return data.find((pipeline) => pipeline.id === current.id) ?? data[0];
+      });
     } catch (err: any) {
       setError(err.message || 'Failed to load pipelines');
     } finally {
       setLoading(false);
     }
-  };
+  }, [orgId]);
+
+  useEffect(() => {
+    void loadPipelines();
+  }, [loadPipelines]);
 
   const handleCreatePipeline = async (name: string) => {
+    if (!orgId) {
+      setError('Organization context is not available.');
+      return;
+    }
+
     try {
       await api.createPipeline({ orgId, name, isDefault: pipelines.length === 0 });
       await loadPipelines();
@@ -109,16 +125,13 @@ export default function PipelinesPage() {
     try {
       await api.deletePipeline(id);
       await loadPipelines();
-      if (selectedPipeline?.id === id) {
-        setSelectedPipeline(pipelines[0] || null);
-      }
     } catch (err: any) {
       setError(err.message || 'Failed to delete pipeline');
     }
   };
 
   const handleCreateStage = async (name: string, probability: number) => {
-    if (!selectedPipeline) return;
+    if (!selectedPipeline || !orgId) return;
     try {
       const maxOrder = Math.max(...(selectedPipeline.Stage?.map((s) => s.order) || [0]), 0);
       await api.createStage({
@@ -126,7 +139,7 @@ export default function PipelinesPage() {
         pipelineId: selectedPipeline.id,
         name,
         order: maxOrder + 1,
-        probability,
+        probability
       });
       await loadPipelines();
       setStageDialog(false);
@@ -163,21 +176,22 @@ export default function PipelinesPage() {
     const stages = selectedPipeline.Stage || [];
     const oldIndex = stages.findIndex((s) => s.id === active.id);
     const newIndex = stages.findIndex((s) => s.id === over.id);
-    
+
     if (oldIndex === -1 || newIndex === -1) return;
 
     const reordered = arrayMove(stages, oldIndex, newIndex);
-    
+
     // Optimistic update
     setSelectedPipeline({ ...selectedPipeline, Stage: reordered });
-    setPipelines(
-      pipelines.map((p) =>
-        p.id === selectedPipeline.id ? { ...p, Stage: reordered } : p
-      )
+    setPipelines((prev) =>
+      prev.map((p) => (p.id === selectedPipeline.id ? { ...p, Stage: reordered } : p))
     );
 
     try {
-      await api.reorderStages(selectedPipeline.id, reordered.map((s) => s.id));
+      await api.reorderStages(
+        selectedPipeline.id,
+        reordered.map((s) => s.id)
+      );
       setToast({ open: true, msg: 'Stages reordered successfully' });
     } catch (err: any) {
       setError(err.message || 'Failed to reorder stages');
@@ -191,12 +205,13 @@ export default function PipelinesPage() {
     {
       key: 'isDefault',
       header: 'Default',
-      render: (row) => (row.isDefault ? <Chip label="Default" size="small" color="primary" /> : null),
+      render: (row) =>
+        row.isDefault ? <Chip label="Default" size="small" color="primary" /> : null
     },
     {
       key: 'id',
       header: 'Stages',
-      render: (row) => <Chip label={`${row.Stage?.length || 0} stages`} size="small" />,
+      render: (row) => <Chip label={`${row.Stage?.length || 0} stages`} size="small" />
     },
     {
       key: 'id',
@@ -206,24 +221,28 @@ export default function PipelinesPage() {
           <Button size="small" onClick={() => setSelectedPipeline(row)}>
             View Stages
           </Button>
-          <IconButton size="small" onClick={() => handleDeletePipeline(row.id)} disabled={row.isDefault}>
+          <IconButton
+            size="small"
+            onClick={() => handleDeletePipeline(row.id)}
+            disabled={row.isDefault}
+          >
             <Delete fontSize="small" />
           </IconButton>
         </Box>
-      ),
-    },
+      )
+    }
   ];
 
   // Sortable Stage Component
   function SortableStageRow({ stage }: { stage: Stage }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-      id: stage.id,
+      id: stage.id
     });
 
     const style = {
       transform: CSS.Transform.toString(transform),
       transition,
-      opacity: isDragging ? 0.5 : 1,
+      opacity: isDragging ? 0.5 : 1
     };
 
     return (
@@ -233,10 +252,18 @@ export default function PipelinesPage() {
         sx={{
           mb: 1,
           cursor: 'grab',
-          '&:active': { cursor: 'grabbing' },
+          '&:active': { cursor: 'grabbing' }
         }}
       >
-        <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5, '&:last-child': { pb: 1.5 } }}>
+        <CardContent
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            py: 1.5,
+            '&:last-child': { pb: 1.5 }
+          }}
+        >
           <Box {...attributes} {...listeners} sx={{ display: 'flex', alignItems: 'center' }}>
             <DragIndicator sx={{ color: 'text.disabled' }} />
           </Box>
@@ -291,9 +318,13 @@ export default function PipelinesPage() {
 
       {selectedPipeline && (
         <Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}
+          >
             <Box>
-              <Box sx={{ fontSize: '1.25rem', fontWeight: 600 }}>{selectedPipeline.name} — Stages</Box>
+              <Box sx={{ fontSize: '1.25rem', fontWeight: 600 }}>
+                {selectedPipeline.name} — Stages
+              </Box>
               <Box sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
                 Drag stages to reorder
               </Box>
@@ -303,7 +334,11 @@ export default function PipelinesPage() {
             </Button>
           </Box>
 
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
             <SortableContext
               items={(selectedPipeline.Stage || []).map((s) => s.id)}
               strategy={verticalListSortingStrategy}
@@ -357,7 +392,11 @@ export default function PipelinesPage() {
         onClose={() => setToast({ open: false, msg: '' })}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={() => setToast({ open: false, msg: '' })} severity="success" variant="filled">
+        <Alert
+          onClose={() => setToast({ open: false, msg: '' })}
+          severity="success"
+          variant="filled"
+        >
           {toast.msg}
         </Alert>
       </Snackbar>
@@ -370,7 +409,7 @@ function PipelineDialog({
   open,
   onClose,
   onSave,
-  pipeline,
+  pipeline
 }: {
   open: boolean;
   onClose: () => void;
@@ -427,7 +466,7 @@ function StageDialog({
   open,
   onClose,
   onSave,
-  stage,
+  stage
 }: {
   open: boolean;
   onClose: () => void;
@@ -490,5 +529,3 @@ function StageDialog({
     </Dialog>
   );
 }
-
-

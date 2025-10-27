@@ -13,7 +13,7 @@ import {
   TextField,
   CircularProgress,
   Snackbar,
-  Alert,
+  Alert
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { createClient } from '@traffic-crm/sdk-js';
@@ -21,7 +21,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('token') ?? '',
+  getToken: () => localStorage.getItem('token') ?? ''
 });
 
 interface Tag {
@@ -47,7 +47,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
   const [toast, setToast] = useState<{ open: boolean; msg: string; sev: 'success' | 'error' }>({
     open: false,
     msg: '',
-    sev: 'success',
+    sev: 'success'
   });
 
   // Get auth from context
@@ -66,7 +66,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
       setLoading(true);
       const [entity, all] = await Promise.all([
         api.tags.getEntityTags(entityType, entityId),
-        api.tags.list(orgId),
+        api.tags.list(orgId)
       ]);
       setEntityTags(entity);
       setAllTags(all);
@@ -96,7 +96,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
       // For now, we'll need to refetch after removal
       const tag = entityTags.find((t) => t.id === tagId);
       if (!tag) return;
-      
+
       // Note: This is a simplified version. In production, you'd want to store assignment IDs
       await loadTags();
       onTagsChange?.();
@@ -120,9 +120,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
     }
   };
 
-  const availableTags = allTags.filter(
-    (tag) => !entityTags.some((et) => et.id === tag.id)
-  );
+  const availableTags = allTags.filter((tag) => !entityTags.some((et) => et.id === tag.id));
 
   if (loading) {
     return <CircularProgress size={20} />;
@@ -139,11 +137,11 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
           sx={{
             bgcolor: tag.color,
             color: 'white',
-            '& .MuiChip-deleteIcon': { color: 'rgba(255,255,255,0.7)' },
+            '& .MuiChip-deleteIcon': { color: 'rgba(255,255,255,0.7)' }
           }}
         />
       ))}
-      
+
       <IconButton
         size="small"
         onClick={(e) => setMenuAnchor(e.currentTarget)}
@@ -152,11 +150,7 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
         <Add fontSize="small" />
       </IconButton>
 
-      <Menu
-        anchorEl={menuAnchor}
-        open={Boolean(menuAnchor)}
-        onClose={() => setMenuAnchor(null)}
-      >
+      <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)}>
         {availableTags.length === 0 ? (
           <MenuItem disabled>No tags available</MenuItem>
         ) : (
@@ -170,7 +164,12 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
             </MenuItem>
           ))
         )}
-        <MenuItem onClick={() => { setCreateDialog(true); setMenuAnchor(null); }}>
+        <MenuItem
+          onClick={() => {
+            setCreateDialog(true);
+            setMenuAnchor(null);
+          }}
+        >
           <Add fontSize="small" sx={{ mr: 1 }} /> Create New Tag
         </MenuItem>
       </Menu>
@@ -216,7 +215,11 @@ export function TagManager({ entityType, entityId, onTagsChange }: Readonly<TagM
         onClose={() => setToast({ ...toast, open: false })}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={() => setToast({ ...toast, open: false })} severity={toast.sev} variant="filled">
+        <Alert
+          onClose={() => setToast({ ...toast, open: false })}
+          severity={toast.sev}
+          variant="filled"
+        >
           {toast.msg}
         </Alert>
       </Snackbar>
@@ -239,5 +242,3 @@ export function TagChips({ tags }: { tags: Tag[] }) {
     </Box>
   );
 }
-
-

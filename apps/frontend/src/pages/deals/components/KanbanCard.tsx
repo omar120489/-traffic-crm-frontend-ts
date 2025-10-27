@@ -16,22 +16,15 @@ export interface KanbanCardProps {
 }
 
 export function KanbanCard({ deal, onClick }: Readonly<KanbanCardProps>) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: deal.id,
-    data: { type: 'deal', deal },
+    data: { type: 'deal', deal }
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition: transition || undefined,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isDragging ? 0.5 : 1
   };
 
   const handleClick = () => {
@@ -45,7 +38,7 @@ export function KanbanCard({ deal, onClick }: Readonly<KanbanCardProps>) {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(cents / 100);
   };
 
@@ -57,9 +50,9 @@ export function KanbanCard({ deal, onClick }: Readonly<KanbanCardProps>) {
         cursor: isDragging ? 'grabbing' : 'grab',
         '&:hover': {
           boxShadow: 2,
-          borderColor: 'primary.main',
+          borderColor: 'primary.main'
         },
-        ...style,
+        ...style
       }}
       onClick={handleClick}
       {...attributes}
@@ -127,4 +120,3 @@ export function KanbanCard({ deal, onClick }: Readonly<KanbanCardProps>) {
     </Card>
   );
 }
-

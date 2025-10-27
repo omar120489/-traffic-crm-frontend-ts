@@ -1,4 +1,4 @@
-import type { AnalyticsFilters as Filters } from "@/types/analytics";
+import type { AnalyticsFilters as Filters } from '@/types/analytics';
 
 export interface AnalyticsFiltersProps {
   readonly value: Filters;
@@ -46,10 +46,12 @@ export function AnalyticsFilters({ value, onChange }: AnalyticsFiltersProps) {
         <div className="lg:col-span-2 flex items-end">
           <button
             type="button"
-            onClick={() => onChange({ 
-              from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-              to: new Date().toISOString().split('T')[0]
-            })}
+            onClick={() =>
+              onChange({
+                from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                to: new Date().toISOString().split('T')[0]
+              })
+            }
             className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Reset to Last 30 Days
@@ -59,4 +61,3 @@ export function AnalyticsFilters({ value, onChange }: AnalyticsFiltersProps) {
     </div>
   );
 }
-

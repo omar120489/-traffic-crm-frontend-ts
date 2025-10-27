@@ -1,0 +1,39 @@
+---
+# Development Environment
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traffic-crm-frontend-config
+  namespace: traffic-crm-dev
+  labels:
+    app: traffic-crm-frontend
+    environment: development
+data:
+  api-url: "http://traffic-crm-api:3000"
+  base-name: "/"
+---
+# Staging Environment
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traffic-crm-frontend-config
+  namespace: traffic-crm-staging
+  labels:
+    app: traffic-crm-frontend
+    environment: staging
+data:
+  api-url: "https://api-staging.traffic-crm.example.com"
+  base-name: "/"
+---
+# Production Environment
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traffic-crm-frontend-config
+  namespace: traffic-crm-prod
+  labels:
+    app: traffic-crm-frontend
+    environment: production
+data:
+  api-url: "https://api.traffic-crm.example.com"
+  base-name: "/"

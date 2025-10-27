@@ -9,7 +9,7 @@ import {
   IconButton,
   Box,
   CircularProgress,
-  Alert,
+  Alert
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -66,7 +66,7 @@ async function fetchContacts(params: {
       company: { id: 'c1', name: 'Globex Corporation' },
       owner: { id: 'u1', name: 'Admin User' },
       status: 'active',
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     },
     {
       id: '2',
@@ -76,7 +76,7 @@ async function fetchContacts(params: {
       title: 'CTO',
       company: { id: 'c2', name: 'Acme Inc.' },
       status: 'active',
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     },
     {
       id: '3',
@@ -84,8 +84,8 @@ async function fetchContacts(params: {
       email: 'sarah@techcorp.io',
       title: 'Product Manager',
       status: 'archived',
-      createdAt: new Date().toISOString(),
-    },
+      createdAt: new Date().toISOString()
+    }
   ];
 
   // Apply filters
@@ -107,7 +107,7 @@ async function fetchContacts(params: {
     items: filtered,
     total: filtered.length,
     page: params.page,
-    pageSize: params.pageSize,
+    pageSize: params.pageSize
   };
 }
 
@@ -134,7 +134,7 @@ export default function ContactsPageExample() {
           page,
           pageSize,
           search: search || undefined,
-          status: status !== 'all' ? status : undefined,
+          status: status !== 'all' ? status : undefined
         });
 
         if (mounted) {
@@ -188,7 +188,7 @@ export default function ContactsPageExample() {
             <Box sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>{row.title}</Box>
           )}
         </Box>
-      ),
+      )
     },
     {
       key: 'email',
@@ -209,19 +209,19 @@ export default function ContactsPageExample() {
             </Box>
           )}
         </Box>
-      ),
+      )
     },
     {
       key: 'company',
       header: 'Company',
       width: '20%',
-      render: (row) => row.company?.name || '—',
+      render: (row) => row.company?.name || '—'
     },
     {
       key: 'owner',
       header: 'Owner',
       width: '15%',
-      render: (row) => row.owner?.name || '—',
+      render: (row) => row.owner?.name || '—'
     },
     {
       key: 'status',
@@ -233,7 +233,7 @@ export default function ContactsPageExample() {
           color={row.status === 'active' ? 'success' : 'default'}
           size="small"
         />
-      ),
+      )
     },
     {
       key: 'id',
@@ -255,8 +255,8 @@ export default function ContactsPageExample() {
             </IconButton>
           )}
         </Box>
-      ),
-    },
+      )
+    }
   ];
 
   return (
@@ -264,7 +264,13 @@ export default function ContactsPageExample() {
       title="Contacts"
       breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contacts' }]}
       actions={
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => {/* TODO: Add contact */}}>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => {
+            /* TODO: Add contact */
+          }}
+        >
           Add Contact
         </Button>
       }
@@ -317,7 +323,7 @@ export default function ContactsPageExample() {
           sx={{
             textAlign: 'center',
             py: 8,
-            color: 'text.secondary',
+            color: 'text.secondary'
           }}
         >
           <Box sx={{ fontSize: '1.25rem', mb: 1 }}>No contacts found</Box>
@@ -336,4 +342,3 @@ export default function ContactsPageExample() {
     </AppPage>
   );
 }
-

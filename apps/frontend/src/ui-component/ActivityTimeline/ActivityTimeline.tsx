@@ -8,7 +8,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Typography,
+  Typography
 } from '@mui/material';
 import {
   IconCheck,
@@ -19,7 +19,7 @@ import {
   IconAlertCircle,
   IconCirclePlus,
   IconTrophy,
-  IconX,
+  IconX
 } from '@tabler/icons-react';
 // @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type { JourneyEvent } from 'types/api';
@@ -138,7 +138,7 @@ function formatTimestamp(date: string): string {
   return eventDate.toLocaleDateString(undefined, {
     month: 'short',
     day: 'numeric',
-    year: eventDate.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
+    year: eventDate.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
   });
 }
 
@@ -146,7 +146,7 @@ export default function ActivityTimeline({
   events,
   loading,
   error,
-  onRetry,
+  onRetry
 }: ActivityTimelineProps) {
   // Loading state
   if (loading) {
@@ -202,12 +202,12 @@ export default function ActivityTimeline({
               borderColor: 'divider',
               '&:first-of-type': {
                 borderTopLeftRadius: 1,
-                borderTopRightRadius: 1,
+                borderTopRightRadius: 1
               },
               '&:last-of-type': {
                 borderBottomLeftRadius: 1,
-                borderBottomRightRadius: 1,
-              },
+                borderBottomRightRadius: 1
+              }
             }}
           >
             <ListItemAvatar>

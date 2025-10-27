@@ -4,12 +4,12 @@ import {
   getAttributionPayload,
   markAttributionSent,
   clearAttribution,
-  hasAttributionBeenSent,
+  hasAttributionBeenSent
 } from './attribution';
 
 // Mock uuid
 vi.mock('uuid', () => ({
-  v4: () => 'test-uuid-1234',
+  v4: () => 'test-uuid-1234'
 }));
 
 describe('attribution', () => {

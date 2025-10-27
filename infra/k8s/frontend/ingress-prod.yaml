@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traffic-crm-frontend
+  namespace: traffic-crm-prod
+  labels:
+    app: traffic-crm-frontend
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - crm.example.com
+      secretName: traffic-crm-frontend-tls
+  rules:
+    - host: crm.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: traffic-crm-frontend
+                port:
+                  number: 80

@@ -79,7 +79,7 @@ export default function AWSCognitoRegister({ ...others }) {
           password: '',
           firstName: '',
           lastName: '',
-          submit: null,
+          submit: null
         }}
         validationSchema={Yup.object().shape({
           firstName: Yup.string()
@@ -102,7 +102,7 @@ export default function AWSCognitoRegister({ ...others }) {
               'Password can not start or end with spaces',
               (value) => value === value.trim()
             )
-            .max(10, 'Password must be less than 10 characters'),
+            .max(10, 'Password must be less than 10 characters')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
@@ -119,15 +119,15 @@ export default function AWSCognitoRegister({ ...others }) {
                   message: 'Your registration has been successfully completed.',
                   variant: 'alert',
                   alert: {
-                    color: 'success',
+                    color: 'success'
                   },
-                  close: false,
+                  close: false
                 })
               );
 
               setTimeout(() => {
                 navigate(authParam ? `/login?auth=${authParam}` : '/login', {
-                  replace: true,
+                  replace: true
                 });
               }, 1500);
             }

@@ -69,7 +69,7 @@ export default function AuthResetPassword({ ...others }) {
       initialValues={{
         password: '',
         confirmPassword: '',
-        submit: null,
+        submit: null
       }}
       validationSchema={Yup.object().shape({
         password: Yup.string().max(255).required('Password is required'),
@@ -79,7 +79,7 @@ export default function AuthResetPassword({ ...others }) {
             'confirmPassword',
             'Both Password must be match!',
             (confirmPassword, yup) => yup.parent.password === confirmPassword
-          ),
+          )
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
@@ -94,9 +94,9 @@ export default function AuthResetPassword({ ...others }) {
                 message: 'Successfuly reset password.',
                 variant: 'alert',
                 alert: {
-                  color: 'success',
+                  color: 'success'
                 },
-                close: false,
+                close: false
               })
             );
 
@@ -163,7 +163,7 @@ export default function AuthResetPassword({ ...others }) {
                         width: 85,
                         height: 8,
                         borderRadius: '7px',
-                        bgcolor: level?.color,
+                        bgcolor: level?.color
                       }}
                     />
                   </Grid>

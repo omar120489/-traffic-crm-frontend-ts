@@ -30,7 +30,7 @@ export function KanbanFilters({
   value,
   onChange,
   onClear,
-  loading = false,
+  loading = false
 }: Readonly<KanbanFiltersProps>) {
   const [searchQuery, setSearchQuery] = useState(value.q);
 
@@ -75,17 +75,12 @@ export function KanbanFilters({
           onChange={(_, selected) => {
             onChange({
               ...value,
-              ownerIds: selected.map((s) => s.id),
+              ownerIds: selected.map((s) => s.id)
             });
           }}
           renderTags={(selected, getTagProps) =>
             selected.map((option, index) => (
-              <Chip
-                {...getTagProps({ index })}
-                key={option.id}
-                label={option.name}
-                size="small"
-              />
+              <Chip {...getTagProps({ index })} key={option.id} label={option.name} size="small" />
             ))
           }
           renderInput={(params) => (
@@ -106,17 +101,12 @@ export function KanbanFilters({
           onChange={(_, selected) => {
             onChange({
               ...value,
-              tagIds: selected.map((s) => s.id),
+              tagIds: selected.map((s) => s.id)
             });
           }}
           renderTags={(selected, getTagProps) =>
             selected.map((option, index) => (
-              <Chip
-                {...getTagProps({ index })}
-                key={option.id}
-                label={option.name}
-                size="small"
-              />
+              <Chip {...getTagProps({ index })} key={option.id} label={option.name} size="small" />
             ))
           }
           renderInput={(params) => (
@@ -152,4 +142,3 @@ export function KanbanFilters({
     </Box>
   );
 }
-

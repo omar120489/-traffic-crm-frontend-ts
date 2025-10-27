@@ -13,7 +13,7 @@ export function BoardSkeleton() {
         display: 'flex',
         gap: 2,
         overflowX: 'auto',
-        pb: 2,
+        pb: 2
       }}
     >
       {Array.from({ length: 4 }).map((_, columnIndex) => (
@@ -22,16 +22,21 @@ export function BoardSkeleton() {
           sx={{
             width: 340,
             minHeight: 400,
-            flexShrink: 0,
+            flexShrink: 0
           }}
         >
           <CardContent>
             {/* Column header */}
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ mb: 2 }}
+            >
               <Skeleton variant="text" width="60%" height={30} />
               <Skeleton variant="circular" width={32} height={32} />
             </Stack>
-            
+
             <Skeleton variant="text" width="40%" height={20} sx={{ mb: 2 }} />
 
             {/* Deal cards */}
@@ -43,8 +48,18 @@ export function BoardSkeleton() {
                     <Skeleton variant="text" width="50%" height={20} sx={{ mt: 1 }} />
                     <Skeleton variant="text" width="60%" height={20} sx={{ mt: 0.5 }} />
                     <Stack direction="row" spacing={0.5} sx={{ mt: 1 }}>
-                      <Skeleton variant="rectangular" width={60} height={20} sx={{ borderRadius: 1 }} />
-                      <Skeleton variant="rectangular" width={50} height={20} sx={{ borderRadius: 1 }} />
+                      <Skeleton
+                        variant="rectangular"
+                        width={60}
+                        height={20}
+                        sx={{ borderRadius: 1 }}
+                      />
+                      <Skeleton
+                        variant="rectangular"
+                        width={50}
+                        height={20}
+                        sx={{ borderRadius: 1 }}
+                      />
                     </Stack>
                   </CardContent>
                 </Card>
@@ -56,4 +71,3 @@ export function BoardSkeleton() {
     </Box>
   );
 }
-

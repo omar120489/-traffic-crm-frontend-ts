@@ -130,7 +130,7 @@ Eliminate type drift between API DTOs and shared-types
 ## ✅ Verification
 ```bash
 pnpm --filter @apps/core-api typecheck
-pnpm --filter @shared-types build
+pnpm --filter @traffic-crm/shared-types build
 pnpm --filter ./apps/frontend typecheck
 # No type casting needed in frontend
 ```

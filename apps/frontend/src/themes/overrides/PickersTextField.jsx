@@ -7,18 +7,18 @@ export default function PickersTextField(theme, borderRadius, outlinedFilled) {
         root: {
           borderRadius: `${borderRadius}px`,
           '& .MuiPickersOutlinedInput-root': {
-            borderRadius: `${borderRadius}px`,
+            borderRadius: `${borderRadius}px`
           },
           background: outlinedFilled ? theme.vars.palette.grey[50] : 'transparent',
           '& .MuiPickersInputBase-sectionsContainer': {
-            fontWeight: 500,
+            fontWeight: 500
           },
 
           ...theme.applyStyles('dark', {
-            background: outlinedFilled ? theme.vars.palette.dark[800] : 'transparent',
-          }),
-        },
-      },
-    },
+            background: outlinedFilled ? theme.vars.palette.dark[800] : 'transparent'
+          })
+        }
+      }
+    }
   };
 }

@@ -22,25 +22,25 @@ const AuthenticationRoutes: RouteObject = {
   children: [
     {
       path: '/pages/error',
-      element: <MaintenanceError />,
+      element: <MaintenanceError />
     },
     {
       path: '/pages/500',
-      element: <MaintenanceError500 />,
+      element: <MaintenanceError500 />
     },
     {
       path: '/pages/coming-soon1',
-      element: <MaintenanceComingSoon1 />,
+      element: <MaintenanceComingSoon1 />
     },
     {
       path: '/pages/coming-soon2',
-      element: <MaintenanceComingSoon2 />,
+      element: <MaintenanceComingSoon2 />
     },
     {
       path: '/pages/under-construction',
-      element: <MaintenanceUnderConstruction />,
-    },
-  ],
+      element: <MaintenanceUnderConstruction />
+    }
+  ]
 };
 
 export default AuthenticationRoutes;

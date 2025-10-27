@@ -28,7 +28,7 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
     isLoading,
     loginWithRedirect,
     logout: auth0Logout,
-    getAccessTokenSilently,
+    getAccessTokenSilently
   } = useAuth0();
 
   // Initialize auth state based on Auth0 status
@@ -64,8 +64,8 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
         // This maintains compatibility with the AuthContextType interface
         await loginWithRedirect({
           authorizationParams: {
-            login_hint: email,
-          },
+            login_hint: email
+          }
         });
       } catch (error) {
         handleAuthError(error, 'Auth0', 'login');
@@ -81,10 +81,10 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
         await loginWithRedirect({
           authorizationParams: {
             screen_hint: 'signup',
-            login_hint: email,
+            login_hint: email
             // Note: Auth0 doesn't support direct password/name passing in redirect
             // Consider using Auth0 Management API for programmatic registration
-          },
+          }
         });
       } catch (error) {
         handleAuthError(error, 'Auth0', 'register');
@@ -100,8 +100,8 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
 
       await auth0Logout({
         logoutParams: {
-          returnTo: window.location.origin,
-        },
+          returnTo: window.location.origin
+        }
       });
     } catch (error) {
       console.error('Auth0 logout error:', error);
@@ -121,8 +121,8 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
         await loginWithRedirect({
           authorizationParams: {
             screen_hint: 'reset-password',
-            login_hint: email,
-          },
+            login_hint: email
+          }
         });
       } catch (error) {
         handleAuthError(error, 'Auth0', 'resetPassword');
@@ -154,7 +154,7 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
     logout,
     register,
     resetPassword,
-    updateProfile,
+    updateProfile
   };
 
   return <Auth0Context.Provider value={contextValue}>{children}</Auth0Context.Provider>;

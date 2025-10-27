@@ -2,14 +2,14 @@ import type { Components, Theme } from '@mui/material/styles';
 
 // ==============================|| OVERRIDES - TYPOGRAPHY ||============================== //
 
-export default function Typography(theme: Theme): Components['MuiTypography'] {
+export default function Typography(theme: Theme): NonNullable<Components['MuiTypography']> {
   const headingColor = theme.palette.text.primary;
   const bodyColor = theme.palette.text.primary;
   const secondaryColor = theme.palette.text.secondary;
 
   return {
     styleOverrides: {
-      root: {},
+      root: {}
     },
     variants: [
       { props: { variant: 'h1' }, style: { color: headingColor } },
@@ -21,7 +21,7 @@ export default function Typography(theme: Theme): Components['MuiTypography'] {
       { props: { variant: 'subtitle1' }, style: { color: bodyColor } },
       { props: { variant: 'subtitle2' }, style: { color: secondaryColor } },
       { props: { variant: 'caption' }, style: { color: secondaryColor } },
-      { props: { variant: 'body2' }, style: { color: bodyColor } },
-    ],
+      { props: { variant: 'body2' }, style: { color: bodyColor } }
+    ]
   };
 }

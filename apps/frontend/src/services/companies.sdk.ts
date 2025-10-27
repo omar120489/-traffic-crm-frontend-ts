@@ -6,8 +6,8 @@ import type {
   CompanyUpdateDto,
   PaginatedCompanies,
   UUID,
-  ApiResponse,
-} from '@shared-types';
+  ApiResponse
+} from '@traffic-crm/shared-types';
 
 export async function listCompanies(query?: CompanyQuery): Promise<PaginatedCompanies> {
   return api.listCompanies(query);
@@ -34,6 +34,5 @@ export const companiesApi = {
   getCompany,
   createCompany,
   updateCompany,
-  deleteCompany,
+  deleteCompany
 };
-

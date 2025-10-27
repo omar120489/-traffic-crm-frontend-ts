@@ -5,9 +5,9 @@ export default function Divider(theme) {
     MuiDivider: {
       styleOverrides: {
         root: {
-          borderColor: theme.vars.palette.divider,
-        },
-      },
-    },
+          borderColor: theme.vars.palette.divider
+        }
+      }
+    }
   };
 }

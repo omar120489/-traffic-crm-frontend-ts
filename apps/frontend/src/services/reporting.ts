@@ -1,6 +1,12 @@
 import { apiGet } from 'utils/axios';
 // @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { AnalyticsFilters, CohortItem, FunnelStage, KpiSummary, TimeSeriesPoint } from 'types/metrics';
+import type {
+  AnalyticsFilters,
+  CohortItem,
+  FunnelStage,
+  KpiSummary,
+  TimeSeriesPoint
+} from 'types/metrics';
 
 export type TrendInterval = 'day' | 'week' | 'month';
 export type CohortInterval = 'month' | 'quarter';
@@ -21,13 +27,13 @@ function sanitizeFilters(filters: AnalyticsFilters): Record<string, string> {
 
 export async function getKpis(filters: AnalyticsFilters): Promise<KpiSummary> {
   return apiGet<KpiSummary>('/api/reporting/kpis', {
-    params: sanitizeFilters(filters),
+    params: sanitizeFilters(filters)
   });
 }
 
 export async function getFunnel(filters: AnalyticsFilters): Promise<FunnelStage[]> {
   return apiGet<FunnelStage[]>('/api/reporting/funnel', {
-    params: sanitizeFilters(filters),
+    params: sanitizeFilters(filters)
   });
 }
 
@@ -38,8 +44,8 @@ export async function getTrends(
   return apiGet<TimeSeriesPoint[]>('/api/reporting/trends', {
     params: {
       ...sanitizeFilters(filters),
-      interval,
-    },
+      interval
+    }
   });
 }
 
@@ -50,7 +56,7 @@ export async function getCohorts(
   return apiGet<CohortItem[]>('/api/reporting/cohorts', {
     params: {
       ...sanitizeFilters(filters),
-      interval,
-    },
+      interval
+    }
   });
 }

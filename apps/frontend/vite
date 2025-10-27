@@ -1,0 +1,14 @@
+
+
+  VITE v7.1.11  ready in 124 ms
+
+  ➜  Local:   http://localhost:3002/
+  ➜  Network: http://192.168.1.162:3002/
+  ➜  press h + enter to show help
+2:19:16 AM [vite] .env changed, restarting server...
+2:19:16 AM [vite] server restarted.
+2:37:13 AM [vite] (client) page reload public/index.html
+3:08:21 AM [vite] changed tsconfig file detected: /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251
+3:08:21 AM [vite] changed tsconfig file detected: /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is 
+3:08:21 AM [vite] changed tsconfig file detected: /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+^C ELIFECYCLE  Command failed.

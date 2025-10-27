@@ -29,7 +29,7 @@ function LinearProgressWithLabel({ value, ...others }) {
           variant="h6"
           sx={{
             color: 'primary.800',
-            ...theme.applyStyles('dark', { color: 'dark.light' }),
+            ...theme.applyStyles('dark', { color: 'dark.light' })
           }}
         >
           Progress
@@ -45,12 +45,12 @@ function LinearProgressWithLabel({ value, ...others }) {
           height: 10,
           borderRadius: 30,
           [`&.${linearProgressClasses.colorPrimary}`]: {
-            bgcolor: 'background.paper',
+            bgcolor: 'background.paper'
           },
           [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 5,
-            bgcolor: 'primary.dark',
-          },
+            bgcolor: 'primary.dark'
+          }
         }}
       />
     </Stack>
@@ -77,10 +77,10 @@ function MenuCard() {
           bgcolor: 'primary.200',
           borderRadius: '50%',
           top: -105,
-          right: -96,
+          right: -96
         },
 
-        ...theme.applyStyles('dark', { bgcolor: 'dark.main', '&:after': { bgcolor: 'dark.dark' } }),
+        ...theme.applyStyles('dark', { bgcolor: 'dark.main', '&:after': { bgcolor: 'dark.dark' } })
       }}
     >
       <Box sx={{ p: 2 }}>
@@ -97,8 +97,8 @@ function MenuCard() {
                   bgcolor: 'background.paper',
                   ...theme.applyStyles('dark', {
                     border: '1px solid',
-                    borderColor: 'primary.main',
-                  }),
+                    borderColor: 'primary.main'
+                  })
                 }}
               >
                 <TableChartOutlinedIcon fontSize="inherit" />
@@ -111,7 +111,7 @@ function MenuCard() {
                   variant="subtitle1"
                   sx={{
                     color: 'primary.800',
-                    ...theme.applyStyles('dark', { color: 'dark.light' }),
+                    ...theme.applyStyles('dark', { color: 'dark.light' })
                   }}
                 >
                   Get Extra Space

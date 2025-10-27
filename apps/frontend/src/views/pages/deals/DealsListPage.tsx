@@ -23,7 +23,7 @@ import ExportMenu from '@/ui-component/ExportMenu';
 import { FilterPanel, type FilterConfig, type FilterValues } from '@/ui-component/FilterPanel';
 import { useDeals } from '@hooks/useDeals';
 import { useFilterPresets } from '@hooks/useFilterPresets';
-import type { Deal, DealQuery } from '@shared-types';
+import type { Deal, DealQuery } from '@traffic-crm/shared-types';
 import {
   exportToXLSX,
   exportToPDF,

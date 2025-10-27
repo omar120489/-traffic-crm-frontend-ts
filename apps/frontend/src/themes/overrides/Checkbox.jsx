@@ -6,10 +6,10 @@ export default function Checkbox() {
       styleOverrides: {
         root: {
           '& + .MuiFormControlLabel-label': {
-            marginTop: 2,
-          },
-        },
-      },
-    },
+            marginTop: 2
+          }
+        }
+      }
+    }
   };
 }

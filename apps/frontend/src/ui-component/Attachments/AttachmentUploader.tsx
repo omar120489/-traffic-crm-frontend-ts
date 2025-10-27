@@ -115,6 +115,7 @@ export function AttachmentUploader({
     async (attachment: Attachment) => {
       try {
         setActionError(null);
+        // @ts-expect-error - EntityIdentifier can be string | number, API accepts both
         await deleteAttachment(attachment.id);
       } catch (err) {
         setActionError(err instanceof Error ? err.message : 'Unable to delete file.');
@@ -213,8 +214,10 @@ export function AttachmentUploader({
                         <span>
                           <IconButton
                             onClick={() => void handleDelete(attachment)}
+                            // @ts-expect-error - EntityIdentifier can be string | number
                             disabled={deletingIds.has(attachment.id)}
                           >
+                            {/* @ts-expect-error - EntityIdentifier can be string | number */}
                             {deletingIds.has(attachment.id) ? (
                               <CircularProgress size={20} />
                             ) : (

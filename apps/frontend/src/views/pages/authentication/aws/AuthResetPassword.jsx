@@ -74,7 +74,7 @@ export default function AuthResetPassword({ ...others }) {
         otp: '',
         password: '',
         confirmPassword: '',
-        submit: null,
+        submit: null
       }}
       validationSchema={Yup.object().shape({
         otp: Yup.string().max(255).required('Verification Code is required'),
@@ -85,7 +85,7 @@ export default function AuthResetPassword({ ...others }) {
             'confirmPassword',
             'Both Password must be match!',
             (confirmPassword, yup) => yup.parent.password === confirmPassword
-          ),
+          )
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
@@ -98,9 +98,9 @@ export default function AuthResetPassword({ ...others }) {
                   message: 'Password Reset Successfully',
                   variant: 'alert',
                   alert: {
-                    color: 'success',
+                    color: 'success'
                   },
-                  close: false,
+                  close: false
                 })
               );
               setTimeout(() => {
@@ -137,7 +137,7 @@ export default function AuthResetPassword({ ...others }) {
         isSubmitting,
         touched,
         values,
-        setFieldValue,
+        setFieldValue
       }) => (
         <form noValidate onSubmit={handleSubmit} {...others}>
           <Box sx={{ mb: 1.25 }}>
@@ -150,8 +150,8 @@ export default function AuthResetPassword({ ...others }) {
               sx={{
                 '& input:focus-visible': {
                   borderColor: `${theme.vars.palette.primary.main} !important`,
-                  boxShadow: `0px 0px 0px 1px ${theme.vars.palette.primary.main}`,
-                },
+                  boxShadow: `0px 0px 0px 1px ${theme.vars.palette.primary.main}`
+                }
               }}
             >
               <OTPInput
@@ -168,7 +168,7 @@ export default function AuthResetPassword({ ...others }) {
                   backgroundColor: theme.vars.palette.grey[50],
                   border: `1px solid ${theme.vars.palette.grey[400]}`,
                   borderRadius: 4,
-                  outline: 'none',
+                  outline: 'none'
                 }}
                 renderInput={(props) => <input {...props} />}
               />

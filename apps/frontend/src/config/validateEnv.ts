@@ -33,5 +33,4 @@ ${missingEnvVars.map((v) => `│    - ${v.padEnd(55)}│`).join('\n')}
     // Throwing an error is better than process.exit in a browser context
     throw new Error('Environment validation failed. Halting application startup.');
   }
-
 }

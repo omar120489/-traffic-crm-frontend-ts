@@ -1,8 +1,8 @@
 export type AnalyticsFilters = {
   from?: string; // ISO date
-  to?: string;   // ISO date
+  to?: string; // ISO date
   users?: string[];
-  types?: Array<'call'|'email'|'meeting'|'note'|'task'>;
+  types?: Array<'call' | 'email' | 'meeting' | 'note' | 'task'>;
 };
 
 export interface SavedView {
@@ -16,4 +16,3 @@ export interface SavedView {
   readonly createdAt: string;
   readonly updatedAt: string;
 }
-

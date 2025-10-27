@@ -43,24 +43,24 @@ const PopperStyled = styled(Popper)(({ theme }) => ({
     zIndex: 120,
     borderWidth: '6px',
     borderStyle: 'solid',
-    borderColor: `transparent transparent ${theme.palette.background.paper} ${theme.palette.background.paper}`,
+    borderColor: `transparent transparent ${theme.palette.background.paper} ${theme.palette.background.paper}`
   },
   '&[data-popper-placement="left-start"]:before': {
     left: 'auto',
     right: -5,
-    borderColor: `${theme.palette.background.paper} ${theme.palette.background.paper} transparent transparent`,
+    borderColor: `${theme.palette.background.paper} ${theme.palette.background.paper} transparent transparent`
   },
   '&[data-popper-placement="left-end"]:before': {
     top: 'auto',
     bottom: 15,
     left: 'auto',
     right: -5,
-    borderColor: `${theme.palette.background.paper} ${theme.palette.background.paper} transparent transparent`,
+    borderColor: `${theme.palette.background.paper} ${theme.palette.background.paper} transparent transparent`
   },
   '&[data-popper-placement="right-end"]:before': {
     top: 'auto',
-    bottom: 15,
-  },
+    bottom: 15
+  }
 }));
 
 interface NavCollapseProps {
@@ -75,7 +75,7 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
   const labelRef = useRef<HTMLSpanElement | null>(null);
 
   const {
-    state: { menuOrientation, borderRadius },
+    state: { menuOrientation, borderRadius }
   } = useConfig();
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = Boolean(menuMaster?.isDashboardDrawerOpened);
@@ -180,8 +180,8 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
               ...((!drawerOpen || level !== 1) && {
                 py: level === 1 ? 0 : 1,
                 '&:hover': { bgcolor: 'transparent' },
-                '&.Mui-selected': { '&:hover': { bgcolor: 'transparent' }, bgcolor: 'transparent' },
-              }),
+                '&.Mui-selected': { '&:hover': { bgcolor: 'transparent' }, bgcolor: 'transparent' }
+              })
             }}
             selected={selected === menu.id}
             onClick={handleClickMini}
@@ -196,8 +196,8 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
                 minWidth: level === 1 ? 36 : 18,
                 color: selected === menu.id ? 'secondary.main' : 'text.primary',
                 ...theme.applyStyles('dark', {
-                  color: selected === menu.id && drawerOpen ? 'text.primary' : 'text.primary',
-                }),
+                  color: selected === menu.id && drawerOpen ? 'text.primary' : 'text.primary'
+                })
               }}
             >
               {menuIcon}
@@ -221,7 +221,7 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
                       fontSize: '0.6875rem',
                       fontWeight: 500,
                       color: 'text.secondary',
-                      textTransform: 'capitalize',
+                      textTransform: 'capitalize'
                     }}
                   >
                     <FormattedMessage id={menu.caption} />
@@ -262,7 +262,7 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
               mr: 1,
               display: 'flex',
               alignItems: 'center',
-              backgroundColor: 'inherit',
+              backgroundColor: 'inherit'
             }}
           >
             <ListItemIcon sx={{ minWidth: 36 }}>{menuIcon}</ListItemIcon>
@@ -294,7 +294,7 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
                         mt: 2.5,
                         py: 1.25,
                         boxShadow: theme.shadows[8],
-                        backgroundImage: 'none',
+                        backgroundImage: 'none'
                       }}
                     >
                       <ClickAwayListener onClickAway={handleMiniClose}>
@@ -307,16 +307,16 @@ export default function NavCollapse({ menu, level, parentId }: NavCollapseProps)
                               opacity: 0,
                               width: 4,
                               '&:hover': {
-                                opacity: 0.7,
-                              },
+                                opacity: 0.7
+                              }
                             },
                             '&::-webkit-scrollbar-track': {
-                              bgcolor: 'transparent',
+                              bgcolor: 'transparent'
                             },
                             '&::-webkit-scrollbar-thumb': {
                               bgcolor: 'divider',
-                              borderRadius: 4,
-                            },
+                              borderRadius: 4
+                            }
                           }}
                         >
                           {renderChildren(menu.children, level + 1)}

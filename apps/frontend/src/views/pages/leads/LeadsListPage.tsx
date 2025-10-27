@@ -29,7 +29,7 @@ import ExportMenu from '@/ui-component/ExportMenu';
 import { FilterPanel, type FilterConfig, type FilterValues } from '@/ui-component/FilterPanel';
 import useLeads from '@hooks/useLeads';
 import { useFilterPresets } from '@hooks/useFilterPresets';
-import type { Lead, LeadQuery } from '@shared-types';
+import type { Lead, LeadQuery } from '@traffic-crm/shared-types';
 import {
   exportToXLSX,
   exportToPDF,

@@ -26,20 +26,20 @@ import imageParts from 'assets/images/maintenance/img-bg-parts.svg';
 const CardMediaWrapper = styled('div')({
   maxWidth: 720,
   margin: '0 auto',
-  position: 'relative',
+  position: 'relative'
 });
 
 const PageContentWrapper = styled('div')({
   maxWidth: 350,
   margin: '0 auto',
-  textAlign: 'center',
+  textAlign: 'center'
 });
 
 const ConstructionCard = styled(Card)({
   minHeight: '100vh',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 });
 
 const CardMediaBuild = styled('img')({
@@ -47,7 +47,7 @@ const CardMediaBuild = styled('img')({
   top: 0,
   left: 0,
   width: '100%',
-  animation: '5s bounce ease-in-out infinite',
+  animation: '5s bounce ease-in-out infinite'
 });
 
 const CardMediaParts = styled('img')({
@@ -55,7 +55,7 @@ const CardMediaParts = styled('img')({
   top: 0,
   left: 0,
   width: '100%',
-  animation: '10s blink ease-in-out infinite',
+  animation: '10s blink ease-in-out infinite'
 });
 
 // ========================|| UNDER CONSTRUCTION PAGE ||======================== //

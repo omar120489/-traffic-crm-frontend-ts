@@ -15,5 +15,5 @@ export async function getPnL(query?: PnLQuery): Promise<PnLResponse> {
 }
 
 export const pnlApi = {
-  getPnL,
+  getPnL
 };

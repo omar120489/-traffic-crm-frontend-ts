@@ -1,6 +1,6 @@
 /**
  * Contacts API Service
- * 
+ *
  * This service provides a clean interface for contact-related API calls.
  * Replace the mock implementation with real SDK calls when ready.
  */
@@ -62,11 +62,11 @@ export type UpdateContactInput = Partial<CreateContactInput>;
 
 /**
  * Contacts Service
- * 
+ *
  * Usage:
  * ```typescript
  * import { contactsService } from '@/services/contacts.service';
- * 
+ *
  * const contacts = await contactsService.list({ page: 1, pageSize: 20 });
  * const contact = await contactsService.getById('contact-id');
  * ```
@@ -107,7 +107,7 @@ class ContactsService {
         source: 'web',
         status: 'active',
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       },
       {
         id: '2',
@@ -119,7 +119,7 @@ class ContactsService {
         company: { id: 'c2', name: 'Acme Inc.' },
         status: 'active',
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       },
       {
         id: '3',
@@ -128,8 +128,8 @@ class ContactsService {
         title: 'Product Manager',
         status: 'archived',
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
+        updatedAt: new Date().toISOString()
+      }
     ];
 
     // Apply filters
@@ -160,7 +160,7 @@ class ContactsService {
       total: filtered.length,
       page,
       pageSize,
-      totalPages,
+      totalPages
     };
   }
 
@@ -186,7 +186,7 @@ class ContactsService {
       source: 'web',
       status: 'active',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
   }
 
@@ -204,7 +204,7 @@ class ContactsService {
       ...input,
       status: input.status || 'active',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
   }
 
@@ -221,7 +221,7 @@ class ContactsService {
     return {
       ...existing,
       ...input,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
   }
 
@@ -255,4 +255,3 @@ export const contactsService = new ContactsService();
 
 // Export class for testing
 export { ContactsService };
-

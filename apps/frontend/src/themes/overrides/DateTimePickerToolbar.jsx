@@ -5,9 +5,9 @@ export default function DateTimePickerToolbar() {
     MuiDateTimePickerToolbar: {
       styleOverrides: {
         timeDigitsContainer: {
-          alignItems: 'center',
-        },
-      },
-    },
+          alignItems: 'center'
+        }
+      }
+    }
   };
 }

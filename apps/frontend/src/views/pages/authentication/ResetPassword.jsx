@@ -24,7 +24,7 @@ const authResetPasswordImports = {
   jwt: () => import('./jwt/AuthResetPassword'),
   aws: () => import('./aws/AuthResetPassword'),
   auth0: () => import('./auth0/AuthResetPassword'),
-  supabase: () => import('./supabase/AuthResetPassword'),
+  supabase: () => import('./supabase/AuthResetPassword')
 };
 
 export default function ResetPassword() {
@@ -92,8 +92,8 @@ export default function ResetPassword() {
                   margin: { xs: 2.5, md: 3 },
                   '& > *': {
                     flexGrow: 1,
-                    flexBasis: '50%',
-                  },
+                    flexBasis: '50%'
+                  }
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

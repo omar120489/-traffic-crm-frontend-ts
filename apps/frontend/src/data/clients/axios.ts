@@ -107,13 +107,33 @@ export async function apiDelete<T = any>(url: string, config?: AxiosRequestConfi
 
 // Auth API methods
 export const authApi = {
-  login: (email: string, password: string) =>
-    apiPost<{ email: string; password: string }, LoginResponse>('/api/account/login', {
-      email,
-      password,
-    }),
+  // DEV MODE: Mock login since backend auth is disabled
+  login: async (email: string, password: string): Promise<LoginResponse> => {
+    // Return mock JWT - backend auth is disabled so any request will work
+    return {
+      token: 'dev-mock-jwt-token',
+      user: {
+        id: 'dev-user',
+        email: email,
+        firstName: 'Dev',
+        lastName: 'User',
+        orgId: 'clx0d018d000008l701211234',
+        role: 'admin',
+      },
+    };
+  },
 
-  getProfile: () => apiGet<UserProfileResponse>('/api/account/me'),
+  // DEV MODE: Mock profile
+  getProfile: async (): Promise<UserProfileResponse> => {
+    return {
+      id: 'dev-user',
+      email: 'dev@example.com',
+      firstName: 'Dev',
+      lastName: 'User',
+      orgId: 'clx0d018d000008l701211234',
+      role: 'admin',
+    };
+  },
 
   register: (data: { email: string; password: string; firstName: string; lastName: string }) =>
     apiPost('/api/account/register', data),

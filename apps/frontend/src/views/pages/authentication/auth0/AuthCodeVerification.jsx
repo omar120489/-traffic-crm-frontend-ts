@@ -22,7 +22,7 @@ export default function AuthCodeVerification() {
   const { colorScheme } = useColorScheme();
 
   const {
-    state: { borderRadius, outlinedFilled },
+    state: { borderRadius, outlinedFilled }
   } = useConfig();
 
   const [otp, setOtp] = useState();
@@ -43,8 +43,8 @@ export default function AuthCodeVerification() {
         sx={{
           '& input:focus-visible': {
             borderColor: `${theme.vars.palette.primary.main} !important`,
-            boxShadow: `0px 0px 0px 1px ${theme.vars.palette.primary.main}`,
-          },
+            boxShadow: `0px 0px 0px 1px ${theme.vars.palette.primary.main}`
+          }
         }}
       >
         <OTPInput
@@ -61,7 +61,7 @@ export default function AuthCodeVerification() {
             border: `1px solid ${borderColor}`,
             borderRadius: `${borderRadius}px`,
             outline: 'none',
-            background: bgcolor,
+            background: bgcolor
           }}
           renderInput={(props) => <input {...props} />}
         />
@@ -78,7 +78,7 @@ export default function AuthCodeVerification() {
             ml: 2,
             textDecoration: 'none',
             cursor: 'pointer',
-            color: 'primary.main',
+            color: 'primary.main'
           }}
         >
           Resend code

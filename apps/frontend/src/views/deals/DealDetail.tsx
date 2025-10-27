@@ -44,7 +44,7 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   }).format(new Date(value));
 }
 
@@ -71,14 +71,14 @@ export default function DealDetail(): ReactElement {
   // Journey events for activity timeline
   const journeyEvents = useJourneyEvents({
     entityType: 'deal',
-    entityId: id || '',
+    entityId: id || ''
   });
 
   const loadDeal = useCallback(async () => {
     if (!isValidDealId(id)) {
       setError({
         kind: 'not-found',
-        message: 'The requested deal could not be found.',
+        message: 'The requested deal could not be found.'
       });
       setLoading(false);
       return;
@@ -94,20 +94,20 @@ export default function DealDetail(): ReactElement {
         if (err.response?.status === 404) {
           setError({
             kind: 'not-found',
-            message: 'The requested deal could not be found.',
+            message: 'The requested deal could not be found.'
           });
         } else {
           setError({
             kind: 'network',
             message:
               err.response?.data?.message ??
-              'We could not load this deal. Please try again in a moment.',
+              'We could not load this deal. Please try again in a moment.'
           });
         }
       } else {
         setError({
           kind: 'network',
-          message: 'We could not load this deal. Please try again in a moment.',
+          message: 'We could not load this deal. Please try again in a moment.'
         });
       }
     } finally {
@@ -134,7 +134,7 @@ export default function DealDetail(): ReactElement {
       const updatedDeal = await dealsApi.updateDeal(deal.id, {
         status: 'Closed Won',
         grossRevenue: values.grossRevenue,
-        directCost: values.directCost,
+        directCost: values.directCost
       });
 
       setDeal(updatedDeal);
@@ -147,8 +147,8 @@ export default function DealDetail(): ReactElement {
           to: 'Closed Won',
           grossRevenue: values.grossRevenue,
           directCost: values.directCost,
-          netProfit: values.grossRevenue - values.directCost,
-        },
+          netProfit: values.grossRevenue - values.directCost
+        }
       });
     } catch (err) {
       console.error('Failed to update deal:', err);
@@ -177,7 +177,7 @@ export default function DealDetail(): ReactElement {
       const updatedDeal = await dealsApi.updateDeal(deal.id, {
         status: 'Lost',
         lossReason: data.lossReason,
-        lossNotes: data.lossNotes,
+        lossNotes: data.lossNotes
       });
 
       setDeal(updatedDeal);
@@ -189,8 +189,8 @@ export default function DealDetail(): ReactElement {
           from: oldStatus,
           to: 'Lost',
           reason: data.lossReason,
-          notes: data.lossNotes,
-        },
+          notes: data.lossNotes
+        }
       });
     } catch (err) {
       console.error('Failed to update deal:', err);
@@ -348,7 +348,7 @@ export default function DealDetail(): ReactElement {
               <Typography
                 variant="h6"
                 sx={{
-                  color: (deal.netProfit ?? 0) >= 0 ? 'success.main' : 'error.main',
+                  color: (deal.netProfit ?? 0) >= 0 ? 'success.main' : 'error.main'
                 }}
               >
                 {formatMoney(deal.netProfit)}

@@ -5,7 +5,7 @@ export const DEAL_STAGES = [
   'Proposal',
   'Negotiation',
   'Closed Won',
-  'Closed Lost',
+  'Closed Lost'
 ] as const;
 
 export const DEAL_STATUSES = ['Open', 'Won', 'Lost', 'On Hold'] as const;

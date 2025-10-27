@@ -10,15 +10,12 @@ export function useToast() {
   const [toast, setToast] = useState<Toast>({
     open: false,
     message: '',
-    severity: 'success',
+    severity: 'success'
   });
 
-  const showToast = useCallback(
-    (message: string, severity: Toast['severity'] = 'success') => {
-      setToast({ open: true, message, severity });
-    },
-    []
-  );
+  const showToast = useCallback((message: string, severity: Toast['severity'] = 'success') => {
+    setToast({ open: true, message, severity });
+  }, []);
 
   const hideToast = useCallback(() => {
     setToast((prev) => ({ ...prev, open: false }));
@@ -26,4 +23,3 @@ export function useToast() {
 
   return { toast, showToast, hideToast };
 }
-

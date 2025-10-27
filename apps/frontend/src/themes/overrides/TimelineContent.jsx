@@ -6,9 +6,9 @@ export default function TimelineContent(theme) {
       styleOverrides: {
         root: {
           color: theme.vars.palette.text.dark,
-          fontSize: '16px',
-        },
-      },
-    },
+          fontSize: '16px'
+        }
+      }
+    }
   };
 }

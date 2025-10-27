@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { dealsApi } from '@services/deals.sdk';
-import type { Deal, DealQuery, PaginatedDeals } from '@shared-types';
+import type { Deal, DealQuery, PaginatedDeals } from '@traffic-crm/shared-types';
 
 const DEFAULT_QUERY: DealQuery = {
   page: 1,
   size: 10,
-  search: '',
+  search: ''
 };
 
 interface UseDealsOptions {
@@ -27,7 +27,7 @@ interface UseDealsResult {
 export function useDeals(options?: UseDealsOptions): UseDealsResult {
   const [query, setQueryState] = useState<DealQuery>(() => ({
     ...DEFAULT_QUERY,
-    ...(options?.initialQuery ?? {}),
+    ...(options?.initialQuery ?? {})
   }));
   const [data, setData] = useState<PaginatedDeals | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export function useDeals(options?: UseDealsOptions): UseDealsResult {
   const effectiveQuery = useMemo(
     () => ({
       ...DEFAULT_QUERY,
-      ...query,
+      ...query
     }),
     [query]
   );
@@ -89,14 +89,14 @@ export function useDeals(options?: UseDealsOptions): UseDealsResult {
   const updateQuery = useCallback((patch: Partial<DealQuery>) => {
     setQueryState((prev) => ({
       ...prev,
-      ...patch,
+      ...patch
     }));
   }, []);
 
   const setQuery = useCallback((updater: (prev: DealQuery) => DealQuery) => {
     setQueryState((prev) => ({
       ...prev,
-      ...updater(prev),
+      ...updater(prev)
     }));
   }, []);
 
@@ -112,7 +112,7 @@ export function useDeals(options?: UseDealsOptions): UseDealsResult {
     query: effectiveQuery,
     updateQuery,
     setQuery,
-    refetch,
+    refetch
   };
 }
 

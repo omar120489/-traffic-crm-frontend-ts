@@ -32,7 +32,7 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   }).format(new Date(value));
 }
 
@@ -64,14 +64,14 @@ export default function LeadDetail(): ReactElement {
   // Journey events for activity timeline
   const journeyEvents = useJourneyEvents({
     entityType: 'lead',
-    entityId: id || '',
+    entityId: id || ''
   });
 
   const loadLead = useCallback(async () => {
     if (!isValidLeadId(id)) {
       setError({
         kind: 'not-found',
-        message: 'The requested lead could not be found.',
+        message: 'The requested lead could not be found.'
       });
       setLoading(false);
       return;
@@ -87,20 +87,20 @@ export default function LeadDetail(): ReactElement {
         if (err.response?.status === 404) {
           setError({
             kind: 'not-found',
-            message: 'The requested lead could not be found.',
+            message: 'The requested lead could not be found.'
           });
         } else {
           setError({
             kind: 'network',
             message:
               err.response?.data?.message ??
-              'We could not load this lead. Please try again in a moment.',
+              'We could not load this lead. Please try again in a moment.'
           });
         }
       } else {
         setError({
           kind: 'network',
-          message: 'We could not load this lead. Please try again in a moment.',
+          message: 'We could not load this lead. Please try again in a moment.'
         });
       }
     } finally {

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 type Slice = { type: string; count: number; percent: number };
 
@@ -12,28 +12,28 @@ type Props = {
 };
 
 const TYPE_COLORS: Record<string, string> = {
-  call: "#6366f1",      // indigo
-  email: "#8b5cf6",     // violet
-  meeting: "#ec4899",   // pink
-  note: "#f59e0b",      // amber
-  task: "#10b981",      // emerald
+  call: '#6366f1', // indigo
+  email: '#8b5cf6', // violet
+  meeting: '#ec4899', // pink
+  note: '#f59e0b', // amber
+  task: '#10b981' // emerald
 };
 
 const TYPE_LABELS: Record<string, string> = {
-  call: "Call",
-  email: "Email",
-  meeting: "Meeting",
-  note: "Note",
-  task: "Task",
+  call: 'Call',
+  email: 'Email',
+  meeting: 'Meeting',
+  note: 'Note',
+  task: 'Task'
 };
 
 export default function ActivityMixChart({
-  title = "Activity Mix",
+  title = 'Activity Mix',
   data,
   loading,
   error,
-  className = "",
-  size = 200,
+  className = '',
+  size = 200
 }: Props) {
   const [focusIdx, setFocusIdx] = React.useState<number | null>(null);
 
@@ -66,7 +66,7 @@ export default function ActivityMixChart({
   const total = data.reduce((sum, d) => sum + d.count, 0);
   const slices = data.map((d) => {
     const percent = total > 0 ? (d.count / total) * 100 : 0;
-    return { ...d, percent, color: TYPE_COLORS[d.type] || "#94a3b8" };
+    return { ...d, percent, color: TYPE_COLORS[d.type] || '#94a3b8' };
   });
 
   const cx = size / 2;
@@ -97,8 +97,8 @@ export default function ActivityMixChart({
       `A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2}`,
       `L ${x2Inner} ${y2Inner}`,
       `A ${innerR} ${innerR} 0 ${largeArc} 0 ${x1Inner} ${y1Inner}`,
-      `Z`,
-    ].join(" ");
+      `Z`
+    ].join(' ');
 
     return { path, slice, index: i };
   });
@@ -126,7 +126,7 @@ export default function ActivityMixChart({
               strokeWidth={2}
               className="transition-opacity cursor-pointer"
               style={{
-                opacity: focusIdx == null || focusIdx === index ? 1 : 0.4,
+                opacity: focusIdx == null || focusIdx === index ? 1 : 0.4
               }}
               onMouseEnter={() => setFocusIdx(index)}
               onMouseLeave={() => setFocusIdx(null)}
@@ -165,14 +165,11 @@ export default function ActivityMixChart({
               onMouseEnter={() => setFocusIdx(i)}
               onMouseLeave={() => setFocusIdx(null)}
               style={{
-                opacity: focusIdx == null || focusIdx === i ? 1 : 0.5,
+                opacity: focusIdx == null || focusIdx === i ? 1 : 0.5
               }}
             >
               <div className="flex items-center gap-2">
-                <div
-                  className="h-3 w-3 rounded-sm"
-                  style={{ backgroundColor: slice.color }}
-                />
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: slice.color }} />
                 <span className="font-medium text-slate-700 dark:text-slate-200">
                   {TYPE_LABELS[slice.type] || slice.type}
                 </span>
@@ -209,14 +206,16 @@ export default function ActivityMixChart({
 function ChartCard({
   title,
   className,
-  children,
+  children
 }: {
   title: string;
   className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ""}`}>
+    <section
+      className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ''}`}
+    >
       <header className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">{title}</h3>
       </header>
@@ -224,4 +223,3 @@ function ChartCard({
     </section>
   );
 }
-

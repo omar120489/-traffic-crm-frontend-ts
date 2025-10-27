@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { format, subDays } from "date-fns";
-import { AppPage } from "@traffic-crm/ui-kit";
-import { KpiStat, AnalyticsFilters } from "@/components/analytics";
-import ActivityByDayChart from "@/components/analytics/ActivityByDayChart";
-import ActivityMixChart from "@/components/analytics/ActivityMixChart";
-import TopContributorsChart from "@/components/analytics/TopContributorsChart";
-import { getAnalytics } from "@/services/analytics.service";
-import type { AnalyticsResponse, AnalyticsFilters as Filters } from "@/types/analytics";
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { format, subDays } from 'date-fns';
+import { AppPage } from '@traffic-crm/ui-kit';
+import { KpiStat, AnalyticsFilters } from '@/components/analytics';
+import ActivityByDayChart from '@/components/analytics/ActivityByDayChart';
+import ActivityMixChart from '@/components/analytics/ActivityMixChart';
+import TopContributorsChart from '@/components/analytics/TopContributorsChart';
+import { getAnalytics } from '@/services/analytics.service';
+import type { AnalyticsResponse, AnalyticsFilters as Filters } from '@/types/analytics';
 
 export default function AnalyticsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,32 +17,32 @@ export default function AnalyticsPage() {
 
   // Initialize filters from URL or defaults
   const filters: Filters = {
-    from: searchParams.get("from") || format(subDays(new Date(), 30), "yyyy-MM-dd"),
-    to: searchParams.get("to") || format(new Date(), "yyyy-MM-dd"),
-    users: searchParams.get("users")?.split(",").filter(Boolean),
-    types: searchParams.get("types")?.split(",").filter(Boolean) as any,
+    from: searchParams.get('from') || format(subDays(new Date(), 30), 'yyyy-MM-dd'),
+    to: searchParams.get('to') || format(new Date(), 'yyyy-MM-dd'),
+    users: searchParams.get('users')?.split(',').filter(Boolean),
+    types: searchParams.get('types')?.split(',').filter(Boolean) as any
   };
 
-  // Load data
+    // Load data
   useEffect(() => {
     setLoading(true);
     setError(null);
     getAnalytics(filters)
       .then(setData)
-      .catch((err) => setError(err?.message || "Failed to load analytics"))
+      .catch((err) => setError(err?.message || 'Failed to load analytics'))
       .finally(() => setLoading(false));
-  }, [searchParams.toString()]);
+  }, [filters]);
 
   // Handle filter changes
   const handleFiltersChange = (newFilters: Filters) => {
     const params = new URLSearchParams();
-    params.set("from", newFilters.from);
-    params.set("to", newFilters.to);
+    params.set('from', newFilters.from);
+    params.set('to', newFilters.to);
     if (newFilters.users && newFilters.users.length > 0) {
-      params.set("users", newFilters.users.join(","));
+      params.set('users', newFilters.users.join(','));
     }
     if (newFilters.types && newFilters.types.length > 0) {
-      params.set("types", newFilters.types.join(","));
+      params.set('types', newFilters.types.join(','));
     }
     setSearchParams(params);
   };
@@ -59,10 +59,7 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <AppPage
-      title="Analytics"
-      breadcrumbs={[{ label: "Analytics", href: "/analytics" }]}
-    >
+    <AppPage title="Analytics" breadcrumbs={[{ label: 'Analytics', href: '/analytics' }]}>
       <div className="space-y-6">
         {/* Filters */}
         <AnalyticsFilters value={filters} onChange={handleFiltersChange} />
@@ -79,22 +76,22 @@ export default function AnalyticsPage() {
         <section className="grid gap-4 md:grid-cols-4">
           <KpiStat
             label="Total Activities"
-            value={loading ? "—" : formatNumber(data?.kpis.totalActivities || 0)}
+            value={loading ? '—' : formatNumber(data?.kpis.totalActivities || 0)}
             loading={loading}
           />
           <KpiStat
             label="Active Users"
-            value={loading ? "—" : formatNumber(data?.kpis.activeUsers || 0)}
+            value={loading ? '—' : formatNumber(data?.kpis.activeUsers || 0)}
             loading={loading}
           />
           <KpiStat
             label="Avg Daily"
-            value={loading ? "—" : data?.kpis.avgDailyActivities.toFixed(1) || "0"}
+            value={loading ? '—' : data?.kpis.avgDailyActivities.toFixed(1) || '0'}
             loading={loading}
           />
           <KpiStat
             label="Median TTF Response"
-            value={loading ? "—" : formatDuration(data?.kpis.medianTimeToFirstResponseMs || 0)}
+            value={loading ? '—' : formatDuration(data?.kpis.medianTimeToFirstResponseMs || 0)}
             loading={loading}
             tooltip="Median time to first response"
           />
@@ -103,25 +100,21 @@ export default function AnalyticsPage() {
         {/* Charts */}
         <section className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <ActivityByDayChart 
-              data={data?.byDay || []} 
+            <ActivityByDayChart
+              data={[...(data?.byDay ?? [])]}
               loading={loading}
               error={error}
               height={260}
             />
           </div>
           <div>
-            <ActivityMixChart 
-              data={data?.mix || []}
-              loading={loading}
-              error={error}
-            />
+            <ActivityMixChart data={[...(data?.mix ?? [])]} loading={loading} error={error} />
           </div>
         </section>
 
         <section>
-          <TopContributorsChart 
-            data={data?.topContributors || []}
+          <TopContributorsChart
+            data={[...(data?.topContributors ?? [])]}
             loading={loading}
             error={error}
           />
@@ -138,4 +131,3 @@ export default function AnalyticsPage() {
     </AppPage>
   );
 }
-

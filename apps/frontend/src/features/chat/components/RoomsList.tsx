@@ -12,7 +12,7 @@ import {
   Stack,
   TextField,
   Tooltip,
-  Typography,
+  Typography
 } from '@mui/material';
 import { useRooms } from '../hooks/useRooms';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -31,7 +31,7 @@ export default function RoomsList() {
         borderColor: 'divider',
         height: '100%',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'column'
       }}
     >
       <Box sx={{ p: 1.5 }}>

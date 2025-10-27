@@ -63,6 +63,6 @@ export function useFilterPresets(storageKey: string) {
     presets,
     savePreset,
     deletePreset,
-    clearPresets,
+    clearPresets
   };
 }

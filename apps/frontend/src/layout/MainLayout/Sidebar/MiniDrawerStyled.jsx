@@ -16,8 +16,8 @@ function openedMixin(theme) {
     ...theme.applyStyles('dark', { boxShadow: theme.vars.customShadows.z1 }),
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen + 200,
-    }),
+      duration: theme.transitions.duration.enteringScreen + 200
+    })
   };
 }
 
@@ -30,8 +30,8 @@ function closedMixin(theme) {
     width: 72,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen + 200,
-    }),
+      duration: theme.transitions.duration.leavingScreen + 200
+    })
   };
 }
 
@@ -46,12 +46,12 @@ const MiniDrawerStyled = styled(Drawer, { shouldForwardProp: (prop) => prop !== 
     boxSizing: 'border-box',
     ...(open && {
       ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme)
     }),
     ...(!open && {
       ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+      '& .MuiDrawer-paper': closedMixin(theme)
+    })
   })
 );
 

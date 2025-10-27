@@ -75,9 +75,9 @@ export default function MobileSection() {
           {
             name: 'offset',
             options: {
-              offset: [0, 30],
-            },
-          },
+              offset: [0, 30]
+            }
+          }
         ]}
       >
         {({ TransitionProps }) => (

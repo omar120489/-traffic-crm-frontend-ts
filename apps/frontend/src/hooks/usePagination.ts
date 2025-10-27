@@ -25,11 +25,11 @@ export interface UsePaginationResult {
 
 /**
  * Hook for managing pagination state and query parameters
- * 
+ *
  * @example
  * ```tsx
  * const { query, page, size, search, setPage, setSize, setSearch } = usePagination({ page: 1, size: 10 });
- * 
+ *
  * useEffect(() => {
  *   listContacts(query).then(setData);
  * }, [query]);
@@ -48,7 +48,7 @@ export function usePagination(initial: UsePaginationOptions = {}): UsePagination
     () => ({
       page,
       size,
-      ...(search ? { search } : {}),
+      ...(search ? { search } : {})
     }),
     [page, size, search]
   );
@@ -67,7 +67,6 @@ export function usePagination(initial: UsePaginationOptions = {}): UsePagination
     setPage,
     setSize,
     setSearch,
-    reset,
+    reset
   };
 }
-

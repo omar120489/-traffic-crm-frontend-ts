@@ -14,7 +14,9 @@ const LeadDetailPage = Loadable(lazy(() => import('@/views/leads/LeadDetail')));
 const LeadEditPage = Loadable(lazy(() => import('@/views/pages/leads/LeadEditPage')));
 // const ContactsListPage = Loadable(lazy(() => import('@/views/pages/contacts/ContactsListPage'))); // Unused - replaced by ContactsListPageNew
 const CompaniesListPage = Loadable(lazy(() => import('@/views/pages/companies/CompaniesListPage')));
-const AnalyticsDashboard = Loadable(lazy(() => import('@/views/pages/analytics/AnalyticsDashboard')));
+const AnalyticsDashboard = Loadable(
+  lazy(() => import('@/views/pages/analytics/AnalyticsDashboard'))
+);
 const PnLAnalyticsPage = Loadable(lazy(() => import('@/views/analytics/PnLAnalytics')));
 const NotificationsPage = Loadable(lazy(() => import('@/views/notifications/Notifications')));
 const ChatPage = Loadable(lazy(() => import('@/views/apps/chat/ChatPage')));
@@ -41,77 +43,77 @@ const MainRoutes: RouteObject = {
   children: [
     {
       path: '/sample-page',
-      element: <SamplePage />,
+      element: <SamplePage />
     },
     {
       path: '/deals',
-      element: <DealsListPage />,
+      element: <DealsListPage />
     },
     {
       path: '/deals/board',
-      element: <DealsKanbanPage />,
+      element: <DealsKanbanPage />
     },
     {
       path: '/deals/:id',
-      element: <DealDetailPage />,
+      element: <DealDetailPage />
     },
     {
       path: '/deals/:id/edit',
-      element: <DealEditPage />,
+      element: <DealEditPage />
     },
     {
       path: '/leads',
-      element: <LeadsListPage />,
+      element: <LeadsListPage />
     },
     {
       path: '/leads/:id',
-      element: <LeadDetailPage />,
+      element: <LeadDetailPage />
     },
     {
       path: '/leads/:id/edit',
-      element: <LeadEditPage />,
+      element: <LeadEditPage />
     },
     {
       path: '/contacts',
-      element: <ContactsListPageNew />,
+      element: <ContactsListPageNew />
     },
     {
       path: '/contacts/:id',
-      element: <ContactDetailPage />,
+      element: <ContactDetailPage />
     },
     {
       path: '/companies',
-      element: <CompaniesListPage />,
+      element: <CompaniesListPage />
     },
     {
       path: '/companies/:id',
-      element: <Company360Page />,
+      element: <Company360Page />
     },
     {
       path: '/settings/pipelines',
-      element: <PipelinesPage />,
+      element: <PipelinesPage />
     },
     {
       path: '/analytics',
-      element: <AnalyticsPage />,
+      element: <AnalyticsPage />
     },
     {
       path: '/analytics/legacy',
-      element: <AnalyticsDashboard />,
+      element: <AnalyticsDashboard />
     },
     {
       path: '/analytics/pnl',
-      element: <PnLAnalyticsPage />,
+      element: <PnLAnalyticsPage />
     },
     {
       path: '/notifications',
-      element: <NotificationsPage />,
+      element: <NotificationsPage />
     },
     {
       path: '/chat',
-      element: <ChatPage />,
-    },
-  ],
+      element: <ChatPage />
+    }
+  ]
 };
 
 export default MainRoutes;

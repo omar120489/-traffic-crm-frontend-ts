@@ -10,7 +10,7 @@ export interface AuthState {
 const DEV_DEFAULT: AuthState = {
   userId: 'dev-user',
   orgId: 'clx0d018d000008l701211234', // Matches dev guard seed data
-  roles: ['admin'],
+  roles: ['admin']
 };
 
 const AuthContext = createContext<AuthState>(DEV_DEFAULT);
@@ -37,12 +37,12 @@ export interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const token =
-    typeof window !== 'undefined' ? localStorage.getItem('access_token') ?? undefined : undefined;
+    typeof window !== 'undefined' ? (localStorage.getItem('access_token') ?? undefined) : undefined;
 
   const state = useMemo<AuthState>(() => {
     if (!token) return DEV_DEFAULT;
     const payload = safeDecodeJwt(token);
-    
+
     // Fallback if token is invalid or expired
     if (!payload || isExpired(payload)) {
       return DEV_DEFAULT;
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       userId: payload.sub ?? DEV_DEFAULT.userId,
       orgId: payload.orgId ?? payload['org_id'] ?? DEV_DEFAULT.orgId,
       roles: Array.isArray(payload.roles) ? payload.roles : DEV_DEFAULT.roles,
-      token,
+      token
     };
   }, [token]);
 
@@ -62,4 +62,3 @@ export function AuthProvider({ children }: AuthProviderProps) {
 export function useAuth() {
   return useContext(AuthContext);
 }
-

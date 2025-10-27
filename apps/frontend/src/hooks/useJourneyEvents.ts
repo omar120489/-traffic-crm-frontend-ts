@@ -27,7 +27,7 @@ interface UseJourneyEventsResult {
  */
 export function useJourneyEvents({
   entityType,
-  entityId,
+  entityId
 }: UseJourneyEventsOptions): UseJourneyEventsResult {
   const [events, setEvents] = useState<JourneyEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,43 +56,51 @@ export function useJourneyEvents({
   }, [loadEvents]);
 
   // Subscribe to WebSocket for real-time updates
-  useWebSocketEvents('journey:new', (event: unknown) => {
-    try {
-      const journeyEvent = event as {
-        entity_type?: string;
-        entity_id?: EntityIdentifier;
-        id: string;
-        type: string;
-        payload?: Record<string, unknown>;
-        occurred_at: string;
-        created_at: string;
-        updated_at?: string;
-      };
+  const { subscribe } = useWebSocketEvents();
 
-      // Filter events for this entity
-      if (
-        journeyEvent.entity_type === entityType &&
-        String(journeyEvent.entity_id) === String(entityId)
-      ) {
-        // Map to camelCase
-        const mappedEvent: JourneyEvent = {
-          id: journeyEvent.id,
-          entityType: journeyEvent.entity_type as 'deal' | 'lead',
-          entityId: journeyEvent.entity_id,
-          type: journeyEvent.type,
-          payload: journeyEvent.payload,
-          occurredAt: journeyEvent.occurred_at,
-          createdAt: journeyEvent.created_at,
-          updatedAt: journeyEvent.updated_at || journeyEvent.created_at,
+  useEffect(() => {
+    const unsubscribe = subscribe('journey:new', (event: unknown) => {
+      try {
+        const journeyEvent = event as {
+          entity_type?: string;
+          entity_id?: EntityIdentifier;
+          id: string;
+          type: string;
+          payload?: Record<string, unknown>;
+          occurred_at: string;
+          created_at: string;
+          updated_at?: string;
         };
 
-        // Prepend new event (events are sorted desc by occurred_at)
-        setEvents((prev) => [mappedEvent, ...prev]);
+        // Filter events for this entity
+        if (
+          journeyEvent.entity_type === entityType &&
+          String(journeyEvent.entity_id) === String(entityId)
+        ) {
+          // Map to camelCase
+          const mappedEvent: JourneyEvent = {
+            id: journeyEvent.id,
+            entityType: journeyEvent.entity_type as 'deal' | 'lead',
+            entityId: journeyEvent.entity_id ?? '',
+            type: journeyEvent.type,
+            payload: journeyEvent.payload,
+            occurredAt: journeyEvent.occurred_at,
+            createdAt: journeyEvent.created_at,
+            updatedAt: journeyEvent.updated_at || journeyEvent.created_at
+          };
+
+          // Prepend new event (events are sorted desc by occurred_at)
+          setEvents((prev) => [mappedEvent, ...prev]);
+        }
+      } catch (err) {
+        console.error('[useJourneyEvents] WebSocket event processing failed:', err);
       }
-    } catch (err) {
-      console.error('[useJourneyEvents] WebSocket event processing failed:', err);
-    }
-  });
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [subscribe, entityType, entityId]);
 
   const refresh = useCallback(async () => {
     await loadEvents();
@@ -104,7 +112,7 @@ export function useJourneyEvents({
         const fullDto: JourneyEventCreateDto = {
           entityType,
           entityId,
-          ...dto,
+          ...dto
         };
 
         const newEvent = await journeyApi.createJourneyEvent(fullDto);
@@ -128,6 +136,6 @@ export function useJourneyEvents({
     loading,
     error,
     refresh,
-    addEvent,
+    addEvent
   };
 }

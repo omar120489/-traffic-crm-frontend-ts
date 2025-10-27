@@ -5,7 +5,7 @@ import {
   useState,
   type ComponentType,
   type Dispatch,
-  type SetStateAction,
+  type SetStateAction
 } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
@@ -34,7 +34,7 @@ import type {
   MenuGroup,
   NavItemType,
   RemainingMenuItem,
-  MenuItem as MenuItemType,
+  MenuItem as MenuItemType
 } from 'types/menu';
 
 import { IconChevronDown, IconChevronRight, IconMinusVertical } from '@tabler/icons-react';
@@ -58,14 +58,14 @@ export default function NavGroup({
   remItems,
   lastItemId,
   selectedID,
-  setSelectedID,
+  setSelectedID
 }: NavGroupProps) {
   const theme = useTheme();
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
   const { pathname } = useLocation();
 
   const {
-    state: { menuOrientation, borderRadius },
+    state: { menuOrientation, borderRadius }
   } = useConfig();
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = Boolean(menuMaster?.isDashboardDrawerOpened);
@@ -136,7 +136,7 @@ export default function NavGroup({
                 breadcrumbs: itemRem.breadcrumbs,
                 disabled: itemRem.disabled,
                 caption: itemRem.caption,
-                chip: itemRem.chip,
+                chip: itemRem.chip
               } as MenuItemType
             }
             level={1}
@@ -220,7 +220,7 @@ export default function NavGroup({
                   color: 'text.heading',
                   padding: 0.75,
                   textTransform: 'capitalize',
-                  marginTop: 1.25,
+                  marginTop: 1.25
                 }}
               >
                 <FormattedMessage id={currentItem.title} />
@@ -233,7 +233,7 @@ export default function NavGroup({
                       fontWeight: 500,
                       color: 'text.secondary',
                       textTransform: 'capitalize',
-                      lineHeight: 1.66,
+                      lineHeight: 1.66
                     }}
                   >
                     <FormattedMessage id={currentItem.caption} />
@@ -257,7 +257,7 @@ export default function NavGroup({
               mr: 1,
               display: 'flex',
               alignItems: 'center',
-              backgroundColor: 'inherit',
+              backgroundColor: 'inherit'
             }}
             onMouseEnter={handleClick}
             onClick={handleClick}
@@ -317,8 +317,8 @@ export default function NavGroup({
                     borderTopColor: 'background.paper',
                     borderLeftColor: 'background.paper',
                     borderRightColor: 'transparent',
-                    borderBottomColor: 'transparent',
-                  },
+                    borderBottomColor: 'transparent'
+                  }
                 }}
               >
                 {({ TransitionProps }) => (
@@ -328,7 +328,7 @@ export default function NavGroup({
                         mt: 0.5,
                         py: 1.25,
                         boxShadow: theme.shadows[8],
-                        backgroundImage: 'none',
+                        backgroundImage: 'none'
                       }}
                     >
                       <ClickAwayListener onClickAway={handleClose}>
@@ -341,16 +341,16 @@ export default function NavGroup({
                               opacity: 0,
                               width: 4,
                               '&:hover': {
-                                opacity: 0.7,
-                              },
+                                opacity: 0.7
+                              }
                             },
                             '&::-webkit-scrollbar-track': {
-                              bgcolor: 'transparent',
+                              bgcolor: 'transparent'
                             },
                             '&::-webkit-scrollbar-thumb': {
                               bgcolor: 'divider',
-                              borderRadius: 4,
-                            },
+                              borderRadius: 4
+                            }
                           }}
                         >
                           {currentItem.id !== lastItemId ? items : moreItems}

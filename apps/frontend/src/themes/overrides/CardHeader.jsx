@@ -6,12 +6,12 @@ export default function CardHeader(theme) {
       styleOverrides: {
         root: {
           color: theme.vars.palette.text.dark,
-          padding: '24px',
+          padding: '24px'
         },
         title: {
-          fontSize: '1.125rem',
-        },
-      },
-    },
+          fontSize: '1.125rem'
+        }
+      }
+    }
   };
 }

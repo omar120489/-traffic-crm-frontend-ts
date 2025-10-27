@@ -1,17 +1,20 @@
 {
   "name": "traffic-crm",
   "private": true,
-  "packageManager": "pnpm@10.18.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "workers"
+  ],
   "engines": {
-    "node": ">=20 <21",
-    "pnpm": ">=10 <11"
+    "node": ">=20 <21"
   },
   "scripts": {
-    "dev": "pnpm -r --parallel --filter ./apps/* run dev",
-    "build": "pnpm -r --filter ./apps/* run build",
-    "typecheck": "pnpm -r run typecheck",
-    "lint": "pnpm -r run lint",
-    "test": "pnpm -r run test",
+    "dev": "npm run --workspaces --if-present dev",
+    "build": "npm run --workspaces --if-present build",
+    "typecheck": "npm run --workspaces --if-present typecheck",
+    "lint": "npm run --workspaces --if-present lint",
+    "test": "npm run --workspaces --if-present test",
     "docker:up": "docker compose -f infra/docker/docker-compose.yml up -d",
     "docker:down": "docker compose -f infra/docker/docker-compose.yml down",
     "audit:full": "pnpm --filter ./apps/frontend run audit:full",
@@ -19,19 +22,19 @@
     "lint:md": "markdownlint-cli2",
     "lint:md:fix": "markdownlint-cli2 --fix",
     "db:up": "docker compose -f infra/docker/docker-compose.yml up -d postgres",
-    "db:migrate": "pnpm --filter @apps/core-api prisma:push",
-    "db:seed": "pnpm --filter @apps/core-api db:seed",
+    "db:migrate": "npm run --workspace apps/core-api --if-present prisma:push",
+    "db:seed": "npm run --workspace apps/core-api --if-present db:seed",
     "dev:jwt": "node apps/core-api/scripts/make-dev-jwt.mjs",
-    "sdk:gen": "pnpm --filter @sdk-js/core gen",
-    "dev:sdk": "pnpm --filter @apps/core-api openapi:emit && pnpm --filter @traffic-crm/sdk-js codegen && pnpm --filter @traffic-crm/sdk-js build",
+    "sdk:gen": "npm run --workspace packages/sdk-js --if-present gen",
+    "dev:sdk": "npm run --workspace apps/core-api --if-present openapi:emit && npm run --workspace packages/sdk-js --if-present codegen && npm run --workspace packages/sdk-js --if-present build",
     "greenlight": "bash scripts/sprint2-greenlight.sh",
-    "preflight": "pnpm -r install --frozen-lockfile && pnpm --filter ./apps/frontend run typecheck:sprint2 && pnpm --filter ./apps/frontend run lint",
+    "preflight": "npm ci && npm run --workspace apps/frontend --if-present typecheck:sprint2 && npm run --workspace apps/frontend --if-present lint",
     "prepare": "husky"
   },
   "lint-staged": {
     "apps/frontend/src/**/*.{ts,tsx}": [
       "eslint --max-warnings=0 --fix",
-      "bash -c 'cd apps/frontend && pnpm tsc --noEmit -p tsconfig.sprint2.json'"
+      "bash -c 'cd apps/frontend && npx tsc --noEmit -p tsconfig.json'"
     ],
     "*.md": [
       "markdownlint-cli2 --fix --config .markdownlint.json"

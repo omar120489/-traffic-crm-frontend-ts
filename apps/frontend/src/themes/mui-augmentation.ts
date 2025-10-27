@@ -6,7 +6,7 @@ import type {
   CustomShadows,
   CustomPaletteColor,
   CustomTextColor,
-  CustomTypographyVariants,
+  CustomTypographyVariants
 } from './types';
 
 declare module '@mui/material/styles' {

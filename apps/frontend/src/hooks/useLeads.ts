@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { leadsApi } from '@services/leads.sdk';
-import type { Lead, LeadQuery, PaginatedLeads } from '@shared-types';
+import type { Lead, LeadQuery, PaginatedLeads } from '@traffic-crm/shared-types';
 
 const DEFAULT_QUERY: LeadQuery = {
   page: 1,
   size: 10,
-  search: '',
+  search: ''
 };
 
 interface UseLeadsOptions {
@@ -27,7 +27,7 @@ interface UseLeadsResult {
 export function useLeads(options?: UseLeadsOptions): UseLeadsResult {
   const [query, setQueryState] = useState<LeadQuery>(() => ({
     ...DEFAULT_QUERY,
-    ...(options?.initialQuery ?? {}),
+    ...(options?.initialQuery ?? {})
   }));
   const [data, setData] = useState<PaginatedLeads | null>(null);
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ export function useLeads(options?: UseLeadsOptions): UseLeadsResult {
   const effectiveQuery = useMemo(
     () => ({
       ...DEFAULT_QUERY,
-      ...query,
+      ...query
     }),
     [query]
   );
@@ -90,7 +90,7 @@ export function useLeads(options?: UseLeadsOptions): UseLeadsResult {
   const updateQuery = useCallback((patch: Partial<LeadQuery>) => {
     setQueryState((prev) => ({
       ...prev,
-      ...patch,
+      ...patch
     }));
   }, []);
 
@@ -110,7 +110,7 @@ export function useLeads(options?: UseLeadsOptions): UseLeadsResult {
     query: effectiveQuery,
     updateQuery,
     setQuery,
-    refetch,
+    refetch
   };
 }
 

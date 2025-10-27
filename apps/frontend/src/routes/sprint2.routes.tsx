@@ -1,7 +1,7 @@
 /**
  * Sprint 2 Routes
  * Centralized route definitions for new Sprint 2 features
- * 
+ *
  * Usage:
  *   import { sprint2Routes } from './routes/sprint2.routes';
  *   const routes = [...existingRoutes, ...sprint2Routes];
@@ -20,8 +20,8 @@ export const sprint2Routes = [
     meta: {
       title: 'Pipelines & Stages',
       requiresAuth: true,
-      permission: 'settings:read',
-    },
+      permission: 'settings:read'
+    }
   },
   {
     path: '/contacts',
@@ -29,8 +29,8 @@ export const sprint2Routes = [
     meta: {
       title: 'Contacts',
       requiresAuth: true,
-      permission: 'contacts:read',
-    },
+      permission: 'contacts:read'
+    }
   },
   {
     path: '/contacts/:id',
@@ -38,9 +38,9 @@ export const sprint2Routes = [
     meta: {
       title: 'Contact Detail',
       requiresAuth: true,
-      permission: 'contacts:read',
-    },
-  },
+      permission: 'contacts:read'
+    }
+  }
 ];
 
 // Export paths as constants for type-safe navigation
@@ -49,7 +49,5 @@ export const SPRINT2_PATHS = {
   CONTACTS: '/contacts',
   CONTACT_DETAIL: (id: string) => `/contacts/${id}`,
   CONTACT_NEW: '/contacts/new',
-  CONTACT_EDIT: (id: string) => `/contacts/${id}/edit`,
+  CONTACT_EDIT: (id: string) => `/contacts/${id}/edit`
 } as const;
-
-

@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 type Contributor = { userId: string; name: string; avatarUrl?: string; count: number };
 
@@ -12,12 +12,12 @@ type Props = {
 };
 
 export default function TopContributorsChart({
-  title = "Top Contributors",
+  title = 'Top Contributors',
   data,
   loading,
   error,
-  className = "",
-  maxBars = 10,
+  className = '',
+  maxBars = 10
 }: Props) {
   const [focusIdx, setFocusIdx] = React.useState<number | null>(null);
 
@@ -105,7 +105,7 @@ export default function TopContributorsChart({
                       className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 transition-all duration-300 ease-out dark:from-indigo-400 dark:to-indigo-500"
                       style={{
                         width: `${widthPercent}%`,
-                        opacity: isFocused ? 1 : 0.85,
+                        opacity: isFocused ? 1 : 0.85
                       }}
                     />
                   </div>
@@ -140,14 +140,16 @@ export default function TopContributorsChart({
 function ChartCard({
   title,
   className,
-  children,
+  children
 }: {
   title: string;
   className?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ""}`}>
+    <section
+      className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ''}`}
+    >
       <header className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">{title}</h3>
       </header>
@@ -161,4 +163,3 @@ function getInitials(name: string): string {
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
-

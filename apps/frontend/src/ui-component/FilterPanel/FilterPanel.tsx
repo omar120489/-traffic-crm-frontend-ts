@@ -11,7 +11,7 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { IconChevronDown, IconChevronUp, IconFilter, IconX } from '@tabler/icons-react';
@@ -57,13 +57,13 @@ export function FilterPanel({
   showPresets = false,
   presets = [],
   onSavePreset,
-  onLoadPreset,
+  onLoadPreset
 }: FilterPanelProps) {
   const [expanded, setExpanded] = useState(false);
   const [presetName, setPresetName] = useState('');
   const [showSavePreset, setShowSavePreset] = useState(false);
 
-  const handleChange = (field: string, value: unknown) => {
+  const handleChange = (field: string, value: string | number | string[] | undefined) => {
     onChange({ ...values, [field]: value });
   };
 
@@ -113,7 +113,7 @@ export function FilterPanel({
               color: 'primary.contrastText',
               borderRadius: 1,
               fontSize: '0.75rem',
-              fontWeight: 600,
+              fontWeight: 600
             }}
           >
             Active
@@ -129,7 +129,7 @@ export function FilterPanel({
             border: 1,
             borderColor: 'divider',
             borderRadius: 1,
-            bgcolor: 'background.paper',
+            bgcolor: 'background.paper'
           }}
         >
           {/* Preset Management */}

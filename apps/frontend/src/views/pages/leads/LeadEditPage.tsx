@@ -52,7 +52,7 @@ const validationSchema = Yup.object().shape({
     .min(0, 'Score must be at least 0')
     .max(100, 'Score must be at most 100')
     .nullable(),
-  notes: Yup.string().nullable(),
+  notes: Yup.string().nullable()
 });
 
 function mapLeadToFormValues(lead: Lead): LeadFormValues {
@@ -70,7 +70,7 @@ function mapLeadToFormValues(lead: Lead): LeadFormValues {
         : lead.score > 1
           ? lead.score
           : lead.score * 100,
-    notes: lead.notes ?? '',
+    notes: lead.notes ?? ''
   };
 }
 
@@ -91,7 +91,7 @@ function buildUpdatePayload(values: LeadFormValues): LeadUpdateDto {
         : scoreValue > 1
           ? scoreValue / 100
           : scoreValue,
-    notes: values.notes.trim() === '' ? null : values.notes.trim(),
+    notes: values.notes.trim() === '' ? null : values.notes.trim()
   };
 }
 
@@ -141,7 +141,7 @@ export default function LeadEditPage(): ReactElement {
     if (!isValidLeadId(id)) {
       setError({
         kind: 'not-found',
-        message: 'The requested lead could not be found.',
+        message: 'The requested lead could not be found.'
       });
       setLoading(false);
       return;
@@ -156,20 +156,20 @@ export default function LeadEditPage(): ReactElement {
         if (err.response?.status === 404) {
           setError({
             kind: 'not-found',
-            message: 'The requested lead could not be found.',
+            message: 'The requested lead could not be found.'
           });
         } else {
           setError({
             kind: 'network',
             message:
               err.response?.data?.message ??
-              'We could not load this lead. Please try again in a moment.',
+              'We could not load this lead. Please try again in a moment.'
           });
         }
       } else {
         setError({
           kind: 'network',
-          message: 'We could not load this lead. Please try again in a moment.',
+          message: 'We could not load this lead. Please try again in a moment.'
         });
       }
     } finally {
@@ -258,7 +258,7 @@ export default function LeadEditPage(): ReactElement {
             touched,
             errors,
             isSubmitting,
-            dirty,
+            dirty
           }) => (
             <form noValidate onSubmit={submitForm}>
               <Stack spacing={3}>

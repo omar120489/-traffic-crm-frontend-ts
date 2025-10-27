@@ -29,25 +29,25 @@ import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsAct
 const CardMediaWrapper = styled('div')({
   maxWidth: 720,
   margin: '0 auto',
-  position: 'relative',
+  position: 'relative'
 });
 
 const PageContentWrapper = styled('div')({
   maxWidth: 450,
   margin: '0 auto',
-  textAlign: 'center',
+  textAlign: 'center'
 });
 
 const TimerWrapper = styled('div')({
   maxWidth: 450,
-  margin: '0 auto',
+  margin: '0 auto'
 });
 
 const ComingSoonCard = styled(Card)({
   minHeight: '100vh',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 });
 
 const TimeBlock = styled('div')(({ theme }) => ({
@@ -55,13 +55,13 @@ const TimeBlock = styled('div')(({ theme }) => ({
   color: theme.vars.palette.secondary.main,
   ...theme.applyStyles('dark', {
     background: theme.vars.palette.dark.main,
-    color: theme.vars.palette.dark.light,
+    color: theme.vars.palette.dark.light
   }),
   borderRadius: '12px',
   padding: '24px 0',
   textAlign: 'center',
   fontWeight: 700,
-  fontSize: '3rem',
+  fontSize: '3rem'
 }));
 
 const CardMediaBlock = styled('img')({
@@ -69,7 +69,7 @@ const CardMediaBlock = styled('img')({
   top: 0,
   left: 0,
   width: '100%',
-  animation: '8s blink ease-in-out infinite',
+  animation: '8s blink ease-in-out infinite'
 });
 
 const CardMediaBlue = styled('img')({
@@ -77,7 +77,7 @@ const CardMediaBlue = styled('img')({
   top: 0,
   left: 0,
   width: '100%',
-  animation: '15s wings ease-in-out infinite',
+  animation: '15s wings ease-in-out infinite'
 });
 
 const CardMediaPurple = styled('img')({
@@ -85,7 +85,7 @@ const CardMediaPurple = styled('img')({
   top: 0,
   left: 0,
   width: '100%',
-  animation: '12s wings ease-in-out infinite',
+  animation: '12s wings ease-in-out infinite'
 });
 
 // ===========================|| COMING SOON 2 ||=========================== //

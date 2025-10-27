@@ -59,6 +59,6 @@ export function useRooms() {
     error,
     refresh,
     filters: { search, type, onlyUnread },
-    setFilter,
+    setFilter
   };
 }

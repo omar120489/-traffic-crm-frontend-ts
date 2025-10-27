@@ -18,7 +18,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Snackbar,
+  Snackbar
 } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { Edit, Delete, Add, Email, Phone, Business } from '@mui/icons-material';
@@ -28,7 +28,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('token') ?? '',
+  getToken: () => localStorage.getItem('token') ?? ''
 });
 
 interface Contact {
@@ -54,12 +54,12 @@ interface Activity {
 export default function ContactDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  
+
   const [contact, setContact] = useState<Contact | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Activity dialog
   const [activityDialog, setActivityDialog] = useState(false);
   const [activityType, setActivityType] = useState('note');
@@ -118,7 +118,7 @@ export default function ContactDetailPage() {
 
   const handleCreateActivity = async () => {
     if (!id || !activityBody.trim()) return;
-    
+
     // Optimistic update
     const tempActivity: Activity = {
       id: `temp-${Date.now()}`,
@@ -126,7 +126,7 @@ export default function ContactDetailPage() {
       subject: activitySubject,
       body: activityBody,
       createdAt: new Date().toISOString(),
-      User: { id: userId, name: 'You' },
+      User: { id: userId, name: 'You' }
     };
     setActivities([tempActivity, ...activities]);
     setActivityDialog(false);
@@ -140,17 +140,17 @@ export default function ContactDetailPage() {
         entityId: id,
         authorId: userId,
         subject: activitySubject || undefined,
-        body: activityBody,
+        body: activityBody
       });
-      
+
       // Reload to get real data
       await loadActivities();
-      
+
       // Reset form
       setActivitySubject('');
       setActivityBody('');
       setActivityType('note');
-      
+
       // Show success toast
       setActToast(true);
     } catch (err: any) {
@@ -167,7 +167,7 @@ export default function ContactDetailPage() {
     at: a.createdAt,
     type: a.type,
     subject: a.subject,
-    body: a.body,
+    body: a.body
   }));
 
   if (loading) {
@@ -192,7 +192,11 @@ export default function ContactDetailPage() {
       breadcrumbs={[{ label: 'Contacts', href: '/contacts' }, { label: contact.name }]}
       actions={
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button variant="outlined" startIcon={<Edit />} onClick={() => navigate(`/contacts/${id}/edit`)}>
+          <Button
+            variant="outlined"
+            startIcon={<Edit />}
+            onClick={() => navigate(`/contacts/${id}/edit`)}
+          >
             Edit
           </Button>
           <Button variant="outlined" color="error" startIcon={<Delete />} onClick={handleDelete}>
@@ -216,21 +220,21 @@ export default function ContactDetailPage() {
                 Contact Information
               </Typography>
               <Divider sx={{ mb: 2 }} />
-              
+
               {contact.email && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Email fontSize="small" color="action" />
                   <Typography variant="body2">{contact.email}</Typography>
                 </Box>
               )}
-              
+
               {contact.phone && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Phone fontSize="small" color="action" />
                   <Typography variant="body2">{contact.phone}</Typography>
                 </Box>
               )}
-              
+
               {contact.title && (
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="caption" color="text.secondary">
@@ -239,16 +243,16 @@ export default function ContactDetailPage() {
                   <Typography variant="body2">{contact.title}</Typography>
                 </Box>
               )}
-              
+
               {contact.Company && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Business fontSize="small" color="action" />
                   <Chip label={contact.Company.name} size="small" />
                 </Box>
               )}
-              
+
               <Divider sx={{ my: 2 }} />
-              
+
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   Created
@@ -265,7 +269,14 @@ export default function ContactDetailPage() {
         <Box sx={{ flex: { xs: '1 1 100%', md: '1 1 calc(66.666% - 16px)' } }}>
           <Card>
             <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 2
+                }}
+              >
                 <Typography variant="h6">Activity Timeline</Typography>
                 <Button
                   variant="outlined"
@@ -277,7 +288,7 @@ export default function ContactDetailPage() {
                 </Button>
               </Box>
               <Divider sx={{ mb: 2 }} />
-              
+
               {activities.length === 0 ? (
                 <Box sx={{ textAlign: 'center', py: 4, color: 'text.secondary' }}>
                   No activities yet. Add a note to get started.
@@ -291,7 +302,12 @@ export default function ContactDetailPage() {
       </Box>
 
       {/* Add Activity Dialog */}
-      <Dialog open={activityDialog} onClose={() => setActivityDialog(false)} maxWidth="sm" fullWidth>
+      <Dialog
+        open={activityDialog}
+        onClose={() => setActivityDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Add Activity</DialogTitle>
         <DialogContent>
           <FormControl fullWidth variant="outlined" margin="normal">
@@ -310,7 +326,7 @@ export default function ContactDetailPage() {
               <MenuItem value="task">Task</MenuItem>
             </Select>
           </FormControl>
-          
+
           <TextField
             label="Subject (optional)"
             fullWidth
@@ -318,7 +334,7 @@ export default function ContactDetailPage() {
             onChange={(e) => setActivitySubject(e.target.value)}
             sx={{ mb: 2 }}
           />
-          
+
           <TextField
             label="Notes"
             fullWidth
@@ -355,5 +371,3 @@ export default function ContactDetailPage() {
     </AppPage>
   );
 }
-
-

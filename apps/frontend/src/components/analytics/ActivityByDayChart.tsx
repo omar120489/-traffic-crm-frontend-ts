@@ -1,5 +1,5 @@
-import * as React from "react";
-import { format, parseISO } from "date-fns";
+import * as React from 'react';
+import { format, parseISO } from 'date-fns';
 
 type Point = { date: string; count: number };
 
@@ -19,13 +19,13 @@ const MIN_CONTAINER_WIDTH = 320;
 const TICK_COUNTS = { x: 7, y: 5 };
 
 export default function ActivityByDayChart({
-  title = "Activity by Day",
+  title = 'Activity by Day',
   data,
   loading,
   error,
-  className = "",
+  className = '',
   height = 220,
-  colorClass = "stroke-indigo-600 fill-indigo-600/10",
+  colorClass = 'stroke-indigo-600 fill-indigo-600/10'
 }: Props) {
   // All hooks must be called before any early returns (Rules of Hooks)
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -65,10 +65,10 @@ export default function ActivityByDayChart({
         xMax: 0,
         xScale: () => 0,
         yScale: () => 0,
-        linePath: "",
-        areaPath: "",
+        linePath: '',
+        areaPath: '',
         xTicks: [],
-        yTicks: [],
+        yTicks: []
       };
     }
 
@@ -76,17 +76,16 @@ export default function ActivityByDayChart({
     const xMax = series.at(-1)!.x; // Use .at(-1) for cleaner syntax
     const yMax = Math.max(1, Math.max(...series.map((d) => d.y)));
 
-    const xScale = (t: number) =>
-      MARGIN.left + ((t - xMin) / Math.max(1, xMax - xMin)) * innerW;
+    const xScale = (t: number) => MARGIN.left + ((t - xMin) / Math.max(1, xMax - xMin)) * innerW;
     const yScale = (v: number) => MARGIN.top + innerH - (v / yMax) * innerH;
 
     const linePath = series
-      .map((d, i) => `${i === 0 ? "M" : "L"} ${xScale(d.x)} ${yScale(d.y)}`)
-      .join(" ");
+      .map((d, i) => `${i === 0 ? 'M' : 'L'} ${xScale(d.x)} ${yScale(d.y)}`)
+      .join(' ');
 
     const areaPath =
       `M ${xScale(series[0].x)} ${yScale(0)} ` +
-      series.map((d) => `L ${xScale(d.x)} ${yScale(d.y)}`).join(" ") +
+      series.map((d) => `L ${xScale(d.x)} ${yScale(d.y)}`).join(' ') +
       ` L ${xScale(series.at(-1)!.x)} ${yScale(0)} Z`;
 
     const xTicks = pickTicks(
@@ -132,9 +131,9 @@ export default function ActivityByDayChart({
       MARGIN.left;
 
     return {
-      position: "relative" as const,
+      position: 'relative' as const,
       left,
-      width: TOOLTIP_WIDTH,
+      width: TOOLTIP_WIDTH
     };
   }, [focusPoint, xScale, w]);
 
@@ -176,9 +175,9 @@ export default function ActivityByDayChart({
           tabIndex={0}
           onKeyDown={(e) => {
             if (!series.length) return;
-            if (e.key === "ArrowRight") {
+            if (e.key === 'ArrowRight') {
               setFocusIdx((i) => (i == null ? 0 : Math.min(series.length - 1, i + 1)));
-            } else if (e.key === "ArrowLeft") {
+            } else if (e.key === 'ArrowLeft') {
               setFocusIdx((i) => (i == null ? series.length - 1 : Math.max(0, i - 1)));
             }
           }}
@@ -224,17 +223,13 @@ export default function ActivityByDayChart({
                 textAnchor="middle"
                 className="fill-slate-500 text-[11px]"
               >
-                {format(tx, "MMM d")}
+                {format(tx, 'MMM d')}
               </text>
             </g>
           ))}
 
           <path d={areaPath} className={`${colorClass}`} />
-          <path
-            d={linePath}
-            className={`${colorClass} [stroke-width:2]`}
-            fill="none"
-          />
+          <path d={linePath} className={`${colorClass} [stroke-width:2]`} fill="none" />
 
           {focusPoint && (
             <>
@@ -262,7 +257,7 @@ export default function ActivityByDayChart({
             style={tooltipStyle}
             aria-live="polite"
           >
-            <div className="font-medium">{format(focusPoint.x, "PPP")}</div>
+            <div className="font-medium">{format(focusPoint.x, 'PPP')}</div>
             <div className="mt-0.5">
               Activities: <span className="font-semibold">{focusPoint.y}</span>
             </div>
@@ -276,14 +271,16 @@ export default function ActivityByDayChart({
 function ChartCard({
   title,
   className,
-  children,
+  children
 }: Readonly<{
   title: string;
   className?: string;
   children: React.ReactNode;
 }>) {
   return (
-    <section className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ""}`}>
+    <section
+      className={`rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 ${className || ''}`}
+    >
       <header className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">{title}</h3>
       </header>
@@ -302,7 +299,8 @@ function pickTicks(xs: number[], desired: number): number[] {
 }
 
 function nearestIndex(xs: number[], target: number): number {
-  let lo = 0, hi = xs.length - 1;
+  let lo = 0,
+    hi = xs.length - 1;
   while (hi - lo > 1) {
     const mid = (lo + hi) >> 1;
     if (xs[mid] === target) return mid;
@@ -310,4 +308,3 @@ function nearestIndex(xs: number[], target: number): number {
   }
   return Math.abs(xs[lo] - target) <= Math.abs(xs[hi] - target) ? lo : hi;
 }
-

@@ -5,13 +5,13 @@ import { useMemo } from 'react';
 import { fetcher } from 'utils/axios';
 
 const initialState = {
-  isDashboardDrawerOpened: false,
+  isDashboardDrawerOpened: false
 };
 
 const endpoints = {
   key: 'api/menu',
   master: 'master',
-  widget: '/widget', // server URL
+  widget: '/widget' // server URL
 };
 
 export function useGetMenu() {
@@ -21,7 +21,7 @@ export function useGetMenu() {
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
-      revalidateOnReconnect: false,
+      revalidateOnReconnect: false
     }
   );
 
@@ -31,7 +31,7 @@ export function useGetMenu() {
       menuLoading: isLoading,
       menuError: error,
       menuValidating: isValidating,
-      menuEmpty: !isLoading && !data?.length,
+      menuEmpty: !isLoading && !data?.length
     }),
     [data, error, isLoading, isValidating]
   );
@@ -43,13 +43,13 @@ export function useGetMenuMaster() {
   const { data, isLoading } = useSWR(endpoints.key + endpoints.master, () => initialState, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false,
+    revalidateOnReconnect: false
   });
 
   const memoizedValue = useMemo(
     () => ({
       menuMaster: data,
-      menuMasterLoading: isLoading,
+      menuMasterLoading: isLoading
     }),
     [data, isLoading]
   );

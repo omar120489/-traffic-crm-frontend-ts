@@ -9,7 +9,7 @@ interface Preferences {
 }
 
 const defaultPreferences: Preferences = {
-  mutedTypes: [],
+  mutedTypes: []
 };
 
 /**
@@ -23,7 +23,7 @@ function loadPreferences(): Preferences {
     }
     const parsed = JSON.parse(stored);
     return {
-      mutedTypes: Array.isArray(parsed.mutedTypes) ? parsed.mutedTypes : [],
+      mutedTypes: Array.isArray(parsed.mutedTypes) ? parsed.mutedTypes : []
     };
   } catch (error) {
     console.error('[Preferences] Failed to load from localStorage:', error);
@@ -101,7 +101,7 @@ export function useNotificationPreferences() {
       'attachment',
       'notification',
       'email',
-      'mention',
+      'mention'
     ];
     setPreferences({ mutedTypes: allTypes });
   }, []);
@@ -118,7 +118,7 @@ export function useNotificationPreferences() {
     isMuted,
     toggleMute,
     muteAll,
-    unmuteAll,
+    unmuteAll
   };
 }
 

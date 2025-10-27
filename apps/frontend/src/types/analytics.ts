@@ -4,7 +4,7 @@ export interface AnalyticsFilters {
   readonly from: DateISO;
   readonly to: DateISO;
   readonly users?: readonly string[];
-  readonly types?: readonly ("call" | "email" | "meeting" | "note" | "task")[];
+  readonly types?: readonly ('call' | 'email' | 'meeting' | 'note' | 'task')[];
 }
 
 export interface Kpis {
@@ -20,7 +20,7 @@ export interface TimeBucket {
 }
 
 export interface ActivityMix {
-  readonly type: "call" | "email" | "meeting" | "note" | "task";
+  readonly type: 'call' | 'email' | 'meeting' | 'note' | 'task';
   readonly count: number;
   readonly percent: number;
 }
@@ -38,4 +38,3 @@ export interface AnalyticsResponse {
   readonly mix: readonly ActivityMix[];
   readonly topContributors: readonly Contributor[];
 }
-

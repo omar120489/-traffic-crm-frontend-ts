@@ -5,9 +5,9 @@ export default function ListItemText(theme) {
     MuiListItemText: {
       styleOverrides: {
         primary: {
-          color: theme.vars.palette.text.dark,
-        },
-      },
-    },
+          color: theme.vars.palette.text.dark
+        }
+      }
+    }
   };
 }

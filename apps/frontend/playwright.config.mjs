@@ -32,7 +32,8 @@ export default defineConfig({
     // Add firefox/webkit projects when cross-browser coverage is ready.
   ],
   webServer: {
-    command: 'pnpm run dev',
+    // Use a shell wrapper to suppress Vite output
+    command: 'sh -c "exec 3>&1 4>&2; exec 1>/dev/null 2>&1; pnpm run dev; exec 1>&3 2>&4"',
     port: 3000,
     timeout: 120_000,
     reuseExistingServer: !process.env.CI

@@ -59,6 +59,6 @@ export function usePermissions(): UsePermissionsResult {
     hasAllPermissions,
     can: hasPermission,
     userRole,
-    userPermissions,
+    userPermissions
   };
 }

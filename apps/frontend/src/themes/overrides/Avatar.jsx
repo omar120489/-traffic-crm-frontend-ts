@@ -12,14 +12,14 @@ export default function Avatar(theme) {
           // Apply dark mode variables
           ...theme.applyStyles('dark', {
             '--avatar-default-color': theme.vars.palette.dark.main,
-            '--avatar-default-bg': theme.vars.palette.text.primary,
+            '--avatar-default-bg': theme.vars.palette.text.primary
           }),
 
           // Use the variables
           color: 'var(--avatar-default-color)',
-          backgroundColor: 'var(--avatar-default-bg)',
-        },
-      },
-    },
+          backgroundColor: 'var(--avatar-default-bg)'
+        }
+      }
+    }
   };
 }

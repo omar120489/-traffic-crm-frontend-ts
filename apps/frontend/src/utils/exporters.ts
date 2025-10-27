@@ -75,7 +75,7 @@ export function exportToXLSX(data: any[], columns: ExportColumn[], filename: str
 
   // Set column widths
   const colWidths = columns.map((col) => ({
-    wch: Math.max(col.headerName.length, 15),
+    wch: Math.max(col.headerName.length, 15)
   }));
   ws['!cols'] = colWidths;
 
@@ -105,7 +105,7 @@ export function exportToPDF(
   const doc = new jsPDF({
     orientation,
     unit: 'mm',
-    format: 'a4',
+    format: 'a4'
   });
 
   // Add title if provided
@@ -125,17 +125,17 @@ export function exportToPDF(
     startY: title ? 25 : 15,
     styles: {
       fontSize: 8,
-      cellPadding: 2,
+      cellPadding: 2
     },
     headStyles: {
       fillColor: [33, 150, 243], // Primary blue
       textColor: [255, 255, 255],
-      fontStyle: 'bold',
+      fontStyle: 'bold'
     },
     alternateRowStyles: {
-      fillColor: [245, 245, 245],
+      fillColor: [245, 245, 245]
     },
-    margin: { top: 15, right: 10, bottom: 10, left: 10 },
+    margin: { top: 15, right: 10, bottom: 10, left: 10 }
   });
 
   // Save file
@@ -152,7 +152,7 @@ export function formatCurrencyForExport(value?: number | null): string {
   return new Intl.NumberFormat(undefined, {
     style: 'currency',
     currency: 'USD',
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 2
   }).format(value);
 }
 
@@ -165,6 +165,6 @@ export function formatDateForExport(value?: string | null): string {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   }).format(new Date(value));
 }

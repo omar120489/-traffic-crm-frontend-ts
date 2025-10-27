@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: traffic-crm-frontend
+  namespace: traffic-crm-prod
+
+resources:
+  - base-deployment.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - networkpolicy.yaml
+
+commonLabels:
+  app: traffic-crm-frontend
+  managed-by: kustomize
+
+commonAnnotations:
+  version: "1.0.0"
+
+replicas:
+  - name: traffic-crm-frontend
+    count: 2
+
+images:
+  - name: ghcr.io/omar120489/-traffic-crm-frontend-ts-frontend
+    newTag: latest

@@ -46,7 +46,7 @@ export function useWebSocketToasts(): void {
         const entityType = comment.entityType || 'item';
         enqueueSnackbar(`New comment on ${entityType}`, {
           variant: 'info',
-          autoHideDuration: 3000,
+          autoHideDuration: 3000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle comment:new:', err);
@@ -64,7 +64,7 @@ export function useWebSocketToasts(): void {
         const entityType = comment.entityType || 'item';
         enqueueSnackbar(`Comment updated on ${entityType}`, {
           variant: 'info',
-          autoHideDuration: 3000,
+          autoHideDuration: 3000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle comment:updated:', err);
@@ -81,7 +81,7 @@ export function useWebSocketToasts(): void {
         const { entityType } = data as { entityType: string };
         enqueueSnackbar(`Comment deleted from ${entityType || 'item'}`, {
           variant: 'default',
-          autoHideDuration: 3000,
+          autoHideDuration: 3000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle comment:deleted:', err);
@@ -99,7 +99,7 @@ export function useWebSocketToasts(): void {
         const filename = attachment.filename || 'File';
         enqueueSnackbar(`File uploaded: ${filename}`, {
           variant: 'success',
-          autoHideDuration: 3000,
+          autoHideDuration: 3000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle attachment:uploaded:', err);
@@ -116,7 +116,7 @@ export function useWebSocketToasts(): void {
         const { filename } = data as { filename?: string };
         enqueueSnackbar(`File deleted: ${filename || 'Attachment'}`, {
           variant: 'default',
-          autoHideDuration: 3000,
+          autoHideDuration: 3000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle attachment:deleted:', err);
@@ -134,7 +134,7 @@ export function useWebSocketToasts(): void {
         const variant = notification.type || 'default';
         enqueueSnackbar(notification.title, {
           variant,
-          autoHideDuration: 5000,
+          autoHideDuration: 5000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle notification:new:', err);
@@ -152,7 +152,7 @@ export function useWebSocketToasts(): void {
         const toSuffix = to ? ` to ${to}` : '';
         enqueueSnackbar(`Email sent${toSuffix}`, {
           variant: 'success',
-          autoHideDuration: 3000,
+          autoHideDuration: 3000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle email:sent:', err);
@@ -169,7 +169,7 @@ export function useWebSocketToasts(): void {
         const { entityType } = data as { entityType?: string };
         enqueueSnackbar(`You were mentioned in a ${entityType || 'comment'}`, {
           variant: 'info',
-          autoHideDuration: 4000,
+          autoHideDuration: 4000
         });
       } catch (err) {
         console.error('[useWebSocketToasts] Failed to handle mention:new:', err);

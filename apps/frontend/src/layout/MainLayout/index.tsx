@@ -25,7 +25,7 @@ export default function MainLayout() {
   const downMD = useMediaQuery(theme.breakpoints.down('md'));
 
   const {
-    state: { borderRadius, container, miniDrawer, menuOrientation },
+    state: { borderRadius, container, miniDrawer, menuOrientation }
   } = useConfig();
 
   const { menuMaster, menuMasterLoading } = useGetMenuMaster() as {
@@ -91,7 +91,7 @@ export default function MainLayout() {
             flex: 1,
             overflowX: 'hidden', // hard stop for horizontal scroll
             overflowY: 'auto',
-            width: '100%',
+            width: '100%'
           }}
         >
           <Container
@@ -100,7 +100,7 @@ export default function MainLayout() {
               ...(!container && { px: { xs: 0 } }),
               minHeight: 'calc(100vh - 128px)',
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'column'
             }}
           >
             <BreadcrumbsComponent />

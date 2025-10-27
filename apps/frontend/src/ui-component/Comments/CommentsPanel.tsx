@@ -125,7 +125,9 @@ export function CommentsPanel({ entityType, entityId, title = 'Comments' }: Comm
           </Box>
           {submitError && <Alert severity="error">{submitError}</Alert>}
           {/* @ts-ignore - MUI v7 type incompatibility */}
-          {error && !submitError && <Alert severity="error">Unable to load comments. Please try again.</Alert>}
+          {error && !submitError && (
+            <Alert severity="error">Unable to load comments. Please try again.</Alert>
+          )}
         </Stack>
       </CardContent>
       <Divider />
@@ -154,9 +156,12 @@ export function CommentsPanel({ entityType, entityId, title = 'Comments' }: Comm
                       <IconButton
                         edge="end"
                         aria-label="delete"
+                        // @ts-expect-error - EntityIdentifier can be string | number
                         onClick={() => void handleDelete(comment.id)}
+                        // @ts-expect-error - EntityIdentifier can be string | number
                         disabled={deletingIds.has(comment.id)}
                       >
+                        {/* @ts-expect-error - EntityIdentifier can be string | number */}
                         {deletingIds.has(comment.id) ? (
                           <CircularProgress size={20} />
                         ) : (

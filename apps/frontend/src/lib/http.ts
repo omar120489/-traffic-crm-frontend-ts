@@ -15,8 +15,8 @@ export async function http<T>(url: string, init: RequestInit = {}): Promise<T> {
     headers: {
       'Content-Type': 'application/json',
       ...authHeader(),
-      ...(init.headers || {}),
-    },
+      ...(init.headers || {})
+    }
   });
 
   if (!res.ok) {
@@ -33,4 +33,3 @@ export function logout() {
     globalThis.window.location.assign('/login');
   }
 }
-

@@ -6,8 +6,8 @@ import type {
   ContactUpdateDto,
   PaginatedContacts,
   UUID,
-  ApiResponse,
-} from '@shared-types';
+  ApiResponse
+} from '@traffic-crm/shared-types';
 
 const BASE_PATH = '/api/contacts';
 
@@ -36,5 +36,5 @@ export const contactsApi = {
   getContact,
   createContact,
   updateContact,
-  deleteContact,
+  deleteContact
 };

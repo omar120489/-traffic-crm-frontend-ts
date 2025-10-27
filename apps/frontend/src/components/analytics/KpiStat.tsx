@@ -18,8 +18,8 @@ export function KpiStat({ label, value, loading, tooltip }: KpiStatProps) {
   }
 
   return (
-    <div 
-      className="rounded-2xl border p-4 bg-white/70 dark:bg-slate-900/60 backdrop-blur" 
+    <div
+      className="rounded-2xl border p-4 bg-white/70 dark:bg-slate-900/60 backdrop-blur"
       title={tooltip}
     >
       <dl>
@@ -29,4 +29,3 @@ export function KpiStat({ label, value, loading, tooltip }: KpiStatProps) {
     </div>
   );
 }
-

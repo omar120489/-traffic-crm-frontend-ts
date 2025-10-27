@@ -20,7 +20,7 @@ import {
 
 import MainCard from '@/ui-component/cards/MainCard';
 import { useCompanies } from '@hooks/useCompanies';
-import type { Company, CompanyQuery } from '@shared-types';
+import type { Company, CompanyQuery } from '@traffic-crm/shared-types';
 
 const DEFAULT_PAGE_SIZE = 10;
 

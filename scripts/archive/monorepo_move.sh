@@ -82,7 +82,7 @@ cat > tsconfig.base.json <<'JSON'
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@shared-types/*": ["packages/shared-types/src/*"]
+      "@traffic-crm/shared-types/*": ["packages/shared-types/src/*"]
     }
   }
 }
@@ -136,7 +136,7 @@ mkdir -p packages/shared-types/src
 
 cat > packages/shared-types/package.json <<'JSON'
 {
-  "name": "@shared-types",
+  "name": "@traffic-crm/shared-types",
   "version": "0.1.0",
   "private": true,
   "type": "module",

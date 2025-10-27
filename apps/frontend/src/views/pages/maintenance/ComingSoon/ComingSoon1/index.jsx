@@ -57,25 +57,25 @@ const CardMediaWrapper = styled('div')(({ theme }) => ({
   margin: '0 auto',
   position: 'relative',
   [theme.breakpoints.down('xl')]: {
-    marginTop: 30,
+    marginTop: 30
   },
   [theme.breakpoints.down('md')]: {
-    maxWidth: 450,
+    maxWidth: 450
   },
   [theme.breakpoints.down('lg')]: {
-    display: 'none',
-  },
+    display: 'none'
+  }
 }));
 
 const PageContentWrapper = styled('div')(({ theme }) => ({
   maxWidth: 550,
   margin: '0 0 0 auto',
   [theme.breakpoints.down('lg')]: {
-    margin: '0 auto',
+    margin: '0 auto'
   },
   [theme.breakpoints.up(1400)]: {
-    maxWidth: 600,
-  },
+    maxWidth: 600
+  }
 }));
 
 const ComingSoonCard = styled(Card)(({ theme }) => ({
@@ -84,15 +84,15 @@ const ComingSoonCard = styled(Card)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   [theme.breakpoints.down('lg')]: {
-    display: 'block',
+    display: 'block'
   },
   [theme.breakpoints.up(1200)]: {
     overflow: 'hidden',
-    maxHeight: '100vh',
+    maxHeight: '100vh'
   },
   [theme.breakpoints.up(1400)]: {
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 }));
 
 const SliderWrapper = styled('div')(({ theme }) => ({
@@ -103,7 +103,7 @@ const SliderWrapper = styled('div')(({ theme }) => ({
   position: 'absolute',
   left: 0,
   background: theme.vars.palette.primary.light,
-  ...theme.applyStyles('dark', { background: theme.vars.palette.dark.main }),
+  ...theme.applyStyles('dark', { background: theme.vars.palette.dark.main })
 }));
 
 const CardMediaGrid = styled('img')({
@@ -111,7 +111,7 @@ const CardMediaGrid = styled('img')({
   top: 0,
   left: 0,
   width: '100%',
-  zIndex: 3,
+  zIndex: 3
 });
 
 const CardMediaWidget = styled('img')({
@@ -122,28 +122,28 @@ const CardMediaWidget = styled('img')({
   animation: '5s wings ease-in-out infinite',
   zIndex: 5,
   '&:nth-of-type(3)': {
-    animationDelay: '2s',
+    animationDelay: '2s'
   },
   '&:nth-of-type(4)': {
-    animationDelay: '1s',
+    animationDelay: '1s'
   },
   '&:nth-of-type(5)': {
-    animationDelay: '3s',
+    animationDelay: '3s'
   },
   '&:nth-of-type(9)': {
-    animationDelay: '5s',
+    animationDelay: '5s'
   },
   '&:nth-of-type(10)': {
-    animationDelay: '6s',
+    animationDelay: '6s'
   },
   '&:nth-of-type(7)': {
     animation: '3s blink ease-in-out infinite',
-    animationDelay: '1s',
+    animationDelay: '1s'
   },
   '&:nth-of-type(6)': {
     animation: '3s blink ease-in-out infinite',
-    animationDelay: '2s',
-  },
+    animationDelay: '2s'
+  }
 });
 
 // ===========================|| COMING SOON 1 ||=========================== //
@@ -153,7 +153,7 @@ export default function ComingSoon1() {
   const { colorScheme } = useColorScheme();
 
   const {
-    state: { themeDirection },
+    state: { themeDirection }
   } = useConfig();
   const [photoIndex, setPhotoIndex] = useState(-1);
 
@@ -170,8 +170,8 @@ export default function ComingSoon1() {
   const mediaWidgetStyle = {
     ...(themeDirection === ThemeDirection.RTL && {
       transform: 'scaleX(-1)',
-      animation: '5s wingsReverse ease-in-out infinite',
-    }),
+      animation: '5s wingsReverse ease-in-out infinite'
+    })
   };
 
   return (
@@ -187,7 +187,7 @@ export default function ComingSoon1() {
               bottom: -40,
               left: 50,
               width: 400,
-              transform: 'rotate(145deg)',
+              transform: 'rotate(145deg)'
             }}
           />
           <CardMedia
@@ -197,7 +197,7 @@ export default function ComingSoon1() {
             sx={{
               position: themeDirection === ThemeDirection.RTL ? 'relative' : 'initial',
               top: themeDirection === ThemeDirection.RTL ? 30 : 'initial',
-              width: 'auto',
+              width: 'auto'
             }}
           />
         </CardContent>
@@ -212,8 +212,8 @@ export default function ComingSoon1() {
                   position: 'relative',
                   zIndex: 1,
                   ...(themeDirection === ThemeDirection.RTL && {
-                    transform: 'scaleX(-1) scaleY(0.95)',
-                  }),
+                    transform: 'scaleX(-1) scaleY(0.95)'
+                  })
                 }}
               />
               <CardMediaGrid
@@ -309,7 +309,7 @@ export default function ComingSoon1() {
                           mt: 2.5,
                           boxShadow: '0px 45px 45px rgba(30, 136, 229, 0.2)',
                           borderRadius: '8px',
-                          overflow: 'hidden',
+                          overflow: 'hidden'
                         }}
                       >
                         <Slider handleClickOpen={handleClickOpen} />
@@ -338,8 +338,8 @@ export default function ComingSoon1() {
                                     color: theme.vars.palette.secondary.dark,
                                     ...theme.applyStyles('dark', {
                                       bgcolor: theme.vars.palette.dark.main,
-                                      color: theme.vars.palette.secondary.main,
-                                    }),
+                                      color: theme.vars.palette.secondary.main
+                                    })
                                   }}
                                 >
                                   <BookIcon />
@@ -361,8 +361,8 @@ export default function ComingSoon1() {
                                     color: theme.vars.palette.primary.dark,
                                     ...theme.applyStyles('dark', {
                                       bgcolor: theme.vars.palette.dark.main,
-                                      color: theme.vars.palette.primary.main,
-                                    }),
+                                      color: theme.vars.palette.primary.main
+                                    })
                                   }}
                                 >
                                   <FacebookIcon />
@@ -384,8 +384,8 @@ export default function ComingSoon1() {
                                     color: theme.vars.palette.warning.dark,
                                     ...theme.applyStyles('dark', {
                                       bgcolor: theme.vars.palette.dark.main,
-                                      color: theme.vars.palette.warning.dark,
-                                    }),
+                                      color: theme.vars.palette.warning.dark
+                                    })
                                   }}
                                 >
                                   <TwitterIcon />
@@ -407,8 +407,8 @@ export default function ComingSoon1() {
                                     color: theme.vars.palette.grey[800],
                                     ...theme.applyStyles('dark', {
                                       bgcolor: theme.vars.palette.dark.main,
-                                      color: theme.vars.palette.dark.light,
-                                    }),
+                                      color: theme.vars.palette.dark.light
+                                    })
                                   }}
                                 >
                                   <GitHubIcon />
@@ -430,8 +430,8 @@ export default function ComingSoon1() {
                                     color: 'grey.500',
                                     ...theme.applyStyles('dark', {
                                       bgcolor: theme.vars.palette.dark.main,
-                                      color: 'grey.600',
-                                    }),
+                                      color: 'grey.600'
+                                    })
                                   }}
                                 >
                                   <IconBrandDribbble />

@@ -2,7 +2,7 @@ import { alpha, type Components, type Theme } from '@mui/material/styles';
 
 // ==============================|| OVERRIDES - TABS ||============================== //
 
-export default function Tabs(theme: Theme): Components['MuiTabs'] {
+export default function Tabs(theme: Theme): NonNullable<Components['MuiTabs']> {
   const isDark = theme.palette.mode === 'dark';
   const borderColor = isDark ? alpha(theme.palette.text.primary, 0.2) : theme.palette.grey[200];
 
@@ -10,8 +10,8 @@ export default function Tabs(theme: Theme): Components['MuiTabs'] {
     styleOverrides: {
       flexContainer: {
         borderBottom: '1px solid',
-        borderColor,
-      },
-    },
+        borderColor
+      }
+    }
   };
 }

@@ -1,9 +1,9 @@
 /**
  * Contacts Service using typed SDK
- * 
+ *
  * This is a new SDK-based service that will eventually replace
  * the legacy services/contacts.ts implementation.
- * 
+ *
  * To migrate:
  * 1. Test this service alongside the old one
  * 2. Update imports in components to use this file
@@ -11,9 +11,10 @@
  */
 
 import { api } from '@/data/clients/sdk';
+import type { ContactQuery } from '@traffic-crm/shared-types';
 
-export async function fetchContacts() {
-  return api.listContacts();
+export async function fetchContacts(query?: ContactQuery) {
+  return api.listContacts(query);
 }
 
 export async function fetchContact(id: string) {
@@ -38,6 +39,5 @@ export const contactsSdkApi = {
   getContact: fetchContact,
   createContact,
   updateContact,
-  deleteContact,
+  deleteContact
 };
-

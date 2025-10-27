@@ -1,7 +1,7 @@
 /**
  * Deals Kanban Board Page
  * Sprint 3: FE-KANBAN-02 (Drag & Drop)
- * 
+ *
  * Features:
  * - Pipeline selection
  * - Column rendering by stage
@@ -9,7 +9,7 @@
  * - Drag & drop with optimistic updates
  * - Loading states
  * - Empty states
- * 
+ *
  * TODO (FE-KANBAN-03): Add filters (owner, tags, search)
  */
 
@@ -25,7 +25,7 @@ import {
   Select,
   MenuItem,
   Button,
-  type SelectChangeEvent,
+  type SelectChangeEvent
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import {
@@ -36,7 +36,7 @@ import {
   useSensor,
   useSensors,
   closestCorners,
-  type DragStartEvent,
+  type DragStartEvent
 } from '@dnd-kit/core';
 // import { arrayMove } from '@dnd-kit/sortable'; // Not needed for simple cross-column moves
 import { AppPage } from '@traffic-crm/ui-kit';
@@ -64,24 +64,28 @@ export default function DealsKanbanPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeDeal, setActiveDeal] = useState<Deal | null>(null);
-  const [toast, setToast] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
+  const [toast, setToast] = useState<{
+    open: boolean;
+    message: string;
+    severity: 'success' | 'error';
+  }>({
     open: false,
     message: '',
-    severity: 'success',
+    severity: 'success'
   });
 
   // Filter options (stub data for now - can be loaded from API)
   const [ownerOptions] = useState<readonly FilterOption[]>([
     { id: 'owner-1', name: 'John Doe' },
     { id: 'owner-2', name: 'Jane Smith' },
-    { id: 'owner-3', name: 'Bob Johnson' },
+    { id: 'owner-3', name: 'Bob Johnson' }
   ]);
 
   const [tagOptions] = useState<readonly FilterOption[]>([
     { id: 'tag-1', name: 'Hot Lead' },
     { id: 'tag-2', name: 'VIP' },
     { id: 'tag-3', name: 'Urgent' },
-    { id: 'tag-4', name: 'Follow-up' },
+    { id: 'tag-4', name: 'Follow-up' }
   ]);
 
   // Parse filters from URL
@@ -89,7 +93,7 @@ export default function DealsKanbanPage() {
     () => ({
       ownerIds: searchParams.getAll('owner'),
       tagIds: searchParams.getAll('tag'),
-      q: searchParams.get('q') || '',
+      q: searchParams.get('q') || ''
     }),
     [searchParams]
   );
@@ -101,8 +105,8 @@ export default function DealsKanbanPage() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // 8px movement required to start drag
-      },
+        distance: 8 // 8px movement required to start drag
+      }
     })
   );
 
@@ -121,7 +125,7 @@ export default function DealsKanbanPage() {
   // Computed: deals grouped by stage
   const dealsByStage = useMemo<StageMap>(() => {
     const grouped: StageMap = {};
-    
+
     // Initialize all stages with empty arrays
     stages.forEach((stage) => {
       grouped[stage.id] = [];
@@ -169,11 +173,11 @@ export default function DealsKanbanPage() {
   // Sync filters to URL
   useEffect(() => {
     const params = new URLSearchParams();
-    
+
     filters.ownerIds?.forEach((id) => params.append('owner', id));
     filters.tagIds?.forEach((id) => params.append('tag', id));
     if (filters.q) params.set('q', filters.q);
-    
+
     setSearchParams(params, { replace: true });
   }, [filters, setSearchParams]);
 
@@ -221,7 +225,7 @@ export default function DealsKanbanPage() {
         name: input.name,
         amountCents: input.amountCents,
         stageId: input.stageId,
-        pipelineId: selectedPipelineId,
+        pipelineId: selectedPipelineId
       });
 
       // Refresh deals to show the new deal
@@ -231,7 +235,7 @@ export default function DealsKanbanPage() {
       setToast({
         open: true,
         message: 'Deal created successfully',
-        severity: 'success',
+        severity: 'success'
       });
 
       return newDeal;
@@ -240,7 +244,7 @@ export default function DealsKanbanPage() {
       setToast({
         open: true,
         message: 'Failed to create deal. Please try again.',
-        severity: 'error',
+        severity: 'error'
       });
       throw err;
     }
@@ -282,7 +286,7 @@ export default function DealsKanbanPage() {
       const sourceDeals = dealsByStage[sourceStageId];
       const oldIndex = sourceDeals.findIndex((d) => d.id === dealId);
       const newIndex = targetDeal ? sourceDeals.findIndex((d) => d.id === overId) : oldIndex;
-      
+
       if (oldIndex === newIndex) return;
     }
 
@@ -311,19 +315,19 @@ export default function DealsKanbanPage() {
     // Persist to backend
     try {
       const targetDeals = dealsByStage[targetStageId] || [];
-      const newPosition = targetDeal 
+      const newPosition = targetDeal
         ? targetDeals.findIndex((d) => d.id === overId)
         : targetDeals.length;
 
       await moveDeal(dealId, {
         stageId: targetStageId,
-        position: Math.max(0, newPosition),
+        position: Math.max(0, newPosition)
       });
 
       setToast({
         open: true,
         message: 'Deal moved successfully',
-        severity: 'success',
+        severity: 'success'
       });
 
       // Refresh deals to get accurate positions from backend
@@ -331,14 +335,14 @@ export default function DealsKanbanPage() {
       setDeals(refreshedDeals);
     } catch (err) {
       console.error('Failed to move deal:', err);
-      
+
       // Rollback on error
       setDeals(previousDeals);
-      
+
       setToast({
         open: true,
         message: 'Failed to move deal. Please try again.',
-        severity: 'error',
+        severity: 'error'
       });
     }
   };
@@ -416,7 +420,7 @@ export default function DealsKanbanPage() {
           value={{
             ownerIds: filters.ownerIds || [],
             tagIds: filters.tagIds || [],
-            q: filters.q || '',
+            q: filters.q || ''
           }}
           onChange={handleFiltersChange}
           onClear={handleClearFilters}
@@ -449,12 +453,12 @@ export default function DealsKanbanPage() {
                 overflowX: 'auto',
                 pb: 2,
                 '&::-webkit-scrollbar': {
-                  height: 8,
+                  height: 8
                 },
                 '&::-webkit-scrollbar-thumb': {
                   backgroundColor: 'rgba(0,0,0,0.2)',
-                  borderRadius: 4,
-                },
+                  borderRadius: 4
+                }
               }}
             >
               {stages.map((stage) => (

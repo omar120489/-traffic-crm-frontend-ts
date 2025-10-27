@@ -11,7 +11,11 @@ export interface PaginatedResponse<T> {
 
 export interface UsePaginatedQueryOptions<T> extends UsePaginationOptions {
   /** Async function to fetch data */
-  fetcher: (query: { page: number; size: number; search?: string }) => Promise<PaginatedResponse<T>>;
+  fetcher: (query: {
+    page: number;
+    size: number;
+    search?: string;
+  }) => Promise<PaginatedResponse<T>>;
   /** Enable auto-fetch on mount and query changes */
   enabled?: boolean;
 }
@@ -32,10 +36,10 @@ export interface UsePaginatedQueryResult<T> {
 
 /**
  * Combined hook for pagination + data fetching
- * 
+ *
  * @example
  * ```tsx
- * const { data, loading, error, page, size, search, setPage, setSize, setSearch, refetch } = 
+ * const { data, loading, error, page, size, search, setPage, setSize, setSearch, refetch } =
  *   usePaginatedQuery({
  *     fetcher: (query) => listContacts(query),
  *     page: 1,
@@ -56,7 +60,7 @@ export function usePaginatedQuery<T>({
     total: 0,
     page: 1,
     size: 10,
-    totalPages: 0,
+    totalPages: 0
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -85,7 +89,6 @@ export function usePaginatedQuery<T>({
     loading,
     error,
     ...pagination,
-    refetch: fetch,
+    refetch: fetch
   };
 }
-

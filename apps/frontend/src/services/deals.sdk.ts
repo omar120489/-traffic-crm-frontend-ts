@@ -6,8 +6,8 @@ import type {
   DealUpdateDto,
   PaginatedDeals,
   UUID,
-  ApiResponse,
-} from '@shared-types';
+  ApiResponse
+} from '@traffic-crm/shared-types';
 
 // Helper to map camelCase to snake_case for backend compatibility
 function toDealUpdateDto(payload: DealUpdateDto): Record<string, unknown> {
@@ -49,7 +49,7 @@ function fromDealDto(dto: any): Deal {
     directCost: dto.directCost ?? dto.direct_cost ?? null,
     netProfit: dto.netProfit ?? dto.net_profit ?? null,
     lossReason: dto.lossReason ?? dto.loss_reason ?? null,
-    lossNotes: dto.lossNotes ?? dto.loss_notes ?? null,
+    lossNotes: dto.lossNotes ?? dto.loss_notes ?? null
   };
 }
 
@@ -57,7 +57,7 @@ export async function listDeals(query?: DealQuery): Promise<PaginatedDeals> {
   const response = await api.listDeals(query);
   return {
     ...response,
-    items: response.items.map(fromDealDto),
+    items: response.items.map(fromDealDto)
   };
 }
 
@@ -86,6 +86,5 @@ export const dealsApi = {
   getDeal,
   createDeal,
   updateDeal,
-  deleteDeal,
+  deleteDeal
 };
-

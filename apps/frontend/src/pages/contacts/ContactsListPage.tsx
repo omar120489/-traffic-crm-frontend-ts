@@ -10,7 +10,7 @@ import {
   Menu,
   MenuItem,
   Alert,
-  Autocomplete,
+  Autocomplete
 } from '@mui/material';
 import { Add, Search, FilterList, Edit, Delete, Visibility } from '@mui/icons-material';
 import { AppPage, DataTable, FilterBar, type Column } from '@traffic-crm/ui-kit';
@@ -19,7 +19,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const api = createClient({
   baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  getToken: () => localStorage.getItem('token') ?? '',
+  getToken: () => localStorage.getItem('token') ?? ''
 });
 
 interface Contact {
@@ -36,12 +36,12 @@ export default function ContactsListPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { orgId } = useAuth();
-  
+
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Filters from URL
   const page = Number(searchParams.get('page') || '1');
   const query = searchParams.get('q') || '';
@@ -52,7 +52,7 @@ export default function ContactsListPage() {
 
   // Filter menu
   const [filterAnchor, setFilterAnchor] = useState<null | HTMLElement>(null);
-  
+
   // Tag options from API
   const [tagOptions, setTagOptions] = useState<string[]>([]);
   const [tagsLoading, setTagsLoading] = useState(false);
@@ -113,7 +113,7 @@ export default function ContactsListPage() {
       if (status) params.status = status;
       if (companyFilter) params.companyId = companyFilter;
       if (tags.length) params.tags = tags;
-      
+
       const result = await api.listContacts(params);
       setContacts(result.items || []);
       setTotal(result.total || 0);
@@ -159,12 +159,16 @@ export default function ContactsListPage() {
       header: 'Name',
       render: (row: Contact) => (
         <Box
-          sx={{ cursor: 'pointer', color: 'primary.main', '&:hover': { textDecoration: 'underline' } }}
+          sx={{
+            cursor: 'pointer',
+            color: 'primary.main',
+            '&:hover': { textDecoration: 'underline' }
+          }}
           onClick={() => navigate(`/contacts/${row.id}`)}
         >
           {row.name}
         </Box>
-      ),
+      )
     },
     { key: 'email', header: 'Email' },
     { key: 'phone', header: 'Phone' },
@@ -172,7 +176,8 @@ export default function ContactsListPage() {
     {
       key: 'Company',
       header: 'Company',
-      render: (row: Contact) => (row.Company ? <Chip label={row.Company.name} size="small" /> : null),
+      render: (row: Contact) =>
+        row.Company ? <Chip label={row.Company.name} size="small" /> : null
     },
     {
       key: 'id',
@@ -190,8 +195,8 @@ export default function ContactsListPage() {
             <Delete fontSize="small" />
           </IconButton>
         </Box>
-      ),
-    },
+      )
+    }
   ];
 
   return (
@@ -199,11 +204,7 @@ export default function ContactsListPage() {
       title="Contacts"
       breadcrumbs={[{ label: 'CRM' }, { label: 'Contacts' }]}
       actions={
-        <Button
-          variant="contained"
-          startIcon={<Add />}
-          onClick={() => navigate('/contacts/new')}
-        >
+        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/contacts/new')}>
           New Contact
         </Button>
       }
@@ -219,7 +220,7 @@ export default function ContactsListPage() {
                 <InputAdornment position="start">
                   <Search fontSize="small" />
                 </InputAdornment>
-              ),
+              )
             }}
             sx={{ minWidth: 300 }}
           />
@@ -235,37 +236,58 @@ export default function ContactsListPage() {
             open={Boolean(filterAnchor)}
             onClose={() => setFilterAnchor(null)}
           >
-            <MenuItem disabled sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary' }}>
+            <MenuItem
+              disabled
+              sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary' }}
+            >
               STATUS
             </MenuItem>
-            <MenuItem 
-              onClick={() => { setFilter('status', 'active'); setFilterAnchor(null); }}
+            <MenuItem
+              onClick={() => {
+                setFilter('status', 'active');
+                setFilterAnchor(null);
+              }}
               selected={status === 'active'}
             >
               Active
             </MenuItem>
-            <MenuItem 
-              onClick={() => { setFilter('status', 'archived'); setFilterAnchor(null); }}
+            <MenuItem
+              onClick={() => {
+                setFilter('status', 'archived');
+                setFilterAnchor(null);
+              }}
               selected={status === 'archived'}
             >
               Archived
             </MenuItem>
-            <MenuItem disabled sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary', mt: 1 }}>
+            <MenuItem
+              disabled
+              sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary', mt: 1 }}
+            >
               COMPANY
             </MenuItem>
-            <MenuItem 
-              onClick={() => { setFilter('company', 'has'); setFilterAnchor(null); }}
+            <MenuItem
+              onClick={() => {
+                setFilter('company', 'has');
+                setFilterAnchor(null);
+              }}
               selected={companyFilter === 'has'}
             >
               Has Company
             </MenuItem>
-            <MenuItem 
-              onClick={() => { setFilter('company', 'none'); setFilterAnchor(null); }}
+            <MenuItem
+              onClick={() => {
+                setFilter('company', 'none');
+                setFilterAnchor(null);
+              }}
               selected={companyFilter === 'none'}
             >
               No Company
             </MenuItem>
-            <MenuItem disabled sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary', mt: 1 }}>
+            <MenuItem
+              disabled
+              sx={{ fontWeight: 600, fontSize: '0.75rem', color: 'text.secondary', mt: 1 }}
+            >
               TAGS
             </MenuItem>
             <Box sx={{ px: 2, py: 1 }}>
@@ -278,17 +300,29 @@ export default function ContactsListPage() {
                 onChange={handleTagsChange}
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
-                    <Chip variant="outlined" label={option} size="small" {...getTagProps({ index })} />
+                    <Chip
+                      variant="outlined"
+                      label={option}
+                      size="small"
+                      {...getTagProps({ index })}
+                    />
                   ))
                 }
-                renderInput={(params) => <TextField {...params} label="Tags" placeholder="Select tags" />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Tags" placeholder="Select tags" />
+                )}
                 sx={{ minWidth: 200 }}
               />
             </Box>
             {(status || companyFilter || tags.length > 0) && (
               <>
                 <MenuItem divider />
-                <MenuItem onClick={() => { clearFilters(); setFilterAnchor(null); }}>
+                <MenuItem
+                  onClick={() => {
+                    clearFilters();
+                    setFilterAnchor(null);
+                  }}
+                >
                   Clear All Filters
                 </MenuItem>
               </>
@@ -318,5 +352,3 @@ export default function ContactsListPage() {
     </AppPage>
   );
 }
-
-

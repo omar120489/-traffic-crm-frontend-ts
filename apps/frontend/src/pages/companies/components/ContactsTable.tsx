@@ -1,13 +1,13 @@
-import { Card, CardContent, Typography } from "@mui/material";
-import { DataTable, type Column } from "@traffic-crm/ui-kit";
-import type { CompanyContact } from "../../../types/company";
+import { Card, CardContent, Typography } from '@mui/material';
+import { DataTable, type Column } from '@traffic-crm/ui-kit';
+import type { CompanyContact } from '../../../types/company';
 
 const columns: Column<CompanyContact>[] = [
-  { key: "name", header: "Name" },
-  { key: "title", header: "Title" },
-  { key: "email", header: "Email" },
-  { key: "phone", header: "Phone" },
-  { key: "lastActivityAt", header: "Last Activity" },
+  { key: 'name', header: 'Name' },
+  { key: 'title', header: 'Title' },
+  { key: 'email', header: 'Email' },
+  { key: 'phone', header: 'Phone' },
+  { key: 'lastActivityAt', header: 'Last Activity' }
 ];
 
 export default function ContactsTable({ rows }: Readonly<{ rows: readonly CompanyContact[] }>) {
@@ -28,4 +28,3 @@ export default function ContactsTable({ rows }: Readonly<{ rows: readonly Compan
     </Card>
   );
 }
-

@@ -14,7 +14,7 @@ import {
   Button,
   Stack,
   MenuItem,
-  InputAdornment,
+  InputAdornment
 } from '@mui/material';
 import type { Deal, Stage } from '@/types/deals';
 
@@ -39,7 +39,7 @@ export function CreateDealDialog({
   stages,
   defaultStageId,
   onClose,
-  onCreate,
+  onCreate
 }: Readonly<CreateDealDialogProps>) {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState<number | ''>('');
@@ -71,7 +71,7 @@ export function CreateDealDialog({
       await onCreate({
         name: name.trim(),
         amountCents: typeof amount === 'number' ? Math.round(amount * 100) : 0,
-        stageId,
+        stageId
       });
       reset();
       onClose();
@@ -117,7 +117,7 @@ export function CreateDealDialog({
             onKeyDown={handleKeyDown}
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
-              inputProps: { min: 0, step: 100 },
+              inputProps: { min: 0, step: 100 }
             }}
             placeholder="0"
             required
@@ -152,4 +152,3 @@ export function CreateDealDialog({
     </Dialog>
   );
 }
-

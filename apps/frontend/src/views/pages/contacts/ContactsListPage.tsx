@@ -20,7 +20,7 @@ import {
 
 import MainCard from '@/ui-component/cards/MainCard';
 import { useContacts } from '@hooks/useContacts';
-import type { Contact, ContactQuery } from '@shared-types';
+import type { Contact, ContactQuery } from '@traffic-crm/shared-types';
 
 const DEFAULT_PAGE_SIZE = 10;
 

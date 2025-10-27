@@ -33,12 +33,12 @@ const initialState: SnackbarState = {
   message: 'Note archived',
   anchorOrigin: {
     vertical: 'bottom',
-    horizontal: 'right',
+    horizontal: 'right'
   },
   severity: 'success',
   variant: 'default',
   alert: {
-    variant: 'filled',
+    variant: 'filled'
   },
   transition: 'Fade',
   close: true,
@@ -46,7 +46,7 @@ const initialState: SnackbarState = {
   dense: false,
   iconVariant: 'usedefault',
   actionButton: false,
-  hideIconVariant: false,
+  hideIconVariant: false
 };
 
 // Payload types for actions
@@ -93,7 +93,7 @@ const snackbar = createSlice({
         close,
         actionButton,
         severity,
-        hideIconVariant,
+        hideIconVariant
       } = action.payload;
 
       state.action = !state.action;
@@ -127,8 +127,8 @@ const snackbar = createSlice({
       const { iconVariant, hideIconVariant } = action.payload;
       state.iconVariant = iconVariant ?? initialState.iconVariant;
       state.hideIconVariant = hideIconVariant ?? initialState.hideIconVariant;
-    },
-  },
+    }
+  }
 });
 
 export default snackbar.reducer;

@@ -18,8 +18,8 @@ const HeaderWrapper = styled('div')(({ theme }) => ({
   textAlign: 'center',
   paddingTop: 30,
   [theme.breakpoints.down('md')]: {
-    paddingTop: 0,
-  },
+    paddingTop: 0
+  }
 }));
 
 // ==============================|| SIMPLE LAYOUT ||============================== //

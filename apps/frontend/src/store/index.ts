@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {
   useDispatch as useReduxDispatch,
   useSelector as useReduxSelector,
-  type TypedUseSelectorHook,
+  type TypedUseSelectorHook
 } from 'react-redux';
 import { persistStore } from 'redux-persist';
 
@@ -17,8 +17,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-      immutableCheck: false,
-    }),
+      immutableCheck: false
+    })
 });
 
 export const persister = persistStore(store);

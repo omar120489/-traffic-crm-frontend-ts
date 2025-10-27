@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
   Stack,
-  Typography,
+  Typography
 } from '@mui/material';
 
 type Props = {

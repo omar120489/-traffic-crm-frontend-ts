@@ -1,5 +1,5 @@
-import { Card, CardContent, Typography, Link, Stack } from "@mui/material";
-import type { Company } from "../../../types/company";
+import { Card, CardContent, Typography, Link, Stack } from '@mui/material';
+import type { Company } from '../../../types/company';
 
 export default function CompanyInfoCard({ company }: Readonly<{ company: Company }>) {
   return (
@@ -7,10 +7,12 @@ export default function CompanyInfoCard({ company }: Readonly<{ company: Company
       <CardContent>
         <Stack spacing={1}>
           <Typography variant="h6">{company.name}</Typography>
-          {company.industry && <Typography variant="body2">Industry: {company.industry}</Typography>}
+          {company.industry && (
+            <Typography variant="body2">Industry: {company.industry}</Typography>
+          )}
           {company.website && (
             <Typography variant="body2">
-              Website:{" "}
+              Website:{' '}
               <Link href={company.website} target="_blank" rel="noreferrer">
                 {company.website}
               </Link>
@@ -23,4 +25,3 @@ export default function CompanyInfoCard({ company }: Readonly<{ company: Company
     </Card>
   );
 }
-

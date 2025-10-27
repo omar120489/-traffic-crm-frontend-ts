@@ -16,6 +16,5 @@ export const track = (_event: string, _props?: Record<string, unknown>): void =>
   // No-op by default - prevents errors when analytics not configured
   // Uncomment the line below when you're ready to wire analytics:
   // window.posthog?.capture(_event, _props);
-
   // Avoid console noise; hook up to your analytics provider when ready
 };

@@ -22,13 +22,13 @@ function ElevationScroll({ children, window }) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
-    target: window,
+    target: window
   });
 
   theme.shadows[4] = theme.vars.customShadows.z1;
 
   return cloneElement(children, {
-    elevation: trigger ? 4 : 0,
+    elevation: trigger ? 4 : 0
   });
 }
 
@@ -36,7 +36,7 @@ function ElevationScroll({ children, window }) {
 
 export default function HorizontalBar() {
   const {
-    state: { container },
+    state: { container }
   } = useConfig();
 
   return (
@@ -53,8 +53,8 @@ export default function HorizontalBar() {
           zIndex: 1098,
           ...theme.applyStyles('dark', {
             bgcolor: 'background.default',
-            borderColor: 'background.paper',
-          }),
+            borderColor: 'background.paper'
+          })
         })}
       >
         <Container maxWidth={container ? 'lg' : false}>

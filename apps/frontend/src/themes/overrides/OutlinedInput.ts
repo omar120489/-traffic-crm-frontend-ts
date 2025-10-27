@@ -6,7 +6,7 @@ export default function OutlinedInput(
   theme: Theme,
   borderRadius: number,
   outlinedFilled: boolean
-): Components['MuiOutlinedInput'] {
+): NonNullable<Components['MuiOutlinedInput']> {
   const isDark = theme.palette.mode === 'dark';
   const filledBackground = outlinedFilled
     ? isDark
@@ -23,20 +23,20 @@ export default function OutlinedInput(
         borderRadius: `${borderRadius}px`,
 
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: defaultOutline,
+          borderColor: defaultOutline
         },
 
         '&:hover .MuiOutlinedInput-notchedOutline': {
-          borderColor: hoverOutline,
+          borderColor: hoverOutline
         },
 
         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-          borderColor: theme.palette.primary.light,
+          borderColor: theme.palette.primary.light
         },
 
         '&.MuiInputBase-multiline': {
-          padding: 1,
-        },
+          padding: 1
+        }
       },
       input: {
         fontWeight: 500,
@@ -48,16 +48,16 @@ export default function OutlinedInput(
           padding: '10px 14px',
 
           '&.MuiInputBase-inputAdornedStart': {
-            paddingLeft: 0,
-          },
-        },
+            paddingLeft: 0
+          }
+        }
       },
       inputAdornedStart: {
-        paddingLeft: 4,
+        paddingLeft: 4
       },
       notchedOutline: {
-        borderRadius: `${borderRadius}px`,
-      },
-    },
+        borderRadius: `${borderRadius}px`
+      }
+    }
   };
 }

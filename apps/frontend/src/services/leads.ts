@@ -7,8 +7,8 @@ import type {
   LeadUpdateDto,
   PaginatedLeads,
   UUID,
-  ApiResponse,
-} from '@shared-types';
+  ApiResponse
+} from '@traffic-crm/shared-types';
 
 const BASE_PATH = '/api/leads';
 
@@ -57,5 +57,5 @@ export const leadsApi = {
   getLead,
   createLead,
   updateLead,
-  deleteLead,
+  deleteLead
 };

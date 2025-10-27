@@ -5,18 +5,18 @@ export const CSS_VAR_PREFIX = '';
 
 export enum MenuOrientation {
   VERTICAL = 'vertical',
-  HORIZONTAL = 'horizontal',
+  HORIZONTAL = 'horizontal'
 }
 
 export enum ThemeMode {
   LIGHT = 'light',
   DARK = 'dark',
-  SYSTEM = 'system',
+  SYSTEM = 'system'
 }
 
 export enum ThemeDirection {
   LTR = 'ltr',
-  RTL = 'rtl',
+  RTL = 'rtl'
 }
 
 export enum AuthProvider {
@@ -24,12 +24,12 @@ export enum AuthProvider {
   FIREBASE = 'firebase',
   AUTH0 = 'auth0',
   AWS = 'aws',
-  SUPABASE = 'supabase',
+  SUPABASE = 'supabase'
 }
 
 export enum DropzopType {
   DEFAULT = 'DEFAULT',
-  STANDARD = 'STANDARD',
+  STANDARD = 'STANDARD'
 }
 
 export const APP_AUTH = AuthProvider.JWT;
@@ -57,7 +57,7 @@ const config: AppConfig = {
   presetColor: 'default',
   i18n: 'en',
   themeDirection: ThemeDirection.LTR,
-  container: true,
+  container: true
 };
 
 export default config;

@@ -16,41 +16,41 @@ export default function ListItemButton(theme) {
             color: theme.vars.palette.secondary.dark,
             backgroundColor: theme.vars.palette.secondary.light,
             '&:hover': {
-              backgroundColor: theme.vars.palette.secondary.light,
+              backgroundColor: theme.vars.palette.secondary.light
             },
             '& .MuiListItemIcon-root': {
-              color: theme.vars.palette.secondary.dark,
+              color: theme.vars.palette.secondary.dark
             },
 
             ...theme.applyStyles('dark', {
               color: theme.vars.palette.secondary.main,
               '& .MuiListItemIcon-root': {
-                color: theme.vars.palette.secondary.main,
+                color: theme.vars.palette.secondary.main
               },
               backgroundColor: withAlpha(theme.vars.palette.secondary.main, 0.15),
               '&:hover': {
-                backgroundColor: withAlpha(theme.vars.palette.secondary.main, 0.15),
-              },
-            }),
+                backgroundColor: withAlpha(theme.vars.palette.secondary.main, 0.15)
+              }
+            })
           },
 
           '&:hover': {
             backgroundColor: theme.vars.palette.secondary.light,
             color: theme.vars.palette.secondary.dark,
             '& .MuiListItemIcon-root': {
-              color: theme.vars.palette.secondary.dark,
+              color: theme.vars.palette.secondary.dark
             },
 
             ...theme.applyStyles('dark', {
               color: theme.vars.palette.secondary.main,
               backgroundColor: withAlpha(theme.vars.palette.secondary.main, 0.15),
               '& .MuiListItemIcon-root': {
-                color: theme.vars.palette.secondary.main,
-              },
-            }),
-          },
-        },
-      },
-    },
+                color: theme.vars.palette.secondary.main
+              }
+            })
+          }
+        }
+      }
+    }
   };
 }

@@ -43,16 +43,16 @@ function HeaderAvatar({ children, sx, ref, ...others }) {
         background: theme.vars.palette.secondary.light,
         '&:hover, &[aria-controls="menu-list-grow"]': {
           color: theme.vars.palette.secondary.light,
-          background: theme.vars.palette.secondary.dark,
+          background: theme.vars.palette.secondary.dark
         },
         ...theme.applyStyles('dark', {
           color: theme.vars.palette.secondary.main,
           background: theme.vars.palette.dark.main,
           '&:hover, &[aria-controls="menu-list-grow"]': {
             color: theme.vars.palette.secondary.light,
-            background: theme.vars.palette.secondary.main,
-          },
-        }),
+            background: theme.vars.palette.secondary.main
+          }
+        })
       }}
       {...others}
     >
@@ -70,8 +70,8 @@ const linkList = [
       { link: '#!', label: 'Account Profile' },
       { link: '#!', label: 'User Cards' },
       { link: '#!', label: 'User List' },
-      { link: '#!', label: 'Contact' },
-    ],
+      { link: '#!', label: 'Contact' }
+    ]
   },
   {
     id: 'application',
@@ -81,8 +81,8 @@ const linkList = [
       { link: '#!', label: 'Kanban' },
       { link: '#!', label: 'Mail' },
       { link: '#!', label: 'Calendar' },
-      { link: '#!', label: 'E-commerce' },
-    ],
+      { link: '#!', label: 'E-commerce' }
+    ]
   },
   {
     id: 'primitives',
@@ -92,9 +92,9 @@ const linkList = [
       { link: '#!', label: 'Typography' },
       { link: '#!', label: 'Shadows' },
       { link: 'https://tabler-icons.io/', label: 'Icons', target: '_blank' },
-      { link: '#!', label: 'Elements' },
-    ],
-  },
+      { link: '#!', label: 'Elements' }
+    ]
+  }
 ];
 
 // ==============================|| SEARCH INPUT - MEGA MENu||============================== //
@@ -102,7 +102,7 @@ const linkList = [
 export default function MegaMenuSection() {
   const theme = useTheme();
   const {
-    state: { themeDirection },
+    state: { themeDirection }
   } = useConfig();
 
   const [open, setOpen] = useState(false);
@@ -138,17 +138,17 @@ export default function MegaMenuSection() {
         transition
         sx={{
           ...(themeDirection === ThemeDirection.RTL && {
-            right: { md: '-170px !important', lg: '-300px !important' },
-          }),
+            right: { md: '-170px !important', lg: '-300px !important' }
+          })
         }}
         disablePortal
         modifiers={[
           {
             name: 'offset',
             options: {
-              offset: [150, 20],
-            },
-          },
+              offset: [150, 20]
+            }
+          }
         ]}
       >
         {({ TransitionProps }) => (
@@ -159,9 +159,9 @@ export default function MegaMenuSection() {
                   width: {
                     md: `calc(100vw - 100px)`,
                     lg: `calc(100vw - ${drawerWidth + 100}px)`,
-                    xl: `calc(100vw - ${drawerWidth + 140}px)`,
+                    xl: `calc(100vw - ${drawerWidth + 140}px)`
                   },
-                  maxWidth: { xl: 900, md: 764 },
+                  maxWidth: { xl: 900, md: 764 }
                 }}
               >
                 {open && (
@@ -186,12 +186,12 @@ export default function MegaMenuSection() {
                             '& .MuiListItemButton-root:hover': {
                               bgcolor: 'transparent',
                               '& .MuiTypography-root': {
-                                color: 'secondary.main',
-                              },
+                                color: 'secondary.main'
+                              }
                             },
                             '& .MuiListItemIcon-root': {
-                              minWidth: 16,
-                            },
+                              minWidth: 16
+                            }
                           }}
                         >
                           {linkList.map((links, index) => (
@@ -239,5 +239,5 @@ HeaderAvatar.propTypes = {
   children: PropTypes.node,
   sx: PropTypes.any,
   ref: PropTypes.any,
-  others: PropTypes.any,
+  others: PropTypes.any
 };

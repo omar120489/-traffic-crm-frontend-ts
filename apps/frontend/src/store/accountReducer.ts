@@ -4,7 +4,7 @@ import { LOGIN, LOGOUT, REGISTER, type AccountAction } from './actions';
 const initialState: AccountState = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null,
+  user: null
 };
 
 export default function accountReducer(
@@ -18,7 +18,7 @@ export default function accountReducer(
         ...state,
         isLoggedIn: true,
         isInitialized: true,
-        user,
+        user
       };
     }
     case LOGOUT: {
@@ -26,14 +26,14 @@ export default function accountReducer(
         ...state,
         isLoggedIn: false,
         isInitialized: true,
-        user: null,
+        user: null
       };
     }
     case REGISTER: {
       const { user } = action.payload;
       return {
         ...state,
-        user,
+        user
       };
     }
     default:

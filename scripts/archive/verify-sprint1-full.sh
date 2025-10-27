@@ -51,7 +51,7 @@ npx tsc --noEmit 2>&1 >/dev/null && echo "    ✓ RBAC typechecks" || echo "    
 cd ../..
 
 echo "  • Shared Types..."
-pnpm --filter @shared-types build >/dev/null 2>&1 && echo "    ✓ Shared Types built" || echo "    ⚠ Shared Types build skipped"
+pnpm --filter @traffic-crm/shared-types build >/dev/null 2>&1 && echo "    ✓ Shared Types built" || echo "    ⚠ Shared Types build skipped"
 echo ""
 
 # File checks

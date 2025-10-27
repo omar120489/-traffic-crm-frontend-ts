@@ -63,7 +63,7 @@ export function TagFilter({ selectedTags, onTagsChange, orgId }: TagFilterProps)
           sx={{
             bgcolor: tag.color,
             color: 'white',
-            '& .MuiChip-deleteIcon': { color: 'rgba(255,255,255,0.7)' },
+            '& .MuiChip-deleteIcon': { color: 'rgba(255,255,255,0.7)' }
           }}
         />
       ))}
@@ -85,7 +85,7 @@ export function TagFilter({ selectedTags, onTagsChange, orgId }: TagFilterProps)
         open={Boolean(menuAnchor)}
         onClose={() => setMenuAnchor(null)}
         PaperProps={{
-          sx: { maxHeight: 400, width: 250 },
+          sx: { maxHeight: 400, width: 250 }
         }}
       >
         {tags.length === 0 ? (
@@ -104,7 +104,7 @@ export function TagFilter({ selectedTags, onTagsChange, orgId }: TagFilterProps)
                   sx={{
                     bgcolor: tag.color,
                     color: 'white',
-                    mr: 1,
+                    mr: 1
                   }}
                 />
                 {selectedTags.includes(tag.id) && '✓'}
@@ -127,7 +127,10 @@ export function TagFilter({ selectedTags, onTagsChange, orgId }: TagFilterProps)
 }
 
 // Hook for URL-driven tag filtering
-export function useTagFilter(searchParams: URLSearchParams, setSearchParams: (params: URLSearchParams) => void) {
+export function useTagFilter(
+  searchParams: URLSearchParams,
+  setSearchParams: (params: URLSearchParams) => void
+) {
   const selectedTags = searchParams.get('tags')?.split(',').filter(Boolean) || [];
 
   const handleTagsChange = (tagIds: string[]) => {
@@ -143,5 +146,3 @@ export function useTagFilter(searchParams: URLSearchParams, setSearchParams: (pa
 
   return { selectedTags, handleTagsChange };
 }
-
-

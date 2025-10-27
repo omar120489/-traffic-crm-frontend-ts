@@ -1,7 +1,13 @@
 import { apiDelete, apiGet, apiPatch, apiPost } from 'utils/axios';
 
 // @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { Comment, CommentCreateDto, CommentListResponse, CommentUpdateDto, EntityIdentifier } from 'types/api';
+import type {
+  Comment,
+  CommentCreateDto,
+  CommentListResponse,
+  CommentUpdateDto,
+  EntityIdentifier
+} from 'types/api';
 
 const BASE_URL = '/api/v1/comments';
 
@@ -47,7 +53,7 @@ function mapComment(dto: CommentDto): Comment {
     mentions: dto.mentions,
     authorId: dto.author_id,
     createdAt: dto.created_at,
-    updatedAt: dto.updated_at,
+    updatedAt: dto.updated_at
   };
 }
 
@@ -56,14 +62,14 @@ function toCreateRequest(payload: CommentCreateDto): CommentCreateRequest {
     entity_type: payload.entityType,
     entity_id: String(payload.entityId),
     content: payload.content,
-    mentions: payload.mentions,
+    mentions: payload.mentions
   };
 }
 
 function toUpdateRequest(payload: CommentUpdateDto): CommentUpdateRequest {
   return {
     content: payload.content,
-    mentions: payload.mentions,
+    mentions: payload.mentions
   };
 }
 
@@ -71,13 +77,13 @@ export async function listComments(params: ListCommentsParams): Promise<CommentL
   const response = await apiGet<CommentListDto>(BASE_URL, {
     params: {
       entity_type: params.entityType,
-      entity_id: params.entityId,
-    },
+      entity_id: params.entityId
+    }
   });
 
   return {
     items: response.items.map(mapComment),
-    total: response.total,
+    total: response.total
   };
 }
 
@@ -110,7 +116,7 @@ export const commentsService = {
   listComments,
   createComment,
   updateComment,
-  deleteComment,
+  deleteComment
 } as const;
 
 export default commentsService;

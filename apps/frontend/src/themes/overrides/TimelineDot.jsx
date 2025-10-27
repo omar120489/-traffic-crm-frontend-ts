@@ -5,9 +5,9 @@ export default function TimelineDot() {
     MuiTimelineDot: {
       styleOverrides: {
         root: {
-          boxShadow: 'none',
-        },
-      },
-    },
+          boxShadow: 'none'
+        }
+      }
+    }
   };
 }

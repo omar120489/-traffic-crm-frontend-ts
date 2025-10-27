@@ -11,7 +11,7 @@ export interface AccountState {
 const initialState: AccountState = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null,
+  user: null
 };
 
 // Action payload types
@@ -47,8 +47,8 @@ const account = createSlice({
     },
     initialize(state) {
       state.isInitialized = true;
-    },
-  },
+    }
+  }
 });
 
 export default account.reducer;

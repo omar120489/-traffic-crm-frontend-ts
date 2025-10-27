@@ -40,8 +40,10 @@ export default defineConfig(({ mode }) => {
   const PORT = Number(env.PORT || process.env.PORT) || 3002;
 
   return {
+    logLevel: process.env.CI || process.env.PLAYWRIGHT_TEST ? 'error' : 'info',
     server: {
-      open: true,
+      middlewareMode: process.env.PLAYWRIGHT_TEST ? true : false,
+      open: !process.env.PLAYWRIGHT_TEST,
       port: PORT,
       host: true
     },

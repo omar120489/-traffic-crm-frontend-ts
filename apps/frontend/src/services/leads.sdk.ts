@@ -7,8 +7,8 @@ import type {
   LeadUpdateDto,
   PaginatedLeads,
   UUID,
-  ApiResponse,
-} from '@shared-types';
+  ApiResponse
+} from '@traffic-crm/shared-types';
 
 export async function listLeads(query?: LeadQuery): Promise<PaginatedLeads> {
   return api.listLeads(query);
@@ -46,6 +46,5 @@ export const leadsApi = {
   getLead,
   createLead,
   updateLead,
-  deleteLead,
+  deleteLead
 };
-

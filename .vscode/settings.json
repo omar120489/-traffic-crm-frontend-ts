@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "LLM"
-    ]
+    ],
+    "codium.codeCompletion.enable": false
 }

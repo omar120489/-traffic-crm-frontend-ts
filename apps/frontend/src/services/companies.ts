@@ -6,8 +6,8 @@ import type {
   CompanyUpdateDto,
   PaginatedCompanies,
   UUID,
-  ApiResponse,
-} from '@shared-types';
+  ApiResponse
+} from '@traffic-crm/shared-types';
 
 const BASE_PATH = '/api/companies';
 
@@ -36,5 +36,5 @@ export const companiesApi = {
   getCompany,
   createCompany,
   updateCompany,
-  deleteCompany,
+  deleteCompany
 };

@@ -1,0 +1,73 @@
+name: Deploy Frontend to Kubernetes
+
+on:
+    workflow_run:
+        workflows: ["Build & Publish Frontend Image"]
+        types: [completed]
+
+permissions:
+    contents: write
+    packages: read
+
+jobs:
+    deploy:
+        name: Deploy Frontend Image
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        env:
+            REGISTRY: ghcr.io
+            IMAGE_NAME: omar120489/-traffic-crm-frontend-ts-frontend
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.workflow_run.head_branch }}
+
+            - name: Install kustomize
+              run: |
+                  curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+                  sudo mv kustomize /usr/local/bin/
+
+            - name: Update kustomization image tag
+              run: |
+                  cd infra/k8s/frontend
+                  kustomize edit set image ${{ env.IMAGE_NAME }}=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+            - name: Commit updated manifests
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git add infra/k8s/frontend/kustomization.yaml
+                  git commit -m "chore(deploy): update frontend image to ${{ github.sha }}" || echo "No changes to commit"
+                  git push
+
+            - name: Configure kubectl
+              run: |
+                  mkdir -p $HOME/.kube
+                  echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
+                  chmod 600 $HOME/.kube/config
+
+            - name: Deploy to development
+              if: github.ref == 'refs/heads/develop'
+              run: |
+                  kubectl apply -k infra/k8s/frontend/ -n traffic-crm-dev
+                  kubectl rollout status deployment/traffic-crm-frontend -n traffic-crm-dev --timeout=5m
+
+            - name: Deploy to staging
+              if: github.ref == 'refs/heads/staging'
+              run: |
+                  kubectl apply -k infra/k8s/frontend/ -n traffic-crm-staging
+                  kubectl rollout status deployment/traffic-crm-frontend -n traffic-crm-staging --timeout=5m
+
+            - name: Deploy to production
+              if: github.ref == 'refs/heads/main'
+              run: |
+                  kubectl apply -k infra/k8s/frontend/ -n traffic-crm-prod
+                  kubectl rollout status deployment/traffic-crm-frontend -n traffic-crm-prod --timeout=5m
+
+            - name: Notify deployment status
+              if: always()
+              run: |
+                  echo "Deployment completed for branch: ${{ github.event.workflow_run.head_branch }}"
+                  echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"

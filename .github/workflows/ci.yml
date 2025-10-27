@@ -34,7 +34,12 @@ jobs:
       fail-fast: false
       matrix:
         workspace:
-          ["@apps/core-api", "./apps/frontend", "@traffic-crm/shared-types", "@traffic-crm/sdk-js"]
+          [
+            "@apps/core-api",
+            "./apps/frontend",
+            "@traffic-crm/shared-types",
+            "@traffic-crm/sdk-js",
+          ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

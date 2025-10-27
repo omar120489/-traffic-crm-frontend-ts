@@ -19,7 +19,7 @@ if (!firebase.apps.length) {
     storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_APP_FIREBASE_MEASUREMENT_ID,
+    measurementId: import.meta.env.VITE_APP_FIREBASE_MEASUREMENT_ID
   });
 }
 
@@ -43,7 +43,7 @@ export function FirebaseProvider({ children }: FirebaseProviderProps) {
           email: firebaseUser.email || '',
           firstName: firebaseUser.displayName?.split(' ')[0] || '',
           lastName: firebaseUser.displayName?.split(' ')[1] || '',
-          name: firebaseUser.displayName || '',
+          name: firebaseUser.displayName || ''
         };
 
         dispatch(loginAction({ user: userProfile }));
@@ -73,7 +73,7 @@ export function FirebaseProvider({ children }: FirebaseProviderProps) {
         // Update profile with name
         if (result.user) {
           await result.user.updateProfile({
-            displayName: `${firstName} ${lastName}`,
+            displayName: `${firstName} ${lastName}`
           });
         }
 
@@ -122,7 +122,7 @@ export function FirebaseProvider({ children }: FirebaseProviderProps) {
     logout,
     register,
     resetPassword,
-    updateProfile,
+    updateProfile
   };
 
   return <FirebaseContext.Provider value={contextValue}>{children}</FirebaseContext.Provider>;

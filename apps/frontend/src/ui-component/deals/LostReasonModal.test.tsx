@@ -61,7 +61,7 @@ describe('LostReasonModal', () => {
 
     expect(onConfirm).toHaveBeenCalledWith({
       lossReason: 'L-Competitor',
-      lossNotes: undefined,
+      lossNotes: undefined
     });
   });
 
@@ -87,7 +87,7 @@ describe('LostReasonModal', () => {
 
     expect(onConfirm).toHaveBeenCalledWith({
       lossReason: 'L-Price/Budget',
-      lossNotes: 'Customer found cheaper alternative',
+      lossNotes: 'Customer found cheaper alternative'
     });
   });
 

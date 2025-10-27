@@ -1,11 +1,11 @@
 import type { Components } from '@mui/material/styles';
 
-export default function Dialog(): Components['MuiDialog'] {
+export default function Dialog(): NonNullable<Components['MuiDialog']> {
   return {
     styleOverrides: {
       paper: {
-        overflowY: 'visible',
-      },
-    },
+        overflowY: 'visible'
+      }
+    }
   };
 }

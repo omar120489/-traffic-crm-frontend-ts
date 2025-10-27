@@ -48,7 +48,7 @@ export default function CheckMail() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    gap: 2,
+                    gap: 2
                   }}
                 >
                   <Typography
@@ -96,8 +96,8 @@ export default function CheckMail() {
                   margin: { xs: 2.5, md: 3 },
                   '& > *': {
                     flexGrow: 1,
-                    flexBasis: '50%',
-                  },
+                    flexBasis: '50%'
+                  }
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

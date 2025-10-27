@@ -37,7 +37,7 @@ export interface PaginationToolbarProps {
 
 /**
  * Reusable pagination toolbar with search, page size selector, and pagination controls
- * 
+ *
  * @example
  * ```tsx
  * <PaginationToolbar
@@ -65,7 +65,7 @@ export default function PaginationToolbar({
   onPageChange,
   onSizeChange,
   onSearchChange,
-  onRefresh,
+  onRefresh
 }: PaginationToolbarProps) {
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
@@ -75,10 +75,9 @@ export default function PaginationToolbar({
     }
   };
 
-  const handleSizeChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSizeChange = (event: any) => {
     const newSize = Number(event.target.value);
     onSizeChange(newSize);
-    // Reset to page 1 when page size changes
     if (page !== 1) {
       onPageChange(1);
     }
@@ -99,7 +98,7 @@ export default function PaginationToolbar({
           display: 'flex',
           gap: 2,
           alignItems: 'center',
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}
       >
         <TextField
@@ -114,7 +113,7 @@ export default function PaginationToolbar({
               <InputAdornment position="start">
                 <SearchIcon fontSize="small" />
               </InputAdornment>
-            ),
+            )
           }}
         />
         {onRefresh && (
@@ -137,15 +136,13 @@ export default function PaginationToolbar({
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: 2,
+          gap: 2
         }}
       >
         {/* Left: Items info + Page size selector */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Typography variant="body2" color="text.secondary">
-            {total === 0
-              ? 'No items'
-              : `Showing ${startItem}-${endItem} of ${total}`}
+            {total === 0 ? 'No items' : `Showing ${startItem}-${endItem} of ${total}`}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" color="text.secondary">
@@ -183,4 +180,3 @@ export default function PaginationToolbar({
     </Box>
   );
 }
-

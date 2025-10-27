@@ -44,7 +44,7 @@ export enum Permission {
   // Admin
   SETTINGS_MANAGE = 'settings:manage',
   USERS_MANAGE = 'users:manage',
-  ROLES_MANAGE = 'roles:manage',
+  ROLES_MANAGE = 'roles:manage'
 }
 
 export enum Role {
@@ -52,7 +52,7 @@ export enum Role {
   ADMIN = 'admin',
   MANAGER = 'manager',
   SALES_REP = 'sales_rep',
-  VIEWER = 'viewer',
+  VIEWER = 'viewer'
 }
 
 // TODO: Define role-permission mappings
@@ -69,5 +69,5 @@ export const RolePermissions: Record<Role, Permission[]> = {
   ],
   [Role.VIEWER]: [
     // TODO: Define viewer permissions
-  ],
+  ]
 };

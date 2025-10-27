@@ -6,7 +6,7 @@ import {
   DialogActions,
   Button,
   TextField,
-  MenuItem,
+  MenuItem
 } from '@mui/material';
 
 export interface ActivityDialogProps {
@@ -29,7 +29,7 @@ const ACTIVITY_TYPES = [
   { value: 'call', label: 'Call' },
   { value: 'email', label: 'Email' },
   { value: 'meeting', label: 'Meeting' },
-  { value: 'task', label: 'Task' },
+  { value: 'task', label: 'Task' }
 ] as const;
 
 export function ActivityDialog({ open, onClose, onSave }: ActivityDialogProps) {
@@ -58,7 +58,7 @@ export function ActivityDialog({ open, onClose, onSave }: ActivityDialogProps) {
         type,
         subject: subject || undefined,
         body,
-        dueAt: dueAt || undefined,
+        dueAt: dueAt || undefined
       });
       onClose();
     } catch (err) {
@@ -139,5 +139,3 @@ export function ActivityDialog({ open, onClose, onSave }: ActivityDialogProps) {
     </Dialog>
   );
 }
-
-
