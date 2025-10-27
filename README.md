@@ -87,6 +87,8 @@ pnpm --filter ./apps/frontend dev
 - Frontend structure snapshot: [docs/FRONTEND_STRUCTURE.md](./docs/FRONTEND_STRUCTURE.md)
 - Quick-start script: [`scripts/quick-start.sh`](./scripts/quick-start.sh)
 - Docker Compose definitions: [`infra/docker/docker-compose.yml`](./infra/docker/docker-compose.yml)
+- Agent guidance & guardrails: [`.github/copilot-instructions.md`](./.github/copilot-instructions.md) (workers status,
+  reporting boundaries, security rules, module federation notes, and MUI v7 migration tips)
 
 Update the status overview and structure snapshot after major refactors to keep onboarding material accurate.
 
