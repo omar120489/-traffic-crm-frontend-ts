@@ -8,22 +8,22 @@ WORKDIR /app
 # Enable pnpm via corepack
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN corepack enable pnpm
 
 # Copy workspace manifests for dependency resolution
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Pre-fetch dependencies to leverage pnpm's content-addressable store
-RUN pnpm fetch --frozen-lockfile
+# Copy frontend source
+COPY apps/frontend ./apps/frontend
+COPY packages ./packages
+COPY tsconfig.base.json .
 
-# Copy the entire source code
-COPY . .
-
-# Install all dependencies using the cached store
-RUN pnpm install --frozen-lockfile --offline
+# Pre-fetch and install dependencies with retry logic for GitHub Actions
+RUN pnpm fetch --frozen-lockfile && \
+    pnpm install --frozen-lockfile --offline || pnpm install --frozen-lockfile
 
 # Build the frontend application
-RUN pnpm --filter ./apps/frontend... build
+RUN pnpm --filter ./apps/frontend build
 
 # Stage 2: Production
 FROM nginx:alpine
