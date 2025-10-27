@@ -1,8 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
-import request, { type Response } from 'supertest';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
+import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
+
+type NestFastifyApplication = import('@nestjs/platform-fastify').NestFastifyApplication;
+type Response = import('supertest').Response;
 
 describe('Health Check (e2e)', () => {
   let app: NestFastifyApplication;

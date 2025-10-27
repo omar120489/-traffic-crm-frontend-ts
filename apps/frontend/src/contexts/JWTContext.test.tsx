@@ -14,7 +14,7 @@ import axiosServices, { authApi } from 'utils/axios';
 
 import JWTContext, { JWTProvider } from './JWTContext';
 
-import type { AuthContextType } from 'types/auth';
+type AuthContextType = import('types/auth').AuthContextType;
 
 function createTestStore(preloaded?: Partial<ReturnType<typeof accountReducer>>) {
   return configureStore({
