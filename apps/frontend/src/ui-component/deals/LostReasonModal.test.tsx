@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act } from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LostReasonModal from './LostReasonModal';
 
@@ -118,13 +119,24 @@ describe('LostReasonModal', () => {
     const notesInput = screen.getByLabelText(/Additional Notes/i);
     await user.type(notesInput, 'Test notes');
 
-    // Close and reopen the modal
-    rerender(<LostReasonModal open={false} onClose={vi.fn()} onConfirm={vi.fn()} />);
-    rerender(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
+    // Close, wait for unmount effect to run, then reopen
+    await act(async () => {
+      rerender(<LostReasonModal open={false} onClose={vi.fn()} onConfirm={vi.fn()} />);
+    });
+
+    await waitFor(() =>
+      expect(screen.queryByText('Mark Deal as Lost')).not.toBeInTheDocument()
+    );
+
+    await act(async () => {
+      rerender(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
+    });
 
     // Should be reset - confirm button disabled
-    const confirmButton = screen.getByRole('button', { name: /Confirm & Mark Lost/i });
-    expect(confirmButton).toBeDisabled();
+    await waitFor(() => {
+      const confirmButton = screen.getByRole('button', { name: /Confirm & Mark Lost/i });
+      expect(confirmButton).toBeDisabled();
+    });
   });
 
   it('displays all loss reason options', async () => {

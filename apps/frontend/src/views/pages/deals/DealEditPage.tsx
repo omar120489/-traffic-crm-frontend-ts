@@ -1,4 +1,4 @@
-// @ts-nocheck
+// Types enforced: removed ts-nocheck
 import { useCallback, useEffect, useMemo, useState, type ReactElement } from 'react';
 import { Formik, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
@@ -14,10 +14,10 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-import MainCard from 'ui-component/cards/MainCard';
-import { DEAL_STAGES, DEAL_STATUSES } from 'constants/deals';
-import { dealsApi } from '@services/deals.sdk';
-import type { Deal, DealUpdateDto } from 'types/api';
+import MainCard from '../../../ui-component/cards/MainCard';
+import { DEAL_STAGES, DEAL_STATUSES } from '../../../constants/deals';
+import { dealsApi } from '../../../services/deals.sdk';
+import type { Deal, DealUpdateDto } from '../../../types/api';
 import { useSnackbar } from 'notistack';
 import { isAxiosError } from 'axios';
 

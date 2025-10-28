@@ -1,4 +1,3 @@
-// @ts-nocheck - Pragmatic mode: suppress type errors for rapid development
 import {
   lazy,
   Suspense,
@@ -34,8 +33,8 @@ import Typography from '@mui/material/Typography';
 import type { BarChartProps } from '@mui/x-charts/BarChart';
 import type { LineChartProps } from '@mui/x-charts/LineChart';
 
-import MainCard from 'ui-component/cards/MainCard';
-import { DEAL_STAGES } from 'constants/deals';
+import MainCard from '../../../ui-component/cards/MainCard';
+import { DEAL_STAGES } from '../../../constants/deals';
 // TODO: Fix TypeScript path alias resolution - tracking issue
 import type {
   AnalyticsFilters,
@@ -43,8 +42,8 @@ import type {
   FunnelStage,
   KpiSummary,
   TimeSeriesPoint
-} from 'types/metrics';
-import { getCohorts, getFunnel, getKpis, getTrends, type TrendInterval } from 'services/reporting';
+} from '../../../types/metrics';
+import { getCohorts, getFunnel, getKpis, getTrends, type TrendInterval } from '../../../services/reporting';
 import { toCohortRows, toFunnelChartData, toTrendSeries } from './transformers';
 
 const DEFAULT_FILTERS: AnalyticsFilters = {
