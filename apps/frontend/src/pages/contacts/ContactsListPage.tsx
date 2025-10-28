@@ -32,6 +32,20 @@ interface Contact {
   createdAt: string;
 }
 
+interface Tag {
+  id: string;
+  name: string;
+}
+
+interface ContactsQueryParams {
+  page: number;
+  size: number;
+  q?: string;
+  status?: string;
+  companyId?: string;
+  tags?: string[];
+}
+
 export default function ContactsListPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -74,7 +88,7 @@ export default function ContactsListPage() {
     setSearchParams(params, { replace: true });
   };
 
-  const handleTagsChange = (_: any, values: string[]) => {
+  const handleTagsChange = (_event: React.SyntheticEvent, values: string[]) => {
     const params = new URLSearchParams(searchParams);
     params.delete('tag');
     values.forEach((v) => params.append('tag', v));
@@ -89,7 +103,7 @@ export default function ContactsListPage() {
       setTagsLoading(true);
       try {
         const res = await api.tags.list(orgId);
-        if (alive) setTagOptions(res.map((t: any) => t.name) ?? []);
+        if (alive) setTagOptions(res.map((t: Tag) => t.name) ?? []);
       } catch {
         if (alive) setTagOptions([]);
       } finally {
@@ -108,7 +122,7 @@ export default function ContactsListPage() {
   const loadContacts = async () => {
     try {
       setLoading(true);
-      const params: any = { page, size: pageSize };
+      const params: ContactsQueryParams = { page, size: pageSize };
       if (query) params.q = query;
       if (status) params.status = status;
       if (companyFilter) params.companyId = companyFilter;
@@ -118,8 +132,8 @@ export default function ContactsListPage() {
       setContacts(result.items || []);
       setTotal(result.total || 0);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load contacts');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to load contacts');
       setContacts([]);
     } finally {
       setLoading(false);
@@ -148,8 +162,8 @@ export default function ContactsListPage() {
     try {
       await api.deleteContact(id);
       await loadContacts();
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete contact');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to delete contact');
     }
   };
 

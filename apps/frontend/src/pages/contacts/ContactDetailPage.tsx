@@ -89,8 +89,8 @@ export default function ContactDetailPage() {
       const data = await api.getContact(id);
       setContact(data);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load contact');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to load contact');
     } finally {
       setLoading(false);
     }
@@ -101,7 +101,7 @@ export default function ContactDetailPage() {
     try {
       const data = await api.activities.list('contact', id);
       setActivities(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to load activities:', err);
     }
   };
@@ -111,8 +111,8 @@ export default function ContactDetailPage() {
     try {
       await api.deleteContact(id);
       navigate('/contacts');
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete contact');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to delete contact');
     }
   };
 
@@ -153,8 +153,8 @@ export default function ContactDetailPage() {
 
       // Show success toast
       setActToast(true);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create activity');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to create activity');
       // Rollback optimistic update
       setActivities(activities.filter((a) => a.id !== tempActivity.id));
     } finally {
