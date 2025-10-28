@@ -51,7 +51,7 @@
     "@eslint/js": "9.37.0",
     "@nestjs/cli": "^10.4.5",
     "@nestjs/schematics": "^10.1.4",
-    "@nestjs/testing": "^10.4.20",
+    "@nestjs/testing": "^11.1.8",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.11.30",
     "@types/supertest": "^6.0.3",
