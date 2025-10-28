@@ -20,8 +20,8 @@ import {
   IconCirclePlus,
   IconTrophy,
   IconX
-} from '@tabler/icons-react';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+} from '@/icons';
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { JourneyEvent } from 'types/api';
 
 interface ActivityTimelineProps {

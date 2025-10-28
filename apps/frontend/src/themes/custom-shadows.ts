@@ -1,5 +1,5 @@
 // project imports
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import { ThemeMode } from 'config';
 import { withAlpha } from 'utils/colorUtils';
 import type { CustomShadows } from './types';

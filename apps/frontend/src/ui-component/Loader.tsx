@@ -1,4 +1,3 @@
-
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import type { SxProps, Theme } from '@mui/material/styles';
@@ -24,7 +23,7 @@ export default function Loader({ sx, size = 40 }: LoaderProps) {
         width: '100%',
         minHeight: '100%',
         py: 4,
-        ...sx,
+        ...sx
       }}
     >
       <CircularProgress size={size} />

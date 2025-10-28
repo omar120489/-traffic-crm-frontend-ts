@@ -26,22 +26,22 @@ export async function getDealsByPipeline(
 ): Promise<readonly Deal[]> {
   const url = new URL(`${API_BASE}/api/deals`);
   url.searchParams.set('pipelineId', pipelineId);
-  
+
   // Add owner filters
   if (filters?.ownerIds && filters.ownerIds.length > 0) {
     filters.ownerIds.forEach((id) => url.searchParams.append('owner', id));
   }
-  
+
   // Add tag filters
   if (filters?.tagIds && filters.tagIds.length > 0) {
     filters.tagIds.forEach((id) => url.searchParams.append('tag', id));
   }
-  
+
   // Add search query
   if (filters?.q && filters.q.trim()) {
     url.searchParams.set('q', filters.q.trim());
   }
-  
+
   return http<Deal[]>(url.toString());
 }
 
@@ -55,7 +55,7 @@ export async function moveDeal(
 ): Promise<MoveDealResponse> {
   return http<MoveDealResponse>(`${API_BASE}/api/deals/${dealId}/move`, {
     method: 'PATCH',
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload)
   });
 }
 
@@ -82,7 +82,7 @@ export interface CreateDealPayload {
 export async function createDeal(payload: CreateDealPayload): Promise<Deal> {
   return http<Deal>(`${API_BASE}/api/deals`, {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload)
   });
 }
 
@@ -91,11 +91,13 @@ export async function createDeal(payload: CreateDealPayload): Promise<Deal> {
  */
 export async function updateDeal(
   dealId: string,
-  payload: Partial<Pick<Deal, 'name' | 'amountCents' | 'stageId' | 'companyId' | 'contactId' | 'ownerId'>>
+  payload: Partial<
+    Pick<Deal, 'name' | 'amountCents' | 'stageId' | 'companyId' | 'contactId' | 'ownerId'>
+  >
 ): Promise<Deal> {
   return http<Deal>(`${API_BASE}/api/deals/${dealId}`, {
     method: 'PATCH',
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload)
   });
 }
 
@@ -104,6 +106,6 @@ export async function updateDeal(
  */
 export async function deleteDeal(dealId: string): Promise<void> {
   await http<void>(`${API_BASE}/api/deals/${dealId}`, {
-    method: 'DELETE',
+    method: 'DELETE'
   });
 }

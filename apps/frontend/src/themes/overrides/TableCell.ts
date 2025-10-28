@@ -11,7 +11,6 @@ export default function TableCell(theme: Theme): NonNullable<Components['MuiTabl
     styleOverrides: {
       root: {
         borderColor,
-
         '&.MuiTableCell-head': {
           fontSize: '0.875rem',
           color: headColor,

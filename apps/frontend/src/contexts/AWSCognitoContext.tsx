@@ -41,7 +41,7 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
         const currentUser = userPool.getCurrentUser();
 
         if (currentUser) {
-          currentUser.getSession((err: any, session: CognitoUserSession | null) => {
+          currentUser.getSession((err: Error | null, session: CognitoUserSession | null) => {
             if (err) {
               console.error('Cognito session error:', err);
               dispatch(initialize());
@@ -68,7 +68,10 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
                     {} as Record<string, string>
                   ) || {};
 
-                const standardUser = mapCognitoProfile(currentUser, attributesObj);
+                const standardUser = mapCognitoProfile(
+                  currentUser as unknown as Record<string, unknown>,
+                  attributesObj
+                );
                 dispatch(loginAction({ user: standardUser }));
               });
             } else {
@@ -121,7 +124,10 @@ export function AWSCognitoProvider({ children }: AWSCognitoProviderProps) {
                     {} as Record<string, string>
                   ) || {};
 
-                const standardUser = mapCognitoProfile(cognitoUser, attributesObj);
+                const standardUser = mapCognitoProfile(
+                  cognitoUser as unknown as Record<string, unknown>,
+                  attributesObj
+                );
                 dispatch(loginAction({ user: standardUser }));
                 resolve();
               });

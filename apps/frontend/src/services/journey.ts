@@ -1,12 +1,10 @@
-// @ts-nocheck
 import { apiGet, apiPost } from 'utils/axios';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import type {
   JourneyEvent,
   JourneyEventCreateDto,
   JourneyEventListResponse,
   EntityIdentifier
-} from 'types/api';
+} from '@/types/api';
 
 const API_BASE_URL = '/api/v1/journey-events';
 
@@ -71,7 +69,7 @@ export async function createJourneyEvent(dto: JourneyEventCreateDto): Promise<Jo
     occurred_at: dto.occurredAt
   };
 
-  const response = await apiPost<{
+  type JourneyEventDto = {
     id: string;
     entity_type: string;
     entity_id: EntityIdentifier;
@@ -80,7 +78,9 @@ export async function createJourneyEvent(dto: JourneyEventCreateDto): Promise<Jo
     occurred_at: string;
     created_at: string;
     updated_at?: string;
-  }>(API_BASE_URL, payload);
+  };
+
+  const response = await apiPost<typeof payload, JourneyEventDto>(API_BASE_URL, payload);
 
   // Map snake_case to camelCase
   return {

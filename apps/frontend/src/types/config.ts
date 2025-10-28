@@ -1,6 +1,6 @@
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { AppConfig } from 'config';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { LocalStorageActions } from 'hooks/useLocalStorage';
 
 export type ConfigContextType = LocalStorageActions<AppConfig>;

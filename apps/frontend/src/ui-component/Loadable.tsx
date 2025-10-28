@@ -1,4 +1,3 @@
-
 import { Suspense, type ComponentType, type LazyExoticComponent } from 'react';
 
 import Loader from './Loader';

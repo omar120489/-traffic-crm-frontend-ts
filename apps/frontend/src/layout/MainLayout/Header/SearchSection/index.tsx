@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { forwardRef, useState, ChangeEvent } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -18,51 +17,70 @@ import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
 import Transitions from 'ui-component/extended/Transitions';
 
 // assets
-import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons-react';
+import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@/icons';
 
-function HeaderAvatar({ children, ref, ...others }) {
-  const theme = useTheme();
+// TypeScript interfaces
+import type { AvatarProps } from '@mui/material/Avatar';
+import type { SxProps, Theme } from '@mui/material/styles';
 
-  return (
-    <Avatar
-      ref={ref}
-      variant="rounded"
-      sx={{
-        ...theme.typography.commonAvatar,
-        ...theme.typography.mediumAvatar,
-        color: theme.vars.palette.secondary.dark,
-        background: theme.vars.palette.secondary.light,
-        '&:hover': {
-          color: theme.vars.palette.secondary.light,
-          background: theme.vars.palette.secondary.dark
-        },
+interface HeaderAvatarProps extends Omit<AvatarProps, 'children' | 'sx'> {
+  readonly children: React.ReactNode;
+  readonly sx?: SxProps<Theme>;
+}
 
-        ...theme.applyStyles('dark', {
-          color: theme.vars.palette.secondary.main,
-          background: theme.vars.palette.dark.main,
+interface MobileSearchProps {
+  readonly value: string;
+  readonly setValue: (value: string) => void;
+  readonly popupState: unknown;
+}
+
+const HeaderAvatar = forwardRef<HTMLDivElement, HeaderAvatarProps>(
+  ({ children, ...others }, ref): React.JSX.Element => {
+    const theme = useTheme();
+
+    return (
+      <Avatar
+        ref={ref}
+        variant="rounded"
+        sx={{
+          ...theme.typography.commonAvatar,
+          ...theme.typography.mediumAvatar,
+          color: theme.vars.palette.secondary.dark,
+          background: theme.vars.palette.secondary.light,
           '&:hover': {
             color: theme.vars.palette.secondary.light,
-            background: theme.vars.palette.secondary.main
-          }
-        })
-      }}
-      {...others}
-    >
-      {children}
-    </Avatar>
-  );
-}
+            background: theme.vars.palette.secondary.dark
+          },
+
+          ...theme.applyStyles('dark', {
+            color: theme.vars.palette.secondary.main,
+            background: theme.vars.palette.dark.main,
+            '&:hover': {
+              color: theme.vars.palette.secondary.light,
+              background: theme.vars.palette.secondary.main
+            }
+          })
+        }}
+        {...others}
+      >
+        {children}
+      </Avatar>
+    );
+  }
+);
+
+HeaderAvatar.displayName = 'HeaderAvatar';
 
 // ==============================|| SEARCH INPUT - MOBILE||============================== //
 
-function MobileSearch({ value, setValue, popupState }) {
+function MobileSearch({ value, setValue, popupState }: MobileSearchProps): React.JSX.Element {
   const theme = useTheme();
 
   return (
     <OutlinedInput
       id="input-search-header"
       value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
       placeholder="Search"
       startAdornment={
         <InputAdornment position="start">
@@ -86,7 +104,7 @@ function MobileSearch({ value, setValue, popupState }) {
 
                 ...theme.applyStyles('dark', { bgcolor: theme.vars.palette.dark.main })
               }}
-              {...bindToggle(popupState)}
+              {...bindToggle(popupState as any)}
             >
               <IconX stroke={1.5} size="20px" />
             </Avatar>
@@ -102,8 +120,8 @@ function MobileSearch({ value, setValue, popupState }) {
 
 // ==============================|| SEARCH INPUT ||============================== //
 
-export default function SearchSection() {
-  const [value, setValue] = useState('');
+export default function SearchSection(): React.JSX.Element {
+  const [value, setValue] = useState<string>('');
 
   return (
     <>
@@ -117,7 +135,7 @@ export default function SearchSection() {
                 </HeaderAvatar>
               </Box>
               <Popper
-                {...bindPopper(popupState)}
+                {...bindPopper(popupState as any)}
                 transition
                 sx={{
                   zIndex: 1100,
@@ -161,7 +179,7 @@ export default function SearchSection() {
         <OutlinedInput
           id="input-search-header"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
           placeholder="Search"
           startAdornment={
             <InputAdornment position="start">
@@ -183,11 +201,3 @@ export default function SearchSection() {
     </>
   );
 }
-
-HeaderAvatar.propTypes = { children: PropTypes.node, ref: PropTypes.any, others: PropTypes.any };
-
-MobileSearch.propTypes = {
-  value: PropTypes.string,
-  setValue: PropTypes.func,
-  popupState: PropTypes.any
-};

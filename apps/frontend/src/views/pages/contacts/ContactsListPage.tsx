@@ -15,7 +15,7 @@ import {
   DataGrid,
   type GridColDef,
   type GridPaginationModel,
-  type GridRenderCellParams,
+  type GridRenderCellParams
 } from '@mui/x-data-grid';
 
 import MainCard from '@/ui-component/cards/MainCard';
@@ -32,7 +32,7 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat(undefined, {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   }).format(new Date(value));
 }
 
@@ -64,12 +64,12 @@ export default function ContactsListPage() {
       search: searchParams.get('search') ?? '',
       dateFrom: getString('dateFrom'),
       dateTo: getString('dateTo'),
-      ownerId: getString('ownerId'),
+      ownerId: getString('ownerId')
     };
   }, [searchParams]);
 
   const { contacts, data, loading, error, query, updateQuery, refetch } = useContacts({
-    initialQuery,
+    initialQuery
   });
 
   const syncSearchParams = useCallback(
@@ -95,7 +95,7 @@ export default function ContactsListPage() {
   const paginationModel = useMemo(
     () => ({
       page: Math.max(0, (query.page ?? 1) - 1),
-      pageSize: query.size ?? DEFAULT_PAGE_SIZE,
+      pageSize: query.size ?? DEFAULT_PAGE_SIZE
     }),
     [query.page, query.size]
   );
@@ -107,7 +107,7 @@ export default function ContactsListPage() {
       updateQuery({ page: nextPage, size: nextSize });
       syncSearchParams({
         page: String(nextPage),
-        size: String(nextSize),
+        size: String(nextSize)
       });
     },
     [syncSearchParams, updateQuery]
@@ -121,7 +121,7 @@ export default function ContactsListPage() {
       syncSearchParams({
         search: trimmed.length > 0 ? value : undefined,
         page: '1',
-        size: String(query.size ?? DEFAULT_PAGE_SIZE),
+        size: String(query.size ?? DEFAULT_PAGE_SIZE)
       });
     },
     [query.size, syncSearchParams, updateQuery]
@@ -144,7 +144,7 @@ export default function ContactsListPage() {
       search: '',
       dateFrom: undefined,
       dateTo: undefined,
-      ownerId: undefined,
+      ownerId: undefined
     });
     syncSearchParams({
       page: '1',
@@ -153,7 +153,7 @@ export default function ContactsListPage() {
       dateFrom: undefined,
       dateTo: undefined,
       ownerId: undefined,
-      stage: undefined,
+      stage: undefined
     });
   }, [query.size, syncSearchParams, updateQuery]);
 
@@ -173,13 +173,13 @@ export default function ContactsListPage() {
               Owner: {params.row.ownerId ?? '—'}
             </Typography>
           </Box>
-        ),
+        )
       },
       {
         field: 'email',
         headerName: 'Email',
         flex: 1,
-        minWidth: 220,
+        minWidth: 220
       },
       {
         field: 'phone',
@@ -190,7 +190,7 @@ export default function ContactsListPage() {
           <Typography variant="body2" noWrap>
             {formatPhone(params.row.phone)}
           </Typography>
-        ),
+        )
       },
       {
         field: 'title',
@@ -201,7 +201,7 @@ export default function ContactsListPage() {
           <Typography variant="body2" noWrap>
             {params.row.title ?? '—'}
           </Typography>
-        ),
+        )
       },
       {
         field: 'companyId',
@@ -213,7 +213,7 @@ export default function ContactsListPage() {
             <Chip label={params.row.companyId} size="small" variant="outlined" />
           ) : (
             <Chip label="—" size="small" variant="outlined" />
-          ),
+          )
       },
       {
         field: 'updatedAt',
@@ -224,7 +224,7 @@ export default function ContactsListPage() {
           <Typography variant="body2" noWrap>
             {formatDate(params.row.updatedAt)}
           </Typography>
-        ),
+        )
       },
       {
         field: 'actions',
@@ -258,8 +258,8 @@ export default function ContactsListPage() {
               {editLink}
             </Box>
           );
-        },
-      },
+        }
+      }
     ],
     []
   );
@@ -284,7 +284,7 @@ export default function ContactsListPage() {
             flexDirection: { xs: 'column', md: 'row' },
             gap: 2,
             alignItems: { xs: 'stretch', md: 'center' },
-            justifyContent: 'space-between',
+            justifyContent: 'space-between'
           }}
         >
           <TextField
@@ -297,7 +297,7 @@ export default function ContactsListPage() {
                 <InputAdornment position="start">
                   <SearchIcon fontSize="small" />
                 </InputAdornment>
-              ),
+              )
             }}
           />
           <Box
@@ -305,7 +305,7 @@ export default function ContactsListPage() {
               display: 'flex',
               flexDirection: 'row',
               gap: 1.5,
-              justifyContent: { xs: 'flex-start', md: 'flex-end' },
+              justifyContent: { xs: 'flex-start', md: 'flex-end' }
             }}
           >
             <Button
@@ -352,8 +352,8 @@ export default function ContactsListPage() {
             pageSizeOptions={[5, 10, 25, 50]}
             sx={{
               '& .MuiDataGrid-cell': {
-                outline: 'none !important',
-              },
+                outline: 'none !important'
+              }
             }}
           />
         </Box>
@@ -363,7 +363,7 @@ export default function ContactsListPage() {
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
             gap: 1,
-            alignItems: { xs: 'flex-start', sm: 'center' },
+            alignItems: { xs: 'flex-start', sm: 'center' }
           }}
         >
           <Typography variant="caption" color="text.secondary">

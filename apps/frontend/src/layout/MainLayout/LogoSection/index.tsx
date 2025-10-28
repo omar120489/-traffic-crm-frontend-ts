@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import type { SxProps, Theme } from '@mui/material/styles';
 
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import { DASHBOARD_PATH } from 'config';
 import Logo from 'ui-component/Logo';
 

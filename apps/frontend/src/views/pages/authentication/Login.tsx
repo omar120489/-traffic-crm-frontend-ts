@@ -21,11 +21,11 @@ import { APP_AUTH } from 'config';
 type AuthKey = 'firebase' | 'jwt' | 'aws' | 'auth0' | 'supabase';
 
 const authLoginImports: Record<AuthKey, () => Promise<{ default: ComponentType }>> = {
-  firebase: () => import('./firebase/AuthLogin.jsx'),
+  firebase: () => import('./firebase/AuthLogin'),
   jwt: () => import('./jwt/AuthLogin.jsx'),
   aws: () => import('./aws/AuthLogin.jsx'),
   auth0: () => import('./auth0/AuthLogin.jsx'),
-  supabase: () => import('./supabase/AuthLogin.jsx'),
+  supabase: () => import('./supabase/AuthLogin.jsx')
 };
 
 export default function Login() {
@@ -39,6 +39,7 @@ export default function Login() {
   useEffect(() => {
     let mounted = true;
     const selectedAuth = (authParam || APP_AUTH) as AuthKey;
+
     const importer = authLoginImports[selectedAuth] ?? authLoginImports.jwt;
 
     importer()
@@ -49,7 +50,23 @@ export default function Login() {
       })
       .catch((error) => {
         console.error(`Failed to load ${selectedAuth} AuthLogin`, error);
-        if (mounted) {
+        if (!mounted) {
+          return;
+        }
+
+        if (selectedAuth !== 'jwt') {
+          authLoginImports
+            .jwt()
+            .then((module) => {
+              if (mounted) {
+                setAuthLoginComponent(() => module.default);
+              }
+            })
+            .catch((fallbackError) => {
+              console.error('Failed to load fallback JWT AuthLogin', fallbackError);
+              setAuthLoginComponent(null);
+            });
+        } else {
           setAuthLoginComponent(null);
         }
       });
@@ -85,9 +102,7 @@ export default function Login() {
                     Enter your credentials to continue
                   </Typography>
                 </Stack>
-                <Box sx={{ width: 1 }}>
-                  {AuthLoginComponent ? <AuthLoginComponent /> : null}
-                </Box>
+                <Box sx={{ width: 1 }}>{AuthLoginComponent ? <AuthLoginComponent /> : null}</Box>
                 <Divider sx={{ width: 1 }} />
                 <Stack sx={{ alignItems: 'center' }}>
                   <Typography
@@ -112,7 +127,7 @@ export default function Login() {
                 sx={{
                   maxWidth: { xs: 400, lg: 475 },
                   margin: { xs: 2.5, md: 3 },
-                  '& > *': { flexGrow: 1, flexBasis: '50%' },
+                  '& > *': { flexGrow: 1, flexBasis: '50%' }
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

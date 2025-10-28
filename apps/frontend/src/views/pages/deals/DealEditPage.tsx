@@ -8,7 +8,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/GridLegacy';
+import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -269,7 +269,7 @@ export default function DealEditPage(): ReactElement {
             <form noValidate onSubmit={submitForm}>
               <Stack spacing={3}>
                 <Grid container spacing={2}>
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Name"
                       name="name"
@@ -282,7 +282,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Amount"
                       name="amount"
@@ -297,7 +297,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Stage"
                       name="stage"
@@ -317,7 +317,7 @@ export default function DealEditPage(): ReactElement {
                     </TextField>
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Status"
                       name="status"
@@ -337,7 +337,7 @@ export default function DealEditPage(): ReactElement {
                     </TextField>
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Probability (%)"
                       name="probability"
@@ -355,7 +355,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Owner ID"
                       name="ownerId"
@@ -368,7 +368,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Company ID"
                       name="companyId"
@@ -380,7 +380,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Contact ID"
                       name="contactId"
@@ -392,7 +392,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Close Date"
                       name="closeDate"
@@ -406,7 +406,7 @@ export default function DealEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <TextField
                       label="Description"
                       name="description"

@@ -20,12 +20,22 @@ import { APP_AUTH } from 'config';
 
 type AuthKey = 'firebase' | 'jwt' | 'aws' | 'auth0' | 'supabase';
 
-const authRegisterImports: Record<AuthKey, () => Promise<{ default: ComponentType }>> = {
-  firebase: () => import('./firebase/AuthRegister.jsx'),
-  jwt: () => import('./jwt/AuthRegister.jsx'),
-  aws: () => import('./aws/AuthRegister.jsx'),
-  auth0: () => import('./auth0/AuthRegister.jsx'),
-  supabase: () => import('./supabase/AuthRegister.jsx'),
+// Helper function to dynamically import auth providers only when needed
+const loadAuthProvider = async (authType: AuthKey) => {
+  switch (authType) {
+    case 'jwt':
+      return import('./jwt/AuthRegister.jsx');
+    case 'aws':
+      return import('./aws/AuthRegister.jsx');
+    case 'auth0':
+      return import('./auth0/AuthRegister.jsx');
+    case 'supabase':
+      return import('./supabase/AuthRegister.jsx');
+    case 'firebase':
+      throw new Error('Firebase authentication is not configured');
+    default:
+      return import('./jwt/AuthRegister.jsx');
+  }
 };
 
 export default function Register() {
@@ -39,9 +49,8 @@ export default function Register() {
   useEffect(() => {
     let mounted = true;
     const selectedAuth = (authParam || APP_AUTH) as AuthKey;
-    const importer = authRegisterImports[selectedAuth] ?? authRegisterImports.jwt;
 
-    importer()
+    loadAuthProvider(selectedAuth)
       .then((module) => {
         if (mounted) {
           setAuthRegisterComponent(() => module.default);
@@ -113,8 +122,8 @@ export default function Register() {
                   margin: { xs: 2.5, md: 3 },
                   '& > *': {
                     flexGrow: 1,
-                    flexBasis: '50%',
-                  },
+                    flexBasis: '50%'
+                  }
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

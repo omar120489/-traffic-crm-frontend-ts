@@ -7,7 +7,7 @@ import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/GridLegacy';
+import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -263,7 +263,7 @@ export default function LeadEditPage(): ReactElement {
             <form noValidate onSubmit={submitForm}>
               <Stack spacing={3}>
                 <Grid container spacing={2}>
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="First Name"
                       name="firstName"
@@ -275,7 +275,7 @@ export default function LeadEditPage(): ReactElement {
                       required
                     />
                   </Grid>
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Last Name"
                       name="lastName"
@@ -288,7 +288,7 @@ export default function LeadEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Email"
                       name="email"
@@ -302,7 +302,7 @@ export default function LeadEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Phone"
                       name="phone"
@@ -314,7 +314,7 @@ export default function LeadEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Status"
                       name="status"
@@ -334,7 +334,7 @@ export default function LeadEditPage(): ReactElement {
                     </TextField>
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Source"
                       name="source"
@@ -354,7 +354,7 @@ export default function LeadEditPage(): ReactElement {
                     </TextField>
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Company"
                       name="company"
@@ -366,7 +366,7 @@ export default function LeadEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12} md={6}>
+                  <Grid size={{ xs: 12, md: 6 }}>
                     <TextField
                       label="Score (%)"
                       name="score"
@@ -384,7 +384,7 @@ export default function LeadEditPage(): ReactElement {
                     />
                   </Grid>
 
-                  <Grid xs={12}>
+                  <Grid size={{ xs: 12 }}>
                     <TextField
                       label="Notes"
                       name="notes"

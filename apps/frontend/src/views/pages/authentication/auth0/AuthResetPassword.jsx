@@ -156,8 +156,8 @@ export default function AuthResetPassword({ ...others }) {
           {strength !== 0 && (
             <FormControl fullWidth>
               <Box sx={{ mb: 2 }}>
-                <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                  <Grid>
+                <Grid container columns={12} spacing={2} sx={{ alignItems: 'center' }}>
+                  <Grid size="auto">
                     <Box
                       sx={{
                         width: 85,
@@ -167,7 +167,7 @@ export default function AuthResetPassword({ ...others }) {
                       }}
                     />
                   </Grid>
-                  <Grid>
+                  <Grid size="auto">
                     <Typography variant="subtitle1" sx={{ fontSize: '0.75rem' }}>
                       {level?.label}
                     </Typography>

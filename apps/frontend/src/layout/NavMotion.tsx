@@ -1,11 +1,14 @@
-import PropTypes from 'prop-types';
-
 // third party
 import { motion } from 'framer-motion';
 
+// TypeScript interface
+interface NavMotionProps {
+  readonly children?: React.ReactNode;
+}
+
 // ==============================|| ANIMATION FOR CONTENT ||============================== //
 
-export default function NavMotion({ children }) {
+export default function NavMotion({ children }: NavMotionProps): React.JSX.Element {
   const motionVariants = {
     initial: {
       opacity: 0,
@@ -21,23 +24,11 @@ export default function NavMotion({ children }) {
     }
   };
 
-  const motionTransition = {
-    type: 'tween',
-    ease: 'anticipate',
-    duration: 0.4
-  };
+  // Note: default framer-motion transition is sufficient; explicit typing can conflict with local deps
 
   return (
-    <motion.div
-      initial="initial"
-      animate="in"
-      exit="out"
-      variants={motionVariants}
-      transition={motionTransition}
-    >
+    <motion.div initial="initial" animate="in" exit="out" variants={motionVariants}>
       {children}
     </motion.div>
   );
 }
-
-NavMotion.propTypes = { children: PropTypes.node };

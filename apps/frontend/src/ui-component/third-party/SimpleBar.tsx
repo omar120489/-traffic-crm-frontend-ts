@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react';
 
 import { styled, useTheme } from '@mui/material/styles';
@@ -16,23 +15,24 @@ import { withAlpha } from 'utils/colorUtils';
 const RootStyle = styled(BrowserView)({
   flexGrow: 1,
   height: '100%',
-  overflow: 'hidden',
+  overflow: 'hidden'
 });
 
 const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
   maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': { backgroundColor: withAlpha(theme.vars.palette.grey[500], 0.48) },
-    '&.simplebar-visible:before': { opacity: 1 },
+    '&.simplebar-visible:before': { opacity: 1 }
   },
   '& .simplebar-track.simplebar-vertical': { width: 10 },
   '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': { height: 6 },
-  '& .simplebar-mask': { zIndex: 'inherit' },
+  '& .simplebar-mask': { zIndex: 'inherit' }
 }));
 
-type SimpleBarScrollProps = MUIStyledCommonProps<Theme> & SimpleBarProps & {
-  children?: ReactNode;
-};
+type SimpleBarScrollProps = MUIStyledCommonProps<Theme> &
+  SimpleBarProps & {
+    children?: ReactNode;
+  };
 
 export default function SimpleBarScroll({ children, sx, ...other }: SimpleBarScrollProps) {
   const theme = useTheme();
@@ -43,9 +43,7 @@ export default function SimpleBarScroll({ children, sx, ...other }: SimpleBarScr
         <SimpleBarStyle
           clickOnTrack={false}
           sx={sx}
-          data-simplebar-direction={
-            theme.direction === ThemeDirection.RTL ? 'rtl' : 'ltr'
-          }
+          data-simplebar-direction={theme.direction === ThemeDirection.RTL ? 'rtl' : 'ltr'}
           {...other}
         >
           {children as ReactNode}

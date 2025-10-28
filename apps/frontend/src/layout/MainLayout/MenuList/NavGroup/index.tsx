@@ -27,7 +27,7 @@ import NavCollapse from '../NavCollapse';
 import NavItem from '../NavItem';
 import Transitions from 'ui-component/extended/Transitions';
 import { useGetMenuMaster } from 'api/menu';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import type {
@@ -37,7 +37,7 @@ import type {
   MenuItem as MenuItemType
 } from 'types/menu';
 
-import { IconChevronDown, IconChevronRight, IconMinusVertical } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronRight, IconMinusVertical } from '@/icons';
 
 interface NavGroupProps {
   item: MenuGroup;

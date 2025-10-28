@@ -13,7 +13,7 @@ import rootReducer from './reducer';
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
 export const store = configureStore({
-  reducer: rootReducer as any,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

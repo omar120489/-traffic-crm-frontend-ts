@@ -13,16 +13,16 @@ interface RTLLayoutProps {
 
 const rtlCache = createCache({
   key: 'muirtl',
-  stylisPlugins: [rtlPlugin],
+  stylisPlugins: [rtlPlugin]
 });
 
 const ltrCache = createCache({
-  key: 'mui',
+  key: 'mui'
 });
 
 export default function RTLLayout({ children }: RTLLayoutProps) {
   const {
-    state: { themeDirection },
+    state: { themeDirection }
   } = useConfig();
 
   useEffect(() => {

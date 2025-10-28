@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useRef, useState, forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
+import type { SxProps, Theme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grid from '@mui/material/Grid';
@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Typography from '@mui/material/Typography';
+import type { AvatarProps } from '@mui/material/Avatar';
 
 // project imports
 import { ThemeDirection } from 'config';
@@ -26,42 +27,65 @@ import useConfig from 'hooks/useConfig';
 // assets
 import Banner from './Banner';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { IconAccessPoint } from '@tabler/icons-react';
+import WifiIcon from '@mui/icons-material/Wifi';
 
-function HeaderAvatar({ children, sx, ref, ...others }) {
-  const theme = useTheme();
-
-  return (
-    <Avatar
-      ref={ref}
-      sx={{
-        ...theme.typography.commonAvatar,
-        ...theme.typography.mediumAvatar,
-        transition: 'all .2s ease-in-out',
-        display: { xs: 'none', md: 'flex' },
-        color: theme.vars.palette.secondary.dark,
-        background: theme.vars.palette.secondary.light,
-        '&:hover, &[aria-controls="menu-list-grow"]': {
-          color: theme.vars.palette.secondary.light,
-          background: theme.vars.palette.secondary.dark
-        },
-        ...theme.applyStyles('dark', {
-          color: theme.vars.palette.secondary.main,
-          background: theme.vars.palette.dark.main,
-          '&:hover, &[aria-controls="menu-list-grow"]': {
-            color: theme.vars.palette.secondary.light,
-            background: theme.vars.palette.secondary.main
-          }
-        })
-      }}
-      {...others}
-    >
-      {children}
-    </Avatar>
-  );
+// TypeScript interfaces
+interface HeaderAvatarProps extends Omit<AvatarProps, 'children' | 'sx'> {
+  readonly children?: React.ReactNode;
+  readonly sx?: SxProps<Theme>;
 }
 
-const linkList = [
+interface LinkItem {
+  readonly link: string;
+  readonly label: string;
+  readonly target?: string;
+}
+
+interface LinkGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly children: readonly LinkItem[];
+}
+
+const HeaderAvatar = forwardRef<HTMLDivElement, HeaderAvatarProps>(
+  ({ children, sx, ...others }, ref) => {
+    const theme = useTheme();
+
+    return (
+      <Avatar
+        ref={ref}
+        sx={{
+          ...theme.typography.commonAvatar,
+          ...theme.typography.mediumAvatar,
+          transition: 'all .2s ease-in-out',
+          display: { xs: 'none', md: 'flex' },
+          color: theme.vars.palette.secondary.dark,
+          background: theme.vars.palette.secondary.light,
+          '&:hover, &[aria-controls="menu-list-grow"]': {
+            color: theme.vars.palette.secondary.light,
+            background: theme.vars.palette.secondary.dark
+          },
+          ...theme.applyStyles('dark', {
+            color: theme.vars.palette.secondary.main,
+            background: theme.vars.palette.dark.main,
+            '&:hover, &[aria-controls="menu-list-grow"]': {
+              color: theme.vars.palette.secondary.light,
+              background: theme.vars.palette.secondary.main
+            }
+          }),
+          ...sx
+        }}
+        {...others}
+      >
+        {children}
+      </Avatar>
+    );
+  }
+);
+
+HeaderAvatar.displayName = 'HeaderAvatar';
+
+const linkList: readonly LinkGroup[] = [
   {
     id: 'user-quick',
     label: 'User Quick',
@@ -95,25 +119,25 @@ const linkList = [
       { link: '#!', label: 'Elements' }
     ]
   }
-];
+] as const;
 
-// ==============================|| SEARCH INPUT - MEGA MENu||============================== //
+// ==============================|| SEARCH INPUT - MEGA MENU||============================== //
 
-export default function MegaMenuSection() {
+export default function MegaMenuSection(): React.JSX.Element {
   const theme = useTheme();
   const {
     state: { themeDirection }
   } = useConfig();
 
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
-  const handleToggle = () => {
+  const handleToggle = (): void => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleClose = (event: Event): void => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as Node)) {
       return;
     }
     setOpen(false);
@@ -128,7 +152,7 @@ export default function MegaMenuSection() {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <IconAccessPoint stroke={1.5} size="20px" />
+        <WifiIcon />
       </HeaderAvatar>
       <Popper
         placement="bottom-end"
@@ -158,10 +182,14 @@ export default function MegaMenuSection() {
                 sx={{
                   width: {
                     md: `calc(100vw - 100px)`,
-                    lg: `calc(100vw - ${drawerWidth + 100}px)`,
-                    xl: `calc(100vw - ${drawerWidth + 140}px)`
+                    lg: `calc(100vw - ${drawerWidth}px - 100px)`,
+                    xl: `calc(100vw - ${drawerWidth}px - 200px)`
                   },
-                  maxWidth: { xl: 900, md: 764 }
+                  minWidth: 750,
+                  maxWidth: {
+                    md: 850,
+                    lg: 1200
+                  }
                 }}
               >
                 {open && (
@@ -171,31 +199,15 @@ export default function MegaMenuSection() {
                     content={false}
                     boxShadow
                     shadow={theme.shadows[16]}
-                    sx={{ overflow: { p: 1, xs: 'visible', md: 'hidden' } }}
                   >
-                    <Grid container spacing={gridSpacing}>
-                      <Grid size={{ md: 4 }}>
+                    <Grid container spacing={0}>
+                      <Grid size={{ xs: 12, sm: 4 }}>
                         <Banner />
                       </Grid>
-                      <Grid size={{ md: 8 }}>
-                        <Grid
-                          container
-                          spacing={gridSpacing}
-                          sx={{
-                            pt: 3,
-                            '& .MuiListItemButton-root:hover': {
-                              bgcolor: 'transparent',
-                              '& .MuiTypography-root': {
-                                color: 'secondary.main'
-                              }
-                            },
-                            '& .MuiListItemIcon-root': {
-                              minWidth: 16
-                            }
-                          }}
-                        >
-                          {linkList.map((links, index) => (
-                            <Grid key={index} size={4}>
+                      <Grid size={{ xs: 12, sm: 8 }}>
+                        <Grid container spacing={gridSpacing as unknown as number} sx={{ p: 3 }}>
+                          {linkList.map((links) => (
+                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={links.id}>
                               <List
                                 component="nav"
                                 aria-labelledby={`list-${links.id}`}
@@ -234,10 +246,3 @@ export default function MegaMenuSection() {
     </>
   );
 }
-
-HeaderAvatar.propTypes = {
-  children: PropTypes.node,
-  sx: PropTypes.any,
-  ref: PropTypes.any,
-  others: PropTypes.any
-};

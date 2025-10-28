@@ -3,7 +3,7 @@
  * Temporary unifying barrel - refactor to domain-specific modules over time
  */
 
-export type Json = Record<string, unknown> | any[];
+export type Json = Record<string, unknown> | unknown[];
 export type ID = string;
 
 export interface Paginated<T> {

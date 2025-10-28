@@ -56,7 +56,9 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
           setSession(session.access_token);
 
           // Map Supabase user to standard profile
-          const standardUser = mapSupabaseProfile(session.user);
+          const standardUser = mapSupabaseProfile(
+            session.user as unknown as Record<string, unknown>
+          );
           dispatch(loginAction({ user: standardUser }));
         } else {
           dispatch(initialize());
@@ -77,7 +79,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
 
       if (event === 'SIGNED_IN' && session?.user) {
         setSession(session.access_token);
-        const standardUser = mapSupabaseProfile(session.user);
+        const standardUser = mapSupabaseProfile(session.user as unknown as Record<string, unknown>);
         dispatch(loginAction({ user: standardUser }));
       } else if (event === 'SIGNED_OUT') {
         clearAuthStorage();
@@ -100,7 +102,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
         throw new Error('Password must be at least 6 characters');
       }
 
-      const { data: _data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
@@ -110,7 +112,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
       }
 
       // Auth state change listener will handle the Redux dispatch
-      // console.log('Supabase login successful:', data);
+      // console.log('Supabase login successful');
     } catch (error) {
       handleAuthError(error, 'Supabase', 'login');
     }
@@ -127,7 +129,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
           throw new Error('Password must be at least 6 characters');
         }
 
-        const { data: _data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -143,7 +145,7 @@ export function SupabaseProvider({ children }: SupabaseProviderProps) {
           throw error;
         }
 
-        // console.log('Supabase registration successful:', data);
+        // console.log('Supabase registration successful');
         // Note: User may need to confirm email before they can login
       } catch (error) {
         handleAuthError(error, 'Supabase', 'register');

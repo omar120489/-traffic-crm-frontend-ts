@@ -30,26 +30,27 @@ function toDealUpdateDto(payload: DealUpdateDto): Record<string, unknown> {
 }
 
 // Helper to normalize backend response to frontend format
-function fromDealDto(dto: any): Deal {
+function fromDealDto(dto: Record<string, unknown>): Deal {
+  const get = <T>(key: string): T | undefined => dto[key] as T | undefined;
   return {
-    id: dto.id,
-    createdAt: dto.createdAt || dto.created_at,
-    updatedAt: dto.updatedAt || dto.updated_at,
-    name: dto.name,
-    amount: dto.amount,
-    stage: dto.stage,
-    status: dto.status,
-    ownerId: dto.ownerId || dto.owner_id,
-    companyId: dto.companyId || dto.company_id,
-    contactId: dto.contactId || dto.contact_id,
-    closeDate: dto.closeDate || dto.close_date,
-    probability: dto.probability,
-    description: dto.description,
-    grossRevenue: dto.grossRevenue ?? dto.gross_revenue ?? null,
-    directCost: dto.directCost ?? dto.direct_cost ?? null,
-    netProfit: dto.netProfit ?? dto.net_profit ?? null,
-    lossReason: dto.lossReason ?? dto.loss_reason ?? null,
-    lossNotes: dto.lossNotes ?? dto.loss_notes ?? null
+    id: get<string>('id')!,
+    createdAt: get<string>('createdAt') ?? get<string>('created_at')!,
+    updatedAt: get<string>('updatedAt') ?? get<string>('updated_at')!,
+    name: get<string>('name')!,
+    amount: get<number>('amount')!,
+    stage: get<string>('stage')!,
+    status: get<string>('status')!,
+    ownerId: get<string>('ownerId') ?? get<string>('owner_id')!,
+    companyId: get<string>('companyId') ?? get<string>('company_id') ?? null,
+    contactId: get<string>('contactId') ?? get<string>('contact_id') ?? null,
+    closeDate: get<string>('closeDate') ?? get<string>('close_date') ?? null,
+    probability: get<number>('probability') ?? null,
+    description: get<string>('description') ?? null,
+    grossRevenue: get<number>('grossRevenue') ?? get<number>('gross_revenue') ?? null,
+    directCost: get<number>('directCost') ?? get<number>('direct_cost') ?? null,
+    netProfit: get<number>('netProfit') ?? get<number>('net_profit') ?? null,
+    lossReason: get<string>('lossReason') ?? get<string>('loss_reason') ?? null,
+    lossNotes: get<string>('lossNotes') ?? get<string>('loss_notes') ?? null
   };
 }
 

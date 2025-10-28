@@ -72,31 +72,41 @@ export default function ActivityByDayChart({
       };
     }
 
-    const xMin = series[0].x;
-    const xMax = series.at(-1)!.x; // Use .at(-1) for cleaner syntax
-    const yMax = Math.max(1, Math.max(...series.map((d) => d.y)));
+    const computedXMin = series[0].x;
+    const computedXMax = series.at(-1)!.x; // Use .at(-1) for cleaner syntax
+    const computedYMax = Math.max(1, Math.max(...series.map((d) => d.y)));
 
-    const xScale = (t: number) => MARGIN.left + ((t - xMin) / Math.max(1, xMax - xMin)) * innerW;
-    const yScale = (v: number) => MARGIN.top + innerH - (v / yMax) * innerH;
+    const computedXScale = (t: number) =>
+      MARGIN.left + ((t - computedXMin) / Math.max(1, computedXMax - computedXMin)) * innerW;
+    const computedYScale = (v: number) => MARGIN.top + innerH - (v / computedYMax) * innerH;
 
-    const linePath = series
-      .map((d, i) => `${i === 0 ? 'M' : 'L'} ${xScale(d.x)} ${yScale(d.y)}`)
+    const computedLinePath = series
+      .map((d, i) => `${i === 0 ? 'M' : 'L'} ${computedXScale(d.x)} ${computedYScale(d.y)}`)
       .join(' ');
 
-    const areaPath =
-      `M ${xScale(series[0].x)} ${yScale(0)} ` +
-      series.map((d) => `L ${xScale(d.x)} ${yScale(d.y)}`).join(' ') +
-      ` L ${xScale(series.at(-1)!.x)} ${yScale(0)} Z`;
+    const computedAreaPath =
+      `M ${computedXScale(series[0].x)} ${computedYScale(0)} ` +
+      series.map((d) => `L ${computedXScale(d.x)} ${computedYScale(d.y)}`).join(' ') +
+      ` L ${computedXScale(series.at(-1)!.x)} ${computedYScale(0)} Z`;
 
-    const xTicks = pickTicks(
+    const computedXTicks = pickTicks(
       series.map((d) => d.x),
       TICK_COUNTS.x
     );
-    const yTicks = Array.from({ length: TICK_COUNTS.y }, (_, i) =>
-      Math.round((i * yMax) / (TICK_COUNTS.y - 1))
+    const computedYTicks = Array.from({ length: TICK_COUNTS.y }, (_, i) =>
+      Math.round((i * computedYMax) / (TICK_COUNTS.y - 1))
     );
 
-    return { xMin, xMax, xScale, yScale, linePath, areaPath, xTicks, yTicks };
+    return {
+      xMin: computedXMin,
+      xMax: computedXMax,
+      xScale: computedXScale,
+      yScale: computedYScale,
+      linePath: computedLinePath,
+      areaPath: computedAreaPath,
+      xTicks: computedXTicks,
+      yTicks: computedYTicks
+    };
   }, [series, innerW, innerH]);
 
   // Memoize event handlers to prevent unnecessary re-renders
@@ -304,7 +314,11 @@ function nearestIndex(xs: number[], target: number): number {
   while (hi - lo > 1) {
     const mid = (lo + hi) >> 1;
     if (xs[mid] === target) return mid;
-    xs[mid] < target ? (lo = mid) : (hi = mid);
+    if (xs[mid] < target) {
+      lo = mid;
+    } else {
+      hi = mid;
+    }
   }
   return Math.abs(xs[lo] - target) <= Math.abs(xs[hi] - target) ? lo : hi;
 }

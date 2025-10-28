@@ -23,12 +23,12 @@ import useConfig from 'hooks/useConfig';
 import { gridSpacing } from 'store/constant';
 
 // assets
-import { IconBrandDribbble } from '@tabler/icons-react';
 import FiberManualRecordTwoToneIcon from '@mui/icons-material/FiberManualRecordTwoTone';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import BookIcon from '@mui/icons-material/Book';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 
 import logo from 'assets/images/logo.svg';
 import logoDark from 'assets/images/logo-dark.svg';
@@ -56,26 +56,16 @@ const CardMediaWrapper = styled('div')(({ theme }) => ({
   maxWidth: 720,
   margin: '0 auto',
   position: 'relative',
-  [theme.breakpoints.down('xl')]: {
-    marginTop: 30
-  },
-  [theme.breakpoints.down('md')]: {
-    maxWidth: 450
-  },
-  [theme.breakpoints.down('lg')]: {
-    display: 'none'
-  }
+  [theme.breakpoints.down('xl')]: { marginTop: 30 },
+  [theme.breakpoints.down('md')]: { maxWidth: 450 },
+  [theme.breakpoints.down('lg')]: { display: 'none' }
 }));
 
 const PageContentWrapper = styled('div')(({ theme }) => ({
   maxWidth: 550,
   margin: '0 0 0 auto',
-  [theme.breakpoints.down('lg')]: {
-    margin: '0 auto'
-  },
-  [theme.breakpoints.up(1400)]: {
-    maxWidth: 600
-  }
+  [theme.breakpoints.down('lg')]: { margin: '0 auto' },
+  [theme.breakpoints.up(1400)]: { maxWidth: 600 }
 }));
 
 const ComingSoonCard = styled(Card)(({ theme }) => ({
@@ -83,16 +73,9 @@ const ComingSoonCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  [theme.breakpoints.down('lg')]: {
-    display: 'block'
-  },
-  [theme.breakpoints.up(1200)]: {
-    overflow: 'hidden',
-    maxHeight: '100vh'
-  },
-  [theme.breakpoints.up(1400)]: {
-    alignItems: 'center'
-  }
+  [theme.breakpoints.down('lg')]: { display: 'block' },
+  [theme.breakpoints.up(1200)]: { overflow: 'hidden', maxHeight: '100vh' },
+  [theme.breakpoints.up(1400)]: { alignItems: 'center' }
 }));
 
 const SliderWrapper = styled('div')(({ theme }) => ({
@@ -121,43 +104,27 @@ const CardMediaWidget = styled('img')({
   width: '100%',
   animation: '5s wings ease-in-out infinite',
   zIndex: 5,
-  '&:nth-of-type(3)': {
-    animationDelay: '2s'
-  },
-  '&:nth-of-type(4)': {
-    animationDelay: '1s'
-  },
-  '&:nth-of-type(5)': {
-    animationDelay: '3s'
-  },
-  '&:nth-of-type(9)': {
-    animationDelay: '5s'
-  },
-  '&:nth-of-type(10)': {
-    animationDelay: '6s'
-  },
-  '&:nth-of-type(7)': {
-    animation: '3s blink ease-in-out infinite',
-    animationDelay: '1s'
-  },
-  '&:nth-of-type(6)': {
-    animation: '3s blink ease-in-out infinite',
-    animationDelay: '2s'
-  }
+  '&:nth-of-type(3)': { animationDelay: '2s' },
+  '&:nth-of-type(4)': { animationDelay: '1s' },
+  '&:nth-of-type(5)': { animationDelay: '3s' },
+  '&:nth-of-type(9)': { animationDelay: '5s' },
+  '&:nth-of-type(10)': { animationDelay: '6s' },
+  '&:nth-of-type(7)': { animation: '3s blink ease-in-out infinite', animationDelay: '1s' },
+  '&:nth-of-type(6)': { animation: '3s blink ease-in-out infinite', animationDelay: '2s' }
 });
 
 // ===========================|| COMING SOON 1 ||=========================== //
 
-export default function ComingSoon1() {
+export default function ComingSoon1(): React.JSX.Element {
   const theme = useTheme();
   const { colorScheme } = useColorScheme();
 
   const {
     state: { themeDirection }
   } = useConfig();
-  const [photoIndex, setPhotoIndex] = useState(-1);
+  const [photoIndex, setPhotoIndex] = useState<number>(-1);
 
-  const handleClickOpen = (slideIndex) => {
+  const handleClickOpen = (slideIndex: number): void => {
     setPhotoIndex(slideIndex);
   };
 
@@ -172,7 +139,7 @@ export default function ComingSoon1() {
       transform: 'scaleX(-1)',
       animation: '5s wingsReverse ease-in-out infinite'
     })
-  };
+  } as const;
 
   return (
     <ComingSoonCard>
@@ -201,7 +168,7 @@ export default function ComingSoon1() {
             }}
           />
         </CardContent>
-        <Grid container spacing={gridSpacing}>
+        <Grid container spacing={gridSpacing as unknown as number}>
           <Grid size={12}>
             <CardMediaWrapper>
               <CardMedia
@@ -233,10 +200,10 @@ export default function ComingSoon1() {
         </Grid>
       </CardContent>
       <CardContent sx={{ padding: { xs: 3, xl: 10 }, margin: '0 auto' }}>
-        <Grid container spacing={gridSpacing}>
+        <Grid container spacing={gridSpacing as unknown as number}>
           <Grid size={12}>
             <PageContentWrapper>
-              <Grid container spacing={gridSpacing}>
+              <Grid container spacing={gridSpacing as unknown as number}>
                 <Grid size={12}>
                   <Typography variant="h2" sx={{ color: 'primary.main' }}>
                     Coming Soon
@@ -256,7 +223,7 @@ export default function ComingSoon1() {
                   </Grid>
                 </Grid>
                 <Grid size={12}>
-                  <Grid container spacing={gridSpacing}>
+                  <Grid container spacing={gridSpacing as unknown as number}>
                     <Grid>
                       <Typography
                         variant="h5"
@@ -298,10 +265,10 @@ export default function ComingSoon1() {
                 <Grid size={12}>
                   <Grid
                     container
-                    spacing={gridSpacing}
+                    spacing={gridSpacing as unknown as number}
                     sx={{ alignItems: 'center', justifyContent: 'space-between' }}
                   >
-                    <Grid sx={{ position: 'relative' }} size={{ xs: 12, sm: 6 }}>
+                    <Grid size={{ xs: 12, sm: 6 }} sx={{ position: 'relative' }}>
                       <SliderWrapper />
                       <Box
                         sx={{
@@ -315,10 +282,10 @@ export default function ComingSoon1() {
                         <Slider handleClickOpen={handleClickOpen} />
                       </Box>
                     </Grid>
-                    <Grid sx={{ position: 'relative' }} size={{ xs: 12, sm: 6 }}>
+                    <Grid size={{ xs: 12, sm: 6 }} sx={{ position: 'relative' }}>
                       <Grid
                         container
-                        spacing={gridSpacing}
+                        spacing={gridSpacing as unknown as number}
                         sx={{ justifyContent: 'space-between' }}
                       >
                         <Grid size={12}>
@@ -434,7 +401,7 @@ export default function ComingSoon1() {
                                     })
                                   }}
                                 >
-                                  <IconBrandDribbble />
+                                  <SportsBasketballIcon />
                                 </Avatar>
                               </ButtonBase>
                             </Grid>

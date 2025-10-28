@@ -1,0 +1,733 @@
+[2mnode[0m v20.19.5
+[32m✔[0m Node version OK (20.x)
+[2mpnpm[0m 10.16.1
+[32m✔[0m pnpm present
+[32m✔[0m apps/frontend/node_modules present
+[32m✔[0m eslint installed
+[32m✔[0m tsc installed
+[32m✔[0m vitest installed
+[32m✔[0m playwright installed
+[32m✔[0m apps/frontend has "dev" script
+[32m✔[0m apps/frontend has "build" script
+[32m✔[0m apps/frontend has "preview" script
+[32m✔[0m API baseURL fallback is localhost:3000
+[32m✔[0m No GridLegacy imports detected.
+[32m✔[0m Grid components use modern sizing props.
+[33m▲[0m Overrides migrated: 13/14 use slotProps. Remaining: 1.
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/DateTimePickerToolbar.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/TimelineDot.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/ListItemIcon.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/Avatar.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/TreeItem.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/CardHeader.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/InternalDateTimePickerTabs.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/Autocomplete.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/Checkbox.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/ListItemButton.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/CardContent.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/DatePicker.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/Chip.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/CardActions.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/index.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/Alert.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/PickersTextField.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/Divider.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/TimelineContent.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/PaginationItem.jsx
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/themes/overrides/ListItemText.jsx
+[33m▲[0m Mixed token keys detected (serviceToken + access_token). Standardize on serviceToken.
+[34mℹ[0m Files referencing access_token:
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/contexts/SupabaseContext.tsx:56:          setSession(session.access_token);
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/contexts/SupabaseContext.tsx:79:        setSession(session.access_token);
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/contexts/AuthContext.tsx:40:    typeof window !== 'undefined' ? (localStorage.getItem('access_token') ?? undefined) : undefined;
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/lib/http.ts:8:  const token = globalThis.localStorage.getItem('access_token');
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/lib/http.ts:32:    globalThis.localStorage.removeItem('access_token');
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/lib/api.ts:13:  getToken: () => localStorage.getItem('access_token') ?? '',
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/auth/LoginPage.tsx:39:      const { access_token } = await res.json();
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/auth/LoginPage.tsx:40:      localStorage.setItem('access_token', access_token);
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/auth/LoginPage.tsx:54:    localStorage.removeItem('access_token');
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/companies/CompanyDetailPage.tsx:11:  getToken: () => localStorage.getItem('access_token') ?? ''
+[33m▲[0m Routes not fully consolidated. Status: AppRoutes=no, MainRoutes=1, sprint2.routes=1
+[33m▲[0m Found 15 legacy service(s) (non-.sdk.ts). Consider deprecating/removing:
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/pnl.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/reporting.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/comments.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/companies.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/notifications.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/journey.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/leads.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/contacts.service.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/savedViews.service.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/attachments.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/deals.service.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/analytics.service.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/deals.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/contacts.ts
+  ‣ /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/companies.service.ts
+[32m✔[0m .env contains VITE_APP_API_URL
+[34mℹ[0m Running lint…
+
+> traffic-crm-frontend-ts@1.0.0 lint /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend
+> eslint "src/**/*.{js,jsx,ts,tsx}"
+
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/components/tags/TagFilter.tsx
+  25:6  warning  React Hook useEffect has a missing dependency: 'loadTags'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/components/tags/TagManager.tsx
+  62:6  warning  React Hook useEffect has a missing dependency: 'loadTags'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/contexts/SupabaseContext.tsx
+  103:21  error  '_data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  130:23  error  '_data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/core/rbac/usePermissions.ts
+  29:9  warning  The 'userPermissions' array makes the dependencies of useCallback Hook (at line 39) change on every render. To fix this, wrap the initialization of 'userPermissions' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/data/clients/axios.ts
+    5:21  warning  Delete `,`  prettier/prettier
+   17:39  warning  Delete `,`  prettier/prettier
+   18:4   warning  Delete `,`  prettier/prettier
+  121:22  warning  Delete `,`  prettier/prettier
+  122:8   warning  Delete `,`  prettier/prettier
+  143:86  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/features/chat/hooks/useRoomMessages.ts
+  86:16  error  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/features/chat/hooks/useRooms.ts
+  46:6  warning  React Hook useEffect has a missing dependency: 'refresh'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/hooks/useNotifications.ts
+  239:6  warning  React Hook useCallback has an unnecessary dependency: 'load'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/hooks/useWebSocketEvents.ts
+   60:37  warning  Delete `,`     prettier/prettier
+  111:1   warning  Delete `····`  prettier/prettier
+  213:15  warning  Delete `,`     prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/FullScreenSection/index.jsx
+  10:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/MegaMenuSection/index.jsx
+  29:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/MobileSection/index.jsx
+  17:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/NotificationSection/NotificationList.jsx
+  21:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/NotificationSection/index.jsx
+  26:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/ProfileSection/index.jsx
+  36:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/SearchSection/index.jsx
+  21:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/Header/index.tsx
+  5:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/MenuList/NavCollapse/index.tsx
+  27:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/layout/MainLayout/MenuList/NavGroup/index.tsx
+  40:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/lib/api.ts
+   4:3   warning  Delete `·`   prettier/prettier
+  13:61  warning  Delete `,`   prettier/prettier
+  18:1   warning  Delete `⏎⏎`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/menu-items/other.js
+  2:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/menu-items/pages.js
+  2:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/menu-items/sample-page.js
+  4:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/menu-items/sample-page.ts
+  4:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/analytics/AnalyticsPage.tsx
+  19:9  warning  The 'filters' object makes the dependencies of useEffect Hook (at line 34) change on every render. To fix this, wrap the initialization of 'filters' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  26:3  warning  Delete `··`                                                                                                                                                                     prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/auth/LoginPage.tsx
+    3:9   warning  Replace `⏎··Box,⏎··Card,⏎··CardContent,⏎··TextField,⏎··Button,⏎··Typography,⏎··Alert,⏎··Link,⏎` with `·Box,·Card,·CardContent,·TextField,·Button,·Typography,·Alert,·Link·`          prettier/prettier
+   29:31  warning  Replace ``${import.meta.env.VITE_API_URL·||·'http://localhost:3000'}/auth/login`,` with `⏎········`${import.meta.env.VITE_API_URL·||·'http://localhost:3000'}/auth/login`,⏎·······`  prettier/prettier
+   30:1   warning  Insert `··`                                                                                                                                                                          prettier/prettier
+   31:1   warning  Insert `··`                                                                                                                                                                          prettier/prettier
+   32:9   warning  Replace `body:·JSON.stringify({·email,·password·}),` with `··body:·JSON.stringify({·email,·password·})`                                                                              prettier/prettier
+   33:1   warning  Replace `······}` with `········}⏎······`                                                                                                                                            prettier/prettier
+   66:28  warning  Delete `,`                                                                                                                                                                           prettier/prettier
+  135:1   warning  Delete `⏎`                                                                                                                                                                           prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/companies/Company360Page.tsx
+  15:18  error  '_orgId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/companies/CompanyDetailPage.tsx
+  43:18  error    '_orgId' is assigned a value but never used                                                                                                        @typescript-eslint/no-unused-vars
+  57:6   warning  React Hook useEffect has missing dependencies: 'loadCompany', 'loadContacts', and 'loadDeals'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/contacts/ContactDetailPage.tsx
+  83:6  warning  React Hook useEffect has missing dependencies: 'loadActivities' and 'loadContact'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/contacts/ContactsListPage.tsx
+  106:6   warning  React Hook useEffect has a missing dependency: 'loadContacts'. Either include it or remove the dependency array                           react-hooks/exhaustive-deps
+  106:43  warning  React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked  react-hooks/exhaustive-deps
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/pages/settings/PipelinesPage.tsx
+  59:10  error  '_loading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/companies.service.ts
+   1:22  warning  Replace `"../lib/http"` with `'../lib/http'`                      prettier/prettier
+   2:75  warning  Replace `"../types/company"` with `'../types/company'`            prettier/prettier
+   4:50  warning  Replace `"http://localhost:3000"` with `'http://localhost:3000'`  prettier/prettier
+  21:1   warning  Delete `⏎`                                                        prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/deals.service.ts
+   29:1   warning  Delete `··`                                                                                                                                                                                             prettier/prettier
+   34:1   warning  Delete `··`                                                                                                                                                                                             prettier/prettier
+   39:1   warning  Delete `··`                                                                                                                                                                                             prettier/prettier
+   44:1   warning  Delete `··`                                                                                                                                                                                             prettier/prettier
+   58:34  warning  Delete `,`                                                                                                                                                                                              prettier/prettier
+   85:34  warning  Delete `,`                                                                                                                                                                                              prettier/prettier
+   94:20  warning  Replace `Pick<Deal,·'name'·|·'amountCents'·|·'stageId'·|·'companyId'·|·'contactId'·|·'ownerId'>` with `⏎····Pick<Deal,·'name'·|·'amountCents'·|·'stageId'·|·'companyId'·|·'contactId'·|·'ownerId'>⏎··`  prettier/prettier
+   98:34  warning  Delete `,`                                                                                                                                                                                              prettier/prettier
+  107:21  warning  Delete `,`                                                                                                                                                                                              prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/services/savedViews.service.ts
+  10:12  warning  Delete `,`                                                                                                                                                                                                        prettier/prettier
+  31:20  warning  Replace `·name:·string;·filters:·AnalyticsFilters;·isDefault?:·boolean;·isShared?:·boolean` with `⏎····name:·string;⏎····filters:·AnalyticsFilters;⏎····isDefault?:·boolean;⏎····isShared?:·boolean;⏎·`           prettier/prettier
+  34:10  warning  Replace `id:·string,·payload:·Partial<Pick<SavedView,·'name'|'filters'|'isDefault'|'isShared'>>` with `⏎····id:·string,⏎····payload:·Partial<Pick<SavedView,·'name'·|·'filters'·|·'isDefault'·|·'isShared'>>⏎··`  prettier/prettier
+  39:4   warning  Delete `,`                                                                                                                                                                                                        prettier/prettier
+  41:1   warning  Delete `⏎`                                                                                                                                                                                                        prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/ActivityTimeline/ActivityTimeline.tsx
+  13:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/Attachments/AttachmentUploader.tsx
+  28:27  error  'EntityIdentifier' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/ExportMenu.tsx
+  3:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/FilterPanel/FilterPanel.tsx
+   14:13  warning  Delete `,`                                                                                                                       prettier/prettier
+   17:1   error    '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+   60:15  warning  Delete `,`                                                                                                                       prettier/prettier
+  116:30  warning  Delete `,`                                                                                                                       prettier/prettier
+  132:40  warning  Delete `,`                                                                                                                       prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/Loadable.tsx
+  1:1  warning  Delete `⏎`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/Loader.tsx
+   1:1   warning  Delete `⏎`  prettier/prettier
+  27:14  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/Locales.tsx
+  29:20  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/RTLLayout.tsx
+  16:29  warning  Delete `,`  prettier/prettier
+  20:13  warning  Delete `,`  prettier/prettier
+  25:30  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/cards/SubCard.tsx
+  41:12  warning  Delete `,`  prettier/prettier
+  58:67  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/extended/AnimateButton.tsx
+  1:1  warning  Delete `⏎`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/extended/Breadcrumbs.tsx
+  1:1  warning  Delete `⏎`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/extended/Form/CustomFormControl.tsx
+  1:1   warning  Delete `⏎`  prettier/prettier
+  8:35  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/extended/Snackbar.tsx
+  25:7   warning  Delete `,`  prettier/prettier
+  92:82  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/icons/index.js
+  44:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+  45:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+  46:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+  47:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+  48:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+  49:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+  50:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/third-party/Notistack.tsx
+   5:1   error    '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+   9:21  warning  Delete `,`                                                                                                                       prettier/prettier
+  28:54  warning  Delete `,`                                                                                                                       prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/ui-component/third-party/SimpleBar.tsx
+   1:1   warning  Delete `⏎`                                                                                                                                              prettier/prettier
+  19:21  warning  Delete `,`                                                                                                                                              prettier/prettier
+  26:49  warning  Delete `,`                                                                                                                                              prettier/prettier
+  30:45  warning  Delete `,`                                                                                                                                              prettier/prettier
+  33:58  warning  Insert `⏎·`                                                                                                                                             prettier/prettier
+  34:1   warning  Insert `··`                                                                                                                                             prettier/prettier
+  35:1   warning  Insert `··`                                                                                                                                             prettier/prettier
+  46:37  warning  Replace `⏎············theme.direction·===·ThemeDirection.RTL·?·'rtl'·:·'ltr'⏎··········` with `theme.direction·===·ThemeDirection.RTL·?·'rtl'·:·'ltr'`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/analytics/PnLAnalytics.backup.tsx
+   27:15  warning  Delete `,`                                                                                                                       prettier/prettier
+   30:1   error    '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+   38:18  warning  Delete `,`                                                                                                                       prettier/prettier
+   49:29  warning  Delete `,`                                                                                                                       prettier/prettier
+  143:12  warning  Delete `,`                                                                                                                       prettier/prettier
+  157:25  warning  Delete `,`                                                                                                                       prettier/prettier
+  281:53  warning  Delete `,`                                                                                                                       prettier/prettier
+  595:49  warning  Delete `,`                                                                                                                       prettier/prettier
+  628:49  warning  Delete `,`                                                                                                                       prettier/prettier
+  661:49  warning  Delete `,`                                                                                                                       prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/analytics/PnLAnalytics.tsx
+   25:15  warning  Delete `,`                                                                                                                       prettier/prettier
+   28:1   error    '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+   36:18  warning  Delete `,`                                                                                                                       prettier/prettier
+   47:29  warning  Delete `,`                                                                                                                       prettier/prettier
+  135:12  warning  Delete `,`                                                                                                                       prettier/prettier
+  148:25  warning  Delete `,`                                                                                                                       prettier/prettier
+  206:53  warning  Delete `,`                                                                                                                       prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/analytics/PnLAnalyticsNew.tsx
+   25:15  warning  Delete `,`                                                                                                                       prettier/prettier
+   28:1   error    '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+   36:18  warning  Delete `,`                                                                                                                       prettier/prettier
+   47:29  warning  Delete `,`                                                                                                                       prettier/prettier
+  135:12  warning  Delete `,`                                                                                                                       prettier/prettier
+  148:25  warning  Delete `,`                                                                                                                       prettier/prettier
+  206:53  warning  Delete `,`                                                                                                                       prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/deals/DealDetail.tsx
+   47:19  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+   74:23  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+   81:58  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+   97:62  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  104:75  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  110:80  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  122:9   warning  The 'handleMarkClosedWon' function makes the dependencies of useMemo Hook (at line 361) change on every render. Move it inside the useMemo callback. Alternatively, wrap the definition of 'handleMarkClosedWon' in its own useCallback() Hook  react-hooks/exhaustive-deps
+  137:38  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  150:61  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  151:10  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  165:9   warning  The 'handleMarkLost' function makes the dependencies of useMemo Hook (at line 361) change on every render. Move it inside the useMemo callback. Alternatively, wrap the definition of 'handleMarkLost' in its own useCallback() Hook            react-hooks/exhaustive-deps
+  180:34  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  192:32  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  193:10  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+  351:84  warning  Delete `,`                                                                                                                                                                                                                                      prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/leads/LeadDetail.tsx
+   35:19  warning  Delete `,`  prettier/prettier
+   67:23  warning  Delete `,`  prettier/prettier
+   74:58  warning  Delete `,`  prettier/prettier
+   90:62  warning  Delete `,`  prettier/prettier
+   97:75  warning  Delete `,`  prettier/prettier
+  103:80  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/notifications/Notifications.tsx
+  25:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/notifications/NotificationsNew.tsx
+  26:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/analytics/AnalyticsDashboard.tsx
+  704:56  error  Parsing error: Expression expected
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/AuthCardWrapper.tsx
+  23:27  warning  Delete `,`  prettier/prettier
+  24:10  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/ForgotPassword.tsx
+   44:72  warning  Insert `⏎···`  prettier/prettier
+   88:27  warning  Delete `,`     prettier/prettier
+  129:37  warning  Delete `,`     prettier/prettier
+  130:20  warning  Delete `,`     prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/Login.tsx
+   28:53  warning  Delete `,`                                                                                                                                                      prettier/prettier
+   58:27  warning  Insert `⏎············`                                                                                                                                          prettier/prettier
+  104:40  warning  Replace `⏎··················{AuthLoginComponent·?·<AuthLoginComponent·/>·:·null}⏎················` with `{AuthLoginComponent·?·<AuthLoginComponent·/>·:·null}`  prettier/prettier
+  131:61  warning  Delete `,`                                                                                                                                                      prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/LoginProvider.tsx
+   35:38  warning  Delete `,`                                                                                                                                                                   prettier/prettier
+   43:25  warning  Delete `,`                                                                                                                                                                   prettier/prettier
+   58:75  warning  Replace `⏎······?·lower⏎·····` with `·?·lower`                                                                                                                               prettier/prettier
+   74:38  warning  Replace `['jwt',·'firebase',·'auth0',·'aws',·'supabase']·as·ProviderKey[]).map(⏎····` with `⏎····['jwt',·'firebase',·'auth0',·'aws',·'supabase']·as·ProviderKey[]⏎··).map(`  prettier/prettier
+   76:1   warning  Replace `······` with `····`                                                                                                                                                 prettier/prettier
+   77:1   warning  Delete `··`                                                                                                                                                                  prettier/prettier
+   78:1   warning  Replace `······url:·appAuthKey·===·name·?·'/login'·:·buildLoginUrl(name),` with `····url:·appAuthKey·===·name·?·'/login'·:·buildLoginUrl(name)`                              prettier/prettier
+   79:1   warning  Replace `····})⏎··` with `··})`                                                                                                                                              prettier/prettier
+   97:41  warning  Delete `,`                                                                                                                                                                   prettier/prettier
+   98:10  warning  Delete `,`                                                                                                                                                                   prettier/prettier
+  109:65  warning  Delete `,`                                                                                                                                                                   prettier/prettier
+  110:16  warning  Delete `,`                                                                                                                                                                   prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/Register.tsx
+  125:37  warning  Delete `,`  prettier/prettier
+  126:20  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/ViewOnlyAlert.tsx
+  15:75  warning  Delete `,`           prettier/prettier
+  42:27  warning  Delete `,`           prettier/prettier
+  43:10  warning  Delete `,`           prettier/prettier
+  49:93  warning  Insert `⏎·········`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/aws/AuthLogin.jsx
+  140:16  warning  Replace `·container·columns={12}·sx={{·alignItems:·'center',·justifyContent:·'space-between'·}}` with `⏎············container⏎············columns={12}⏎············sx={{·alignItems:·'center',·justifyContent:·'space-between'·}}⏎··········`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/aws/AuthResetPassword.jsx
+  35:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/firebase/AuthResetPassword.tsx
+  201:23  warning  Replace `⏎····················sx={{·width:·85,·height:·8,·borderRadius:·'7px',·bgcolor:·level?.color·}}⏎·················` with `·sx={{·width:·85,·height:·8,·borderRadius:·'7px',·bgcolor:·level?.color·}}`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/jwt/AuthLogin.jsx
+  140:16  warning  Replace `·container·columns={12}·sx={{·alignItems:·'center',·justifyContent:·'space-between'·}}` with `⏎············container⏎············columns={12}⏎············sx={{·alignItems:·'center',·justifyContent:·'space-between'·}}⏎··········`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/authentication/supabase/AuthLogin.jsx
+  140:16  warning  Replace `·container·columns={12}·sx={{·alignItems:·'center',·justifyContent:·'space-between'·}}` with `⏎············container⏎············columns={12}⏎············sx={{·alignItems:·'center',·justifyContent:·'space-between'·}}⏎··········`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/companies/CompaniesListPage.tsx
+   18:28  warning  Delete `,`  prettier/prettier
+   35:19  warning  Delete `,`  prettier/prettier
+   59:36  warning  Delete `,`  prettier/prettier
+   64:17  warning  Delete `,`  prettier/prettier
+   90:56  warning  Delete `,`  prettier/prettier
+  102:31  warning  Delete `,`  prettier/prettier
+  116:54  warning  Delete `,`  prettier/prettier
+  139:25  warning  Delete `,`  prettier/prettier
+  148:23  warning  Delete `,`  prettier/prettier
+  168:10  warning  Delete `,`  prettier/prettier
+  179:10  warning  Delete `,`  prettier/prettier
+  190:10  warning  Delete `,`  prettier/prettier
+  202:12  warning  Delete `,`  prettier/prettier
+  213:10  warning  Delete `,`  prettier/prettier
+  247:10  warning  Delete `,`  prettier/prettier
+  248:8   warning  Delete `,`  prettier/prettier
+  273:44  warning  Delete `,`  prettier/prettier
+  287:18  warning  Delete `,`  prettier/prettier
+  288:16  warning  Delete `,`  prettier/prettier
+  296:67  warning  Delete `,`  prettier/prettier
+  342:43  warning  Delete `,`  prettier/prettier
+  343:16  warning  Delete `,`  prettier/prettier
+  353:59  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/contacts/ContactsListPage.tsx
+   18:28  warning  Delete `,`  prettier/prettier
+   35:19  warning  Delete `,`  prettier/prettier
+   67:36  warning  Delete `,`  prettier/prettier
+   72:17  warning  Delete `,`  prettier/prettier
+   98:48  warning  Delete `,`  prettier/prettier
+  110:31  warning  Delete `,`  prettier/prettier
+  124:54  warning  Delete `,`  prettier/prettier
+  147:25  warning  Delete `,`  prettier/prettier
+  156:23  warning  Delete `,`  prettier/prettier
+  176:10  warning  Delete `,`  prettier/prettier
+  182:22  warning  Delete `,`  prettier/prettier
+  193:10  warning  Delete `,`  prettier/prettier
+  204:10  warning  Delete `,`  prettier/prettier
+  216:12  warning  Delete `,`  prettier/prettier
+  227:10  warning  Delete `,`  prettier/prettier
+  261:10  warning  Delete `,`  prettier/prettier
+  262:8   warning  Delete `,`  prettier/prettier
+  287:44  warning  Delete `,`  prettier/prettier
+  300:16  warning  Delete `,`  prettier/prettier
+  308:67  warning  Delete `,`  prettier/prettier
+  355:43  warning  Delete `,`  prettier/prettier
+  356:16  warning  Delete `,`  prettier/prettier
+  366:59  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/deals/DealEditPage.tsx
+   59:39  warning  Delete `,`  prettier/prettier
+   78:40  warning  Delete `,`  prettier/prettier
+  100:85  warning  Delete `,`  prettier/prettier
+  150:58  warning  Delete `,`  prettier/prettier
+  165:62  warning  Delete `,`  prettier/prettier
+  172:75  warning  Delete `,`  prettier/prettier
+  178:80  warning  Delete `,`  prettier/prettier
+  267:18  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/deals/DealsListPage.tsx
+   17:28  warning  Delete `,`                                                            prettier/prettier
+   33:20  warning  Delete `,`                                                            prettier/prettier
+   56:19  warning  Delete `,`                                                            prettier/prettier
+   80:18  warning  Delete `,`                                                            prettier/prettier
+   85:20  warning  Delete `,`                                                            prettier/prettier
+   97:53  warning  Delete `,`                                                            prettier/prettier
+   98:6   warning  Delete `,`                                                            prettier/prettier
+  108:45  warning  Delete `,`                                                            prettier/prettier
+  109:6   warning  Delete `,`                                                            prettier/prettier
+  110:4   warning  Delete `,`                                                            prettier/prettier
+  147:37  warning  Delete `,`                                                            prettier/prettier
+  167:36  warning  Delete `,`                                                            prettier/prettier
+  172:17  warning  Delete `,`                                                            prettier/prettier
+  216:48  warning  Delete `,`                                                            prettier/prettier
+  220:89  warning  Delete `,`                                                            prettier/prettier
+  234:14  error    'error' is already declared in the upper scope on line 171 column 33  @typescript-eslint/no-shadow
+  249:14  error    'error' is already declared in the upper scope on line 171 column 33  @typescript-eslint/no-shadow
+  258:48  warning  Delete `,`                                                            prettier/prettier
+  270:31  warning  Delete `,`                                                            prettier/prettier
+  284:54  warning  Delete `,`                                                            prettier/prettier
+  315:22  warning  Delete `,`                                                            prettier/prettier
+  334:22  warning  Delete `,`                                                            prettier/prettier
+  358:26  warning  Delete `,`                                                            prettier/prettier
+  373:26  warning  Delete `,`                                                            prettier/prettier
+  390:10  warning  Delete `,`                                                            prettier/prettier
+  402:10  warning  Delete `,`                                                            prettier/prettier
+  414:10  warning  Delete `,`                                                            prettier/prettier
+  426:10  warning  Delete `,`                                                            prettier/prettier
+  438:10  warning  Delete `,`                                                            prettier/prettier
+  450:10  warning  Delete `,`                                                            prettier/prettier
+  473:10  warning  Delete `,`                                                            prettier/prettier
+  485:10  warning  Delete `,`                                                            prettier/prettier
+  494:10  warning  Delete `,`                                                            prettier/prettier
+  507:10  warning  Delete `,`                                                            prettier/prettier
+  518:10  warning  Delete `,`                                                            prettier/prettier
+  529:10  warning  Delete `,`                                                            prettier/prettier
+  540:10  warning  Delete `,`                                                            prettier/prettier
+  574:10  warning  Delete `,`                                                            prettier/prettier
+  575:8   warning  Delete `,`                                                            prettier/prettier
+  589:44  warning  Delete `,`                                                            prettier/prettier
+  603:18  warning  Delete `,`                                                            prettier/prettier
+  604:16  warning  Delete `,`                                                            prettier/prettier
+  612:67  warning  Delete `,`                                                            prettier/prettier
+  686:43  warning  Delete `,`                                                            prettier/prettier
+  687:16  warning  Delete `,`                                                            prettier/prettier
+  697:59  warning  Delete `,`                                                            prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/leads/LeadEditPage.tsx
+   55:33  warning  Delete `,`  prettier/prettier
+   73:28  warning  Delete `,`  prettier/prettier
+   94:67  warning  Delete `,`  prettier/prettier
+  144:58  warning  Delete `,`  prettier/prettier
+  159:62  warning  Delete `,`  prettier/prettier
+  166:75  warning  Delete `,`  prettier/prettier
+  172:80  warning  Delete `,`  prettier/prettier
+  261:18  warning  Delete `,`  prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/leads/LeadsListPage.tsx
+   38:20  warning  Delete `,`                                                                                                                                           prettier/prettier
+   47:23  warning  Delete `,`                                                                                                                                           prettier/prettier
+   67:19  warning  Delete `,`                                                                                                                                           prettier/prettier
+   78:18  warning  Delete `,`                                                                                                                                           prettier/prettier
+   83:19  warning  Delete `,`                                                                                                                                           prettier/prettier
+   95:53  warning  Delete `,`                                                                                                                                           prettier/prettier
+   96:6   warning  Delete `,`                                                                                                                                           prettier/prettier
+  108:43  warning  Delete `,`                                                                                                                                           prettier/prettier
+  109:6   warning  Delete `,`                                                                                                                                           prettier/prettier
+  110:4   warning  Delete `,`                                                                                                                                           prettier/prettier
+  143:35  warning  Delete `,`                                                                                                                                           prettier/prettier
+  160:36  warning  Delete `,`                                                                                                                                           prettier/prettier
+  165:17  warning  Delete `,`                                                                                                                                           prettier/prettier
+  195:54  warning  Delete `,`                                                                                                                                           prettier/prettier
+  207:31  warning  Delete `,`                                                                                                                                           prettier/prettier
+  222:54  warning  Delete `,`                                                                                                                                           prettier/prettier
+  251:22  warning  Delete `,`                                                                                                                                           prettier/prettier
+  270:22  warning  Delete `,`                                                                                                                                           prettier/prettier
+  293:25  warning  Delete `,`                                                                                                                                           prettier/prettier
+  309:25  warning  Delete `,`                                                                                                                                           prettier/prettier
+  326:10  warning  Delete `,`                                                                                                                                           prettier/prettier
+  338:10  warning  Delete `,`                                                                                                                                           prettier/prettier
+  350:10  warning  Delete `,`                                                                                                                                           prettier/prettier
+  362:10  warning  Delete `,`                                                                                                                                           prettier/prettier
+  374:10  warning  Delete `,`                                                                                                                                           prettier/prettier
+  386:10  warning  Delete `,`                                                                                                                                           prettier/prettier
+  413:44  warning  Replace `·(value·===·null·||·value·===·undefined·?·'—'·:·`${value}%`),` with `⏎··········value·===·null·||·value·===·undefined·?·'—'·:·`${value}%``  prettier/prettier
+  415:89  warning  Delete `,`                                                                                                                                           prettier/prettier
+  429:14  error    'error' is already declared in the upper scope on line 164 column 33                                                                                 @typescript-eslint/no-shadow
+  444:14  error    'error' is already declared in the upper scope on line 164 column 33                                                                                 @typescript-eslint/no-shadow
+  470:44  warning  Delete `,`                                                                                                                                           prettier/prettier
+  484:18  warning  Delete `,`                                                                                                                                           prettier/prettier
+  485:16  warning  Delete `,`                                                                                                                                           prettier/prettier
+  493:67  warning  Delete `,`                                                                                                                                           prettier/prettier
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/views/pages/maintenance/ComingSoon/ComingSoon1/index.jsx
+  26:1  error  '@tabler/icons-react' import is restricted from being used. Use @mui/icons-material for consistency. Import specific icons only  no-restricted-imports
+
+✖ 334 problems (44 errors, 290 warnings)
+  0 errors and 278 warnings potentially fixable with the `--fix` option.
+
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  traffic-crm-frontend-ts@1.0.0 lint: `eslint "src/**/*.{js,jsx,ts,tsx}"`
+Exit status 1
+[31m✖[0m lint failed
+[34mℹ[0m Running typecheck…
+
+> traffic-crm-frontend-ts@1.0.0 typecheck /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend
+> tsc --noEmit
+
+src/views/pages/analytics/AnalyticsDashboard.tsx(704,57): error TS1109: Expression expected.
+src/views/pages/analytics/AnalyticsDashboard.tsx(746,57): error TS1109: Expression expected.
+/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  traffic-crm-frontend-ts@1.0.0 typecheck: `tsc --noEmit`
+Exit status 2
+[31m✖[0m typecheck failed
+[34mℹ[0m Running unit tests…
+
+> traffic-crm-frontend-ts@1.0.0 test:unit /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend
+> vitest run -- --reporter=verbose
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v1.6.1 /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend
+
+ ✓ src/contexts/jwt-helpers.test.ts  (9 tests) 4ms
+stderr | src/utils/attribution.test.ts > attribution > getAttributionPayload > should handle malformed sessionStorage data gracefully
+[Attribution] Failed to parse attribution payload: SyntaxError: Unexpected token 'i', "invalid-json" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at Module.getAttributionPayload (/Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/utils/attribution.ts:156:17)
+    at /Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/apps/frontend/src/utils/attribution.test.ts:159:23
+    at file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:135:14
+    at file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:60:26
+    at runTest (file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:781:17)
+    at runSuite (file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runSuite (file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:909:15)
+    at runFiles (file:///Users/kguermene/Desktop/traffic-crm-frontend-ts_20251018_055516/node_modules/.pnpm/@vitest+runner@1.6.1/node_modules/@vitest/runner/dist/index.js:958:5)
+
+ ✓ src/utils/attribution.test.ts  (21 tests) 9ms
+ ✓ src/hooks/useAttachments.test.tsx  (1 test) 14ms
+ ✓ src/hooks/useWebSocketEvents.test.ts  (9 tests) 33ms
+ ✓ src/hooks/useComments.test.tsx  (1 test) 18ms
+stderr | src/contexts/JWTContext.test.tsx > JWTProvider > logs in and stores session details
+`ReactDOMTestUtils.act` is deprecated in favor of `React.act`. Import `act` from `react` instead of `react-dom/test-utils`. See https://react.dev/warnings/react-dom-test-utils for more info.
+
+ ✓ src/contexts/JWTContext.test.tsx  (1 test) 15ms
+ ✓ src/views/pages/analytics/transformers.test.ts  (3 tests) 13ms
+ ↓ tests/unit/useUrlState.test.ts  (1 test | 1 skipped)
+ ✓ src/utils/__tests__/smoke.test.ts  (1 test) 2ms
+ ✓ src/views/deals/ClosedWonModal.test.tsx  (7 tests) 1111ms
+stderr | src/views/deals/DealDetail.test.tsx > DealDetail page > renders summary tab with fetched deal data
+[useJourneyEvents] Load failed: Wrong Services
+
+ ✓ src/views/deals/DealDetail.test.tsx  (1 test) 111ms
+ ✓ src/views/notifications/Notifications.test.tsx  (13 tests) 1598ms
+stderr | src/ui-component/deals/LostReasonModal.test.tsx > LostReasonModal > resets state when closed
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to LostReasonModal inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to LostReasonModal inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to ForwardRef(FormControl) inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+A component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:
+
+await act(() => ...)
+
+ ✓ src/ui-component/deals/LostReasonModal.test.tsx  (9 tests) 3311ms
+
+ Test Files  12 passed | 1 skipped (13)
+      Tests  76 passed | 1 skipped (77)
+   Start at  19:59:04
+   Duration  4.69s (transform 455ms, setup 1.78s, collect 4.50s, tests 6.24s, environment 5.06s, prepare 1.15s)
+
+[32m✔[0m unit tests passed
+
+[31m✖[0m Verification finished with 2 failure(s).
+Fix the items marked ✖ and re-run: bash scripts/verify-frontend.sh

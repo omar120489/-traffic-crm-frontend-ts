@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 
 // assets
-import { IconArrowsMaximize, IconArrowsMinimize } from '@tabler/icons-react';
+import { IconArrowsMaximize, IconArrowsMinimize } from '@/icons';
 
 // ==============================|| HEADER CONTENT - FULLSCREEN ||============================== //
 

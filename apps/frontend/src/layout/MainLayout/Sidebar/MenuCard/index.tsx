@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { memo } from 'react';
 
 // material-ui
@@ -17,9 +16,18 @@ import Box from '@mui/material/Box';
 // assets
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 
+// TypeScript interfaces
+interface LinearProgressWithLabelProps {
+  readonly value: number;
+  readonly [key: string]: unknown;
+}
+
 // ==============================|| PROGRESS BAR WITH LABEL ||============================== //
 
-function LinearProgressWithLabel({ value, ...others }) {
+function LinearProgressWithLabel({
+  value,
+  ...others
+}: LinearProgressWithLabelProps): React.JSX.Element {
   const theme = useTheme();
 
   return (
@@ -49,7 +57,7 @@ function LinearProgressWithLabel({ value, ...others }) {
           },
           [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 5,
-            bgcolor: 'primary.dark'
+            bgcolor: 'primary.main'
           }
         }}
       />
@@ -57,9 +65,9 @@ function LinearProgressWithLabel({ value, ...others }) {
   );
 }
 
-// ==============================|| SIDEBAR - MENU CARD ||============================== //
+// ==============================|| SIDEBAR MENU Card ||============================== //
 
-function MenuCard() {
+function MenuCard(): React.JSX.Element {
   const theme = useTheme();
 
   return (
@@ -72,51 +80,49 @@ function MenuCard() {
         '&:after': {
           content: '""',
           position: 'absolute',
-          width: 157,
-          height: 157,
-          bgcolor: 'primary.200',
+          width: 210,
+          height: 210,
+          background: `linear-gradient(210.04deg, ${theme.palette.primary[200]} -50%, transparent 50%)`,
           borderRadius: '50%',
-          top: -105,
-          right: -96
+          top: -30,
+          right: -180
         },
-
-        ...theme.applyStyles('dark', { bgcolor: 'dark.main', '&:after': { bgcolor: 'dark.dark' } })
+        '&:before': {
+          content: '""',
+          position: 'absolute',
+          width: 210,
+          height: 210,
+          background: `linear-gradient(140.9deg, ${theme.palette.primary[200]} -14%, transparent 70%)`,
+          borderRadius: '50%',
+          top: -160,
+          right: -130
+        }
       }}
     >
       <Box sx={{ p: 2 }}>
-        <List disablePadding sx={{ pb: 1 }}>
-          <ListItem alignItems="flex-start" disableGutters disablePadding>
+        <List sx={{ p: 0, m: 0 }}>
+          <ListItem alignItems="flex-start" disableGutters sx={{ p: 0 }}>
             <ListItemAvatar sx={{ mt: 0 }}>
               <Avatar
                 variant="rounded"
                 sx={{
+                  ...theme.typography.commonAvatar,
                   ...theme.typography.largeAvatar,
-                  borderRadius: 2,
-                  color: 'primary.main',
-                  border: 'none',
-                  bgcolor: 'background.paper',
-                  ...theme.applyStyles('dark', {
-                    border: '1px solid',
-                    borderColor: 'primary.main'
-                  })
+                  bgcolor: 'primary.800',
+                  color: 'primary.200'
                 }}
               >
                 <TableChartOutlinedIcon fontSize="inherit" />
               </Avatar>
             </ListItemAvatar>
             <ListItemText
-              sx={{ mt: 0 }}
-              primary={
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    color: 'primary.800',
-                    ...theme.applyStyles('dark', { color: 'dark.light' })
-                  }}
-                >
-                  Get Extra Space
-                </Typography>
-              }
+              sx={{
+                mt: 0,
+                mb: 0,
+                '& .MuiListItemText-primary': { color: 'primary.800' },
+                '& .MuiListItemText-secondary': { color: 'primary.800', mt: 0.25 }
+              }}
+              primary={<Typography variant="subtitle1">Berry Dashboard</Typography>}
               secondary={<Typography variant="caption"> 28/23 GB</Typography>}
             />
           </ListItem>
@@ -128,5 +134,3 @@ function MenuCard() {
 }
 
 export default memo(MenuCard);
-
-LinearProgressWithLabel.propTypes = { value: PropTypes.number, others: PropTypes.any };

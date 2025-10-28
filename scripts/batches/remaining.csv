@@ -1,0 +1,9 @@
+apps/frontend,apps/frontend/src/layout/MainLayout/Header/MegaMenuSection/index.jsx,2
+apps/frontend,apps/frontend/src/layout/MainLayout/Header/SearchSection/index.jsx,3
+apps/frontend,apps/frontend/src/layout/MainLayout/HorizontalBar.jsx,2
+apps/frontend,apps/frontend/src/layout/MainLayout/Sidebar/MenuCard/index.jsx,2
+apps/frontend,apps/frontend/src/layout/NavMotion.jsx,2
+apps/frontend,apps/frontend/src/views/pages/authentication/jwt/AuthForgotPassword.jsx,2
+apps/frontend,apps/frontend/src/views/pages/authentication/jwt/AuthResetPassword.jsx,2
+apps/frontend,apps/frontend/src/views/pages/maintenance/ComingSoon/ComingSoon1/Slider.jsx,3
+folder,file,occurrences

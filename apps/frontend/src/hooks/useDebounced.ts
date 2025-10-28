@@ -21,7 +21,10 @@ export function useDebounced<T>(value: T, delay = 300): T {
  * useDebouncedCallback
  * Stable callback that runs after `delay` ms since the last call.
  */
-export function useDebouncedCallback<Args extends any[]>(cb: (...args: Args) => void, delay = 300) {
+export function useDebouncedCallback<Args extends unknown[]>(
+  cb: (...args: Args) => void,
+  delay = 300
+) {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callback = useRef(cb);
   callback.current = cb;

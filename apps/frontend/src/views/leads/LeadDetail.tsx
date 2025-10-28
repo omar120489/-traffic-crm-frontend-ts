@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/GridLegacy';
+import Grid from '@mui/material/Grid';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
@@ -135,7 +135,7 @@ export default function LeadDetail(): ReactElement {
 
     return (
       <Grid container spacing={2}>
-        <Grid xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+        <Grid sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }} size={{ xs: 12 }}>
           <Typography variant="h4">
             {lead.firstName} {lead.lastName}
           </Typography>
@@ -144,63 +144,63 @@ export default function LeadDetail(): ReactElement {
           </Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Email
           </Typography>
           <Typography variant="body1">{lead.email}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Phone
           </Typography>
           <Typography variant="body1">{lead.phone ?? '—'}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Company
           </Typography>
           <Typography variant="body1">{lead.company ?? '—'}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Grid sx={{ display: 'flex', flexDirection: 'column', gap: 1 }} size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Status
           </Typography>
           <Chip label={lead.status ?? '—'} color={statusColor} size="small" />
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Source
           </Typography>
           <Typography variant="body1">{lead.source ?? '—'}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Lead Score
           </Typography>
           <Typography variant="body1">{formatScore(lead.score)}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Owner
           </Typography>
           <Typography variant="body1">{lead.ownerId}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Updated At
           </Typography>
           <Typography variant="body1">{formatDate(lead.updatedAt)}</Typography>
         </Grid>
 
-        <Grid xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Notes
           </Typography>

@@ -2,10 +2,12 @@ import type { Theme } from '@mui/material/styles';
 
 type DataGridOverrides = {
   MuiDataGrid: {
-    styleOverrides: {
+    slotProps: {
       root: {
-        '& .MuiDataGrid-columnSeparator': {
-          color: string;
+        sx: {
+          '& .MuiDataGrid-columnSeparator': {
+            color: string;
+          };
         };
       };
     };
@@ -15,9 +17,11 @@ type DataGridOverrides = {
 export default function DataGrid(theme: Theme): DataGridOverrides {
   return {
     MuiDataGrid: {
-      styleOverrides: {
+      slotProps: {
         root: {
-          '& .MuiDataGrid-columnSeparator': { color: theme.palette.grey[300] }
+          sx: {
+            '& .MuiDataGrid-columnSeparator': { color: theme.palette.grey[300] }
+          }
         }
       }
     }

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 // material-ui
 import { useColorScheme } from '@mui/material/styles';
 import CardMedia from '@mui/material/CardMedia';
@@ -17,15 +16,30 @@ import imageDarkSlider2 from 'assets/images/landing/pre-apps/slider-dark-2.png';
 import imageLightSlider3 from 'assets/images/landing/pre-apps/slider-light-3.png';
 import imageDarkSlider3 from 'assets/images/landing/pre-apps/slider-dark-3.png';
 
+// TypeScript interfaces
+interface SliderItem {
+  readonly image: string;
+}
+
+interface ItemProps {
+  readonly item: SliderItem;
+}
+
+interface ComingSoonSliderProps {
+  readonly handleClickOpen: (index: number) => void;
+}
+
 // ================================|| SLIDER - ITEMS ||================================ //
 
-function Item({ item }) {
+function Item({ item }: ItemProps): React.JSX.Element {
   return <CardMedia component="img" image={item.image} title="Slider5 image" />;
 }
 
 // ================================|| SLIDER ||================================ //
 
-export default function ComingSoonSlider({ handleClickOpen }) {
+export default function ComingSoonSlider({
+  handleClickOpen
+}: ComingSoonSliderProps): React.JSX.Element {
   const settings = {
     autoplay: true,
     arrows: false,
@@ -41,7 +55,11 @@ export default function ComingSoonSlider({ handleClickOpen }) {
   const imageSlider2 = colorScheme === ThemeMode.DARK ? imageDarkSlider2 : imageLightSlider2;
   const imageSlider3 = colorScheme === ThemeMode.DARK ? imageDarkSlider3 : imageLightSlider3;
 
-  const items = [{ image: imageSlider1 }, { image: imageSlider2 }, { image: imageSlider3 }];
+  const items: SliderItem[] = [
+    { image: imageSlider1 },
+    { image: imageSlider2 },
+    { image: imageSlider3 }
+  ];
 
   return (
     <Slider {...settings}>
@@ -59,7 +77,3 @@ export default function ComingSoonSlider({ handleClickOpen }) {
     </Slider>
   );
 }
-
-Item.propTypes = { item: PropTypes.object };
-
-ComingSoonSlider.propTypes = { handleClickOpen: PropTypes.func };

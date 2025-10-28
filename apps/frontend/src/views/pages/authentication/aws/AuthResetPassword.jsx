@@ -32,7 +32,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { IconBug } from '@tabler/icons-react';
+import BugReportIcon from '@mui/icons-material/BugReport';
 
 // ========================|| AWS COGNITO - RESET PASSWORD ||======================== //
 
@@ -142,7 +142,7 @@ export default function AuthResetPassword({ ...others }) {
         <form noValidate onSubmit={handleSubmit} {...others}>
           <Box sx={{ mb: 1.25 }}>
             {touched && errors && errors.submit && (
-              <Alert severity="error" icon={<IconBug />} sx={{ mb: 1 }}>
+              <Alert severity="error" icon={<BugReportIcon />} sx={{ mb: 1 }}>
                 {errors?.submit}
               </Alert>
             )}
@@ -216,13 +216,13 @@ export default function AuthResetPassword({ ...others }) {
           {strength !== 0 && (
             <FormControl fullWidth>
               <Box sx={{ mb: 2 }}>
-                <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                  <Grid>
+                <Grid container columns={12} spacing={2} sx={{ alignItems: 'center' }}>
+                  <Grid size="auto">
                     <Box
                       sx={{ width: 85, height: 8, borderRadius: '7px', bgcolor: level?.color }}
                     />
                   </Grid>
-                  <Grid>
+                  <Grid size="auto">
                     <Typography variant="subtitle1" sx={{ fontSize: '0.75rem' }}>
                       {level?.label}
                     </Typography>

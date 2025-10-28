@@ -18,13 +18,13 @@ import Box from '@mui/material/Box';
 import NavItem from '../NavItem';
 import Transitions from 'ui-component/extended/Transitions';
 import { useGetMenuMaster } from 'api/menu';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 import useMenuCollapse from 'hooks/useMenuCollapse';
 import type { MenuCollapse as MenuCollapseType, NavItemType } from 'types/menu';
 
-import { IconChevronDown, IconChevronRight, IconChevronUp } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronRight, IconChevronUp } from '@/icons';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 const PopperStyled = styled(Popper)(({ theme }) => ({

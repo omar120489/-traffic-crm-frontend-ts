@@ -57,7 +57,7 @@ function getSocket(): Socket | null {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
-      reconnectionAttempts: Infinity,
+      reconnectionAttempts: Infinity
     });
 
     // Log connection events in development (commented out for production)
@@ -108,7 +108,7 @@ export function useWebSocketEvents(): UseWebSocketEventsResult {
   // Initialize socket connection
   useEffect(() => {
     const socket = getSocket();
-    
+
     // If WebSocket is disabled, return early with no-op cleanup
     if (!socket) {
       setConnected(false);
@@ -210,7 +210,7 @@ export function useWebSocketEvents(): UseWebSocketEventsResult {
     connected,
     subscribe,
     emit,
-    disconnect,
+    disconnect
   };
 }
 

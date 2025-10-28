@@ -91,7 +91,10 @@ export default defineConfig(({ mode }) => {
         '@store': path.resolve(__dirname, './src/store'),
         '@utils': path.resolve(__dirname, './src/utils'),
         '@assets': path.resolve(__dirname, './src/assets'),
-        '@styles': path.resolve(__dirname, './src/styles')
+        '@styles': path.resolve(__dirname, './src/styles'),
+        // Legacy imports without @ prefix
+        assets: path.resolve(__dirname, './src/assets'),
+        constants: path.resolve(__dirname, './src/constants')
       }
     },
     base,

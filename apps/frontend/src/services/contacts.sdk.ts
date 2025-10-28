@@ -12,6 +12,7 @@
 
 import { api } from '@/data/clients/sdk';
 import type { ContactQuery } from '@traffic-crm/shared-types';
+import type { ContactCreateDto, ContactUpdateDto } from '@traffic-crm/shared-types';
 
 export async function fetchContacts(query?: ContactQuery) {
   return api.listContacts(query);
@@ -21,11 +22,11 @@ export async function fetchContact(id: string) {
   return api.getContact(id);
 }
 
-export async function createContact(body: any) {
+export async function createContact(body: ContactCreateDto) {
   return api.createContact(body);
 }
 
-export async function updateContact(id: string, body: any) {
+export async function updateContact(id: string, body: ContactUpdateDto) {
   return api.updateContact(id, body);
 }
 

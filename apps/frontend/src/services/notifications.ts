@@ -1,7 +1,5 @@
-// @ts-nocheck
 import { apiGet, apiPost, apiPatch } from 'utils/axios';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { Notification, NotificationCreateDto, NotificationListResponse } from 'types/api';
+import type { Notification, NotificationCreateDto, NotificationListResponse } from '@/types/api';
 
 /**
  * Map backend snake_case notification to frontend camelCase
@@ -15,7 +13,7 @@ function mapNotificationFromDto(dto: Record<string, unknown>): Notification {
     isRead: dto.is_read as boolean,
     userId: dto.user_id as string | undefined,
     entityType: dto.entity_type as string | undefined,
-    entityId: dto.entity_id as string | number | undefined,
+    entityId: dto.entity_id != null ? String(dto.entity_id) : undefined,
     createdAt: dto.created_at as string,
     updatedAt: dto.updated_at as string
   };
@@ -52,7 +50,10 @@ export async function listNotifications(): Promise<NotificationListResponse> {
  */
 export async function createNotification(payload: NotificationCreateDto): Promise<Notification> {
   const dto = mapNotificationToDto(payload);
-  const response = await apiPost<Record<string, unknown>>('/api/notifications', dto);
+  const response = await apiPost<Record<string, unknown>, Record<string, unknown>>(
+    '/api/notifications',
+    dto
+  );
   return mapNotificationFromDto(response);
 }
 
@@ -60,7 +61,10 @@ export async function createNotification(payload: NotificationCreateDto): Promis
  * Mark a notification as read
  */
 export async function markAsRead(id: string | number): Promise<Notification> {
-  const response = await apiPatch<Record<string, unknown>>(`/api/notifications/${id}/read`, {});
+  const response = await apiPatch<Record<string, unknown>, Record<string, unknown>>(
+    `/api/notifications/${id}/read`,
+    {}
+  );
   return mapNotificationFromDto(response);
 }
 
@@ -68,7 +72,7 @@ export async function markAsRead(id: string | number): Promise<Notification> {
  * Mark all notifications as read
  */
 export async function markAllAsRead(): Promise<void> {
-  await apiPatch('/api/notifications/mark-all-read', {});
+  await apiPatch<Record<string, unknown>, void>('/api/notifications/mark-all-read', {});
 }
 
 export const notificationsService = {

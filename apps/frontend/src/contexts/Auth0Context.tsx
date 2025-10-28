@@ -41,7 +41,7 @@ export function Auth0Provider({ children }: Auth0ProviderProps) {
           setSession(token);
 
           // Map Auth0 user to standard profile and dispatch login
-          const standardUser = mapAuth0Profile(auth0User);
+          const standardUser = mapAuth0Profile(auth0User as unknown as Record<string, unknown>);
           dispatch(loginAction({ user: standardUser }));
         } else {
           dispatch(initialize());

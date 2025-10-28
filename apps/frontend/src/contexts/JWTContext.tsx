@@ -64,29 +64,26 @@ export function JWTProvider({ children }: JWTProviderProps) {
     async (email: string, password: string, firstName: string, lastName: string) => {
       // Registration flow - stores users locally for dev/demo purposes
       // Production: This should call backend API and handle proper user creation
-      const response = await authApi.register({
+      await authApi.register({
         email,
         password,
         firstName,
         lastName
       });
 
-      let users = response.data;
+      const localUsersStr = globalThis.localStorage.getItem('users');
+      const existing: Array<{ email: string; password: string; name: string }> = localUsersStr
+        ? JSON.parse(localUsersStr)
+        : [];
 
-      if (
-        globalThis.localStorage.getItem('users') !== undefined &&
-        globalThis.localStorage.getItem('users') !== null
-      ) {
-        const localUsers = globalThis.localStorage.getItem('users');
-        users = [
-          ...JSON.parse(localUsers!),
-          {
-            email,
-            password,
-            name: `${firstName} ${lastName}`
-          }
-        ];
-      }
+      const users: Array<{ email: string; password: string; name: string }> = [
+        ...existing,
+        {
+          email,
+          password,
+          name: `${firstName} ${lastName}`
+        }
+      ];
 
       globalThis.localStorage.setItem('users', JSON.stringify(users));
     },

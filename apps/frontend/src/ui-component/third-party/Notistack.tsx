@@ -2,12 +2,7 @@ import type { ReactNode } from 'react';
 
 import { SnackbarProvider } from 'notistack';
 
-import {
-  IconAlertCircle,
-  IconCircleCheck,
-  IconInfoCircle,
-  IconSquareRoundedX,
-} from '@tabler/icons-react';
+import { IconAlertCircle, IconCircleCheck, IconInfoCircle, IconSquareRoundedX } from '@/icons';
 
 import { useSelector } from 'store';
 
@@ -25,7 +20,7 @@ export default function Notistack({ children }: NotistackProps) {
           success: <IconCircleCheck style={iconStyle} />,
           error: <IconSquareRoundedX style={iconStyle} />,
           warning: <IconInfoCircle style={iconStyle} />,
-          info: <IconAlertCircle style={iconStyle} />,
+          info: <IconAlertCircle style={iconStyle} />
         }
       : undefined;
 

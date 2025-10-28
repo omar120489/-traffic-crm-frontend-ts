@@ -23,7 +23,7 @@ export default function AnalyticsPage() {
     types: searchParams.get('types')?.split(',').filter(Boolean) as any
   };
 
-    // Load data
+  // Load data
   useEffect(() => {
     setLoading(true);
     setError(null);

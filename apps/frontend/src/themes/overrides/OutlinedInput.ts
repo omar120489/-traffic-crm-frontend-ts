@@ -21,21 +21,21 @@ export default function OutlinedInput(
       root: {
         background: filledBackground,
         borderRadius: `${borderRadius}px`,
-
         '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: defaultOutline
+          borderColor: defaultOutline,
+          borderRadius: `${borderRadius}px`
         },
-
         '&:hover .MuiOutlinedInput-notchedOutline': {
           borderColor: hoverOutline
         },
-
         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
           borderColor: theme.palette.primary.light
         },
-
         '&.MuiInputBase-multiline': {
           padding: 1
+        },
+        '&.MuiOutlinedInput-adornedStart': {
+          paddingLeft: 4
         }
       },
       input: {
@@ -43,20 +43,12 @@ export default function OutlinedInput(
         background: filledBackground,
         padding: '15.5px 14px',
         borderRadius: `${borderRadius}px`,
-
         '&.MuiInputBase-inputSizeSmall': {
           padding: '10px 14px',
-
           '&.MuiInputBase-inputAdornedStart': {
             paddingLeft: 0
           }
         }
-      },
-      inputAdornedStart: {
-        paddingLeft: 4
-      },
-      notchedOutline: {
-        borderRadius: `${borderRadius}px`
       }
     }
   };

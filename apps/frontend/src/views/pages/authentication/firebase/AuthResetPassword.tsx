@@ -198,9 +198,7 @@ export default function AuthResetPassword({ ...others }: Props) {
             <FormControl fullWidth>
               <Box sx={{ mb: 2 }}>
                 <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-                  <Box
-                    sx={{ width: 85, height: 8, borderRadius: '7px', bgcolor: level?.color }}
-                  />
+                  <Box sx={{ width: 85, height: 8, borderRadius: '7px', bgcolor: level?.color }} />
                   <Typography variant="subtitle1" sx={{ fontSize: '0.75rem' }}>
                     {level?.label}
                   </Typography>

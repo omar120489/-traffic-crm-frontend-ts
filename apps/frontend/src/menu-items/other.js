@@ -1,5 +1,5 @@
 // assets
-import { IconHelp, IconSitemap } from '@tabler/icons-react';
+import { IconHelp, IconSitemap } from '@/icons';
 
 // constant
 const icons = {

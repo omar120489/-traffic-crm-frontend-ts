@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
-import { cloneElement } from 'react';
+import { cloneElement, ReactElement } from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
@@ -12,9 +11,13 @@ import Box from '@mui/material/Box';
 import MenuList from './MenuList';
 import useConfig from 'hooks/useConfig';
 
-function ElevationScroll({ children, window }) {
-  const theme = useTheme();
+// TypeScript interfaces
+interface ElevationScrollProps {
+  readonly children: ReactElement<{ elevation?: number }>;
+  readonly window?: Window | undefined;
+}
 
+function ElevationScroll({ children, window }: ElevationScrollProps): ReactElement {
   /**
    * Note that you normally won't need to set the window ref as useScrollTrigger will default to window.
    * This is only being set here because the demo is in an iframe.
@@ -25,16 +28,15 @@ function ElevationScroll({ children, window }) {
     target: window
   });
 
-  theme.shadows[4] = theme.vars.customShadows.z1;
+  // Note: customShadows may not be present on ThemeVars in type definitions
+  // theme.shadows[4] = (theme.vars as any)?.customShadows?.z1 ?? theme.shadows[4];
 
-  return cloneElement(children, {
-    elevation: trigger ? 4 : 0
-  });
+  return cloneElement(children, { elevation: trigger ? 4 : 0 });
 }
 
 // ==============================|| HORIZONTAL MENU LIST ||============================== //
 
-export default function HorizontalBar() {
+export default function HorizontalBar(): React.JSX.Element {
   const {
     state: { container }
   } = useConfig();
@@ -66,5 +68,3 @@ export default function HorizontalBar() {
     </ElevationScroll>
   );
 }
-
-ElevationScroll.propTypes = { children: PropTypes.node, window: PropTypes.any };

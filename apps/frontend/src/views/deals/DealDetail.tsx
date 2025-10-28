@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/GridLegacy';
+import Grid from '@mui/material/Grid';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
@@ -211,28 +211,28 @@ export default function DealDetail(): ReactElement {
 
     return (
       <Grid container spacing={2} sx={{ mt: 0 }}>
-        <Grid xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+        <Grid sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }} size={{ xs: 12 }}>
           <Typography variant="h4">{deal.name}</Typography>
           <Typography variant="body2" color="text.secondary">
             Deal ID: {deal.id}
           </Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Amount
           </Typography>
           <Typography variant="body1">{formatMoney(deal.amount)}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Stage
           </Typography>
           <Chip label={deal.stage ?? '—'} variant="outlined" size="small" />
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Status
           </Typography>
@@ -270,49 +270,49 @@ export default function DealDetail(): ReactElement {
           </Box>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Probability
           </Typography>
           <Typography variant="body1">{formatProbability(deal.probability)}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Close Date
           </Typography>
           <Typography variant="body1">{formatDate(deal.closeDate)}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Owner
           </Typography>
           <Typography variant="body1">{deal.ownerId}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Company
           </Typography>
           <Typography variant="body1">{deal.companyId ?? '—'}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Contact
           </Typography>
           <Typography variant="body1">{deal.contactId ?? '—'}</Typography>
         </Grid>
 
-        <Grid xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Updated At
           </Typography>
           <Typography variant="body1">{formatDate(deal.updatedAt)}</Typography>
         </Grid>
 
-        <Grid xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Description
           </Typography>
@@ -321,27 +321,27 @@ export default function DealDetail(): ReactElement {
 
         {deal.grossRevenue !== null && deal.grossRevenue !== undefined && (
           <>
-            <Grid xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
                 Financial Details
               </Typography>
             </Grid>
 
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Typography variant="subtitle2" color="text.secondary">
                 Gross Revenue
               </Typography>
               <Typography variant="body1">{formatMoney(deal.grossRevenue)}</Typography>
             </Grid>
 
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Typography variant="subtitle2" color="text.secondary">
                 Direct Cost
               </Typography>
               <Typography variant="body1">{formatMoney(deal.directCost)}</Typography>
             </Grid>
 
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Typography variant="subtitle2" color="text.secondary">
                 Net Profit
               </Typography>

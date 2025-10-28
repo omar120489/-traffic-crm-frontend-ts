@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import { IconMenu2 } from '@tabler/icons-react';
+import { IconMenu2 } from '@/icons';
 
 import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
@@ -14,7 +14,7 @@ import FullScreenSection from './FullScreenSection';
 import NotificationSection from './NotificationSection';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution for MenuOrientation config export
 import { MenuOrientation } from 'config';
 import useConfig from 'hooks/useConfig';
 

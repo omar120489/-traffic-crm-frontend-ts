@@ -1,15 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Button,
-  Typography,
-  Alert,
-  Link,
-} from '@mui/material';
+import { Box, Card, CardContent, TextField, Button, Typography, Alert, Link } from '@mui/material';
 import { Login as LoginIcon } from '@mui/icons-material';
 
 export default function LoginPage() {
@@ -26,11 +17,14 @@ export default function LoginPage() {
 
     try {
       // TODO: Replace with real auth endpoint
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/auth/login`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        }
+      );
 
       if (!res.ok) {
         throw new Error('Invalid credentials');
@@ -63,7 +57,7 @@ export default function LoginPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: 'grey.100',
+        bgcolor: 'grey.100'
       }}
     >
       <Card sx={{ maxWidth: 400, width: '100%', mx: 2 }}>
@@ -132,4 +126,3 @@ export default function LoginPage() {
     </Box>
   );
 }
-

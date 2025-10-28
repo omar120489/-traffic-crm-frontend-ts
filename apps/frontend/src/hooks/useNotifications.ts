@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { notificationsService } from 'services/notifications';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { Notification, NotificationListResponse } from 'types/api';
 import { useWebSocketEvents } from './useWebSocketEvents';
 import { isNewNotification } from 'utils/notifications';

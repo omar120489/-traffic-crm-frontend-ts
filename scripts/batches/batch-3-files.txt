@@ -1,0 +1,7 @@
+apps/frontend/src/layout/MainLayout/Header/SearchSection/index.jsx
+apps/frontend/src/layout/MainLayout/HorizontalBar.jsx
+apps/frontend/src/layout/MainLayout/Sidebar/MenuCard/index.jsx
+apps/frontend/src/layout/NavMotion.jsx
+apps/frontend/src/views/pages/authentication/jwt/AuthForgotPassword.jsx
+apps/frontend/src/views/pages/authentication/jwt/AuthResetPassword.jsx
+apps/frontend/src/views/pages/maintenance/ComingSoon/ComingSoon1/Slider.jsx

@@ -3,7 +3,7 @@ import { useEffect, type ReactNode } from 'react';
 
 // project imports
 import useAuth from 'hooks/useAuth';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import { DASHBOARD_PATH } from 'config';
 
 // ==============================|| GUEST GUARD ||============================== //

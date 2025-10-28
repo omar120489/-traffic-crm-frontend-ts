@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { renderHook, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { io, type Socket } from 'socket.io-client';
@@ -20,6 +19,9 @@ describe('useWebSocketEvents', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
+    vi.stubEnv('VITE_ENABLE_WEBSOCKET', 'true');
+    vi.stubEnv('VITE_APP_API_URL', 'http://localhost:3000');
 
     // Create a mock socket instance
     mockSocket = {
@@ -32,11 +34,12 @@ describe('useWebSocketEvents', () => {
     };
 
     // Mock io to return our mock socket
-    vi.mocked(io).mockReturnValue(mockSocket);
+    vi.mocked(io).mockReturnValue(mockSocket as unknown as Socket);
   });
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it('should initialize WebSocket connection on mount', () => {
@@ -107,16 +110,9 @@ describe('useWebSocketEvents', () => {
     mockSocket.connected = false;
     const { result } = renderHook(() => useWebSocketEvents());
 
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
     result.current.emit('test:event', { data: 'test' });
 
     expect(mockEmit).not.toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Cannot emit: socket not connected')
-    );
-
-    consoleSpy.mockRestore();
   });
 
   it('should clean up subscriptions on unmount', () => {

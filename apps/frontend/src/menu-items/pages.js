@@ -12,7 +12,7 @@ import {
   IconUsers,
   IconChartLine,
   IconCurrencyDollar
-} from '@tabler/icons-react';
+} from '@/icons';
 
 // constant
 const icons = {

@@ -3,6 +3,7 @@
 ## 🚀 Starting Development (with Node 20)
 
 ### Option 1: Interactive Menu (Recommended)
+
 ```bash
 # Loads NVM + Node 20, then shows interactive menu
 bash scripts/dev-launcher.sh
@@ -11,6 +12,7 @@ bash scripts/dev-launcher.sh
 ### Option 2: Manual Commands
 
 **Load Node 20 first:**
+
 ```bash
 export NVM_DIR="$HOME/.nvm"
 . "$NVM_DIR/nvm.sh"
@@ -18,6 +20,7 @@ nvm use 20
 ```
 
 **Then run any command:**
+
 ```bash
 # Preflight check
 bash scripts/preflight-check.sh
@@ -94,6 +97,7 @@ After `pnpm docker:up`:
 ## ⚠️ Troubleshooting
 
 ### Node version wrong?
+
 ```bash
 # Source NVM and switch to Node 20
 export NVM_DIR="$HOME/.nvm"
@@ -103,6 +107,7 @@ node --version  # Should show v20.x
 ```
 
 ### Docker not running?
+
 ```bash
 # Start Docker Desktop
 open -a Docker
@@ -112,6 +117,7 @@ docker info
 ```
 
 ### Database connection error?
+
 ```bash
 # Check Postgres is running
 docker ps | grep trafficcrm-postgres
@@ -124,6 +130,7 @@ pnpm docker:down && pnpm docker:up
 ```
 
 ### Frontend port error?
+
 ```bash
 # Check what's using ports
 lsof -i :5173 -i :3000 -i :3002
@@ -174,6 +181,7 @@ open http://localhost:3000/docs  # API docs
 ## 🆘 Still Stuck?
 
 Run this diagnostic:
+
 ```bash
 export NVM_DIR="$HOME/.nvm"
 . "$NVM_DIR/nvm.sh"

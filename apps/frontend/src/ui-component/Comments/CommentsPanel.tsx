@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { useComments } from 'hooks/useComments';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { EntityIdentifier } from 'types/api';
 
 export interface CommentsPanelProps {
@@ -124,7 +124,6 @@ export function CommentsPanel({ entityType, entityId, title = 'Comments' }: Comm
             </Button>
           </Box>
           {submitError && <Alert severity="error">{submitError}</Alert>}
-          {/* @ts-ignore - MUI v7 type incompatibility */}
           {error && !submitError && (
             <Alert severity="error">Unable to load comments. Please try again.</Alert>
           )}

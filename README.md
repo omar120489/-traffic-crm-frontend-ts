@@ -6,7 +6,7 @@ Traffic CRM is a TypeScript-first workspace that brings together the React front
 
 ## Contents
 
-- **apps/frontend** – React 19 + Vite application with modular features, Playwright/Vitest harnesses, and a hardened Docker/Nginx runtime. See `docs/FRONTEND_STRUCTURE.md` for the tree snapshot.
+- **apps/frontend** – React 19 + Vite application with modular features, Playwright/Vitest harnesses, and a hardened Docker/Nginx runtime. See `docs/FRONTEND_STRUCTURE.md` for the tree snapshot and `docs/FRONTEND_DEV_GUIDE.md` for remaining work.
 - **apps/core-api** – NestJS service backed by Prisma and Fastify. Ships JWT tooling, OpenAPI emission, and database seed scripts.
 - **apps/reporting/traffic-crm-backend-reporting** – NestJS microservice scaffold reserved for reporting workloads.
 - **apps/workers** – BullMQ processors (lead scoring, enrichment stubs) using Redis.

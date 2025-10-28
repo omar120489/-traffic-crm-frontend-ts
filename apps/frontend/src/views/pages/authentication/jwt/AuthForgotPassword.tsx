@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // material-ui
@@ -21,9 +20,23 @@ import useScriptRef from 'hooks/useScriptRef';
 import { useDispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
 
+// TypeScript interfaces
+interface AuthForgotPasswordProps {
+  readonly link?: string;
+  readonly [key: string]: unknown;
+}
+
+interface FormValues {
+  email: string;
+  submit: string | null;
+}
+
 // ========================|| JWT - FORGOT PASSWORD ||======================== //
 
-export default function AuthForgotPassword({ link, ...others }) {
+export default function AuthForgotPassword({
+  link,
+  ...others
+}: AuthForgotPasswordProps): React.JSX.Element {
   const scriptedRef = useScriptRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,7 +47,7 @@ export default function AuthForgotPassword({ link, ...others }) {
   const authParam = searchParams.get('auth');
 
   return (
-    <Formik
+    <Formik<FormValues>
       initialValues={{
         email: '',
         submit: null
@@ -77,7 +90,7 @@ export default function AuthForgotPassword({ link, ...others }) {
               // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
               // github issue: https://github.com/formium/formik/issues/2430
             },
-            (err) => {
+            (err: Error) => {
               setStatus({ success: false });
               setErrors({ submit: err.message });
               setSubmitting(false);
@@ -87,7 +100,7 @@ export default function AuthForgotPassword({ link, ...others }) {
           console.error(err);
           if (scriptedRef.current) {
             setStatus({ success: false });
-            setErrors({ submit: err.message });
+            setErrors({ submit: (err as Error).message });
             setSubmitting(false);
           }
         }
@@ -141,5 +154,3 @@ export default function AuthForgotPassword({ link, ...others }) {
     </Formik>
   );
 }
-
-AuthForgotPassword.propTypes = { link: PropTypes.string };

@@ -38,7 +38,7 @@ export default function SubCard({
   footerSX,
   title,
   actions,
-  cardProps,
+  cardProps
 }: SubCardProps) {
   const { colorScheme } = useColorScheme();
   const defaultShadow =
@@ -55,7 +55,7 @@ export default function SubCard({
         borderColor: 'divider',
         ':hover': { boxShadow: defaultShadow },
         ...(typeof sx === 'function' ? sx(theme) : sx),
-        ...(typeof cardSx === 'function' ? cardSx(theme) : cardSx),
+        ...(typeof cardSx === 'function' ? cardSx(theme) : cardSx)
       })}
       className={className}
       {...restCardProps}

@@ -14,7 +14,7 @@ import LocalizationSection from '../LocalizationSection';
 import Transitions from 'ui-component/extended/Transitions';
 
 // assets
-import { IconDotsVertical } from '@tabler/icons-react';
+import { IconDotsVertical } from '@/icons';
 
 // ==============================|| MOBILE HEADER ||============================== //
 

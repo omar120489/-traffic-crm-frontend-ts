@@ -41,10 +41,10 @@ export { default as LabelIcon } from '@mui/icons-material/LabelTwoTone';
 export { default as NewReleasesIcon } from '@mui/icons-material/NewReleasesTwoTone';
 
 // Tabler Icons
-export { IconChevronRight } from '@tabler/icons-react';
-export { IconTallymark1 } from '@tabler/icons-react';
-export { IconSettings } from '@tabler/icons-react';
-export { IconBook } from '@tabler/icons-react';
-export { IconCreditCard } from '@tabler/icons-react';
-export { IconDashboard } from '@tabler/icons-react';
-export { IconHome2 } from '@tabler/icons-react';
+export { IconChevronRight } from '@/icons';
+export { IconTallymark1 } from '@/icons';
+export { IconSettings } from '@/icons';
+export { IconBook } from '@/icons';
+export { IconCreditCard } from '@/icons';
+export { IconDashboard } from '@/icons';
+export { IconHome2 } from '@/icons';

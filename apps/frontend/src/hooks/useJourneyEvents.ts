@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { journeyApi } from 'services/journey';
 import { useWebSocketEvents } from './useWebSocketEvents';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { JourneyEvent, JourneyEventCreateDto, EntityIdentifier } from 'types/api';
 
 interface UseJourneyEventsOptions {

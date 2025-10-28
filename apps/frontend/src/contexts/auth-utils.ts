@@ -5,6 +5,15 @@
 import { jwtDecode } from 'jwt-decode';
 import axiosServices from 'utils/axios';
 import type { UserProfile } from '../types/auth';
+import type {
+  Auth0User,
+  AuthErrorResponse,
+  CognitoUser,
+  CognitoUserAttributes,
+  FirebaseUser,
+  GenericAuthUser,
+  SupabaseUser
+} from '../types/auth-providers';
 
 // ==============================|| TOKEN MANAGEMENT ||============================== //
 
@@ -59,75 +68,86 @@ export function clearAuthStorage(): void {
 
 /**
  * Map Auth0 user profile to standard UserProfile
+ * Accepts any Auth0-compatible user object
  */
-export function mapAuth0Profile(auth0User: any): UserProfile {
+export function mapAuth0Profile(auth0User: Record<string, unknown>): UserProfile {
+  const user = auth0User as Auth0User;
   return {
-    id: auth0User.sub,
-    email: auth0User.email,
-    firstName: auth0User.given_name || auth0User.name?.split(' ')[0],
-    lastName: auth0User.family_name || auth0User.name?.split(' ')[1],
-    name: auth0User.name,
-    role: auth0User['https://app.example.com/roles']?.[0] || 'user'
+    id: user.sub || '',
+    email: user.email,
+    firstName: user.given_name || user.name?.split(' ')[0],
+    lastName: user.family_name || user.name?.split(' ')[1],
+    name: user.name,
+    role: user['https://app.example.com/roles']?.[0] || 'user'
   };
 }
 
 /**
  * Map Firebase user profile to standard UserProfile
+ * Accepts any Firebase-compatible user object
  */
-export function mapFirebaseProfile(firebaseUser: any): UserProfile {
+export function mapFirebaseProfile(firebaseUser: Record<string, unknown>): UserProfile {
+  const user = firebaseUser as FirebaseUser;
   return {
-    id: firebaseUser.uid,
-    email: firebaseUser.email || '',
-    firstName: firebaseUser.displayName?.split(' ')[0] || '',
-    lastName: firebaseUser.displayName?.split(' ')[1] || '',
-    name: firebaseUser.displayName || '',
-    role: firebaseUser.customClaims?.role || 'user'
+    id: user.uid,
+    email: user.email || '',
+    firstName: user.displayName?.split(' ')[0] || '',
+    lastName: user.displayName?.split(' ')[1] || '',
+    name: user.displayName || '',
+    role: user.customClaims?.role || 'user'
   };
 }
 
 /**
  * Map AWS Cognito user profile to standard UserProfile
+ * Accepts any Cognito-compatible user object
  */
-export function mapCognitoProfile(cognitoUser: any, attributes: any = {}): UserProfile {
+export function mapCognitoProfile(
+  cognitoUser: Record<string, unknown>,
+  attributes: CognitoUserAttributes = {}
+): UserProfile {
+  const user = cognitoUser as CognitoUser;
   return {
-    id: cognitoUser.username || cognitoUser.sub,
-    email: attributes.email || cognitoUser.attributes?.email,
-    firstName: attributes.given_name || cognitoUser.attributes?.given_name,
-    lastName: attributes.family_name || cognitoUser.attributes?.family_name,
+    id: user.username || user.sub,
+    email: attributes.email || user.attributes?.email,
+    firstName: attributes.given_name || user.attributes?.given_name,
+    lastName: attributes.family_name || user.attributes?.family_name,
     name:
       attributes.name ||
-      cognitoUser.attributes?.name ||
+      user.attributes?.name ||
       `${attributes.given_name || ''} ${attributes.family_name || ''}`.trim(),
-    role: attributes['custom:role'] || cognitoUser.attributes?.['custom:role'] || 'user'
+    role: attributes['custom:role'] || user.attributes?.['custom:role'] || 'user'
   };
 }
 
 /**
  * Map Supabase user profile to standard UserProfile
+ * Accepts any Supabase-compatible user object
  */
-export function mapSupabaseProfile(supabaseUser: any): UserProfile {
+export function mapSupabaseProfile(supabaseUser: Record<string, unknown>): UserProfile {
+  const user = supabaseUser as SupabaseUser;
   return {
-    id: supabaseUser.id,
-    email: supabaseUser.email || '',
+    id: user.id,
+    email: user.email || '',
     firstName:
-      supabaseUser.user_metadata?.firstName ||
-      supabaseUser.user_metadata?.first_name ||
-      supabaseUser.user_metadata?.full_name?.split(' ')[0],
+      user.user_metadata?.firstName ||
+      user.user_metadata?.first_name ||
+      user.user_metadata?.full_name?.split(' ')[0],
     lastName:
-      supabaseUser.user_metadata?.lastName ||
-      supabaseUser.user_metadata?.last_name ||
-      supabaseUser.user_metadata?.full_name?.split(' ')[1],
+      user.user_metadata?.lastName ||
+      user.user_metadata?.last_name ||
+      user.user_metadata?.full_name?.split(' ')[1],
     name:
-      supabaseUser.user_metadata?.full_name ||
-      `${supabaseUser.user_metadata?.firstName || ''} ${supabaseUser.user_metadata?.lastName || ''}`.trim(),
-    role: supabaseUser.app_metadata?.role || 'user'
+      user.user_metadata?.full_name ||
+      `${user.user_metadata?.firstName || ''} ${user.user_metadata?.lastName || ''}`.trim(),
+    role: user.app_metadata?.role || 'user'
   };
 }
 
 /**
  * Generic profile mapper with fallbacks
  */
-export function mapGenericProfile(user: any, provider: string): UserProfile {
+export function mapGenericProfile(user: GenericAuthUser, provider: string): UserProfile {
   console.warn(
     `Using generic profile mapper for ${provider}. Consider implementing specific mapper.`
   );
@@ -151,7 +171,7 @@ export class AuthError extends Error {
   constructor(
     message: string,
     public provider: string,
-    public originalError?: any
+    public originalError?: unknown
   ) {
     super(message);
     this.name = 'AuthError';
@@ -161,15 +181,19 @@ export class AuthError extends Error {
 /**
  * Handle auth errors consistently across providers
  */
-export function handleAuthError(error: any, provider: string, operation: string): never {
+export function handleAuthError(error: unknown, provider: string, operation: string): never {
   console.error(`${provider} ${operation} error:`, error);
 
   let message = `${operation} failed`;
 
-  if (error?.message) {
-    message = error.message;
-  } else if (error?.error_description) {
-    message = error.error_description;
+  // Type guard for error response objects
+  if (typeof error === 'object' && error !== null) {
+    const errorObj = error as AuthErrorResponse;
+    if (errorObj.message) {
+      message = errorObj.message;
+    } else if (errorObj.error_description) {
+      message = errorObj.error_description;
+    }
   } else if (typeof error === 'string') {
     message = error;
   }

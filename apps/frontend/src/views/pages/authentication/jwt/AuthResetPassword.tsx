@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // material-ui
@@ -32,27 +31,47 @@ import { openSnackbar } from 'store/slices/snackbar';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+// TypeScript interfaces
+interface AuthResetPasswordProps {
+  readonly link?: string;
+  readonly [key: string]: unknown;
+}
+
+interface FormValues {
+  password: string;
+  confirmPassword: string;
+  submit: string | null;
+}
+
+interface StrengthLevel {
+  label: string;
+  color: string;
+}
+
 // ========================|| JWT - RESET PASSWORD ||======================== //
 
-export default function AuthResetPassword({ link, ...others }) {
+export default function AuthResetPassword({
+  link,
+  ...others
+}: AuthResetPasswordProps): React.JSX.Element {
   const navigate = useNavigate();
   const scriptedRef = useScriptRef();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [strength, setStrength] = useState(0);
-  const [level, setLevel] = useState();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [strength, setStrength] = useState<number>(0);
+  const [level, setLevel] = useState<StrengthLevel | undefined>();
 
   const { isLoggedIn } = useAuth();
 
-  const handleClickShowPassword = () => {
+  const handleClickShowPassword = (): void => {
     setShowPassword(!showPassword);
   };
 
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
   };
 
-  const changePassword = (value) => {
+  const changePassword = (value: string): void => {
     const temp = strengthIndicator(value);
     setStrength(temp);
     setLevel(strengthColor(temp));
@@ -66,7 +85,7 @@ export default function AuthResetPassword({ link, ...others }) {
   const authParam = searchParams.get('auth');
 
   return (
-    <Formik
+    <Formik<FormValues>
       initialValues={{
         password: '',
         confirmPassword: '',
@@ -118,7 +137,7 @@ export default function AuthResetPassword({ link, ...others }) {
           console.error(err);
           if (scriptedRef.current) {
             setStatus({ success: false });
-            setErrors({ submit: err.message });
+            setErrors({ submit: (err as Error).message });
             setSubmitting(false);
           }
         }
@@ -134,7 +153,7 @@ export default function AuthResetPassword({ link, ...others }) {
               value={values.password}
               name="password"
               onBlur={handleBlur}
-              onChange={(e) => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 handleChange(e);
                 changePassword(e.target.value);
               }}
@@ -163,8 +182,8 @@ export default function AuthResetPassword({ link, ...others }) {
           {strength !== 0 && (
             <FormControl fullWidth>
               <Box sx={{ mb: 2 }}>
-                <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                  <Grid>
+                <Grid container columns={12} spacing={2} sx={{ alignItems: 'center' }}>
+                  <Grid size="auto">
                     <Box
                       sx={{
                         width: 85,
@@ -174,7 +193,7 @@ export default function AuthResetPassword({ link, ...others }) {
                       }}
                     />
                   </Grid>
-                  <Grid>
+                  <Grid size="auto">
                     <Typography variant="subtitle1" sx={{ fontSize: '0.75rem' }}>
                       {level?.label}
                     </Typography>
@@ -234,5 +253,3 @@ export default function AuthResetPassword({ link, ...others }) {
     </Formik>
   );
 }
-
-AuthResetPassword.propTypes = { link: PropTypes.string };

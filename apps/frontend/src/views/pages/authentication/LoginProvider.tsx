@@ -32,7 +32,7 @@ const AUTH_PROVIDER_TO_KEY: Record<AuthProvider, ProviderKey> = {
   [AuthProvider.FIREBASE]: 'firebase',
   [AuthProvider.AUTH0]: 'auth0',
   [AuthProvider.AWS]: 'aws',
-  [AuthProvider.SUPABASE]: 'supabase',
+  [AuthProvider.SUPABASE]: 'supabase'
 };
 
 const ICONS: Record<ProviderKey, string> = {
@@ -40,7 +40,7 @@ const ICONS: Record<ProviderKey, string> = {
   firebase: firebaseIcon,
   auth0: auth0Icon,
   aws: awsIcon,
-  supabase: supabaseIcon,
+  supabase: supabaseIcon
 };
 
 export default function LoginProvider({ currentLoginWith }: LoginProviderProps) {
@@ -55,9 +55,7 @@ export default function LoginProvider({ currentLoginWith }: LoginProviderProps) 
     }
 
     const lower = value.toLowerCase() as ProviderKey;
-    return ['jwt', 'firebase', 'auth0', 'aws', 'supabase'].includes(lower)
-      ? lower
-      : null;
+    return ['jwt', 'firebase', 'auth0', 'aws', 'supabase'].includes(lower) ? lower : null;
   };
 
   const appAuthKey = normalizeKey(APP_AUTH) ?? AUTH_PROVIDER_TO_KEY[AuthProvider.JWT];
@@ -71,13 +69,13 @@ export default function LoginProvider({ currentLoginWith }: LoginProviderProps) 
     return `/login?auth=${key}`;
   };
 
-  const buttons: ProviderButton[] = (['jwt', 'firebase', 'auth0', 'aws', 'supabase'] as ProviderKey[]).map(
-    (name) => ({
-      name,
-      icon: ICONS[name],
-      url: appAuthKey === name ? '/login' : buildLoginUrl(name),
-    })
-  );
+  const buttons: ProviderButton[] = (
+    ['jwt', 'firebase', 'auth0', 'aws', 'supabase'] as ProviderKey[]
+  ).map((name) => ({
+    name,
+    icon: ICONS[name],
+    url: appAuthKey === name ? '/login' : buildLoginUrl(name)
+  }));
 
   const shouldRender = (button: ProviderButton) => {
     if (paramKey) {
@@ -94,8 +92,8 @@ export default function LoginProvider({ currentLoginWith }: LoginProviderProps) 
         justifyContent: 'center',
         '& .MuiButton-startIcon': {
           mr: { xs: 0, md: 1 },
-          ml: { xs: 0, sm: -0.5, md: 1 },
-        },
+          ml: { xs: 0, sm: -0.5, md: 1 }
+        }
       }}
     >
       {buttons.filter(shouldRender).map((button) => (
@@ -106,8 +104,8 @@ export default function LoginProvider({ currentLoginWith }: LoginProviderProps) 
               color: theme.vars.palette.grey[900],
               '&:hover': {
                 borderColor: theme.vars.palette.primary[400],
-                backgroundColor: theme.vars.palette.primary[100],
-              },
+                backgroundColor: theme.vars.palette.primary[100]
+              }
             }}
             variant="outlined"
             color="secondary"

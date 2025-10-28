@@ -8,9 +8,6 @@ export default function Typography(theme: Theme): NonNullable<Components['MuiTyp
   const secondaryColor = theme.palette.text.secondary;
 
   return {
-    styleOverrides: {
-      root: {}
-    },
     variants: [
       { props: { variant: 'h1' }, style: { color: headingColor } },
       { props: { variant: 'h2' }, style: { color: headingColor } },

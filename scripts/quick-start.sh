@@ -13,38 +13,39 @@ echo "🚀 Traffic CRM Quick Start"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
+SKIP_DOCKER=0
+
 # Check if Docker is running
 if ! docker info >/dev/null 2>&1; then
-  echo "❌ Error: Docker is not running"
-  echo "   Please start Docker Desktop and try again"
-  exit 1
-fi
-
-# Step 1: Start infrastructure
-echo "📦 Step 1/4: Starting Docker infrastructure..."
-pnpm docker:up
-echo "   ✅ PostgreSQL, Redis, MailHog, MinIO started"
-echo ""
-
-# Wait for services to be healthy
-echo "⏳ Waiting for services to be healthy (10s)..."
-sleep 10
-
-# Step 2: Check if database needs setup
-if ! docker exec trafficcrm-postgres psql -U postgres -d trafficcrm -c "SELECT 1 FROM _prisma_migrations LIMIT 1" >/dev/null 2>&1; then
-  echo "📊 Step 2/4: Setting up database..."
-  echo "   Running migrations..."
-  pnpm db:migrate --name init
-  echo "   ✅ Migrations complete"
-  
-  echo "   Seeding demo data..."
-  pnpm db:seed
-  echo "   ✅ Seed complete (demo-org, 2 contacts, 2 leads, 2 deals)"
+  echo "⚠️ Docker is not running; skipping infrastructure steps."
+  SKIP_DOCKER=1
 else
-  echo "📊 Step 2/4: Database already set up"
-  echo "   ✅ Skipping migrations and seed"
+  # Step 1: Start infrastructure
+  echo "📦 Step 1/4: Starting Docker infrastructure..."
+  pnpm docker:up
+  echo "   ✅ PostgreSQL, Redis, MailHog, MinIO started"
+  echo ""
+
+  # Wait for services to be healthy
+  echo "⏳ Waiting for services to be healthy (10s)..."
+  sleep 10
+
+  # Step 2: Check if database needs setup
+  if ! docker exec trafficcrm-postgres psql -U postgres -d trafficcrm -c "SELECT 1 FROM _prisma_migrations LIMIT 1" >/dev/null 2>&1; then
+    echo "📊 Step 2/4: Setting up database..."
+    echo "   Running migrations..."
+    pnpm db:migrate --name init
+    echo "   ✅ Migrations complete"
+
+    echo "   Seeding demo data..."
+    pnpm db:seed
+    echo "   ✅ Seed complete (demo-org, 2 contacts, 2 leads, 2 deals)"
+  else
+    echo "📊 Step 2/4: Database already set up"
+    echo "   ✅ Skipping migrations and seed"
+  fi
+  echo ""
 fi
-echo ""
 
 # Step 3: Generate JWT if .env.local doesn't exist
 if [ ! -f "apps/frontend/.env.local" ] || ! grep -q "VITE_DEV_JWT" "apps/frontend/.env.local" 2>/dev/null; then
@@ -66,16 +67,21 @@ fi
 echo ""
 
 # Step 4: Generate SDK types (if API is not running, will fail gracefully)
-echo "🔧 Step 4/4: Checking SDK types..."
-if curl -s http://localhost:3000/docs-json >/dev/null 2>&1; then
-  echo "   Regenerating SDK from live API..."
-  pnpm sdk:gen
-  echo "   ✅ SDK types updated"
+if [[ "$SKIP_DOCKER" -eq 0 ]]; then
+  echo "🔧 Step 4/4: Checking SDK types..."
+  if curl -s http://localhost:3000/docs-json >/dev/null 2>&1; then
+    echo "   Regenerating SDK from live API..."
+    pnpm sdk:gen
+    echo "   ✅ SDK types updated"
+  else
+    echo "   ⚠️  Core API not running yet, skipping SDK generation"
+    echo "   Run 'pnpm sdk:gen' after starting the API"
+  fi
+  echo ""
 else
-  echo "   ⚠️  Core API not running yet, skipping SDK generation"
-  echo "   Run 'pnpm sdk:gen' after starting the API"
+  echo "🔧 Step 4/4: Skipping SDK generation (Docker unavailable)"
+  echo ""
 fi
-echo ""
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "✨ Setup complete!"
@@ -98,4 +104,3 @@ echo "   pnpm --filter @apps/workers dev"
 echo ""
 echo "📚 Full guide: STACK_SETUP_COMPLETE.md"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-

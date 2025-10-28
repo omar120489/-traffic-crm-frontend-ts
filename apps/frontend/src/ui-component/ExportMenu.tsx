@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
-import { IconFileSpreadsheet, IconFileTypePdf, IconDownload } from '@tabler/icons-react';
+import { IconFileSpreadsheet, IconFileTypePdf, IconDownload } from '@/icons';
 
 interface ExportMenuProps {
   readonly onExportXLSX: () => void;

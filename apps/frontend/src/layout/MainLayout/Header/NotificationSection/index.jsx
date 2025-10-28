@@ -23,7 +23,7 @@ import Transitions from 'ui-component/extended/Transitions';
 import NotificationList from './NotificationList';
 
 // assets
-import { IconBell } from '@tabler/icons-react';
+import { IconBell } from '@/icons';
 
 // notification status options
 const status = [

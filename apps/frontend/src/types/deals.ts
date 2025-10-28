@@ -42,7 +42,7 @@ export interface MoveDealPayload {
   readonly position: number;
 }
 
-export interface MoveDealResponse extends Deal {}
+export type MoveDealResponse = Deal;
 
 export interface DealFilters {
   readonly ownerIds?: readonly string[];

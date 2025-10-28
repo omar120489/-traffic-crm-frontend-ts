@@ -12,7 +12,7 @@ const DOC_LINKS: Record<string, string> = {
   auth0: 'https://codedthemes.gitbook.io/berry/authentication/auth0',
   firebase: 'https://codedthemes.gitbook.io/berry/authentication/firebase',
   aws: 'https://codedthemes.gitbook.io/berry/authentication/aws-cognito',
-  supabase: 'https://codedthemes.gitbook.io/berry/authentication/supabase',
+  supabase: 'https://codedthemes.gitbook.io/berry/authentication/supabase'
 };
 
 export default function ViewOnlyAlert() {
@@ -39,14 +39,15 @@ export default function ViewOnlyAlert() {
         margin: { xs: 2.5, md: 3 },
         '& > *': {
           flexGrow: 1,
-          flexBasis: '50%',
-        },
+          flexBasis: '50%'
+        }
       }}
     >
       <Alert variant="outlined" severity="info" sx={{ alignItems: 'flex-start' }}>
         <Typography variant="h5">View Only</Typography>
         <Typography variant="h6">
-          This page is view-only. To make it fully functional, please read the documentation provided{' '}
+          This page is view-only. To make it fully functional, please read the documentation
+          provided{' '}
           <Link href={documentationLink} target="_blank" rel="noreferrer">
             here
           </Link>{' '}

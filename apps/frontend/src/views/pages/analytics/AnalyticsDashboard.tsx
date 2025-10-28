@@ -19,7 +19,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/GridLegacy';
+import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -36,7 +36,7 @@ import type { LineChartProps } from '@mui/x-charts/LineChart';
 
 import MainCard from 'ui-component/cards/MainCard';
 import { DEAL_STAGES } from 'constants/deals';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type {
   AnalyticsFilters,
   CohortItem,
@@ -553,7 +553,7 @@ export default function AnalyticsDashboard() {
             <Grid container spacing={2}>
               {state.kpis ? (
                 <>
-                  <Grid xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Card variant="outlined">
                       <CardActionArea
                         data-testid={KPI_CARD_TEST_IDS.leadsCreated}
@@ -571,7 +571,7 @@ export default function AnalyticsDashboard() {
                     </Card>
                   </Grid>
 
-                  <Grid xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Card variant="outlined">
                       <CardActionArea
                         data-testid={KPI_CARD_TEST_IDS.dealsCreated}
@@ -589,7 +589,7 @@ export default function AnalyticsDashboard() {
                     </Card>
                   </Grid>
 
-                  <Grid xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Card variant="outlined">
                       <CardActionArea
                         data-testid={KPI_CARD_TEST_IDS.dealsWon}
@@ -607,7 +607,7 @@ export default function AnalyticsDashboard() {
                     </Card>
                   </Grid>
 
-                  <Grid xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Card variant="outlined">
                       <CardContent>
                         <Typography variant="subtitle2" color="text.secondary">
@@ -620,7 +620,7 @@ export default function AnalyticsDashboard() {
                     </Card>
                   </Grid>
 
-                  <Grid xs={12} sm={6} md={3}>
+                  <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Card variant="outlined">
                       <CardContent>
                         <Typography variant="subtitle2" color="text.secondary">
@@ -634,7 +634,7 @@ export default function AnalyticsDashboard() {
                   </Grid>
 
                   {typeof state.kpis.revenue === 'number' && (
-                    <Grid xs={12} sm={6} md={3}>
+                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                       <Card variant="outlined">
                         <CardContent>
                           <Typography variant="subtitle2" color="text.secondary">
@@ -649,7 +649,7 @@ export default function AnalyticsDashboard() {
                   )}
 
                   {typeof state.kpis.roas === 'number' && (
-                    <Grid xs={12} sm={6} md={3}>
+                    <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                       <Card variant="outlined">
                         <CardContent>
                           <Typography variant="subtitle2" color="text.secondary">
@@ -664,7 +664,7 @@ export default function AnalyticsDashboard() {
                   )}
                 </>
               ) : (
-                <Grid xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <Card variant="outlined">
                     <CardContent>
                       <Typography color="text.secondary">No KPI data available.</Typography>
@@ -701,7 +701,11 @@ export default function AnalyticsDashboard() {
                         valueFormatter: (value: number | null) => formatTooltipValue(value)
                       }))}
                       onItemClick={(_event, item) => {
-                        const { seriesId, dataIndex } = item ?? {};
+                        const { seriesId, dataIndex } =
+                          (item as {
+                            seriesId?: string;
+                            dataIndex?: number;
+                          }) ?? {};
                         if (typeof dataIndex !== 'number') {
                           return;
                         }
@@ -743,7 +747,11 @@ export default function AnalyticsDashboard() {
                         }
                       ]}
                       onItemClick={(_event, item) => {
-                        const { seriesId, dataIndex } = item ?? {};
+                        const { seriesId, dataIndex } =
+                          (item as {
+                            seriesId?: string;
+                            dataIndex?: number;
+                          }) ?? {};
                         if (typeof dataIndex !== 'number') {
                           return;
                         }

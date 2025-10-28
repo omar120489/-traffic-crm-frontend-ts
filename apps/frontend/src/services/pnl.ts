@@ -1,5 +1,5 @@
 import { apiGet } from 'utils/axios';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { PnLQuery, PnLResponse } from 'types/api';
 
 const API_BASE_URL = '/api/v1/pnl';

@@ -80,7 +80,7 @@ export default [
       'no-restricted-imports': [
         'error',
         {
-          patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*'],
+          patterns: ['@mui/*/*/*', '!@mui/material/test-utils/*', '@tabler/icons-react/*'],
           paths: [
             {
               name: 'ui-component',
@@ -88,7 +88,8 @@ export default [
             },
             {
               name: '@tabler/icons-react',
-              message: 'Use @mui/icons-material for consistency. Import specific icons only.'
+              message:
+                'Use @/icons instead of direct @tabler/icons-react imports for lint-safe usage.'
             },
             {
               name: 'apexcharts',
@@ -96,7 +97,8 @@ export default [
             },
             {
               name: 'react-perfect-scrollbar',
-              message: 'Use native overflow with MUI containers (Box with sx={{ overflow: "auto" }}).'
+              message:
+                'Use native overflow with MUI containers (Box with sx={{ overflow: "auto" }}).'
             },
             {
               name: 'fullcalendar',
@@ -134,39 +136,39 @@ export default [
   {
     files: ['src/**/*.{js,jsx}']
   },
-  // TypeScript-specific configuration
+  // TypeScript-specific rules
   {
     files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      parser: tsparser,
-      parserOptions: {
-        tsconfigRootDir: __dirname,
-        ecmaVersion: 2020,
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true
-        },
-        // Use main tsconfig to ensure ESLint gets path aliases and strict mode
-        project: ['./tsconfig.json']
-      }
-    },
     plugins: {
       '@typescript-eslint': tseslint
     },
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        project: './tsconfig.json',
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    },
     rules: {
-      // Disable base rule and use TypeScript-aware version
-      'no-unused-vars': 'off',
+      ...tseslint.configs.recommended.rules,
+      'no-console': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
           vars: 'all',
-          args: 'none',
-          ignoreRestSiblings: true
+          args: 'none'
         }
-      ],
-      // Disable other base rules that have TS equivalents
-      'no-shadow': 'off',
-      '@typescript-eslint/no-shadow': 'error'
+      ]
+    }
+  },
+
+  // Icons wrapper exception - allow @tabler/icons-react imports
+  {
+    files: ['src/icons/index.ts'],
+    rules: {
+      'no-restricted-imports': 'off'
     }
   }
 ];

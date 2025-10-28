@@ -1,7 +1,7 @@
 // This is example of menu item without group for horizontal layout. There will be no children.
 
 // assets
-import { IconBrandChrome } from '@tabler/icons-react';
+import { IconBrandChrome } from '@/icons';
 import type { NavItemType } from 'types/menu';
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE ||============================== //

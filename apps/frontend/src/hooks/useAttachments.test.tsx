@@ -1,4 +1,3 @@
-// @ts-nocheck
 /** @vitest-environment jsdom */
 
 import React, { act } from 'react';
@@ -6,20 +5,19 @@ import { createRoot } from 'react-dom/client';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAttachments } from './useAttachments';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { Attachment } from 'types/api';
+// Use shared Attachment type from monorepo shared-types
+import type { Attachment } from '@/types/api';
+
+type UploadOptions = {
+  entityType: string;
+  entityId: string | number;
+  file: File;
+  onUploadProgress?: (progress: number) => void;
+};
 
 const attachmentsMocks = vi.hoisted(() => ({
-  list: vi.fn<(entityType: string, entityId: string | number) => Promise<Attachment[]>>(),
-  upload:
-    vi.fn<
-      (options: {
-        entityType: string;
-        entityId: string | number;
-        file: File;
-        onUploadProgress?: (progress: number) => void;
-      }) => Promise<Attachment>
-    >(),
+  list: vi.fn<[string, string | number], Promise<Attachment[]>>(),
+  upload: vi.fn<[UploadOptions], Promise<Attachment>>(),
   remove: vi.fn()
 }));
 

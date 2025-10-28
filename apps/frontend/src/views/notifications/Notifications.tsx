@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { memo } from 'react';
 import {
   Accordion,
@@ -30,18 +29,16 @@ import {
   IconExternalLink,
   IconSettings,
   IconX
-} from '@tabler/icons-react';
+} from '@/icons';
 import { useNavigate } from 'react-router-dom';
 
 import AppPage from 'layouts/AppPage';
 import { useNotifications, type NotificationFilter } from 'hooks/useNotifications';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
 import {
   useNotificationPreferences,
   type NotificationType
 } from 'hooks/useNotificationPreferences';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { Notification } from 'types/api';
+import type { Notification } from '@/types/api';
 import { isNewNotification } from 'utils/notifications';
 import { track } from 'utils/analytics';
 
@@ -487,13 +484,15 @@ export default function Notifications() {
       />
     ) : undefined;
 
+  const pageError = typeof error === 'string' || error instanceof Error ? error : null;
+
   return (
     <AppPage
       title="Notifications"
       toolbar={toolbar}
       actions={actions}
       loading={loading}
-      error={error}
+      error={pageError}
       empty={!hasNotifications}
       onRetry={retry}
       emptySlot={emptySlot}

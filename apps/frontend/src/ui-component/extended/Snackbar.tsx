@@ -22,7 +22,7 @@ const transitions: Record<string, TransitionComponent> = {
   Fade,
   Grow,
   Slide: slideUp,
-  Zoom,
+  Zoom
 };
 
 export default function AppSnackbar() {
@@ -89,7 +89,7 @@ export default function AppSnackbar() {
         icon={snackbar.hideIconVariant ? false : undefined}
         sx={{
           '.MuiAlert-action': { mb: 0.5 },
-          ...(snackbar.variant === 'outlined' && { bgcolor: 'background.paper' }),
+          ...(snackbar.variant === 'outlined' && { bgcolor: 'background.paper' })
         }}
       >
         {snackbar.message}

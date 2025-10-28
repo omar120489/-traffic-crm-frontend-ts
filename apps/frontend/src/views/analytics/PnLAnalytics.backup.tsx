@@ -1,4 +1,3 @@
-// @ts-nocheck - MUI v7 Grid API incompatibility throughout file, will be fixed in future MUI migration
 import { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
@@ -8,7 +7,6 @@ import {
   CardContent,
   CircularProgress,
   FormControl,
-  Grid,
   InputLabel,
   MenuItem,
   Paper,
@@ -28,6 +26,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import {
   IconRefresh,
   IconTrendingUp,
@@ -37,7 +36,7 @@ import {
   IconFileTypeCsv,
   IconFileTypeXls,
   IconFileTypePdf
-} from '@tabler/icons-react';
+} from '@/icons';
 
 import MainCard from 'ui-component/cards/MainCard';
 import { pnlService } from 'services';
@@ -321,7 +320,7 @@ export default function PnLAnalytics() {
             @media print {
               body { margin: 0; }
               .no-print { display: none; }
-            }
+           }
           </style>
         </head>
         <body>
@@ -466,7 +465,7 @@ export default function PnLAnalytics() {
             Filters
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -478,7 +477,7 @@ export default function PnLAnalytics() {
               />
             </Grid>
 
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -490,7 +489,7 @@ export default function PnLAnalytics() {
               />
             </Grid>
 
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>UTM Source</InputLabel>
                 <Select
@@ -508,7 +507,7 @@ export default function PnLAnalytics() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>UTM Campaign</InputLabel>
                 <Select
@@ -526,7 +525,7 @@ export default function PnLAnalytics() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} md={2.4}>
+            <Grid size={{ xs: 12, md: 2.4 }}>
               <FormControl fullWidth size="small">
                 <InputLabel>Ad ID</InputLabel>
                 <Select
@@ -544,7 +543,7 @@ export default function PnLAnalytics() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Stack direction="row" spacing={1} justifyContent="flex-end">
                 <Button variant="contained" onClick={handleApplyFilters} size="small">
                   Apply Filters
@@ -582,7 +581,7 @@ export default function PnLAnalytics() {
         <>
           <Grid container spacing={3} sx={{ mb: 3 }}>
             {/* Total Net Profit */}
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Stack direction="row" alignItems="center" spacing={2}>
@@ -615,7 +614,7 @@ export default function PnLAnalytics() {
             </Grid>
 
             {/* Average ROAS */}
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Stack direction="row" alignItems="center" spacing={2}>
@@ -648,7 +647,7 @@ export default function PnLAnalytics() {
             </Grid>
 
             {/* Average CPA */}
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Card>
                 <CardContent>
                   <Stack direction="row" alignItems="center" spacing={2}>

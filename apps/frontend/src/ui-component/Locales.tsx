@@ -26,7 +26,7 @@ interface LocalesProps {
 
 export default function Locales({ children }: LocalesProps) {
   const {
-    state: { i18n },
+    state: { i18n }
   } = useConfig();
 
   const [messages, setMessages] = useState<LocaleMessages | null>(null);

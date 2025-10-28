@@ -20,18 +20,29 @@ import { APP_AUTH } from 'config';
 
 type AuthKey = 'firebase' | 'jwt' | 'aws' | 'auth0' | 'supabase';
 
-const authForgotPasswordImports: Record<AuthKey, () => Promise<{ default: ComponentType }>> = {
-  firebase: () => import('./firebase/AuthForgotPassword.jsx'),
-  jwt: () => import('./jwt/AuthForgotPassword.jsx'),
-  aws: () => import('./aws/AuthForgotPassword.jsx'),
-  auth0: () => import('./auth0/AuthForgotPassword.jsx'),
-  supabase: () => import('./supabase/AuthForgotPassword.jsx'),
+// Helper function to dynamically import auth providers only when needed
+const loadAuthProvider = async (authType: AuthKey) => {
+  switch (authType) {
+    case 'jwt':
+      return import('./jwt/AuthForgotPassword.jsx');
+    case 'aws':
+      return import('./aws/AuthForgotPassword.jsx');
+    case 'auth0':
+      return import('./auth0/AuthForgotPassword.jsx');
+    case 'supabase':
+      return import('./supabase/AuthForgotPassword.jsx');
+    case 'firebase':
+      throw new Error('Firebase authentication is not configured');
+    default:
+      return import('./jwt/AuthForgotPassword.jsx');
+  }
 };
 
 export default function ForgotPassword() {
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const { isLoggedIn } = useAuth();
-  const [AuthForgotPasswordComponent, setAuthForgotPasswordComponent] = useState<ComponentType | null>(null);
+  const [AuthForgotPasswordComponent, setAuthForgotPasswordComponent] =
+    useState<ComponentType | null>(null);
 
   const [searchParams] = useSearchParams();
   const authParam = (searchParams.get('auth') ?? '') as AuthKey | '';
@@ -39,9 +50,8 @@ export default function ForgotPassword() {
   useEffect(() => {
     let mounted = true;
     const selectedAuth = (authParam || APP_AUTH) as AuthKey;
-    const importer = authForgotPasswordImports[selectedAuth] ?? authForgotPasswordImports.jwt;
 
-    importer()
+    loadAuthProvider(selectedAuth)
       .then((module) => {
         if (mounted) {
           setAuthForgotPasswordComponent(() => module.default);
@@ -76,7 +86,7 @@ export default function ForgotPassword() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    gap: 2,
+                    gap: 2
                   }}
                 >
                   <Typography
@@ -117,8 +127,8 @@ export default function ForgotPassword() {
                   margin: { xs: 2.5, md: 3 },
                   '& > *': {
                     flexGrow: 1,
-                    flexBasis: '50%',
-                  },
+                    flexBasis: '50%'
+                  }
                 }}
               >
                 <LoginProvider currentLoginWith={APP_AUTH} />

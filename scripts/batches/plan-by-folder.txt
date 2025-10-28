@@ -1,0 +1,2 @@
+=== PropTypes by folder ===
+apps/frontend                       18

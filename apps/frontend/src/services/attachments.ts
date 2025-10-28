@@ -1,6 +1,6 @@
 import { apiDelete, apiGet, axios } from 'utils/axios';
 
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { Attachment, AttachmentListResponse, EntityIdentifier } from 'types/api';
 
 const BASE_URL = '/api/v1/attachments';

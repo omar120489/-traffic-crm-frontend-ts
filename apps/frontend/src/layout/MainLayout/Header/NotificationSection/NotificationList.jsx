@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
@@ -18,7 +16,7 @@ import Box from '@mui/material/Box';
 import { withAlpha } from 'utils/colorUtils';
 
 // assets
-import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@tabler/icons-react';
+import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@/icons';
 import User1 from 'assets/images/users/user-round.svg';
 
 function ListItemWrapper({ children }) {
@@ -207,5 +205,3 @@ export default function NotificationList() {
     </List>
   );
 }
-
-ListItemWrapper.propTypes = { children: PropTypes.node };

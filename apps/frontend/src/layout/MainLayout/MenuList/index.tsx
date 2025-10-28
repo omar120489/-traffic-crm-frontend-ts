@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 
 import NavItem from './NavItem';
 import NavGroup from './NavGroup';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import { MenuOrientation, HORIZONTAL_MAX_ITEM } from 'config';
 import menuItems from 'menu-items';
 import useConfig from 'hooks/useConfig';

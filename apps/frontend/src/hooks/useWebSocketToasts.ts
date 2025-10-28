@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 
 import { useWebSocketEvents } from './useWebSocketEvents';
 import { useNotificationPreferences } from './useNotificationPreferences';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { Attachment, Comment, Notification } from 'types/api';
 
 /**

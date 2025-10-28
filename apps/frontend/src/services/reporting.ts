@@ -1,5 +1,5 @@
 import { apiGet } from 'utils/axios';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type {
   AnalyticsFilters,
   CohortItem,

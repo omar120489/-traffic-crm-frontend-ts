@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { attachmentsService } from 'services/attachments';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
+// TODO: Fix TypeScript path alias resolution - tracking issue
 import type { Attachment, EntityIdentifier } from 'types/api';
 import { useWebSocketEvents } from './useWebSocketEvents';
 

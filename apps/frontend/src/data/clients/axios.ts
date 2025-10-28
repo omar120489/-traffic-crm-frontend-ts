@@ -3,19 +3,20 @@ import axios, {
   type InternalAxiosRequestConfig,
   type AxiosRequestConfig,
   type AxiosResponse,
+  type AxiosError
 } from 'axios';
 import type { LoginResponse, UserProfileResponse } from 'types/api';
 
 // ==============================|| AXIOS CONFIGURATION ||============================== //
 
-const baseURL = import.meta.env.VITE_APP_API_URL || 'http://localhost:8787/';
+const baseURL = import.meta.env.VITE_APP_API_URL || 'http://localhost:3000/';
 
 const axiosServices: AxiosInstance = axios.create({
   baseURL,
   timeout: 15000,
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
 // ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
@@ -28,20 +29,19 @@ axiosServices.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error: AxiosError | unknown) => Promise.reject(error)
 );
 
 axiosServices.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error) => {
+  (error: AxiosError<unknown>) => {
     if (error.response?.status === 401 && !window.location.href.includes('/login')) {
       localStorage.removeItem('serviceToken');
       delete axiosServices.defaults.headers.common.Authorization;
       window.location.pathname = '/login';
     }
-    return Promise.reject((error.response && error.response.data) || 'Wrong Services');
+    const reason = error.response?.data ?? error.message ?? 'Wrong Services';
+    return Promise.reject(reason);
   }
 );
 
@@ -49,7 +49,7 @@ export default axiosServices;
 
 // ==============================|| TYPED FETCHER ||============================== //
 
-export async function fetcher<T = any>(
+export async function fetcher<T = unknown>(
   args: string | [string, InternalAxiosRequestConfig?]
 ): Promise<T> {
   const [url, config] = Array.isArray(args) ? args : [args];
@@ -62,13 +62,13 @@ export async function fetcher<T = any>(
 // ==============================|| TYPED API METHODS ||============================== //
 
 // Generic GET method with typing
-export async function apiGet<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+export async function apiGet<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
   const response = await axiosServices.get<T>(url, config);
   return response.data;
 }
 
 // Generic POST method with typing
-export async function apiPost<TRequest = any, TResponse = any>(
+export async function apiPost<TRequest = unknown, TResponse = unknown>(
   url: string,
   data?: TRequest,
   config?: AxiosRequestConfig
@@ -78,7 +78,7 @@ export async function apiPost<TRequest = any, TResponse = any>(
 }
 
 // Generic PUT method with typing
-export async function apiPut<TRequest = any, TResponse = any>(
+export async function apiPut<TRequest = unknown, TResponse = unknown>(
   url: string,
   data?: TRequest,
   config?: AxiosRequestConfig
@@ -88,7 +88,7 @@ export async function apiPut<TRequest = any, TResponse = any>(
 }
 
 // Generic PATCH method with typing
-export async function apiPatch<TRequest = any, TResponse = any>(
+export async function apiPatch<TRequest = unknown, TResponse = unknown>(
   url: string,
   data?: TRequest,
   config?: AxiosRequestConfig
@@ -98,7 +98,7 @@ export async function apiPatch<TRequest = any, TResponse = any>(
 }
 
 // Generic DELETE method with typing
-export async function apiDelete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+export async function apiDelete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
   const response = await axiosServices.delete<T>(url, config);
   return response.data;
 }
@@ -118,8 +118,8 @@ export const authApi = {
         firstName: 'Dev',
         lastName: 'User',
         orgId: 'clx0d018d000008l701211234',
-        role: 'admin',
-      },
+        role: 'admin'
+      }
     };
   },
 
@@ -140,7 +140,7 @@ export const authApi = {
   register: (data: { email: string; password: string; firstName: string; lastName: string }) =>
     apiPost('/api/account/register', data),
 
-  resetPassword: (email: string) => apiPost('/api/account/reset-password', { email }),
+  resetPassword: (email: string) => apiPost('/api/account/reset-password', { email })
 };
 
 // Export the configured instance for backward compatibility

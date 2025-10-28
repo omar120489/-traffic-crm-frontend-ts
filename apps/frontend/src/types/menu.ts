@@ -7,7 +7,7 @@ export interface BaseItem {
   id: string;
   title?: string;
   caption?: string;
-  icon?: ComponentType<any>;
+  icon?: ComponentType<Record<string, unknown>>;
   type: 'item' | 'group' | 'collapse';
   url?: string;
   link?: string;

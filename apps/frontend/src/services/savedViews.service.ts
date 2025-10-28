@@ -7,7 +7,7 @@ async function http<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
   const resp = await fetch(input, {
     credentials: 'include',
     headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
-    ...init,
+    ...init
   });
   if (!resp.ok) {
     const text = await resp.text().catch(() => '');
@@ -28,14 +28,21 @@ export const SavedViewsService = {
   get(id: string): Promise<SavedView> {
     return http<SavedView>(`${BASE}/${id}`);
   },
-  create(payload: { name: string; filters: AnalyticsFilters; isDefault?: boolean; isShared?: boolean }): Promise<SavedView> {
+  create(payload: {
+    name: string;
+    filters: AnalyticsFilters;
+    isDefault?: boolean;
+    isShared?: boolean;
+  }): Promise<SavedView> {
     return http<SavedView>(BASE, { method: 'POST', body: JSON.stringify(payload) });
   },
-  update(id: string, payload: Partial<Pick<SavedView, 'name'|'filters'|'isDefault'|'isShared'>>): Promise<SavedView> {
+  update(
+    id: string,
+    payload: Partial<Pick<SavedView, 'name' | 'filters' | 'isDefault' | 'isShared'>>
+  ): Promise<SavedView> {
     return http<SavedView>(`${BASE}/${id}`, { method: 'PATCH', body: JSON.stringify(payload) });
   },
   remove(id: string): Promise<{ success: boolean }> {
     return http<{ success: boolean }>(`${BASE}/${id}`, { method: 'DELETE' });
-  },
+  }
 };
-

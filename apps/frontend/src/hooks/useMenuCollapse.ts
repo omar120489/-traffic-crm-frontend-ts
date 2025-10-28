@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { matchPath } from 'react-router-dom';
 
-import type { NavItemType, SetBoolean, SetHTMLElement, SetString } from 'types/menu';
+import type { NavItemType, SetBoolean, SetHTMLElement, SetString } from '@/types/menu';
 
 // ==============================|| MENU COLLAPSED - RECURSIVE FUNCTION ||============================== //
 
@@ -45,13 +45,18 @@ export default function useMenuCollapse(
   setOpen: SetBoolean,
   setAnchorEl: SetHTMLElement
 ): void {
+  const childrenDep = (menu as unknown as { children?: NavItemType[] }).children;
   useEffect(() => {
     setOpen(false);
-    !miniMenuOpened ? setSelected(null) : setAnchorEl(null);
+    if (!miniMenuOpened) {
+      setSelected(null);
+    } else {
+      setAnchorEl(null);
+    }
 
     if ('children' in menu && menu.children?.length) {
       setParentOpenedMenu(menu.children, pathname, menu.id, setSelected, setOpen);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, (menu as any).children]);
+  }, [pathname, childrenDep]);
 }

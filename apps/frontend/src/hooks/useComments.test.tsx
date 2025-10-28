@@ -1,4 +1,3 @@
-// @ts-nocheck
 /** @vitest-environment jsdom */
 
 import React, { act } from 'react';
@@ -6,22 +5,20 @@ import { createRoot } from 'react-dom/client';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useComments } from './useComments';
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-import type { Comment, CommentListResponse } from 'types/api';
+// Use shared frontend types via path alias
+import type { Comment, CommentListResponse } from '@/types/api';
+
+type ListParams = { entityType?: string; entityId?: string | number };
+type CreatePayload = {
+  entityType: string;
+  entityId: string | number;
+  content: string;
+  mentions?: Array<string | number>;
+};
 
 const commentsMocks = vi.hoisted(() => ({
-  list: vi.fn<
-    (params: { entityType?: string; entityId?: string | number }) => Promise<CommentListResponse>
-  >(),
-  create:
-    vi.fn<
-      (payload: {
-        entityType: string;
-        entityId: string | number;
-        content: string;
-        mentions?: Array<string | number>;
-      }) => Promise<Comment>
-    >(),
+  list: vi.fn<[ListParams], Promise<CommentListResponse>>(),
+  create: vi.fn<[CreatePayload], Promise<Comment>>(),
   update: vi.fn(),
   remove: vi.fn()
 }));
@@ -37,7 +34,8 @@ vi.mock('services/comments', () => ({
 
 describe('useComments', () => {
   beforeAll(() => {
-    (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true;
+    (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT =
+      true;
   });
 
   beforeEach(() => {

@@ -1,0 +1,19 @@
+File|Line|Match
+apps/frontend/src/layout/MainLayout/Header/MegaMenuSection/index.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/layout/MainLayout/Header/MegaMenuSection/index.jsx|238|HeaderAvatar.propTypes = {
+apps/frontend/src/layout/MainLayout/Sidebar/MenuCard/index.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/layout/MainLayout/Sidebar/MenuCard/index.jsx|132|LinearProgressWithLabel.propTypes = { value| PropTypes.number, others| PropTypes.any };
+apps/frontend/src/layout/NavMotion.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/layout/NavMotion.jsx|43|NavMotion.propTypes = { children| PropTypes.node };
+apps/frontend/src/layout/MainLayout/HorizontalBar.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/layout/MainLayout/HorizontalBar.jsx|70|ElevationScroll.propTypes = { children| PropTypes.node, window| PropTypes.any };
+apps/frontend/src/layout/MainLayout/Header/SearchSection/index.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/layout/MainLayout/Header/SearchSection/index.jsx|187|HeaderAvatar.propTypes = { children| PropTypes.node, ref| PropTypes.any, others| PropTypes.any };
+apps/frontend/src/layout/MainLayout/Header/SearchSection/index.jsx|189|MobileSearch.propTypes = {
+apps/frontend/src/views/pages/authentication/jwt/AuthForgotPassword.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/views/pages/authentication/jwt/AuthForgotPassword.jsx|145|AuthForgotPassword.propTypes = { link| PropTypes.string };
+apps/frontend/src/views/pages/maintenance/ComingSoon/ComingSoon1/Slider.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/views/pages/maintenance/ComingSoon/ComingSoon1/Slider.jsx|63|Item.propTypes = { item| PropTypes.object };
+apps/frontend/src/views/pages/maintenance/ComingSoon/ComingSoon1/Slider.jsx|65|ComingSoonSlider.propTypes = { handleClickOpen| PropTypes.func };
+apps/frontend/src/views/pages/authentication/jwt/AuthResetPassword.jsx|1|import PropTypes from 'prop-types';
+apps/frontend/src/views/pages/authentication/jwt/AuthResetPassword.jsx|238|AuthResetPassword.propTypes = { link| PropTypes.string };

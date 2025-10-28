@@ -14,7 +14,7 @@ import {
   Typography
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { IconChevronDown, IconChevronUp, IconFilter, IconX } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronUp, IconFilter, IconX } from '@/icons';
 
 export interface FilterConfig {
   label: string;
@@ -185,8 +185,7 @@ export function FilterPanel({
             {filters.map((filter) => {
               if (filter.type === 'text') {
                 return (
-                  // @ts-expect-error - MUI v7 Grid API incompatibility, will be fixed in future MUI migration
-                  <Grid item xs={12} sm={6} md={4} key={filter.field}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={filter.field}>
                     <TextField
                       fullWidth
                       size="small"
@@ -200,8 +199,7 @@ export function FilterPanel({
 
               if (filter.type === 'date-range') {
                 return (
-                  // @ts-expect-error - MUI v7 Grid API incompatibility, will be fixed in future MUI migration
-                  <Grid item xs={12} sm={6} md={4} key={filter.field}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={filter.field}>
                     <Stack spacing={1}>
                       <TextField
                         fullWidth
@@ -228,8 +226,7 @@ export function FilterPanel({
 
               if (filter.type === 'number-range') {
                 return (
-                  // @ts-expect-error - MUI v7 Grid API incompatibility, will be fixed in future MUI migration
-                  <Grid item xs={12} sm={6} md={4} key={filter.field}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={filter.field}>
                     <Stack spacing={1}>
                       <TextField
                         fullWidth
@@ -264,8 +261,7 @@ export function FilterPanel({
 
               if (filter.type === 'multi-select' && filter.options) {
                 return (
-                  // @ts-expect-error - MUI v7 Grid API incompatibility, will be fixed in future MUI migration
-                  <Grid item xs={12} sm={6} md={4} key={filter.field}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={filter.field}>
                     <FormControl fullWidth size="small">
                       <InputLabel id={`${filter.field}-label`}>{filter.label}</InputLabel>
                       <Select
@@ -289,8 +285,7 @@ export function FilterPanel({
 
               if (filter.type === 'single-select' && filter.options) {
                 return (
-                  // @ts-expect-error - MUI v7 Grid API incompatibility, will be fixed in future MUI migration
-                  <Grid item xs={12} sm={6} md={4} key={filter.field}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={filter.field}>
                     <FormControl fullWidth size="small">
                       <InputLabel id={`${filter.field}-label`}>{filter.label}</InputLabel>
                       <Select

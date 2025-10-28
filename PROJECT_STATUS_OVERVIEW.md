@@ -1,6 +1,7 @@
 # Traffic CRM – Development Status Overview
 
 > Snapshot generated on 2025-10-27. Update after each major milestone or sprint review.
+> Detailed future work lives in the [Remaining Development Plan](#-remaining-development-plan--2025-10-27).
 
 ---
 
@@ -115,6 +116,106 @@
 | Bundle Size Workflow | Add automated size regression check | 🟢 Optional |
 | Monitoring | Integrate Lighthouse CI / Web Vitals / Sentry | 🟢 Optional |
 | Wiki / Docs Split | Decide on wiki vs multi-README structure | 🟢 Optional |
+
+---
+
+## 🧭 Remaining Development Plan — 2025-10-27
+
+This section captures the outstanding roadmap that complements the high-level tracker above. Update it whenever priorities shift so downstream teams and agents stay aligned.
+
+### ✅ Completed Foundations (Snapshot)
+
+The items below summarise the major milestones that unblock the remaining tasks:
+
+- Frontend migrated to React 19, Vite, and TypeScript with reorganised pages under `src/pages/`.
+- Core documentation (`README.md`, `PROJECT_STATUS_OVERVIEW.md`, `.github/copilot-instructions.md`, `docs/FRONTEND_STRUCTURE.md`) is current.
+- Asset cleanup/branding pipeline finished; Docker + CI workflows build, test, and publish multi-stage images.
+- Monorepo layout (frontend, core-api, reporting, workers, packages) documented; JWT auth unified with documented env segregation.
+- Playwright, Vitest, ESLint, and Husky hooks operational; dev scripts (`scripts/quick-start.sh`, diagnostics) verified.
+
+### 1. 🧠 Core API Completion (`apps/core-api`)
+
+- Migrate to Prisma v6 and regenerate `/prisma/schema.prisma`.
+- Add Redis-backed rate limiter middleware.
+- Publish OpenAPI spec via `@nestjs/swagger` in CI.
+- Implement JWT refresh rotation and strict secret validation.
+- Add integration tests for `/contacts`, `/companies`, `/deals`.
+
+### 2. 🧰 Workers (BullMQ)
+
+- Replace stub processors with real jobs (lead-scoring, enrichment, sync-reporting).
+- Add `queue.config.ts` for channels/backoff strategies.
+- Wire worker service into Docker Compose with Redis.
+- Add unit tests (e.g., `bullmq-mock` or Redis stub).
+- Extend CI to lint/build the worker app.
+- **Guardrail:** Do **not** invent queue schemas—define payloads under `apps/workers/types/queue.ts` per `.github/copilot-instructions.md`.
+
+### 3. 📊 Reporting Service
+
+- Keep in read-only mode until architecture decision.
+- Evaluate a lightweight BI layer (Postgres materialised views + Metabase).
+- Add explicit note to `apps/reporting/README.md` marking the service experimental.
+
+### 4. 🧩 Module Federation & Shared Libraries
+
+- Finish MF wiring for `@traffic-crm/ui-kit` (frontend host).
+- Lock shared dependencies (MUI, React, Redux, Emotion) to exact versions across remotes.
+- Document the federation map in `docs/MODULE_FEDERATION_GUIDE.md`.
+- Validate remote exposure rules (no server-only imports).
+
+### 5. 🎨 Frontend Modernisation & Cleanup
+
+- Complete MUI v7 migration: replace deprecated Grid props, update theme overrides to `slotProps`.
+- Convert remaining legacy pages under `src/views/pages/` to TypeScript + hooks.
+- Decide on React Query vs RTK Query for shared data state (prepare RFC).
+- Finalise lazy-loading for analytics/detail pages and add Storybook build for shared components.
+
+### 6. 🧪 Test Infrastructure Expansion
+
+- Reach ≥ 70 % combined coverage.
+- Add E2E smoke tests for login + JWT refresh, contact CRUD, deal pipeline drag/drop.
+- Enable (optional) Playwright visual regression screenshots.
+- Run `prisma migrate reset` before backend E2E suites.
+
+### 7. 🐳 Docker & Infrastructure
+
+- Fix Docker socket permission denied in CI by adding the runner to the `docker` group.
+- Add health checks for core-api and frontend services.
+- Add volume mounts for local dev syncing (pnpm workspaces).
+- Configure BuildKit caching and tighten `.dockerignore` for production builds.
+
+### 8. 🔐 Security & Compliance
+
+- Rotate default Docker credentials in `.env.example`.
+- Add `security-audit.yml` (npm audit + Trivy).
+- Review Supabase/Cognito token scopes.
+- Expand auth edge-case test coverage.
+
+### 9. 🧭 Documentation Pipeline
+
+- Auto-generate Swagger docs into `docs/API_REFERENCE.md`.
+- Auto-refresh `PROJECT_STATUS_OVERVIEW.md` via CI after major merges.
+- Move longform guides (Architecture, MUI Migration, Testing Strategy) to GitHub Wiki.
+- Add link consistency checks in `docs-lint.yml`.
+
+### 10. 🚀 Release & Deployment
+
+- Prepare staging deployments (Vercel frontend, Render backend).
+- Add `pnpm build:all` orchestrator and publish images:
+  - `ghcr.io/traffic-crm/frontend:latest`
+  - `ghcr.io/traffic-crm/core-api:latest`
+- Integrate environment version bumping into CI/CD.
+
+### 🧾 Priority Matrix
+
+| Priority | Focus | Owner | Target |
+| --- | --- | --- | --- |
+| 🟢 P0 | Core API + Prisma v6 migration | Backend team | Week 1 |
+| 🟡 P1 | Worker queue wiring + CI integration | Infra / Backend | Week 2 |
+| 🟢 P0 | Frontend MUI v7 migration + testing | Frontend team | Weeks 2–3 |
+| 🟡 P2 | Docker socket fix + CI health checks | DevOps | Week 3 |
+| 🟢 P0 | Security audit + secret rotation | Security | Week 3 |
+| 🟢 P0 | Documentation auto-refresh + wiki setup | Docs | Ongoing |
 
 ---
 

@@ -21,8 +21,8 @@ export { default as ActivityTimeline } from '@/ui-component/ActivityTimeline/Act
 export { default as ExportMenu } from '@/ui-component/ExportMenu';
 
 // Filter panel
-// @ts-ignore - TypeScript path alias resolution issue (exports exist, verified)
-export { default as FilterPanel } from '@/ui-component/FilterPanel/FilterPanel';
+// TODO: Fix TypeScript path alias resolution - tracking issue
+export { FilterPanel } from '@/ui-component/FilterPanel/FilterPanel';
 export type { FilterConfig, FilterValues } from '@/ui-component/FilterPanel';
 
 // TODO: Add more components as they are migrated

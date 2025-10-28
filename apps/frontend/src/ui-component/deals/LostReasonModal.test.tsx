@@ -120,7 +120,6 @@ describe('LostReasonModal', () => {
 
     // Close and reopen the modal
     rerender(<LostReasonModal open={false} onClose={vi.fn()} onConfirm={vi.fn()} />);
-
     rerender(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
 
     // Should be reset - confirm button disabled

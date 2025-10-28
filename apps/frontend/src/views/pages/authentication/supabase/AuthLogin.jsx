@@ -137,8 +137,12 @@ export default function SupabaseLogin({ ...others }) {
             )}
           </CustomFormControl>
 
-          <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-            <Grid>
+          <Grid
+            container
+            columns={12}
+            sx={{ alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <Grid size="auto">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -151,7 +155,7 @@ export default function SupabaseLogin({ ...others }) {
                 label="Keep me logged in"
               />
             </Grid>
-            <Grid>
+            <Grid size="auto">
               <Typography
                 variant="subtitle1"
                 component={Link}
