@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box,
@@ -115,11 +115,7 @@ export default function ContactsListPage() {
     };
   }, [orgId]);
 
-  useEffect(() => {
-    loadContacts();
-  }, [page, query, status, companyFilter, tags.join(',')]);
-
-  const loadContacts = async () => {
+  const loadContacts = useCallback(async () => {
     try {
       setLoading(true);
       const params: ContactsQueryParams = { page, size: pageSize };
@@ -138,7 +134,11 @@ export default function ContactsListPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, query, status, companyFilter, tags, pageSize]);
+
+  useEffect(() => {
+    loadContacts();
+  }, [loadContacts]);
 
   const handleSearch = (q: string) => {
     const params = new URLSearchParams(searchParams);

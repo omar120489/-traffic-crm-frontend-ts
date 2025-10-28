@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -75,14 +75,7 @@ export default function ContactDetailPage() {
   // Get auth from context
   const { orgId, userId } = useAuth();
 
-  useEffect(() => {
-    if (id) {
-      loadContact();
-      loadActivities();
-    }
-  }, [id]);
-
-  const loadContact = async () => {
+  const loadContact = useCallback(async () => {
     if (!id) return;
     try {
       setLoading(true);
@@ -94,9 +87,9 @@ export default function ContactDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
-  const loadActivities = async () => {
+  const loadActivities = useCallback(async () => {
     if (!id) return;
     try {
       const data = await api.activities.list('contact', id);
@@ -104,7 +97,14 @@ export default function ContactDetailPage() {
     } catch (err: unknown) {
       console.error('Failed to load activities:', err);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      loadContact();
+      loadActivities();
+    }
+  }, [id, loadContact, loadActivities]);
 
   const handleDelete = async () => {
     if (!id || !confirm('Delete this contact?')) return;
