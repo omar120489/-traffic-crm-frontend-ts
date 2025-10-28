@@ -14,13 +14,15 @@ import useConfig from 'hooks/useConfig';
 import { useGetMenuMaster } from 'api/menu';
 import type { NavItemType, MenuGroup, RemainingMenuItem } from 'types/menu';
 
-interface MenuListProps {}
+interface MenuListProps {
+  readonly onItemClick?: (item: NavItemType) => void;
+}
 
 function isGroup(item: NavItemType): item is MenuGroup {
   return item.type === 'group';
 }
 
-function MenuList(_props: MenuListProps) {
+function MenuList({ onItemClick }: MenuListProps) {
   const downMD = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const {
@@ -44,24 +46,43 @@ function MenuList(_props: MenuListProps) {
       lastItemIndex = lastItemCount - 1;
       lastId = menuItems.items[lastItemIndex]?.id;
       rem = menuItems.items.slice(lastItemIndex).map((item): RemainingMenuItem => {
-        // Cast to any to handle JS menu items with loose types
-        const anyItem = item as any;
+        // Cast to unknown then narrow to handle JS menu items with loose types
+        const anyItem = item as unknown as Record<string, unknown>;
         const baseItem: RemainingMenuItem = {
-          id: anyItem.id,
-          elements: anyItem.children ?? []
+          id: anyItem.id as string,
+          elements: (anyItem.children ?? []) as NavItemType[]
         };
 
         // Only add properties that exist on the item
-        if (anyItem.title !== undefined) baseItem.title = anyItem.title;
-        if (anyItem.icon !== undefined) baseItem.icon = anyItem.icon;
-        if (anyItem.url !== undefined) baseItem.url = anyItem.url;
-        if (anyItem.type !== undefined) baseItem.type = anyItem.type;
-        if (anyItem.caption !== undefined) baseItem.caption = anyItem.caption;
-        if (anyItem.target !== undefined) baseItem.target = anyItem.target;
-        if (anyItem.external !== undefined) baseItem.external = anyItem.external;
-        if (anyItem.breadcrumbs !== undefined) baseItem.breadcrumbs = anyItem.breadcrumbs;
-        if (anyItem.disabled !== undefined) baseItem.disabled = anyItem.disabled;
-        if (anyItem.chip !== undefined) baseItem.chip = anyItem.chip;
+        if (anyItem.title !== undefined) baseItem.title = anyItem.title as string;
+        if (anyItem.icon !== undefined) {
+          baseItem.icon = anyItem.icon as React.ComponentType<Record<string, unknown>>;
+        }
+        if (anyItem.url !== undefined) baseItem.url = anyItem.url as string;
+        if (anyItem.type !== undefined) {
+          const itemType = anyItem.type as string;
+          if (itemType === 'item' || itemType === 'group' || itemType === 'collapse') {
+            baseItem.type = itemType;
+          }
+        }
+        if (anyItem.caption !== undefined) baseItem.caption = anyItem.caption as string;
+        if (anyItem.target !== undefined) baseItem.target = anyItem.target as boolean;
+        if (anyItem.external !== undefined) baseItem.external = anyItem.external as boolean;
+        if (anyItem.breadcrumbs !== undefined)
+          baseItem.breadcrumbs = anyItem.breadcrumbs as boolean;
+        if (anyItem.disabled !== undefined) baseItem.disabled = anyItem.disabled as boolean;
+        if (
+          anyItem.chip !== undefined &&
+          typeof anyItem.chip === 'object' &&
+          anyItem.chip !== null
+        ) {
+          const chipObj = anyItem.chip as Record<string, unknown>;
+          if (typeof chipObj.label === 'string') {
+            // Cast chip to expected NavItemType chip shape without explicit property types
+            // to allow MUI's OverridableStringUnion to accept the values
+            baseItem.chip = chipObj as NavItemType['chip'];
+          }
+        }
 
         return baseItem;
       });

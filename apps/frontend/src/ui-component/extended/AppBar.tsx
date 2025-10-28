@@ -45,7 +45,7 @@ function ElevationScroll({ children, window }: ElevationScrollProps): ReactEleme
     target: window ? window : undefined
   });
 
-  const clonedProps: any = {
+  const clonedProps: Record<string, unknown> = {
     ...(trigger && { elevation: 1 }),
     style: {
       backgroundColor:
@@ -62,7 +62,8 @@ function ElevationScroll({ children, window }: ElevationScrollProps): ReactEleme
 // ==============================|| MINIMAL LAYOUT APP BAR ||============================== //
 
 interface AppBarProps {
-  [key: string]: any;
+  readonly window?: Window;
+  readonly children?: React.ReactNode;
 }
 
 export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
@@ -100,14 +101,14 @@ export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
               <Button
                 color="inherit"
                 component={Link}
-                href="https://codedthemes.gitbook.io/berry"
+                href="https://riotravels.com/docs/"
                 target="_blank"
               >
                 Documentation
               </Button>
               <Button
                 component={Link}
-                href="https://material-ui.com/store/items/berry-react-material-admin-dashboard/"
+                href="https://riotravels.com/pricing"
                 disableElevation
                 variant="contained"
                 color="secondary"
@@ -144,7 +145,7 @@ export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
                       </ListItemButton>
                       <ListItemButton
                         component={Link}
-                        href="https://codedthemes.gitbook.io/berry"
+                        href="https://riotravels.com/docs/"
                         target="_blank"
                       >
                         <ListItemIcon>
@@ -154,7 +155,7 @@ export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
                       </ListItemButton>
                       <ListItemButton
                         component={Link}
-                        href="https://material-ui.com/store/items/berry-react-material-admin-dashboard/"
+                        href="https://riotravels.com/pricing"
                         target="_blank"
                       >
                         <ListItemIcon>

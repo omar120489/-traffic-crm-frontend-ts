@@ -75,11 +75,14 @@ export default function PaginationToolbar({
     }
   };
 
-  const handleSizeChange = (event: any) => {
-    const newSize = Number(event.target.value);
-    onSizeChange(newSize);
-    if (page !== 1) {
-      onPageChange(1);
+  const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const raw = event.target.value;
+    const newSize = typeof raw === 'number' ? raw : Number(raw);
+    if (Number.isFinite(newSize) && newSize > 0) {
+      onSizeChange(newSize);
+      if (page !== 1) {
+        onPageChange(1);
+      }
     }
   };
 
@@ -149,7 +152,7 @@ export default function PaginationToolbar({
               Per page:
             </Typography>
             <Select
-              value={size}
+              value={String(size)}
               onChange={handleSizeChange}
               size="small"
               disabled={loading}

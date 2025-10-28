@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
 
+interface Activity {
+  readonly id: string;
+  readonly type: string;
+  readonly subject: string;
+  readonly createdAt: string;
+}
+
 type Props = {
   open: boolean;
   onClose(): void;
@@ -14,7 +21,7 @@ type Props = {
 };
 
 export default function DrillDownPanel({ open, onClose, title, derivedFilters }: Props) {
-  const [activities, setActivities] = useState<any[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -84,7 +91,7 @@ export default function DrillDownPanel({ open, onClose, title, derivedFilters }:
           {!loading && activities.length > 0 && (
             <div className="mt-4 text-center">
               <a
-                href={`/activities?${new URLSearchParams(derivedFilters as any).toString()}`}
+                href={`/activities?${new URLSearchParams(derivedFilters as Record<string, string>).toString()}`}
                 className="text-sm text-indigo-600 hover:underline"
               >
                 View all in Activities →
