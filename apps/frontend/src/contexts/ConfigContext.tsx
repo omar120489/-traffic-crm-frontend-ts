@@ -15,7 +15,7 @@ interface ConfigProviderProps {
 }
 
 export function ConfigProvider({ children }: ConfigProviderProps) {
-  const { state, setState, setField, resetState } = useLocalStorage('berry-config-vite-ts', config);
+  const { state, setState, setField, resetState } = useLocalStorage('rio-config-vite-ts', config);
 
   const memoizedValue = useMemo(
     () => ({ state, setState, setField, resetState }),

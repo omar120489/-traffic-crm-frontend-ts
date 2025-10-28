@@ -1,32 +1,28 @@
 {
-  "name": "RIO Travels CRM",
-  "short_name": "RIO Travels",
-  "description": "RIO Travels - Your Trusted Travel Partner - Sales, Marketing & Analytics Platform",
+  "name": "Traffic CRM",
+  "short_name": "TrafficCRM",
+  "description": "Traffic CRM platform for sales, marketing, and analytics.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2B5F8C",
+  "theme_color": "#111827",
   "icons": [
     {
-      "src": "/rio-travels.png",
+      "src": "/icons/icon-192.svg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/rio-travels.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "/rio-travels.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "/rio-travels.png",
+      "src": "/icons/icon-512.svg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
     }
   ]
 }

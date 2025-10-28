@@ -4,9 +4,20 @@ import { ThemeMode } from 'config';
 import { withAlpha } from 'utils/colorUtils';
 import type { CustomShadows } from './types';
 
+type PaletteLike = {
+  primary: { main: string };
+  secondary: { main: string };
+  orange: { main: string };
+  success: { main: string };
+  warning: { main: string };
+  error: { main: string };
+  grey: Record<string | number, string>;
+  dark: { main: string };
+};
+
 // ==============================|| DEFAULT THEME - CUSTOM SHADOWS ||============================== //
 
-function createCustomShadow(palette: any, baseColor: string): CustomShadows {
+function createCustomShadow(palette: PaletteLike, baseColor: string): CustomShadows {
   const transparent = withAlpha(baseColor, 0.24);
   const commonShadow = (color: string) => `0px 12px 14px 0px ${withAlpha(color, 0.3)}`;
 
@@ -27,7 +38,7 @@ function createCustomShadow(palette: any, baseColor: string): CustomShadows {
   };
 }
 
-export default function CustomShadows(palette: any, mode: ThemeMode): CustomShadows {
+export default function CustomShadows(palette: PaletteLike, mode: ThemeMode): CustomShadows {
   const baseColor = mode === ThemeMode.DARK ? palette.dark.main : palette.grey[900];
   return createCustomShadow(palette, baseColor);
 }

@@ -3,9 +3,12 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 export interface ExportColumn {
+  // Field name on each data item to read.
   field: string;
   headerName: string;
-  valueFormatter?: (value: any) => string;
+  // Optional formatter for the field value.
+  // Use unknown here to avoid leaking anys while keeping flexibility.
+  valueFormatter?: (value: unknown) => string;
 }
 
 /**
@@ -26,7 +29,7 @@ export function buildExportFilename(
 /**
  * Format value for export
  */
-function formatValue(value: unknown, formatter?: (value: any) => string): string {
+function formatValue(value: unknown, formatter?: (value: unknown) => string): string {
   if (formatter) {
     return formatter(value);
   }
@@ -53,11 +56,14 @@ function formatValue(value: unknown, formatter?: (value: any) => string): string
 /**
  * Build export rows from data
  */
-export function buildExportRows(data: any[], columns: ExportColumn[]): Record<string, string>[] {
+export function buildExportRows<T extends object>(
+  data: readonly T[],
+  columns: readonly ExportColumn[]
+): Record<string, string>[] {
   return data.map((item) => {
     const row: Record<string, string> = {};
     for (const col of columns) {
-      const value = item[col.field];
+      const value = (item as unknown as Record<string, unknown>)[col.field];
       row[col.headerName] = formatValue(value, col.valueFormatter);
     }
     return row;
@@ -67,8 +73,12 @@ export function buildExportRows(data: any[], columns: ExportColumn[]): Record<st
 /**
  * Export data to XLSX
  */
-export function exportToXLSX(data: any[], columns: ExportColumn[], filename: string): void {
-  const rows = buildExportRows(data, columns);
+export function exportToXLSX<T extends object>(
+  data: readonly T[],
+  columns: readonly ExportColumn[],
+  filename: string
+): void {
+  const rows = buildExportRows<T>(data, columns);
 
   // Create worksheet
   const ws = XLSX.utils.json_to_sheet(rows);
@@ -90,13 +100,13 @@ export function exportToXLSX(data: any[], columns: ExportColumn[], filename: str
 /**
  * Export data to PDF
  */
-export function exportToPDF(
-  data: any[],
-  columns: ExportColumn[],
+export function exportToPDF<T extends object>(
+  data: readonly T[],
+  columns: readonly ExportColumn[],
   filename: string,
   title?: string
 ): void {
-  const rows = buildExportRows(data, columns);
+  const rows = buildExportRows<T>(data, columns);
 
   // Determine orientation based on column count
   const orientation = columns.length > 6 ? 'landscape' : 'portrait';

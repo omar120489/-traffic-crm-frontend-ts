@@ -31,7 +31,7 @@ echo ""
 TEMPLATE_SIZE=0
 for dir in "javascript_v5.0.0-eaoys0 (2)" "javascript_v5.0.0-eaoys0 (3)" \
            "typescript_v5.0.0-nq4ghb (2)" "typescript_v5.0.0-nq4ghb (3)" \
-           berry-v3.9.0.fig full-version seed; do
+           rio-travels-v3.9.0.fig full-version seed; do
     TEMPLATE_SIZE=$((TEMPLATE_SIZE + $(get_size_mb "$dir")))
 done
 
@@ -40,7 +40,7 @@ if [ $TEMPLATE_SIZE -gt 0 ]; then
     if confirm "  Delete template archives?"; then
         rm -rf "javascript_v5.0.0-eaoys0 (2)" "javascript_v5.0.0-eaoys0 (3)" \
                "typescript_v5.0.0-nq4ghb (2)" "typescript_v5.0.0-nq4ghb (3)" \
-               berry-v3.9.0.fig full-version seed 2>/dev/null || true
+               rio-travels-v3.9.0.fig full-version seed 2>/dev/null || true
         echo "  ✅ Removed template archives"
         TOTAL_SIZE=$((TOTAL_SIZE + TEMPLATE_SIZE))
     fi
@@ -151,4 +151,3 @@ echo "2. Verify: pnpm run typecheck && pnpm build"
 echo "3. Commit: git add -A && git commit -m 'chore: remove clutter'"
 echo ""
 echo "📖 See .project_audit/EXTRA_FILES_ANALYSIS.md for details"
-

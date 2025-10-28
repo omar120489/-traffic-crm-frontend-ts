@@ -31,7 +31,7 @@ interface HeaderAvatarProps extends Omit<AvatarProps, 'children' | 'sx'> {
 interface MobileSearchProps {
   readonly value: string;
   readonly setValue: (value: string) => void;
-  readonly popupState: unknown;
+  readonly popupState: Parameters<typeof bindToggle>[0];
 }
 
 const HeaderAvatar = forwardRef<HTMLDivElement, HeaderAvatarProps>(
@@ -104,7 +104,7 @@ function MobileSearch({ value, setValue, popupState }: MobileSearchProps): React
 
                 ...theme.applyStyles('dark', { bgcolor: theme.vars.palette.dark.main })
               }}
-              {...bindToggle(popupState as any)}
+              {...bindToggle(popupState)}
             >
               <IconX stroke={1.5} size="20px" />
             </Avatar>
@@ -135,7 +135,7 @@ export default function SearchSection(): React.JSX.Element {
                 </HeaderAvatar>
               </Box>
               <Popper
-                {...bindPopper(popupState as any)}
+                {...bindPopper(popupState)}
                 transition
                 sx={{
                   zIndex: 1100,

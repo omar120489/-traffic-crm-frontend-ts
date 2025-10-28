@@ -29,8 +29,10 @@ export function useRoomMessages(roomId: ID | null) {
       setHasMore(!!res.hasMore);
       setMessages(res.items.sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
       setError(null);
-    } catch (e: any) {
-      setError(e?.message ?? 'Failed to load messages');
+    } catch (e: unknown) {
+      const msg =
+        typeof e === 'string' ? e : e instanceof Error ? e.message : 'Failed to load messages';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -44,8 +46,10 @@ export function useRoomMessages(roomId: ID | null) {
       if (res.items.length) cursorRef.current = res.items[0].id;
       setHasMore(!!res.hasMore);
       merge(res.items, true);
-    } catch (e: any) {
-      setError(e?.message ?? 'Failed to load more messages');
+    } catch (e: unknown) {
+      const msg =
+        typeof e === 'string' ? e : e instanceof Error ? e.message : 'Failed to load more messages';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -57,9 +61,21 @@ export function useRoomMessages(roomId: ID | null) {
 
   useEffect(() => {
     if (!socket || !roomId) return;
-    const handler = (payload: any) => {
-      if (payload?.roomId !== roomId) return;
-      merge([payload as Message]);
+    const isMessageForRoom = (payload: unknown): payload is Message => {
+      if (payload && typeof payload === 'object') {
+        const p = payload as Partial<Message> & { roomId?: unknown };
+        return (
+          typeof p.roomId === 'string' &&
+          p.roomId === roomId &&
+          typeof p.id === 'string' &&
+          typeof p.createdAt === 'string'
+        );
+      }
+      return false;
+    };
+    const handler = (payload: unknown) => {
+      if (!isMessageForRoom(payload)) return;
+      merge([payload]);
     };
     socket.on('chat.message', handler);
     return () => {
@@ -83,7 +99,7 @@ export function useRoomMessages(roomId: ID | null) {
       try {
         const real = await sendMessage(roomId, draft);
         merge([real]);
-      } catch (e) {
+      } catch {
         // TODO: show toast
       }
     },

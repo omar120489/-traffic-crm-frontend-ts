@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { listRooms } from '../api';
 import type { Room } from '../types';
 import { useSearchParams } from 'react-router-dom';
@@ -16,34 +16,35 @@ export function useRooms() {
 
   const socket = useChatSocket(true);
 
-  async function refresh() {
+  const refresh = useCallback(async () => {
     try {
       setLoading(true);
       const data = await listRooms({ search, type: type ?? undefined, onlyUnread });
       setRooms(data.items);
       setError(null);
-    } catch (e: any) {
-      setError(e?.message ?? 'Failed to load rooms');
+    } catch (e: unknown) {
+      const msg =
+        typeof e === 'string' ? e : e instanceof Error ? e.message : 'Failed to load rooms';
+      setError(msg);
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, type, onlyUnread]);
 
   useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  useEffect(() => {
     if (!socket) return;
-    const onMessage = (_payload: any) => {
+    const onMessage = () => {
       refresh();
     };
     socket.on('chat.message', onMessage);
     return () => {
       socket.off('chat.message', onMessage);
     };
-  }, [socket]);
+  }, [socket, refresh]);
 
   const setFilter = (key: 'search' | 'type' | 'onlyUnread', value: string | boolean) => {
     const p = new URLSearchParams(params);

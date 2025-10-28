@@ -1,0 +1,24 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rioIconGradient512" x1="120" y1="60" x2="420" y2="452" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1155A5" />
+      <stop offset="0.55" stop-color="#1E7ECF" />
+      <stop offset="1" stop-color="#FF9800" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="122" fill="url(#rioIconGradient512)" />
+  <path
+    d="M148 336c95-19 165-52 191-111 22-51-5-106-51-130-24-12-54-12-79 0-18 9-34 24-43 41l-31-16c15-31 39-54 68-68 36-18 79-18 115 0 61 30 81 99 49 160-29 57-88 97-170 119l-7 2 2-17Z"
+    fill="white"
+    opacity="0.92"
+  />
+  <path
+    d="M238 196c-13 9-18 26-11 39 8 13 25 17 38 9 13-8 17-25 9-38-8-13-25-17-38-10Z"
+    fill="#114D9A"
+  />
+  <path
+    d="M176 248c-26 15-51 37-76 62-26 28-43 54-48 79 32-52 82-93 134-124l-10-17Z"
+    fill="white"
+    opacity="0.8"
+  />
+</svg>

@@ -43,7 +43,13 @@ import type {
   KpiSummary,
   TimeSeriesPoint
 } from '../../../types/metrics';
-import { getCohorts, getFunnel, getKpis, getTrends, type TrendInterval } from '../../../services/reporting';
+import {
+  getCohorts,
+  getFunnel,
+  getKpis,
+  getTrends,
+  type TrendInterval
+} from '../../../services/reporting';
 import { toCohortRows, toFunnelChartData, toTrendSeries } from './transformers';
 
 const DEFAULT_FILTERS: AnalyticsFilters = {

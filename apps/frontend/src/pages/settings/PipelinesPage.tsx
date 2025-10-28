@@ -56,7 +56,6 @@ interface Stage {
 export default function PipelinesPage() {
   const [pipelines, setPipelines] = useState<Pipeline[]>([]);
   const [selectedPipeline, setSelectedPipeline] = useState<Pipeline | null>(null);
-  const [_loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [toast, setToast] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
 
@@ -80,7 +79,6 @@ export default function PipelinesPage() {
     }
 
     try {
-      setLoading(true);
       const data = await api.listPipelines(orgId);
       setPipelines(data);
       if (data.length === 0) {
@@ -94,10 +92,14 @@ export default function PipelinesPage() {
         }
         return data.find((pipeline) => pipeline.id === current.id) ?? data[0];
       });
-    } catch (err: any) {
-      setError(err.message || 'Failed to load pipelines');
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to load pipelines';
+      setError(message);
     }
   }, [orgId]);
 
@@ -115,8 +117,14 @@ export default function PipelinesPage() {
       await api.createPipeline({ orgId, name, isDefault: pipelines.length === 0 });
       await loadPipelines();
       setPipelineDialog(false);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create pipeline');
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to create pipeline';
+      setError(message);
     }
   };
 
@@ -125,8 +133,14 @@ export default function PipelinesPage() {
     try {
       await api.deletePipeline(id);
       await loadPipelines();
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete pipeline');
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to delete pipeline';
+      setError(message);
     }
   };
 
@@ -143,8 +157,14 @@ export default function PipelinesPage() {
       });
       await loadPipelines();
       setStageDialog(false);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create stage');
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to create stage';
+      setError(message);
     }
   };
 
@@ -154,8 +174,14 @@ export default function PipelinesPage() {
       await loadPipelines();
       setStageDialog(false);
       setEditingStage(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to update stage');
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to update stage';
+      setError(message);
     }
   };
 
@@ -164,8 +190,14 @@ export default function PipelinesPage() {
     try {
       await api.deleteStage(id);
       await loadPipelines();
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete stage');
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to delete stage';
+      setError(message);
     }
   };
 
@@ -193,8 +225,14 @@ export default function PipelinesPage() {
         reordered.map((s) => s.id)
       );
       setToast({ open: true, msg: 'Stages reordered successfully' });
-    } catch (err: any) {
-      setError(err.message || 'Failed to reorder stages');
+    } catch (err: unknown) {
+      const message =
+        typeof err === 'string'
+          ? err
+          : err instanceof Error
+            ? err.message
+            : 'Failed to reorder stages';
+      setError(message);
       // Rollback on error
       await loadPipelines();
     }

@@ -101,14 +101,14 @@ export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
               <Button
                 color="inherit"
                 component={Link}
-                href="https://riotravels.com/docs/"
+                href="https://codedthemes.gitbook.io/berry"
                 target="_blank"
               >
                 Documentation
               </Button>
               <Button
                 component={Link}
-                href="https://riotravels.com/pricing"
+                href="https://material-ui.com/store/items/berry-react-material-admin-dashboard/"
                 disableElevation
                 variant="contained"
                 color="secondary"
@@ -145,7 +145,7 @@ export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
                       </ListItemButton>
                       <ListItemButton
                         component={Link}
-                        href="https://riotravels.com/docs/"
+                        href="https://codedthemes.gitbook.io/berry"
                         target="_blank"
                       >
                         <ListItemIcon>
@@ -155,7 +155,7 @@ export default function AppBar({ ...others }: AppBarProps): React.ReactElement {
                       </ListItemButton>
                       <ListItemButton
                         component={Link}
-                        href="https://riotravels.com/pricing"
+                        href="https://material-ui.com/store/items/berry-react-material-admin-dashboard/"
                         target="_blank"
                       >
                         <ListItemIcon>

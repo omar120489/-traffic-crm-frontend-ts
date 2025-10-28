@@ -1,0 +1,11 @@
+{
+  "name": "Traffic Dev",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+  "features": {
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {}
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.kube,target=/home/node/.kube,type=bind"
+  ],
+  "remoteUser": "node"
+}

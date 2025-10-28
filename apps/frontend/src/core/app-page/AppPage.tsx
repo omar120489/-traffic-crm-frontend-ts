@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Alert, Box, Breadcrumbs, Button, Skeleton, Stack, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 
-const BERRY_MAX_WIDTH = 1200; // matches Berry preview feel (≈ 1200–1240px)
+const BERRY_MAX_WIDTH = 1200; // matches Berry design frame (≈ 1200–1240px)
 const GUTTER_X = { xs: 2, sm: 3, lg: 4 }; // left/right padding
 const SECTION_GAP = 2; // vertical rhythm (16px)
 

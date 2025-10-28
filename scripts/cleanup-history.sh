@@ -67,7 +67,7 @@ echo "🗑️  Removing large files from history..."
 git filter-repo --force \
   --path .backups/ --invert-paths \
   --path backup_src_20251023-051653.tar.gz --invert-paths \
-  --path berry-v3.9.0.fig --invert-paths \
+  --path rio-travels-v3.9.0.fig --invert-paths \
   --path-glob 'backup_*/' --invert-paths \
   --path-glob '*.tar.gz' --invert-paths \
   --path-glob 'full-version/' --invert-paths \
@@ -115,5 +115,4 @@ echo "⚠️  Important: Old clones won't work correctly after force-push."
 echo "   Team members should re-clone or run:"
 echo "   git fetch origin && git reset --hard origin/main"
 echo ""
-
 

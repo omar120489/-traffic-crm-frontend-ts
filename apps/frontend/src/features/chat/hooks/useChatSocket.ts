@@ -7,7 +7,7 @@ export function useChatSocket(enabled = true) {
 
   const socket = useMemo(() => {
     if (!enabled) return null;
-    const s = io((import.meta as any).env.VITE_APP_API_URL ?? '/', {
+    const s = io(import.meta.env.VITE_APP_API_URL ?? '/', {
       path: '/socket.io',
       transports: ['websocket'],
       auth: { token },

@@ -80,6 +80,7 @@ src/
         library-3.png
         post-banner.png
       brand/
+        rio-travels.png
         rio-travels.svg
       cards/
         card-1.jpg
@@ -257,8 +258,6 @@ src/
         prod4.jpg
         uk.jpg
         usa.jpg
-      logo-dark.svg
-      logo.svg
     scss/
       _theme1.module.scss
       _theme2.module.scss

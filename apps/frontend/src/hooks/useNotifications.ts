@@ -117,7 +117,12 @@ export function useNotifications(): UseNotificationsResult {
       setError(null);
     } catch (err) {
       // In development, silently swallow 404 errors (endpoint not available yet)
-      if (import.meta.env.DEV && (err as any)?.response?.status === 404) {
+      const is404 = (e: unknown): boolean => {
+        if (typeof e !== 'object' || e === null) return false;
+        const maybe = e as { response?: { status?: unknown } };
+        return typeof maybe.response?.status === 'number' && maybe.response.status === 404;
+      };
+      if (import.meta.env.DEV && is404(err)) {
         setNotifications([]);
         setError(null);
       } else {

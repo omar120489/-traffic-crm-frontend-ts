@@ -22,7 +22,7 @@ if [ -z "$LOGO_SOURCE" ]; then
   echo "  ./scripts/install_logo.sh /path/to/rio-travels.png"
   echo ""
   echo "Example:"
-  echo "  ./scripts/install_logo.sh ~/Downloads/Rio_Travels_Logo.png"
+echo "  ./scripts/install_logo.sh ~/Downloads/Berry_Logo.png"
   exit 1
 fi
 
@@ -64,4 +64,3 @@ echo "  2. Check the browser tab for your logo favicon"
 echo "  3. Check the header for your logo"
 echo ""
 echo "See LOGO_SETUP.md for more details."
-

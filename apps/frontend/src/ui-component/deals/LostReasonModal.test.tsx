@@ -124,9 +124,7 @@ describe('LostReasonModal', () => {
       rerender(<LostReasonModal open={false} onClose={vi.fn()} onConfirm={vi.fn()} />);
     });
 
-    await waitFor(() =>
-      expect(screen.queryByText('Mark Deal as Lost')).not.toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.queryByText('Mark Deal as Lost')).not.toBeInTheDocument());
 
     await act(async () => {
       rerender(<LostReasonModal open={true} onClose={vi.fn()} onConfirm={vi.fn()} />);
